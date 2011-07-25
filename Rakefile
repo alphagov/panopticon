@@ -2,8 +2,6 @@ require 'rake'
 require 'rake/testtask'
 require 'bundler'
 
-Bundler::GemHelper.install_tasks
-
 task :default => [:test_units]
 
 desc "Run basic tests"
