@@ -1,5 +1,6 @@
 source :rubygems
 
+gem 'rake'
 gem 'sinatra'
 gem 'datamapper'
 gem 'json', '~> 1.4.6'
