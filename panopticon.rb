@@ -5,7 +5,7 @@ require 'datamapper'
 require 'dm-validations'
 DataMapper::setup(:default, File.read(File.expand_path("../config/database.txt", __FILE__)))
 
-class Resource
+class Identifier
   include DataMapper::Resource
   
   property :id, Serial
@@ -19,7 +19,7 @@ DataMapper.finalize
 DataMapper.auto_upgrade!
 
 post '/slugs' do
-  new_resource = Resource.new(:slug => params[:slug][:name], :owning_app => params[:slug][:owning_app], :active => true)
+  new_resource = Identifier.new(:slug => params[:slug][:name], :owning_app => params[:slug][:owning_app], :active => true)
 
   if new_resource.save
     status 201
