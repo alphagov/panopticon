@@ -47,8 +47,13 @@ get '/slugs/:id' do
   resource = Identifier.first(slug: params[:id])
   if resource
     content_type :json
+    bits_we_care_about = resource.attributes.slice(:slug, :owning_app, :kind)
     
-    resource.attributes.slice(:slug, :owning_app, :kind).to_json
+    if params['jsonp']
+      return "panopticon(#{bits_we_care_about.to_json})"
+    else
+      bits_we_care_about.to_json
+    end
   else
     status 404
   end
