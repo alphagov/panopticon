@@ -1,23 +1,6 @@
 require 'sinatra'
 require 'json'
-
-require 'datamapper'
-require 'dm-validations'
-DataMapper::setup(:default, File.read(File.expand_path("../config/database.txt", __FILE__)))
-
-class Identifier
-  include DataMapper::Resource
-  
-  property :id,         Serial
-  property :active,     Boolean, :default => false, :required => true
-  property :slug,       String,  :unique => true,   :required => true, :length => 4..32
-  property :owning_app, String,  :required => true
-  property :kind,       String,  :required => true
-  property :created_at, DateTime
-end
-
-DataMapper.finalize
-DataMapper.auto_upgrade!
+require File.expand_path('database', File.dirname(__FILE__))
 
 class Hash
   def slice(*keys)
@@ -30,15 +13,16 @@ end
 
 post '/slugs' do
   new_resource = Identifier.new(
-    :slug => params[:slug][:name], 
-    :owning_app => params[:slug][:owning_app], 
+    :slug => params['slug']['name'], 
+    :owning_app => params['slug']['owning_app'], 
     :active => true,
-    :kind => params[:slug][:kind]
+    :kind => params['slug']['kind']
   )
 
   if new_resource.save
     status 201
   else
+    puts new_resource.errors.inspect
     status 406
   end
 end
@@ -49,7 +33,8 @@ get '/slugs/:id' do
     content_type :json
     bits_we_care_about = resource.attributes.slice(:slug, :owning_app, :kind)
     
-    if params['jsonp']
+    if params['jsoncallback']
+      puts "panopticon(#{bits_we_care_about.to_json})"
       return "panopticon(#{bits_we_care_about.to_json})"
     else
       bits_we_care_about.to_json
