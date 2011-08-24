@@ -22,7 +22,6 @@ post '/slugs' do
   if new_resource.save
     status 201
   else
-    puts new_resource.errors.inspect
     status 406
   end
 end
@@ -34,7 +33,6 @@ get '/slugs/:id' do
     bits_we_care_about = resource.attributes.slice(:slug, :owning_app, :kind)
     
     if params['jsoncallback']
-      puts "panopticon(#{bits_we_care_about.to_json})"
       return "panopticon(#{bits_we_care_about.to_json})"
     else
       bits_we_care_about.to_json
