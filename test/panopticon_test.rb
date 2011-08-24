@@ -1,8 +1,7 @@
+ENV['RACK_ENV'] = 'test'
 require File.expand_path('../../panopticon', __FILE__)
 require 'test/unit'
 require 'rack/test'
-
-ENV['RACK_ENV'] = 'test'
 
 class PanopticonTest < Test::Unit::TestCase
   include Rack::Test::Methods
