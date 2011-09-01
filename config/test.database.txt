@@ -1,1 +1,1 @@
-sqlite:project.db
+sqlite::memory:
