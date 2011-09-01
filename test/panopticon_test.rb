@@ -26,7 +26,7 @@ class PanopticonTest < Test::Unit::TestCase
   def test_get_returns_details_as_json
     params = {:name => 'james3', :owning_app => 'guides', :kind => 'blah'}
     post '/slugs', :slug => params
-    get '/slugs/another-james'
+    get '/slugs/james3'
     assert_equal 200, last_response.status
     assert_equal 'blah', JSON.parse(last_response.body)['kind']
   end
