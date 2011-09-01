@@ -1,1 +1,1 @@
-sqlite://./development.db
+sqlite:development.db

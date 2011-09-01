@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] ||= 'development'
+
 require 'sinatra'
 require 'json'
 require File.expand_path('database', File.dirname(__FILE__))
