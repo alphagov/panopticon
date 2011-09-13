@@ -1,3 +1,9 @@
+require 'simplecov'
+require 'simplecov-rcov'
+
+SimpleCov.start
+SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+
 ENV['RACK_ENV'] = 'test'
 require File.expand_path('../../panopticon', __FILE__)
 require 'test/unit'

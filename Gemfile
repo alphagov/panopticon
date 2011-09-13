@@ -11,3 +11,6 @@ gem 'dm-mysql-adapter'
 
 gem 'em-proxy'
 gem 'uuid'
+
+gem 'simplecov'
+gem 'simplecov-rcov'
