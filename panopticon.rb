@@ -15,8 +15,8 @@ end
 
 post '/slugs' do
   new_resource = Identifier.new(
-    :slug => params['slug']['name'], 
-    :owning_app => params['slug']['owning_app'], 
+    :slug => params['slug']['name'],
+    :owning_app => params['slug']['owning_app'],
     :active => true,
     :kind => params['slug']['kind']
   )
@@ -33,7 +33,7 @@ get '/slugs/:id' do
   if resource
     content_type :json
     bits_we_care_about = resource.attributes.slice(:slug, :owning_app, :kind)
-    
+
     if params['jsoncallback']
       return "panopticon(#{bits_we_care_about.to_json})"
     else
