@@ -14,3 +14,5 @@ gem 'uuid'
 
 gem 'simplecov'
 gem 'simplecov-rcov'
+
+gem 'plek'

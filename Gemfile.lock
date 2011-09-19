@@ -60,6 +60,7 @@ GEM
     json (1.4.6)
     macaddr (1.4.0)
       systemu (~> 2.2.0)
+    plek (0.0.1)
     rack (1.3.2)
     rack-test (0.5.7)
       rack (>= 1.0)
@@ -88,6 +89,7 @@ DEPENDENCIES
   dm-sqlite-adapter (~> 1.1.0)
   em-proxy
   json (~> 1.4.6)
+  plek
   rack-test (~> 0.5.0)
   rake
   simplecov
