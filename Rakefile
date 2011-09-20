@@ -1,13 +1,7 @@
-require 'rake'
-require 'rake/testtask'
-require 'bundler'
+#!/usr/bin/env rake
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-task :default => [:test_units]
+require File.expand_path('../config/application', __FILE__)
 
-desc "Run basic tests"
-Rake::TestTask.new("test_units") { |t|
-  t.libs << "test"
-  t.pattern = 'test/*_test.rb'
-  t.verbose = true
-  t.warning = true
-}
+Panopticon::Application.load_tasks

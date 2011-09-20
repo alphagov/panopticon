@@ -1,9 +1,4 @@
-app_path = File.dirname(__FILE__)
-$:.unshift(app_path) unless $:.include?(app_path)
-# require 'env'
-require 'panopticon'
+# This file is used by Rack-based servers to start the application.
 
-require "bundler"
-
-Bundler.require(:default, ENV['RACK_ENV'])
-run Sinatra::Application
+require ::File.expand_path('../config/environment',  __FILE__)
+run Panopticon::Application
