@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  def create
+  def new
     artefact = Artefact.new
     artefact.name = params[:artefact][:name]
     artefact.slug = SlugGenerator.new(params[:artefact][:name]).execute
