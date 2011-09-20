@@ -9,7 +9,11 @@ class SlugsController < ApplicationController
     return head :not_acceptable if Artefact.find_by_slug params[:slug][:name]
 
     artefact = Artefact.new
+    # FIXME: [:slug][:name] is a legacy parameter, it shoud be
+    #        [:artefact][:slug]
     artefact.slug = params[:slug][:name]
+    # FIXME: This should be tested
+    artefact.name = params[:slug][:name]
     # FIXME: This should be tested
     artefact.kind = params[:slug][:kind]
     # FIXME: This should be tested

@@ -14,10 +14,12 @@
 ActiveRecord::Schema.define(:version => 20110920102715) do
 
   create_table "artefacts", :force => true do |t|
+    t.string   "name",                          :null => false
     t.string   "slug",                          :null => false
     t.string   "kind",                          :null => false
     t.string   "owning_app",                    :null => false
     t.boolean  "active",     :default => false, :null => false
+    t.string   "tags",       :default => "",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

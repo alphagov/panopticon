@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'plek'
+
 gem 'rails', '3.1.0'
 
 # Bundle edge Rails instead:
