@@ -14,14 +14,49 @@
 ActiveRecord::Schema.define(:version => 20110920102715) do
 
   create_table "artefacts", :force => true do |t|
+    t.string   "section"
     t.string   "name",                          :null => false
     t.string   "slug",                          :null => false
     t.string   "kind",                          :null => false
     t.string   "owning_app",                    :null => false
     t.boolean  "active",     :default => false, :null => false
-    t.string   "tags",       :default => "",    :null => false
+    t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "artefacts_audiences", :id => false, :force => true do |t|
+    t.integer "artefact_id", :null => false
+    t.integer "audience_id", :null => false
+  end
+
+  add_index "artefacts_audiences", ["artefact_id"], :name => "index_artefacts_audiences_on_artefact_id"
+  add_index "artefacts_audiences", ["audience_id"], :name => "index_artefacts_audiences_on_audience_id"
+
+  create_table "audiences", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "identifiers", :force => true do |t|
+    t.boolean  "active",                   :default => false, :null => false
+    t.string   "slug",       :limit => 63,                    :null => false
+    t.string   "owning_app", :limit => 50,                    :null => false
+    t.string   "kind",       :limit => 50,                    :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "identifiers", ["slug"], :name => "unique_identifiers_slug", :unique => true
+
+  create_table "related_items", :force => true do |t|
+    t.integer "source_artefact_id", :null => false
+    t.integer "artefact_id",        :null => false
+    t.integer "sort_key",           :null => false
+  end
+
+  add_index "related_items", ["artefact_id"], :name => "index_related_items_on_artefact_id"
+  add_index "related_items", ["sort_key"], :name => "index_related_items_on_sort_key"
+  add_index "related_items", ["source_artefact_id"], :name => "index_related_items_on_source_artefact_id"
 
 end

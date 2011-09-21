@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'plek'
+gem 'formtastic', '2.0.0.rc5'
 
 gem 'rails', '3.1.0'
 
@@ -8,7 +9,6 @@ gem 'rails', '3.1.0'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -33,4 +33,8 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'sqlite3-ruby', :require => false
+end
+
+group :import do
+  gem 'nokogiri'
 end
