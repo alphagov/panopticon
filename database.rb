@@ -1,7 +1,8 @@
 require 'datamapper'
 require 'dm-validations'
 require 'cgi'
-DataMapper::setup(:default, File.read(File.expand_path("../config/#{ENV['RACK_ENV']}.database.txt", __FILE__)))
+database_name = File.read(File.expand_path("../config/#{ENV['RACK_ENV']}.database.txt", __FILE__)).strip
+DataMapper::setup(:default, database_name)
 
 class Identifier
   include DataMapper::Resource
