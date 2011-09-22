@@ -4,7 +4,7 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.js { render :json => @artefact.to_json }
+      format.js { render :json => @artefact }
       format.html { redirect_to @artefact.admin_url }
     end
   end

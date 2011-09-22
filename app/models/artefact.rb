@@ -80,4 +80,15 @@ class Artefact < ActiveRecord::Base
     app = Plek.current.find owning_app
     app += '/admin/publications/' + id.to_s
   end
+
+  def as_json *args
+    options = args.extract_options!
+    unless options[:include]
+      options[:include] = {}
+      options[:include].merge! :audiences => {}
+      options[:include].merge! :related_items => { :include => [ :artefact ] }
+    end
+    args << options
+    super *args
+  end
 end
