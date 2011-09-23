@@ -5,6 +5,10 @@ class Artefact < ActiveRecord::Base
   has_many :related_artefacts, :through => :related_items, :source => :artefect
   has_and_belongs_to_many :audiences
 
+  validates_presence_of :name
+  validates_uniqueness_of :slug
+  validates_presence_of :slug
+
   def item_relation_number number
     related_items.find_by_sort_key number
   end

@@ -1,17 +1,19 @@
 <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :name, :hint => true %>
-    <%= f.input :slug, :hint => true %>
-    <%= f.input :tags, :hint => true %>
-    <% if artefact.new_record? %>
-    <%= f.input :kind, :as => :hidden %>
-    <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
-    <% end %>
+  <%= f.inputs :name => "Basic information" do %>
+    <%= f.input :name %>
+    <%= f.input :slug %>
+    <%= f.input :tags %>
     <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
+    <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :label => "Who is likely to use this information?" %>
+  <% end %>
+  <%= f.inputs "Related items" do %>
     <% Artefact::MAXIMUM_RELATED_ITEMS.times do |related_item_offset| %>
-    <%= f.input :"related_item_#{related_item_offset}", :as => :select, :collection => Artefact.all %>
+      <%= f.input :"related_item_#{related_item_offset}", :as => :select, :collection => Artefact.all, :label => false %>
     <% end %>
-    <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all %>
+  <% end %>
+  <% if artefact.new_record? %>
+  <%= f.input :kind, :as => :hidden %>
+  <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
   <% end %>
   <%= f.submit %>
 <% end %>
