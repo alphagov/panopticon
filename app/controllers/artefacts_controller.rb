@@ -49,7 +49,7 @@ class ArtefactsController < ApplicationController
 
   def update_artefact artefact, attributes
     artefact.name = attributes[:name]
-    artefact.slug = attributes[:slug] || SlugGenerator.new(@artefact.name).execute
+    artefact.slug = attributes[:slug]
     artefact.tags = attributes[:tags]
     artefact.section = attributes[:section]
     if artefact.new_record?
