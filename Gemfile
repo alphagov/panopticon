@@ -33,6 +33,10 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'sqlite3-ruby', :require => false
+  gem 'simplecov', '0.4.2'
+  gem 'simplecov-rcov'
+  gem 'ci_reporter'
+  gem 'test-unit'
 end
 
 group :import do
