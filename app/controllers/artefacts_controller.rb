@@ -55,6 +55,7 @@ class ArtefactsController < ApplicationController
     if artefact.new_record?
       artefact.kind = attributes[:kind]
       artefact.owning_app = attributes[:owning_app]
+      artefact.need_id = attributes[:need_id]
     end
     artefact.audience_ids = attributes[:audience_ids] if attributes.key? :audience_ids
     artefact.normalise

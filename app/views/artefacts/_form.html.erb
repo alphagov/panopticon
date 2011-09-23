@@ -12,8 +12,9 @@
     <% end %>
   <% end %>
   <% if artefact.new_record? %>
-  <%= f.input :kind, :as => :hidden %>
-  <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
+    <%= f.input :need_id, :as => :hidden %>
+    <%= f.input :kind, :as => :hidden %>
+    <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
   <% end %>
   <%= f.submit %>
 <% end %>
