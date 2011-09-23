@@ -46,3 +46,5 @@ module Panopticon
     config.assets.version = '1.0'
   end
 end
+
+require 'slimmer_template'
