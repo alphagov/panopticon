@@ -1,13 +1,43 @@
 class Artefact < ActiveRecord::Base
   MAXIMUM_RELATED_ITEMS = 6
 
+  SECTIONS = [
+    'Rights',
+    'Justice',
+    'Education and skills',
+    'Work',
+    'Family',
+    'Money',
+    'Taxes',
+    'Benefits and schemes',
+    'Driving',
+    'Housing',
+    'Communities',
+    'Pensions',
+    'Disabled people',
+    'Travel',
+    'Citizenship'
+  ].freeze
+
+  FORMAT = [
+    "answer",
+    "guide",
+    "programme",
+    "local_transaction",
+    "transaction",
+    "place"
+  ].freeze
+
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key desc'
   has_many :related_artefacts, :through => :related_items, :source => :artefect
   has_and_belongs_to_many :audiences
 
+  before_validation :normalise, :on => :create
+
   validates_presence_of :name
   validates_uniqueness_of :slug
   validates_presence_of :slug
+  validates_inclusion_of :kind, :in => FORMAT
 
   def item_relation_number number
     related_items.find_by_sort_key number
@@ -51,24 +81,6 @@ class Artefact < ActiveRecord::Base
     end
   end
 
-  SECTIONS = [
-    'Rights',
-    'Justice',
-    'Education and skills',
-    'Work',
-    'Family',
-    'Money',
-    'Taxes',
-    'Benefits and schemes',
-    'Driving',
-    'Housing',
-    'Communities',
-    'Pensions',
-    'Disabled people',
-    'Travel',
-    'Citizenship'
-  ].freeze
-
   def normalise
     normalise_kind
   end
@@ -76,7 +88,9 @@ class Artefact < ActiveRecord::Base
   def normalise_kind
     return unless kind.present?
     self.kind = kind.to_s.downcase.strip
-    self.kind = 'transaction' if [ 'local authority transaction link', 'standard transaction link', 'benefit / scheme'].include? kind
+    self.kind = 'transaction' if kind == 'standard transaction link'
+    self.kind = 'local_transaction' if kind == 'local authority transaction link'
+    self.kind = 'programme' if kind == 'benefit / scheme'
     self.kind = 'place' if kind == 'find my nearest'
   end
 
