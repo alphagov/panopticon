@@ -83,6 +83,7 @@ class CreateArtefacts < ActiveRecord::Migration
         related = item.artefact
         unless related.present?
           related = create_artefact item.name, item.publication_type, item.slug
+          next if related.new_record?
           puts "          - created #{item.slug} for #{item.name}"
         end
         puts "          - #{item.index} => #{related.slug}"
