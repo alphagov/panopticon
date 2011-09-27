@@ -38,7 +38,7 @@ class CreateArtefacts < ActiveRecord::Migration
       artefact.owning_app = 'publisher' # We only have one app at the moment
       artefact.tags = ""
       artefact.save
-      if artefact.errors?
+      if artefact.errors.any?
         puts artefact.errors.full_messages.to_sentence
       end
       artefact
