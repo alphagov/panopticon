@@ -29,7 +29,7 @@ class Artefact < ActiveRecord::Base
   ].freeze
 
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key desc'
-  has_many :related_artefacts, :through => :related_items, :source => :artefect
+  has_many :related_artefacts, :through => :related_items, :source => :artefact
   has_and_belongs_to_many :audiences
 
   before_validation :normalise, :on => :create
