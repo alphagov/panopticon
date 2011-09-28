@@ -1,7 +1,8 @@
-PATH
-  remote: ../slimmer
+GIT
+  remote: git@github.com:alphagov/slimmer.git
+  revision: 67c341b43e8d261f40b1ac062c818dca81a60528
   specs:
-    slimmer (0.7.10)
+    slimmer (0.7.11)
       nokogiri
 
 GEM
