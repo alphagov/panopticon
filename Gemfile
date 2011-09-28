@@ -10,6 +10,12 @@ gem 'rails', '3.1.0'
 
 gem 'mysql2'
 
+if ENV['SLIMMER_DEV']
+  gem 'slimmer', :path => '../slimmer'
+else
+  gem 'slimmer', :git => 'git@github.com:alphagov/slimmer.git'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

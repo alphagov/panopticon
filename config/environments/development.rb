@@ -27,4 +27,6 @@ Panopticon::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.middleware.insert 0,  Slimmer::App, :template_host => "#{config.root}/public/templates"
 end

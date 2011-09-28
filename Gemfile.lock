@@ -1,3 +1,9 @@
+PATH
+  remote: ../slimmer
+  specs:
+    slimmer (0.7.10)
+      nokogiri
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -136,6 +142,7 @@ DEPENDENCIES
   sass-rails (~> 3.1.0)
   simplecov (= 0.4.2)
   simplecov-rcov
+  slimmer!
   sqlite3-ruby
   test-unit
   turn

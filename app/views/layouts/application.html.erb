@@ -4,6 +4,8 @@
   <title>Panopticon</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <meta name="x-section-name" content="Panopticon" />
+  <meta name="x-section-link" content="panopticon" />
   <%= csrf_meta_tags %>
 
   <link href="http://demo.alphagov.co.uk/stylesheets/admin/jquery-ui-1.8.14.css" rel="stylesheet" type="text/css">
@@ -14,8 +16,8 @@
 
 </head>
 <body>
-
-<%= yield %>
-
+  <div id="wrapper" class="panopticon">
+    <%= yield %>
+  </div>
 </body>
 </html>
