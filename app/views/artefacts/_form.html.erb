@@ -1,4 +1,4 @@
-<div id="guide-nav">
+<div id="panopticon" class="ui-widget-content">
 
   <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
     <%= f.inputs :name => "Basic information" do %>
@@ -6,12 +6,12 @@
       <%= f.input :slug %>
       <%= f.input :tags %>
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
-      <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :label => "Who is likely to use this information?" %>
+      <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :title => "Who is likely to use this information?" %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMAT, :as => :select %>
       <% end %>
     <% end %>
-    <%= f.inputs "Related items" do %>
+    <%= f.inputs "Related items", :class => "related" do %>
       <% Artefact::MAXIMUM_RELATED_ITEMS.times do |related_item_offset| %>
         <%= f.input :"related_item_#{related_item_offset}", :as => :select, :collection => Artefact.all, :label => false %>
       <% end %>

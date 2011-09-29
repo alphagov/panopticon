@@ -2,22 +2,20 @@
 <html>
 <head>
   <title>Panopticon</title>
-  <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag '/stylesheets/formtastic.css', '/stylesheets/formtastic_changes.css' %>
   <%= javascript_include_tag "application" %>
   <meta name="x-section-name" content="Panopticon" />
   <meta name="x-section-link" content="panopticon" />
   <%= csrf_meta_tags %>
-
-  <link href="http://demo.alphagov.co.uk/stylesheets/admin/jquery-ui-1.8.14.css" rel="stylesheet" type="text/css">
-  <link href="http://demo.alphagov.co.uk/stylesheets/normalize.css" rel="stylesheet" type="text/css">
-  <link href="http://demo.alphagov.co.uk/stylesheets/core.css" rel="stylesheet" type="text/css">
-  <link href="http://demo.alphagov.co.uk/stylesheets/formtastic.css" rel="stylesheet" type="text/css">
-  <link href="http://demo.alphagov.co.uk/stylesheets/formtastic-changes.css" rel="stylesheet" type="text/css">
-
 </head>
 <body>
-  <div id="wrapper" class="panopticon">
-    <%= yield %>
+  <div id="wrapper" class="wrapper">
+    <div class="content" role="main">
+      <%= yield %>
+    </div>
   </div>
+
+<%= javascript_include_tag '/javascripts/jquery-1.6.2.min.js', '/javascripts/jquery-ui-1.8.16.custom.min.js' %>
+
 </body>
 </html>
