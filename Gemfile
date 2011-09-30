@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'plek'
+gem 'plek', '0.1.0'
 gem 'formtastic', '2.0.0.rc5'
 
 gem 'rails', '3.1.0'
