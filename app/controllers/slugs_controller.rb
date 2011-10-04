@@ -1,14 +1,14 @@
 class SlugsController < ApplicationController
   def show
-    artefact = Identity.find_by_slug params[:id]
+    artefact = Identifier.find_by_slug params[:id]
     return head :not_found unless artefact.present?
     render :json => artefact.to_json
   end
 
   def create
-    return head :not_acceptable if Artefact.find_by_slug params[:slug][:name]
+    return head :not_acceptable if Identifier.find_by_slug params[:slug][:name]
 
-    artefact = Identity.new
+    artefact = Identifier.new
     # FIXME: [:slug][:name] is a legacy parameter, it shoud be
     #        [:artefact][:slug]
     artefact.slug = params[:slug][:name]
