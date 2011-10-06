@@ -34,6 +34,7 @@ class Artefact < ActiveRecord::Base
     "Department of health",
     "Foreign and commonwealth office",
     "HM treasury",
+    "HM revenue & customs",
     "Home office",
     "Ministry of defence",
     "Ministry of justice",
