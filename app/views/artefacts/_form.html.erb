@@ -6,6 +6,7 @@
       <%= f.input :slug %>
       <%= f.input :tags %>
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
+      <%= f.input :department, :as => :select, :collection => Artefact::DEPARTMENTS %>
       <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :title => "Who is likely to use this information?" %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMAT, :as => :select %>

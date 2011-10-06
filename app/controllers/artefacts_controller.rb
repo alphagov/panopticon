@@ -53,6 +53,7 @@ class ArtefactsController < ApplicationController
     artefact.slug = attributes[:slug]
     artefact.tags = attributes[:tags]
     artefact.section = attributes[:section]
+    artefact.department = attributes[:department]
     if artefact.new_record?
       artefact.kind = attributes[:kind]
       artefact.owning_app = attributes[:owning_app]
