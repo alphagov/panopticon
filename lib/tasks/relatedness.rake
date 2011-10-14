@@ -72,7 +72,7 @@ namespace :relatedness do
       def cluster
         open Plek.current.find("publisher") + '/publications/' + artefact.slug + '.json?edition=latest'
         "published"
-      rescue OpenURI::HTTPError
+      rescue
         "not started"
       end
 
