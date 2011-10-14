@@ -19,7 +19,9 @@ class ArtefactsController < ApplicationController
   def create
     @artefact.save!
     relate_artefacts @artefact, params[:artefact]
-    redirect_to @artefact.admin_url
+    destination = @artefact.admin_url
+    destination += '?return_to=' + params[:return_to] if params[:return_to]
+    redirect_to destination
   rescue ActiveRecord::RecordInvalid
     render :action => :new
   end
