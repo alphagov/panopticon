@@ -6,6 +6,6 @@ class ArtefactsControllerTest < ActiveSupport::TestCase
     get '/artefacts/' + artefact.to_param
 
     assert_equal 302, last_response.status
-    assert_equal Plek.current.publisher + "/admin/publications/#{artefact.to_param}", last_response.header['Location']
+    assert_equal Plek.current.find('publisher') + "/admin/publications/#{artefact.to_param}", last_response.header['Location']
   end
 end
