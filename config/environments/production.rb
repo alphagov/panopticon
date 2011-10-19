@@ -59,6 +59,5 @@ Panopticon::Application.configure do
   config.active_support.deprecation = :notify
 
   config.action_controller.asset_host = 'static.production.alphagov.co.uk'
-  config.middleware.delete Slimmer::App
   config.middleware.use Slimmer::App, :template_host => "/data/vhost/static.production.alphagov.co.uk/current/public/templates"
 end
