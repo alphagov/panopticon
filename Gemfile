@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
 
+group :passenger_compatibility do
+  gem 'rack', '1.3.5'
+  gem 'rake', '0.9.2'
+end
+
 gem 'plek', '0.1.0'
 gem 'formtastic', '2.0.0.rc5'
 
