@@ -28,7 +28,7 @@ Panopticon::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.middleware.use Slimmer::App, :template_host => "/data/vhost/static.#{Rails.env}.alphagov.co.uk/current/public/templates"
-  config.action_controller.asset_host = 'staging.alphagov.co.uk:8080'
+  config.middleware.use Slimmer::App, :template_host => "http://static.staging.alphagov.co.uk"
+  config.action_controller.asset_host = 'static.staging.alphagov.co.uk'
   config.action_mailer.smtp_settings = {:enable_starttls_auto => false}
 end
