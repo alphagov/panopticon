@@ -14,7 +14,7 @@
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
       <% Artefact::MAXIMUM_RELATED_ITEMS.times do |related_item_offset| %>
-        <%= f.input :"related_item_#{related_item_offset}", :as => :select, :collection => Artefact.all, :label => false %>
+        <%= f.input :"related_item_#{related_item_offset}", :as => :select, :collection => Artefact.related_items, :label => false %>
       <% end %>
     <% end %>
     <% if artefact.new_record? %>

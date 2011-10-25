@@ -66,6 +66,10 @@ class Artefact < ActiveRecord::Base
   validates_presence_of :slug
   validates_inclusion_of :kind, :in => FORMAT
 
+  def self.related_items
+    all :order => 'name asc'
+  end
+
   def item_relation_number number
     related_items.find_by_sort_key number
   end
