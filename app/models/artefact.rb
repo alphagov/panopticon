@@ -60,6 +60,8 @@ class Artefact < ActiveRecord::Base
   has_and_belongs_to_many :audiences
 
   before_validation :normalise, :on => :create
+  
+  after_update :broadcast_update
 
   validates_presence_of :name
   validates_uniqueness_of :slug
@@ -139,5 +141,9 @@ class Artefact < ActiveRecord::Base
     end
     args << options
     super *args
+  end
+  
+  def broadcast_update
+    Messenger.instance.updated self
   end
 end

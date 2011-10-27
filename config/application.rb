@@ -46,3 +46,7 @@ module Panopticon
     config.assets.version = '1.0'
   end
 end
+require 'messenger'
+if File.basename($0) != "rake" && !Rails.env.test?
+  Messenger.transport = Stomp::Client.new "stomp://localhost:61613"
+end
