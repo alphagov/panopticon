@@ -57,7 +57,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marples (0.0.17)
+    marples (0.0.19)
       activesupport
       null_logger
       pethau (>= 0.0.2)
@@ -124,7 +124,7 @@ PLATFORMS
 DEPENDENCIES
   ci_reporter
   formtastic (= 2.0.0.rc5)
-  marples
+  marples (= 0.0.19)
   mysql2
   nokogiri
   pethau
