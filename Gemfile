@@ -30,6 +30,7 @@ group :test do
   gem 'ci_reporter'
   gem 'test-unit'
   gem 'cucumber-rails'
+  gem 'database_cleaner'
 end
 
 group :import do
