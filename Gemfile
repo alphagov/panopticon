@@ -9,7 +9,7 @@ gem 'plek', :git => 'git@github.com:alphagov/plek.git'
 gem 'formtastic', '2.0.0.rc5'
 gem 'stomp'
 gem 'pethau'
-gem 'marples'
+gem 'marples', '0.0.18'
 
 gem 'rails', '~> 3.1.1'
 
