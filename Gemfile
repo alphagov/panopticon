@@ -32,6 +32,8 @@ group :test do
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'minitest'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
 end
 
 group :import do

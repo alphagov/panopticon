@@ -48,3 +48,5 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
+
+require 'factory_girl/step_definitions'
