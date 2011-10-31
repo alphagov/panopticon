@@ -87,6 +87,7 @@ GEM
       null_logger
       pethau (>= 0.0.2)
     mime-types (1.16)
+    minitest (2.7.0)
     multi_json (1.0.3)
     mysql2 (0.3.7)
     nokogiri (1.5.0)
@@ -161,6 +162,7 @@ DEPENDENCIES
   database_cleaner
   formtastic (= 2.0.0.rc5)
   marples (= 0.0.19)
+  minitest
   mysql2
   nokogiri
   pethau

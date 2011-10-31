@@ -31,6 +31,7 @@ group :test do
   gem 'test-unit'
   gem 'cucumber-rails'
   gem 'database_cleaner'
+  gem 'minitest'
 end
 
 group :import do
