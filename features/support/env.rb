@@ -52,7 +52,7 @@ end
 require 'factory_girl/step_definitions'
 
 require 'capybara/mechanize'
-Capybara.current_driver = :mechanize
+Capybara.default_driver = :mechanize
 
 FakeWeb.allow_net_connect = false
 FakeWeb.register_uri(:get, %r{^#{Regexp.escape Plek.current.find('publisher')}/}, :status => [200, 'OK'])
