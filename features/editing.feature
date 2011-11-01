@@ -6,6 +6,8 @@ Feature: Editing artefacts
     Given an artefact exists with a name of "Probation"
       And an artefact exists with a name of "Leaving prison"
 
+    Then the API should say that "Leaving prison" is not related to "Probation"
+
     When I am editing "Probation"
       And I add "Leaving prison" as a related item
       And I save my changes
