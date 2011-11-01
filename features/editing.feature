@@ -44,11 +44,8 @@ Feature: Editing artefacts
       And "Book the practical driving test" is related to "Driving disqualifications"
       And "Driving before your licence is returned" is related to "Driving disqualifications"
 
-    Then the API should say that "Book the practical driving test" is related to "Driving disqualifications"
-      And the API should say that "Driving before your licence is returned" is related to "Driving disqualifications"
-      And the API should say that "National Driver Offender Retraining Scheme" is not related to "Driving disqualifications"
-      And the API should say that "Apply for a new driving licence" is not related to "Driving disqualifications"
-      And the API should say that "Get a divorce" is not related to "Driving disqualifications"
+    Then the API should say that "Book the practical driving test" and "Driving before your licence is returned" are related to "Driving disqualifications"
+      And the API should say that "National Driver Offender Retraining Scheme", "Apply for a new driving licence" and "Get a divorce" are not related to "Driving disqualifications"
 
     When I am editing "Driving disqualifications"
       And I add "National Driver Offender Retraining Scheme" as a related item
@@ -57,8 +54,5 @@ Feature: Editing artefacts
 
     Then I should be redirected to "Driving disqualifications" on Publisher
       And the rest of the system should be notified that "Driving disqualifications" has been updated
-      And the API should say that "Book the practical driving test" is related to "Driving disqualifications"
-      And the API should say that "Driving before your licence is returned" is related to "Driving disqualifications"
-      And the API should say that "National Driver Offender Retraining Scheme" is related to "Driving disqualifications"
-      And the API should say that "Apply for a new driving licence" is related to "Driving disqualifications"
+      And the API should say that "Book the practical driving test", "Driving before your licence is returned", "National Driver Offender Retraining Scheme" and "Apply for a new driving licence" are related to "Driving disqualifications"
       And the API should say that "Get a divorce" is not related to "Driving disqualifications"
