@@ -15,3 +15,7 @@ Feature: Editing artefacts
     Then I should be redirected to "Probation" on Publisher
       And the rest of the system should be notified that "Probation" has been updated
       And the API should say that "Leaving prison" is related to "Probation"
+
+  Scenario: Unassign a related item
+    Given an artefact exists with a name of "Probation"
+      And an artefact exists with a name of "Leaving prison"
