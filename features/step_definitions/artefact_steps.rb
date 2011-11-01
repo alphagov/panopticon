@@ -9,3 +9,7 @@ When /^I add "(.*)" as a related item$/ do |name|
     end
   end
 end
+
+When /^I save my changes$/ do
+  click_on 'Satisfy my need'
+end

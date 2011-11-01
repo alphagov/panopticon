@@ -8,3 +8,4 @@ Feature: Editing artefacts
 
     When I am editing "Probation"
       And I add "Leaving prison" as a related item
+      And I save my changes
