@@ -15,6 +15,14 @@ When /^I add "(.*)" as a related item$/ do |name|
   end
 end
 
+When /^I remove "(.*)" as a related item$/ do |name|
+  within_fieldset 'Related items' do
+    within :xpath, XPath.generate { |x| x.descendant(:select)[x.descendant(:option)[x.attr(:selected)] == name] } do
+      select ''
+    end
+  end
+end
+
 When /^I save my changes$/ do
   click_on 'Satisfy my need'
 end

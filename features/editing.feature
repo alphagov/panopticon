@@ -24,3 +24,9 @@ Feature: Editing artefacts
     Then the API should say that "Leaving prison" is related to "Probation"
 
     When I am editing "Probation"
+      And I remove "Leaving prison" as a related item
+      And I save my changes
+
+    Then I should be redirected to "Probation" on Publisher
+      And the rest of the system should be notified that "Probation" has been updated
+      And the API should say that "Leaving prison" is not related to "Probation"
