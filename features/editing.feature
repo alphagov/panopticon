@@ -11,3 +11,4 @@ Feature: Editing artefacts
       And I save my changes
 
     Then I should be redirected to "Probation" on Publisher
+      And the rest of the system should be notified that "Probation" has been updated
