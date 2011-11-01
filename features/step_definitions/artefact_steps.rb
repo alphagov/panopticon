@@ -9,7 +9,7 @@ end
 
 When /^I add "(.*)" as a related item$/ do |name|
   within_fieldset 'Related items' do
-    within :xpath, './/select[not(option[@selected])]' do
+    within :xpath, XPath.generate { |x| x.descendant(:select)[~x.descendant(:option)[x.attr(:selected)]] } do
       select name
     end
   end
