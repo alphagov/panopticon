@@ -28,3 +28,12 @@ Then /^the rest of the system should be notified that "(.*)" has been updated$/ 
   assert_equal '/topic/marples.panopticon.artefacts.updated', notification[:destination]
   assert_equal artefact.slug, notification[:message][:artefact][:slug]
 end
+
+Then /^the API should say that "(.*)" is related to "(.*)"$/ do |related_name, name|
+  artefact, related_artefact = [name, related_name].map { |n| Artefact.find_by_name(n) }
+  visit artefact_path(artefact, :format => :js)
+
+  data = JSON.parse(source).with_indifferent_access
+  related_slugs = data[:related_items].map { |item| item[:artefact][:slug] }
+  assert_include related_slugs, related_artefact.slug
+end
