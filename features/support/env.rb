@@ -53,3 +53,5 @@ require 'factory_girl/step_definitions'
 
 require 'capybara/mechanize'
 Capybara.current_driver = :mechanize
+
+FakeWeb.allow_net_connect = false
