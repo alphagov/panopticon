@@ -13,3 +13,8 @@ end
 When /^I save my changes$/ do
   click_on 'Satisfy my need'
 end
+
+Then /^I should be redirected to "(.*)" on (.*)$/ do |name, app|
+  assert_match %r{^#{Regexp.escape Plek.current.find(app)}/}, current_url
+  assert_equal Artefact.find_by_name(name).admin_url, current_url
+end
