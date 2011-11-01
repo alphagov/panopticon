@@ -19,3 +19,8 @@ Feature: Editing artefacts
   Scenario: Unassign a related item
     Given an artefact exists with a name of "Probation"
       And an artefact exists with a name of "Leaving prison"
+      And "Leaving prison" is related to "Probation"
+
+    Then the API should say that "Leaving prison" is related to "Probation"
+
+    When I am editing "Probation"

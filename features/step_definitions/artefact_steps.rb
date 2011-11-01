@@ -1,3 +1,8 @@
+Given /^"(.*)" is related to "(.*)"$/ do |related_name, name|
+  artefact, related_artefact = [name, related_name].map { |n| Artefact.find_by_name(n) }
+  artefact.update_attributes! :"related_item_#{artefact.related_items.size + 1}" => related_artefact
+end
+
 When /^I am editing "(.*)"$/ do |name|
   visit edit_artefact_path(Artefact.find_by_name(name))
 end
