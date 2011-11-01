@@ -50,3 +50,6 @@ end
 #
 
 require 'factory_girl/step_definitions'
+
+require 'capybara/mechanize'
+Capybara.current_driver = :mechanize
