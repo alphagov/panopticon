@@ -67,50 +67,13 @@ class Artefact < ActiveRecord::Base
   validates :slug, :presence => true, :uniqueness => true
   validates :kind, :inclusion => { :in => FORMATS }
 
+  accepts_nested_attributes_for :related_items,
+    :allow_destroy  => true,
+    :reject_if      => -> attributes { attributes[:artefact_id].blank? },
+    :limit          => MAXIMUM_RELATED_ITEMS
+
   def self.related_items
     all :order => 'name asc'
-  end
-
-  def item_relation_number number
-    related_items.find_by_sort_key number
-  end
-  private :item_relation_number
-
-  def related_artefact_number number
-    relation = item_relation_number number
-    return unless relation.present?
-    relation.artefact
-  end
-  private :related_artefact_number
-
-  def delete_item_relation number
-    item = item_relation_number number
-    return unless item.present?
-    item.destroy
-  end
-  private :delete_item_relation
-
-  def set_related_item number, artefact
-    delete_item_relation number
-    related_items.create! :sort_key => number, :artefact => artefact
-  end
-  private :set_related_item
-
-  MAXIMUM_RELATED_ITEMS.times do |related_item_offset|
-    related_item = "related_item_#{related_item_offset}"
-    define_method related_item do
-      artefact = related_artefact_number related_item_offset
-      return unless artefact.present?
-      artefact.id
-    end
-
-    define_method "#{related_item}=" do |id|
-      delete_item_relation related_item_offset
-      return unless id.present?
-      artefact = Artefact.find_by_id id
-      return unless artefact.present?
-      set_related_item related_item_offset, artefact
-    end
   end
 
   def normalise

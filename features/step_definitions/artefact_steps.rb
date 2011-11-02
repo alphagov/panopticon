@@ -8,10 +8,10 @@ end
 
 Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |related_names, name|
   artefact = Artefact.find_by_name!(name)
+  max_sort_key = artefact.related_items.maximum(:sort_key) || -1
 
-  related_names.scan(/"([^"]*)"/).flatten.each do |related_name|
-    related_artefact = Artefact.find_by_name!(related_name)
-    artefact.update_attributes! :"related_item_#{artefact.related_items.size + 1}" => related_artefact
+  related_names.scan(/"([^"]*)"/).flatten.each.with_index(max_sort_key + 1) do |related_name, sort_key|
+    artefact.related_items.create! :artefact => Artefact.find_by_name!(related_name), :sort_key => sort_key
   end
 end
 

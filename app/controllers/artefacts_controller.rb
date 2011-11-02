@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :redirect_to_show_if_need_met, :only => :new
   before_filter :find_artefact, :only => [ :show, :edit, :update ]
   before_filter :build_artefact, :only => [ :new, :create ]
+  before_filter :mark_unused_related_items_for_destruction, :only => :update
 
   def show
     respond_to do |format|
@@ -66,13 +67,18 @@ class ArtefactsController < ApplicationController
   end
 
   def relate_artefacts artefact, attributes
-    Artefact::MAXIMUM_RELATED_ITEMS.times do |n|
-      artefact.send "related_item_#{n}=", attributes["related_item_#{n}"]
-    end
+    artefact.related_items_attributes = attributes[:related_items_attributes]
   end
 
   def redirect_to_show_if_need_met
     artefact = Artefact.find_by_need_id params[:artefact][:need_id]
     redirect_to artefact if artefact.present?
   end
+
+  private
+    def mark_unused_related_items_for_destruction
+      params[:artefact][:related_items_attributes].each_value do |attributes|
+        attributes[:_destroy] = attributes[:id].present? && attributes[:artefact_id].blank?
+      end
+    end
 end
