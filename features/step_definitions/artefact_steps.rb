@@ -13,7 +13,7 @@ end
 
 When /^I add "(.*)" as a related item$/ do |name|
   within_fieldset 'Related items' do
-    within :xpath, XPath.generate { |x| x.descendant(:select)[~x.descendant(:option)[x.attr(:selected)]] } do
+    within_select_with_no_selection do
       select name
     end
   end
@@ -21,7 +21,7 @@ end
 
 When /^I remove "(.*)" as a related item$/ do |name|
   within_fieldset 'Related items' do
-    within :xpath, XPath.generate { |x| x.descendant(:select)[x.descendant(:option)[x.attr(:selected)] == name] } do
+    within_select_with_selection(name) do
       select ''
     end
   end
