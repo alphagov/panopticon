@@ -42,9 +42,7 @@ class ArtefactsController < ApplicationController
     end
 
     def find_artefact
-      # FIXME: A hack until the Publisher has panopticon ids for every article
-      @artefact = Artefact.find_by_slug params[:id]
-      @artefact ||= Artefact.find params[:id]
+      @artefact = Artefact.from_param(params[:id])
     end
 
     def build_artefact
