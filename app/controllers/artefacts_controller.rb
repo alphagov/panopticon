@@ -2,7 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :redirect_to_show_if_need_met, :only => :new
   before_filter :find_artefact, :only => [:show, :edit, :update]
   before_filter :build_artefact, :only => [:new, :create]
-  before_filter :mark_unused_related_items_for_destruction, :only => :update
+  before_filter :mark_removed_records_for_destruction, :only => :update
 
   def show
     respond_to do |format|
@@ -60,9 +60,21 @@ class ArtefactsController < ApplicationController
       @artefact = Artefact.new(params[:artefact])
     end
 
-    def mark_unused_related_items_for_destruction
-      params[:artefact][:related_items_attributes].each_value do |attributes|
-        attributes[:_destroy] = attributes[:id].present? && attributes[:artefact_id].blank?
+    def mark_removed_records_for_destruction
+      [:related_artefacts].each do |association|
+        reflection = Artefact.reflect_on_association association
+        through_association, foreign_key = reflection.through_reflection.name, reflection.foreign_key
+
+        mark_associated_records_for_destruction through_association,
+          :if => -> attributes { attributes[foreign_key].blank? }
+      end
+    end
+
+    def mark_associated_records_for_destruction(association, options)
+      primary_key = Artefact.reflect_on_association(association).active_record_primary_key
+
+      params[:artefact][:"#{association}_attributes"].each_value do |attributes|
+        attributes[:_destroy] = attributes[primary_key].present? && options[:if].call(attributes)
       end
     end
 end
