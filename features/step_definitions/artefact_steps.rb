@@ -1,11 +1,3 @@
-Given /^there (?:is|are) (?:an )?artefacts? called ((?:"[^"]*"(?:, | and )?)+)$/ do |names|
-  names.scan(/"([^"]*)"/).flatten.each do |name|
-    steps %Q{
-      Given an artefact exists with a name of "#{name}"
-    }
-  end
-end
-
 Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |related_names, name|
   artefact = Artefact.find_by_name!(name)
   max_sort_key = artefact.related_items.maximum(:sort_key) || -1
