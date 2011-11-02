@@ -1,12 +1,12 @@
 class ArtefactsController < ApplicationController
   before_filter :redirect_to_show_if_need_met, :only => :new
-  before_filter :find_artefact, :only => [ :show, :edit, :update ]
-  before_filter :build_artefact, :only => [ :new, :create ]
+  before_filter :find_artefact, :only => [:show, :edit, :update]
+  before_filter :build_artefact, :only => [:new, :create]
   before_filter :mark_unused_related_items_for_destruction, :only => :update
 
   def show
     respond_to do |format|
-      format.js { render :json => @artefact }
+      format.js   { render :json => @artefact }
       format.html { redirect_to @artefact.admin_url }
     end
   end
@@ -18,64 +18,39 @@ class ArtefactsController < ApplicationController
   end
 
   def create
-    @artefact.save!
-    relate_artefacts @artefact, params[:artefact]
-    destination = @artefact.admin_url
-    destination += '?return_to=' + params[:return_to] if params[:return_to]
-    redirect_to destination
-  rescue ActiveRecord::RecordInvalid
-    render :action => :new
+    if @artefact.save
+      destination = @artefact.admin_url
+      destination += '?return_to=' + params[:return_to] if params[:return_to]
+      redirect_to destination
+    else
+      render :new
+    end
   end
 
   def update
-    update_artefact @artefact, params[:artefact]
-    relate_artefacts @artefact, params[:artefact]
-    @artefact.save!
-    redirect_to @artefact
-  rescue ActiveRecord::RecordInvalid
-    render :action => :edit
-  end
-
-  def build_artefact
-    @artefact = Artefact.new
-    update_artefact @artefact, params[:artefact]
-  end
-  private :build_artefact
-  hide_action :build_artefact
-
-  def find_artefact
-    # FIXME: A hack until the Publisher has panopticon ids for every article
-    @artefact = Artefact.find_by_slug params[:id]
-    @artefact ||= Artefact.find params[:id]
-  end
-  private :find_artefact
-  hide_action :find_artefact
-
-  def update_artefact artefact, attributes
-    artefact.name = attributes[:name]
-    artefact.slug = attributes[:slug]
-    artefact.tags = attributes[:tags]
-    artefact.section = attributes[:section]
-    artefact.department = attributes[:department]
-    if artefact.new_record?
-      artefact.kind = attributes[:kind]
-      artefact.owning_app = attributes[:owning_app]
-      artefact.need_id = attributes[:need_id]
+    if @artefact.update_attributes(params[:artefact])
+      redirect_to @artefact
+    else
+      render :edit
     end
-    artefact.audience_ids = attributes[:audience_ids] if attributes.key? :audience_ids
-    artefact.normalise
-  end
-
-  def relate_artefacts artefact, attributes
-    artefact.related_items_attributes = attributes[:related_items_attributes]
-  end
-
-  def redirect_to_show_if_need_met
-    artefact = Artefact.find_by_need_id params[:artefact][:need_id]
-    redirect_to artefact if artefact.present?
   end
 
   private
+    def redirect_to_show_if_need_met
+      artefact = Artefact.find_by_need_id params[:artefact][:need_id]
+      redirect_to artefact if artefact.present?
+    end
+
+    def find_artefact
+      # FIXME: A hack until the Publisher has panopticon ids for every article
+      @artefact = Artefact.find_by_slug params[:id]
+      @artefact ||= Artefact.find params[:id]
+    end
+
+    def build_artefact
+      @artefact = Artefact.new(params[:artefact])
+    end
+
     def mark_unused_related_items_for_destruction
       params[:artefact][:related_items_attributes].each_value do |attributes|
         attributes[:_destroy] = attributes[:id].present? && attributes[:artefact_id].blank?
