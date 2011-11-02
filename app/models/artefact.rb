@@ -46,7 +46,7 @@ class Artefact < ActiveRecord::Base
     "Wales office",
   ].freeze
 
-  FORMAT = [
+  FORMATS = [
     "answer",
     "guide",
     "programme",
@@ -66,7 +66,7 @@ class Artefact < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :slug
   validates_presence_of :slug
-  validates_inclusion_of :kind, :in => FORMAT
+  validates_inclusion_of :kind, :in => FORMATS
 
   def self.related_items
     all :order => 'name asc'

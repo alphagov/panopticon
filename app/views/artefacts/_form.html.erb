@@ -9,7 +9,7 @@
       <%= f.input :department, :as => :select, :collection => Artefact::DEPARTMENTS %>
       <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :title => "Who is likely to use this information?" %>
       <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMAT, :as => :select %>
+        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
       <% end %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
