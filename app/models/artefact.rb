@@ -63,10 +63,9 @@ class Artefact < ActiveRecord::Base
   
   after_update :broadcast_update
 
-  validates_presence_of :name
-  validates_uniqueness_of :slug
-  validates_presence_of :slug
-  validates_inclusion_of :kind, :in => FORMATS
+  validates :name, :presence => true
+  validates :slug, :presence => true, :uniqueness => true
+  validates :kind, :inclusion => { :in => FORMATS }
 
   def self.related_items
     all :order => 'name asc'
