@@ -43,8 +43,7 @@ Feature: Editing artefacts
       | Apply for a new driving licence             |
       | Get a divorce                               |
 
-      And "Book the practical driving test" is related to "Driving disqualifications"
-      And "Driving before your licence is returned" is related to "Driving disqualifications"
+      And "Book the practical driving test" and "Driving before your licence is returned" are related to "Driving disqualifications"
       And no notifications have been sent
 
     Then the API should say that "Book the practical driving test" and "Driving before your licence is returned" are related to "Driving disqualifications"

@@ -1,6 +1,10 @@
-Given /^"(.*)" is related to "(.*)"$/ do |related_name, name|
-  artefact, related_artefact = [name, related_name].map { |n| Artefact.find_by_name!(n) }
-  artefact.update_attributes! :"related_item_#{artefact.related_items.size + 1}" => related_artefact
+Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |related_names, name|
+  artefact = Artefact.find_by_name!(name)
+
+  related_names.scan(/"([^"]*)"/).flatten.each do |related_name|
+    related_artefact = Artefact.find_by_name!(related_name)
+    artefact.update_attributes! :"related_item_#{artefact.related_items.size + 1}" => related_artefact
+  end
 end
 
 Given /^no notifications have been sent$/ do
