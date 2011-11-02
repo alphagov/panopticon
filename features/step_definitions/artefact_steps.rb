@@ -54,3 +54,8 @@ Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?rel
   assert_api_relates_records_to_artefact_called(name, Artefact, split_names(artefact_names), not_related) \
     { |data| data[:related_items].map { |related_item| related_item[:artefact][:id] } }
 end
+
+Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?(?:a )?contacts? for "(.*)"$/ do |contact_names, not_related, name|
+  assert_api_relates_records_to_artefact_called(name, Contact, split_names(contact_names), not_related) \
+    { |data| data[:contacts].map { |contact| contact[:id] } }
+end

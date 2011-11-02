@@ -53,3 +53,7 @@ Feature: Editing artefacts
     Given there is an artefact called "Child Benefit rates"
       And there is a contact called "Child Support Agency"
       And no notifications have been sent
+
+    Then the API should say that "Child Support Agency" is not a contact for "Child Benefit rates"
+
+    When I am editing "Child Benefit rates"
