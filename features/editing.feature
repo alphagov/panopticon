@@ -48,3 +48,8 @@ Feature: Editing artefacts
       And the rest of the system should be notified that "Driving disqualifications" has been updated
       And the API should say that "Book the practical driving test", "Driving before your licence is returned", "National Driver Offender Retraining Scheme" and "Apply for a new driving licence" are related to "Driving disqualifications"
       And the API should say that "Get a divorce" is not related to "Driving disqualifications"
+
+  Scenario: Assign a contact
+    Given there is an artefact called "Child Benefit rates"
+      And there is a contact called "Child Support Agency"
+      And no notifications have been sent
