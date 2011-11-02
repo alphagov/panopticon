@@ -12,7 +12,8 @@ class ArtefactsController < ApplicationController
           @artefact.as_json(
             :include => {
               :audiences      => {},
-              :related_items  => { :include => :artefact } # TODO use :related_artefacts => {}
+              :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
+              :contacts       => {}
             }
           )
       end
