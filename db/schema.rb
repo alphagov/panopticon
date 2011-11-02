@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111102164557) do
+ActiveRecord::Schema.define(:version => 20111102165823) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(:version => 20111102164557) do
   create_table "contacts", :force => true do |t|
     t.string "name", :null => false
   end
+
+  create_table "related_contacts", :force => true do |t|
+    t.integer "artefact_id", :null => false
+    t.integer "contact_id",  :null => false
+    t.integer "sort_key",    :null => false
+  end
+
+  add_index "related_contacts", ["artefact_id"], :name => "index_related_contacts_on_artefact_id"
+  add_index "related_contacts", ["contact_id"], :name => "index_related_contacts_on_contact_id"
+  add_index "related_contacts", ["sort_key"], :name => "index_related_contacts_on_sort_key"
 
   create_table "related_items", :force => true do |t|
     t.integer "source_artefact_id", :null => false

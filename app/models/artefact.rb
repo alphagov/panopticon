@@ -57,6 +57,8 @@ class Artefact < ActiveRecord::Base
 
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC'
   has_many :related_artefacts, :through => :related_items, :source => :artefact
+  has_many :related_contacts, :order => 'sort_key ASC'
+  has_many :contacts, :through => :related_contacts
   has_and_belongs_to_many :audiences
 
   before_validation :normalise, :on => :create
