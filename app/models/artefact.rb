@@ -1,5 +1,5 @@
 class Artefact < ActiveRecord::Base
-  MAXIMUM_RELATED_ITEMS = 6
+  MAXIMUM_RELATED_ITEMS = 8
 
   SECTIONS = [
     'Rights',
