@@ -1,4 +1,4 @@
-Given /^there are artefacts called ((?:"[^"]*"(?:, | and )?)+)$/ do |names|
+Given /^there (?:is|are) (?:an )?artefacts? called ((?:"[^"]*"(?:, | and )?)+)$/ do |names|
   names.scan(/"([^"]*)"/).flatten.each do |name|
     steps %Q{
       Given an artefact exists with a name of "#{name}"
