@@ -5,6 +5,7 @@ Feature: Editing artefacts
   Scenario: Assign a related item
     Given an artefact exists with a name of "Probation"
       And an artefact exists with a name of "Leaving prison"
+      And no notifications have been sent
 
     Then the API should say that "Leaving prison" is not related to "Probation"
 
@@ -20,6 +21,7 @@ Feature: Editing artefacts
     Given an artefact exists with a name of "Probation"
       And an artefact exists with a name of "Leaving prison"
       And "Leaving prison" is related to "Probation"
+      And no notifications have been sent
 
     Then the API should say that "Leaving prison" is related to "Probation"
 
@@ -43,6 +45,7 @@ Feature: Editing artefacts
 
       And "Book the practical driving test" is related to "Driving disqualifications"
       And "Driving before your licence is returned" is related to "Driving disqualifications"
+      And no notifications have been sent
 
     Then the API should say that "Book the practical driving test" and "Driving before your licence is returned" are related to "Driving disqualifications"
       And the API should say that "National Driver Offender Retraining Scheme", "Apply for a new driving licence" and "Get a divorce" are not related to "Driving disqualifications"

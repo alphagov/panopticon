@@ -3,6 +3,10 @@ Given /^"(.*)" is related to "(.*)"$/ do |related_name, name|
   artefact.update_attributes! :"related_item_#{artefact.related_items.size + 1}" => related_artefact
 end
 
+Given /^no notifications have been sent$/ do
+  FakeTransport.instance.flush
+end
+
 When /^I am editing "(.*)"$/ do |name|
   visit edit_artefact_path(Artefact.find_by_name!(name))
 end
