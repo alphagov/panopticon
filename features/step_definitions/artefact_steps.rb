@@ -16,19 +16,11 @@ When /^I am editing "(.*)"$/ do |name|
 end
 
 When /^I add "(.*)" as a related item$/ do |name|
-  within_fieldset 'Related items' do
-    within_select_with_no_selection do
-      select name
-    end
-  end
+  select_within 'Related items', name
 end
 
 When /^I remove "(.*)" as a related item$/ do |name|
-  within_fieldset 'Related items' do
-    within_select_with_selection(name) do
-      select ''
-    end
-  end
+  unselect_within 'Related items', name
 end
 
 When /^I save my changes$/ do
