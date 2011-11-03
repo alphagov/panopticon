@@ -51,16 +51,6 @@ Then /^the rest of the system should be notified that "(.*)" has been updated$/ 
 end
 
 Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?related to "(.*)"$/ do |artefact_names, not_related, name|
-  visit artefact_path(artefact_called(name), :format => :js)
-
-  data = JSON.parse(source).with_indifferent_access
-  related_slugs = data[:related_items].map { |item| item[:artefact][:slug] }
-
-  records_called(Artefact, split_names(artefact_names)).each do |related_artefact|
-    if not_related
-      assert_not_include related_slugs, related_artefact.slug
-    else
-      assert_include related_slugs, related_artefact.slug
-    end
-  end
+  assert_api_relates_records_to_artefact_called(name, Artefact, split_names(artefact_names), not_related) \
+    { |data| data[:related_items].map { |related_item| related_item[:artefact][:id] } }
 end
