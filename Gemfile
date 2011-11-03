@@ -29,7 +29,7 @@ group :test do
   gem 'simplecov-rcov'
   gem 'ci_reporter'
   gem 'test-unit'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'minitest'
   gem 'factory_girl'
