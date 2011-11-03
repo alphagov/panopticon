@@ -47,6 +47,10 @@ module Panopticon
   end
 end
 require 'messenger'
-if File.basename($0) != "rake" && !Rails.env.test?
-  Messenger.transport = Stomp::Client.new "stomp://localhost:61613"
+if File.basename($0) != "rake" && ! Rails.env.test?
+  if Rails.env.production?
+    Messenger.transport = Stomp::Client.new "stomp://production-support-backend:61613"
+  else
+    Messenger.transport = Stomp::Client.new "stomp://localhost:61613"
+  end
 end
