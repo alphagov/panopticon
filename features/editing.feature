@@ -63,3 +63,7 @@ Feature: Editing artefacts
     Then I should be redirected to "Child Benefit rates" on Publisher
       And the rest of the system should be notified that "Child Benefit rates" has been updated
       And the API should say that "Child Support Agency" is a contact for "Child Benefit rates"
+
+  Scenario: Unassign a contact
+    Given there is an artefact called "Child Benefit rates"
+      And there is a contact called "Child Support Agency"
