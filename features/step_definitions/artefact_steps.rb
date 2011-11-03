@@ -2,6 +2,10 @@ Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |artefact_
   relate_records_to_artefact_called name, :related_artefacts, split_names(artefact_names)
 end
 
+Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) (?:a )?contacts? for "(.*)"$/ do |contact_names, name|
+  relate_records_to_artefact_called name, :contacts, split_names(contact_names)
+end
+
 Given /^no notifications have been sent$/ do
   FakeTransport.instance.flush
 end

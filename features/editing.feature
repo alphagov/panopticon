@@ -67,3 +67,9 @@ Feature: Editing artefacts
   Scenario: Unassign a contact
     Given there is an artefact called "Child Benefit rates"
       And there is a contact called "Child Support Agency"
+      And "Child Support Agency" is a contact for "Child Benefit rates"
+      And no notifications have been sent
+
+    Then the API should say that "Child Support Agency" is a contact for "Child Benefit rates"
+
+    When I am editing "Child Benefit rates"
