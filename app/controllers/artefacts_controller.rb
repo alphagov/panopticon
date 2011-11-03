@@ -61,7 +61,7 @@ class ArtefactsController < ApplicationController
     end
 
     def mark_removed_records_for_destruction
-      [:related_artefacts].each do |association|
+      [:related_artefacts, :contacts].each do |association|
         reflection = Artefact.reflect_on_association association
         through_association, foreign_key = reflection.through_reflection.name, reflection.foreign_key
 

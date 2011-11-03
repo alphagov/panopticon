@@ -18,6 +18,12 @@
         <%= related_item.input :sort_key, :as => :hidden %>
       <% end %>
     <% end %>
+    <%= f.inputs 'Contacts', :class => 'related' do %>
+      <% f.semantic_fields_for :related_contacts, related_contacts_for(artefact) do |related_contact| %>
+        <%= related_contact.input :contact, :as => :select, :collection => Contact.in_alphabetical_order, :label => false %>
+        <%= related_contact.input :sort_key, :as => :hidden %>
+      <% end %>
+    <% end %>
     <% if artefact.new_record? %>
       <%= f.input :need_id, :as => :hidden %>
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>

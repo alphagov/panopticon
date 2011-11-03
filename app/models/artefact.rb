@@ -1,5 +1,6 @@
 class Artefact < ActiveRecord::Base
   MAXIMUM_RELATED_ITEMS = 8
+  MAXIMUM_RELATED_CONTACTS = 3
 
   SECTIONS = [
     'Rights',
@@ -73,6 +74,11 @@ class Artefact < ActiveRecord::Base
     :allow_destroy  => true,
     :reject_if      => -> attributes { attributes[:artefact_id].blank? },
     :limit          => MAXIMUM_RELATED_ITEMS
+
+  accepts_nested_attributes_for :related_contacts,
+    :allow_destroy  => true,
+    :reject_if      => -> attributes { attributes[:contact_id].blank? },
+    :limit          => MAXIMUM_RELATED_CONTACTS
 
   scope :in_alphabetical_order, order('name ASC')
 
