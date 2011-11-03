@@ -73,3 +73,9 @@ Feature: Editing artefacts
     Then the API should say that "Child Support Agency" is a contact for "Child Benefit rates"
 
     When I am editing "Child Benefit rates"
+      And I remove "Child Support Agency" as a contact
+      And I save my changes
+
+    Then I should be redirected to "Child Benefit rates" on Publisher
+      And the rest of the system should be notified that "Child Benefit rates" has been updated
+      And the API should say that "Child Support Agency" is not a contact for "Child Benefit rates"

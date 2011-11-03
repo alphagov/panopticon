@@ -26,6 +26,10 @@ When /^I remove "(.*)" as a related item$/ do |name|
   unselect_within 'Related items', name
 end
 
+When /^I remove "(.*)" as a contact$/ do |name|
+  unselect_within 'Contacts', name
+end
+
 When /^I save my changes$/ do
   click_on 'Satisfy my need'
 end
