@@ -1,10 +1,5 @@
 Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |artefact_names, name|
-  artefact = artefact_called name
-  max_sort_key = artefact.related_items.maximum(:sort_key) || -1
-
-  records_called(Artefact, split_names(artefact_names)).each.with_index(max_sort_key + 1) do |related_artefact, sort_key|
-    artefact.related_items.create! :artefact => related_artefact, :sort_key => sort_key
-  end
+  relate_records_to_artefact_called name, :related_artefacts, split_names(artefact_names)
 end
 
 Given /^no notifications have been sent$/ do
