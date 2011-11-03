@@ -6,7 +6,17 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.js   { render :json => @artefact }
+      format.js do
+        # TODO extract presenter
+        render :json =>
+          @artefact.as_json(
+            :include => {
+              :audiences      => {},
+              :related_items  => { :include => :artefact }
+            }
+          )
+      end
+
       format.html { redirect_to @artefact.admin_url }
     end
   end

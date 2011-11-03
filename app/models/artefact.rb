@@ -92,17 +92,6 @@ class Artefact < ActiveRecord::Base
     app += '/admin/publications/' + id.to_s
   end
 
-  def as_json *args
-    options = args.extract_options!
-    unless options[:include]
-      options[:include] = {}
-      options[:include].merge! :audiences => {}
-      options[:include].merge! :related_items => { :include => [ :artefact ] }
-    end
-    args << options
-    super *args
-  end
-  
   def broadcast_update
     Messenger.instance.updated self
   end
