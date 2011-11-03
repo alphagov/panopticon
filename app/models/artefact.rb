@@ -72,9 +72,7 @@ class Artefact < ActiveRecord::Base
     :reject_if      => -> attributes { attributes[:artefact_id].blank? },
     :limit          => MAXIMUM_RELATED_ITEMS
 
-  def self.related_items
-    all :order => 'name asc'
-  end
+  scope :in_alphabetical_order, order('name ASC')
 
   def normalise
     normalise_kind

@@ -14,7 +14,7 @@
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
       <% f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
-        <%= related_item.input :artefact, :as => :select, :collection => Artefact.related_items, :label => false %>
+        <%= related_item.input :artefact, :as => :select, :collection => Artefact.in_alphabetical_order, :label => false %>
         <%= related_item.input :sort_key, :as => :hidden %>
       <% end %>
     <% end %>
