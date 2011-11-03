@@ -6,13 +6,13 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.js do
+      format.js do # TODO use format.json
         # TODO extract presenter
         render :json =>
           @artefact.as_json(
             :include => {
               :audiences      => {},
-              :related_items  => { :include => :artefact }
+              :related_items  => { :include => :artefact } # TODO use :related_artefacts => {}
             }
           )
       end
