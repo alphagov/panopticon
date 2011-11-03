@@ -19,6 +19,10 @@ When /^I add "(.*)" as a related item$/ do |name|
   select_within 'Related items', name
 end
 
+When /^I add "(.*)" as a contact$/ do |name|
+  select_within 'Contacts', name
+end
+
 When /^I remove "(.*)" as a related item$/ do |name|
   unselect_within 'Related items', name
 end
