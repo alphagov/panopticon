@@ -49,7 +49,7 @@ end
 require 'messenger'
 if File.basename($0) != "rake" && ! Rails.env.test?
   if Rails.env.production?
-    Messenger.transport = Stomp::Client.new "stomp://production-support-backend:61613"
+    Messenger.transport = Stomp::Client.new "stomp://support.cluster:61613"
   else
     Messenger.transport = Stomp::Client.new "stomp://localhost:61613"
   end
