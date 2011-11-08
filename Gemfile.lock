@@ -1,10 +1,4 @@
 GIT
-  remote: git@github.com:alphagov/plek.git
-  revision: 1b11f648331744df5f0f81cb41dadd1ad04876f2
-  specs:
-    plek (0.1.3)
-
-GIT
   remote: git@github.com:alphagov/slimmer.git
   revision: 9a5a048cdd2452ee3f88233bce693aa4e4296b35
   specs:
@@ -109,6 +103,8 @@ GEM
     nokogiri (1.5.0)
     null_logger (0.0.1)
     pethau (0.0.2)
+    plek (0.1.5)
+      builder
     polyglot (0.3.2)
     rack (1.3.5)
     rack-cache (1.1)
@@ -188,7 +184,7 @@ DEPENDENCIES
   mysql2
   nokogiri
   pethau
-  plek!
+  plek (= 0.1.5)
   rack (= 1.3.5)
   rails (~> 3.1.1)
   rake (= 0.9.2)
