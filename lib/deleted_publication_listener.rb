@@ -4,30 +4,33 @@ class DeletedPublicationListener
       client.close
       exit
     end
+
     marples = Messenger.instance.client
+
     marples.when 'publisher', '*', 'deleted' do |publication|
       logger.info "Found publication #{publication}"
+
       begin
-        logger.info("Processing artefact #{publication['panopticon_id']}")
+        logger.info "Processing artefact #{publication['panopticon_id']}"
+
         artefact = Artefact.find(publication['panopticon_id'])
-        logger.info("Getting need ID from Panopticon")
+        logger.info 'Getting need ID from Panopticon'
+
         artefact.destroy
-        logger.info("Artefact destroyed")
+        logger.info 'Artefact destroyed'
       rescue => e
-        logger.error("Unable to process message #{publication}")
-        logger.error [ e.message, e.backtrace ].flatten.join("\n")
+        logger.error "Unable to process message #{publication}"
+        logger.error [e.message, e.backtrace].flatten.join("\n")
       end
+
       logger.info "Finished processing message #{publication}"
     end
-    logger.info "Listening for deleted objects in Publisher"
+
+    logger.info 'Listening for deleted objects in Publisher'
     marples.join
   end
-  
+
   def logger
-    @logger ||= begin
-      logger = Logger.new STDOUT
-      logger.level = Logger::DEBUG
-      logger
-    end
+    @logger ||= Logger.new(STDOUT).tap { |logger| logger.level = Logger::DEBUG }
   end
 end
