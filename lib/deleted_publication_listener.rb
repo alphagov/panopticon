@@ -1,12 +1,10 @@
 class DeletedPublicationListener
-  class_attribute :client
-
   def listen
     Signal.trap('TERM') do
       client.close
       exit
     end
-    marples = Marples::Client.new client, "deleted-publication-listener-#{Process.pid}", logger
+    marples = Messenger.instance.client
     marples.when 'publisher', '*', 'deleted' do |publication|
       logger.info "Found publication #{publication}"
       begin
@@ -31,9 +29,5 @@ class DeletedPublicationListener
       logger.level = Logger::DEBUG
       logger
     end
-  end
-  
-  def client
-    self.class.client ||= Stomp::Client.new(STOMP_CONFIGURATION)
   end
 end
