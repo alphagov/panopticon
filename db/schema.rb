@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111102165823) do
+ActiveRecord::Schema.define(:version => 20111110161012) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -44,7 +44,8 @@ ActiveRecord::Schema.define(:version => 20111102165823) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string "name", :null => false
+    t.string  "name",            :null => false
+    t.integer "contactotron_id", :null => false
   end
 
   create_table "related_contacts", :force => true do |t|
