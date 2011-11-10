@@ -1,30 +1,10 @@
 class Department
+  # FIXME: This couples Panopticon operation to Imminence operation which I
+  # don't like. Panopticon should probably denormalise this data every time
+  # the data set is updated and just use that denormalised data here.
   def self.all
-    [
-      "Attorney general's office",
-      "Cabinet office",
-      "Department for business, innovation and skills",
-      "Department for communities and local government",
-      "Department for culture, media and sport",
-      "Department for education",
-      "Department for environment, food and rural affairs",
-      "Department for international development",
-      "Department for transport",
-      "Department for work and pensions",
-      "Department of energy and climate change",
-      "Department of health",
-      "Foreign and commonwealth office",
-      "HM treasury",
-      "HM revenue & customs",
-      "Home office",
-      "Ministry of defence",
-      "Ministry of justice",
-      "Northern Ireland office",
-      "Office of the advocate general for Scotland",
-      "Office of the leader of the house of commons",
-      "Privy council office",
-      "Scotland office",
-      "Wales office",
-    ]
+    data_set_url = Plek.current.find("data") + '/data_sets/public_bodies.json'
+    data_set = JSON.parse open(data_set_url).read
+    data_set.map { |department| department['id'] }.sort
   end
 end
