@@ -10,6 +10,7 @@ gem 'formtastic', '2.0.0.rc5'
 gem 'stomp'
 gem 'pethau'
 gem 'marples', '0.0.19'
+gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 
 gem 'rails', '~> 3.1.1'
 

@@ -1,4 +1,10 @@
 GIT
+  remote: git@github.com:alphagov/daemonette.git
+  revision: 36ec7177c9d6d5c44b2ec772bf3daab69152b254
+  specs:
+    daemonette (0.1.0)
+
+GIT
   remote: git@github.com:alphagov/slimmer.git
   revision: 9a5a048cdd2452ee3f88233bce693aa4e4296b35
   specs:
@@ -174,6 +180,7 @@ DEPENDENCIES
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
   cucumber-rails
+  daemonette!
   database_cleaner
   factory_girl
   factory_girl_rails
