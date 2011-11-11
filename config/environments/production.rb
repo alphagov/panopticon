@@ -58,6 +58,6 @@ Panopticon::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_controller.asset_host = 'static.production.alphagov.co.uk'
-  config.middleware.use Slimmer::App, :asset_host => "http://static.#{Plek.current.environment}.alphagov.co.uk"
+  config.action_controller.asset_host = Plek.current.find('assets')
+  config.middleware.use Slimmer::App, :asset_host => Plek.current.find('assets')
 end

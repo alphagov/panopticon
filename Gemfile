@@ -5,7 +5,7 @@ group :passenger_compatibility do
   gem 'rake', '0.9.2'
 end
 
-gem 'plek', '0.1.6'
+gem 'plek', '0.1.7'
 gem 'formtastic', '2.0.0.rc5'
 gem 'stomp'
 gem 'pethau'
