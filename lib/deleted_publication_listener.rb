@@ -7,7 +7,7 @@ class DeletedPublicationListener
 
     marples = Messenger.instance.client
 
-    marples.when 'publisher', '*', 'deleted' do |publication|
+    marples.when 'publisher', '*', 'destroyed' do |publication|
       logger.info "Found publication #{publication}"
 
       begin
