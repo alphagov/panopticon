@@ -1,15 +1,52 @@
-def artefact_called(name)
-  record_called Artefact, name
+def create_artefact
+  Factory.create :artefact, :name => 'Child Benefit rates'
 end
 
-def relate_records_to_artefact_called(artefact_name, association_name, related_names)
-  reflection          = Artefact.reflect_on_association association_name
-  related_class       = reflection.klass
-  attribute           = reflection.source_reflection.name
-  through_association = artefact_called(artefact_name).send reflection.through_reflection.name
-  max_sort_key        = through_association.maximum(:sort_key) || -1
+def create_two_artefacts
+  [
+    'Probation',
+    'Leaving prison'
+  ].map { |name| Factory.create :artefact, :name => name }
+end
 
-  records_called(related_class, related_names).each.with_index(max_sort_key + 1) do |record, sort_key|
-    through_association.create! attribute => record, :sort_key => sort_key
+def create_six_artefacts
+  [
+    'Driving disqualifications',
+    'Book the practical driving test',
+    'Driving before your licence is returned',
+    'National Driver Offender Retraining Scheme',
+    'Apply for a new driving licence',
+    'Get a divorce'
+  ].map { |name| Factory.create :artefact, :name => name }
+end
+
+def add_related_artefact(artefact, related_artefact)
+  artefact.related_items.create! :artefact => related_artefact, :sort_key => (artefact.related_items.maximum(:sort_key) || -1) + 1
+end
+
+def add_related_artefacts(artefact, related_artefacts)
+  related_artefacts.each do |related_artefact|
+    add_related_artefact artefact, related_artefact
   end
+end
+
+def select_related_artefact(artefact)
+  select_within 'Related items', artefact.name
+end
+
+def unselect_related_artefact(artefact)
+  unselect_within 'Related items', artefact.name
+end
+
+def select_related_artefacts(artefacts)
+  artefacts.each(&method(:select_related_artefact))
+end
+
+def submit_artefact_form
+  click_button 'Satisfy my need'
+end
+
+def check_redirect(app, artefact)
+  assert_match %r{^#{Regexp.escape Plek.current.find(app)}/}, current_url
+  assert_equal artefact.admin_url, current_url
 end

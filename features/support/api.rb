@@ -1,12 +1,12 @@
-def assert_api_relates_records_to_artefact_called(name, related_class, related_names, assert_not)
-  visit artefact_path(artefact_called(name), :format => :js)
-  record_ids = yield JSON.parse(source).with_indifferent_access
+def artefact_data_from_api(artefact)
+  visit artefact_path(artefact, :format => :js)
+  JSON.parse(source).with_indifferent_access
+end
 
-  records_called(related_class, related_names).each do |record|
-    if assert_not
-      assert_not_include record_ids, record.id
-    else
-      assert_include record_ids, record.id
-    end
-  end
+def related_artefact_ids_from_api(artefact)
+  artefact_data_from_api(artefact)[:related_items].map { |related_item| related_item[:artefact][:id] }
+end
+
+def contact_ids_from_api(artefact)
+  artefact_data_from_api(artefact)[:contacts].map { |contact| contact[:id] }
 end

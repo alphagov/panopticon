@@ -1,56 +1,63 @@
-Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) related to "(.*)"$/ do |artefact_names, name|
-  relate_records_to_artefact_called name, :related_artefacts, split_names(artefact_names)
-end
-
-Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) (?:a )?contacts? for "(.*)"$/ do |contact_names, name|
-  relate_records_to_artefact_called name, :contacts, split_names(contact_names)
-end
-
-Given /^no notifications have been sent$/ do
+Given /^two artefacts exist$/ do
+  @artefact, @related_artefact = create_two_artefacts
   flush_notifications
 end
 
-When /^I am editing "(.*)"$/ do |name|
-  visit edit_artefact_path(artefact_called(name))
+When /^I create a relationship between them$/ do
+  visit edit_artefact_path(@artefact)
+  select_related_artefact @related_artefact
+  submit_artefact_form
 end
 
-When /^I add "(.*)" as a related item$/ do |name|
-  select_within 'Related items', name
+Then /^I should be redirected to (.*)$/ do |app|
+  check_redirect app, @artefact
 end
 
-When /^I add "(.*)" as a contact$/ do |name|
-  select_within 'Contacts', name
+Given /^the artefacts are related$/ do
+  add_related_artefact @artefact, @related_artefact
+  flush_notifications
 end
 
-When /^I remove "(.*)" as a related item$/ do |name|
-  unselect_within 'Related items', name
+When /^I destroy their relationship$/ do
+  visit edit_artefact_path(@artefact)
+  unselect_related_artefact @related_artefact
+  submit_artefact_form
 end
 
-When /^I remove "(.*)" as a contact$/ do |name|
-  unselect_within 'Contacts', name
+Given /^several artefacts exist$/ do
+  @artefact, *@related_artefacts, @unrelated_artefact = create_six_artefacts
+  flush_notifications
 end
 
-When /^I save my changes$/ do
-  click_on 'Satisfy my need'
+Given /^some of the artefacts are related$/ do
+  add_related_artefacts @artefact, @related_artefacts[0...(@related_artefacts.length / 2)]
+  flush_notifications
 end
 
-Then /^I should be redirected to "(.*)" on (.*)$/ do |name, app|
-  assert_match %r{^#{Regexp.escape Plek.current.find(app)}/}, current_url
-  assert_equal artefact_called(name).admin_url, current_url
+When /^I create more relationships between them$/ do
+  visit edit_artefact_path(@artefact)
+  select_related_artefacts @related_artefacts[(@related_artefacts.length / 2)..-1]
+  submit_artefact_form
 end
 
-Then /^the rest of the system should be notified that "(.*)" has been updated$/ do |name|
-  artefact = artefact_called name
-  assert_equal '/topic/marples.panopticon.artefacts.updated', latest_notification[:destination]
-  assert_equal artefact.slug, latest_notification[:message][:artefact][:slug]
+Given /^an artefact exists$/ do
+  @artefact = create_artefact
+  flush_notifications
 end
 
-Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?related to "(.*)"$/ do |artefact_names, not_related, name|
-  assert_api_relates_records_to_artefact_called(name, Artefact, split_names(artefact_names), not_related) \
-    { |data| data[:related_items].map { |related_item| related_item[:artefact][:id] } }
+When /^I add the contact to the artefact$/ do
+  visit edit_artefact_path(@artefact)
+  select_contact @contact
+  submit_artefact_form
 end
 
-Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?(?:a )?contacts? for "(.*)"$/ do |contact_names, not_related, name|
-  assert_api_relates_records_to_artefact_called(name, Contact, split_names(contact_names), not_related) \
-    { |data| data[:contacts].map { |contact| contact[:id] } }
+Given /^the artefact has the contact$/ do
+  add_contact @artefact, @contact
+  flush_notifications
+end
+
+When /^I remove the contact from the artefact$/ do
+  visit edit_artefact_path(@artefact)
+  unselect_contact @contact
+  submit_artefact_form
 end
