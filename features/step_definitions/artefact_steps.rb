@@ -7,7 +7,7 @@ Given /^((?:"[^"]*"(?:, | and )?)+) (?:is|are) (?:a )?contacts? for "(.*)"$/ do 
 end
 
 Given /^no notifications have been sent$/ do
-  FakeTransport.instance.flush
+  flush_notifications
 end
 
 When /^I am editing "(.*)"$/ do |name|
@@ -40,13 +40,9 @@ Then /^I should be redirected to "(.*)" on (.*)$/ do |name, app|
 end
 
 Then /^the rest of the system should be notified that "(.*)" has been updated$/ do |name|
-  notifications = FakeTransport.instance.notifications
-  assert_not_empty notifications
-
-  notification = notifications.first
   artefact = artefact_called name
-  assert_equal '/topic/marples.panopticon.artefacts.updated', notification[:destination]
-  assert_equal artefact.slug, notification[:message][:artefact][:slug]
+  assert_equal '/topic/marples.panopticon.artefacts.updated', latest_notification[:destination]
+  assert_equal artefact.slug, latest_notification[:message][:artefact][:slug]
 end
 
 Then /^the API should say that ((?:"[^"]*"(?:, | and )?)+) (?:is|are) (not )?related to "(.*)"$/ do |artefact_names, not_related, name|

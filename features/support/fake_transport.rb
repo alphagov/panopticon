@@ -22,5 +22,5 @@ end
 Messenger.transport = FakeTransport.instance
 
 Before do
-  FakeTransport.instance.flush
+  flush_notifications
 end
