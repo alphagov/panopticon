@@ -48,6 +48,3 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
-
-require 'capybara/mechanize'
-Capybara.default_driver = :mechanize
