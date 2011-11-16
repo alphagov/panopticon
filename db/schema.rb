@@ -48,8 +48,6 @@ ActiveRecord::Schema.define(:version => 20111110161012) do
     t.integer "contactotron_id", :null => false
   end
 
-  add_index "identifiers", ["slug"], :name => "unique_identifiers_slug", :unique => true
-
   create_table "related_contacts", :force => true do |t|
     t.integer "artefact_id", :null => false
     t.integer "contact_id",  :null => false
