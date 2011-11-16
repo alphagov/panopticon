@@ -29,7 +29,7 @@ class Artefact < ActiveRecord::Base
     "place"
   ].freeze
 
-  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC'
+  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy
   has_many :related_artefacts, :through => :related_items, :source => :artefact
   has_many :related_contacts, :order => 'sort_key ASC'
   has_many :contacts, :through => :related_contacts
