@@ -49,7 +49,5 @@ end
 #   end
 #
 
-require 'factory_girl/step_definitions'
-
 require 'capybara/mechanize'
 Capybara.default_driver = :mechanize
