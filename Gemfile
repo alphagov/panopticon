@@ -11,6 +11,7 @@ gem 'stomp'
 gem 'pethau'
 gem 'marples', '0.0.21'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
+gem 'whenever'
 
 gem 'rails', '~> 3.1.1'
 
