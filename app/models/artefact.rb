@@ -36,8 +36,6 @@ class Artefact < ActiveRecord::Base
 
   before_validation :normalise, :on => :create
 
-  after_update :broadcast_update
-
   validates :name, :presence => true
   validates :slug, :presence => true, :uniqueness => true
   validates :kind, :inclusion => { :in => FORMATS }
@@ -65,10 +63,6 @@ class Artefact < ActiveRecord::Base
   def admin_url
     app = Plek.current.find owning_app
     app += '/admin/publications/' + id.to_s
-  end
-
-  def broadcast_update
-    Messenger.instance.updated self
   end
 
   def to_param
