@@ -7,8 +7,8 @@ def related_artefact_ids_from_api(artefact)
   artefact_data_from_api(artefact)[:related_items].map { |related_item| related_item[:artefact][:id] }
 end
 
-def contact_ids_from_api(artefact)
-  artefact_data_from_api(artefact)[:contacts].map { |contact| contact[:id] }
+def contact_id_from_api(artefact)
+  artefact_data_from_api(artefact)[:contact].try(:[], :id)
 end
 
 def check_artefact_has_related_artefact_in_api(artefact, related_artefact)
@@ -26,9 +26,9 @@ def check_artefact_does_not_have_related_artefact_in_api(artefact, unrelated_art
 end
 
 def check_artefact_has_contact_in_api(artefact, contact)
-  assert_include contact_ids_from_api(artefact), contact.id
+  assert_equal contact_id_from_api(artefact), contact.id
 end
 
 def check_artefact_does_not_have_contact_in_api(artefact, contact)
-  assert_not_include contact_ids_from_api(artefact), contact.id
+  assert_not_equal contact_id_from_api(artefact), contact.id
 end

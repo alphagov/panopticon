@@ -3,13 +3,13 @@ def create_contact
 end
 
 def select_contact(contact)
-  select_within 'Contacts', contact.name
+  select contact.name, :from => 'Contact'
 end
 
 def unselect_contact(contact)
-  unselect_within 'Contacts', contact.name
+  select '', :from => 'Contact'
 end
 
 def add_contact(artefact, contact)
-  artefact.related_contacts.create! :contact => contact, :sort_key => (artefact.related_contacts.maximum(:sort_key) || -1) + 1
+  artefact.update_attributes! :contact => contact
 end

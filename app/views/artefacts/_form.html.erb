@@ -7,6 +7,7 @@
       <%= f.input :tags %>
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
       <%= f.input :department, :as => :select, :collection => Department.all %>
+      <%= f.input :contact %>
       <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :title => "Who is likely to use this information?" %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
@@ -16,12 +17,6 @@
       <% f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
         <%= related_item.input :artefact, :as => :select, :collection => Artefact.in_alphabetical_order, :label => false %>
         <%= related_item.input :sort_key, :as => :hidden %>
-      <% end %>
-    <% end %>
-    <%= f.inputs 'Contacts', :class => 'related' do %>
-      <% f.semantic_fields_for :related_contacts, related_contacts_for(artefact) do |related_contact| %>
-        <%= related_contact.input :contact, :as => :select, :collection => Contact.in_alphabetical_order, :label => false %>
-        <%= related_contact.input :sort_key, :as => :hidden %>
       <% end %>
     <% end %>
     <% if artefact.new_record? %>
