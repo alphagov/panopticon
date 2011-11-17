@@ -19,7 +19,7 @@ class FakeTransport
     attr_writer :notifications
 end
 
-Messenger.transport = FakeTransport.instance
+ActiveRecord::Base.marples_transport = Messenger.transport = FakeTransport.instance
 
 Before do
   flush_notifications

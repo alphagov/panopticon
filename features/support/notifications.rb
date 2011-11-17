@@ -2,13 +2,13 @@ def flush_notifications
   FakeTransport.instance.flush
 end
 
-def latest_notification
+def latest_notification_with_destination(destination)
   notifications = FakeTransport.instance.notifications
-  assert_not_empty notifications
-  notifications.last
+  notifications.reverse.detect { |n| n[:destination] == destination }
 end
 
 def check_update_notification(artefact)
-  assert_equal '/topic/marples.panopticon.artefacts.updated', latest_notification[:destination]
-  assert_equal artefact.slug, latest_notification[:message][:artefact][:slug]
+  notification = latest_notification_with_destination '/topic/marples.panopticon.artefacts.updated'
+  assert_not_nil notification
+  assert_equal artefact.slug, notification[:message][:artefact][:slug]
 end
