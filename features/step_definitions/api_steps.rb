@@ -1,24 +1,20 @@
 Then /^the API should say that the artefacts are related$/ do
-  assert_include related_artefact_ids_from_api(@artefact), @related_artefact.id
+  check_artefact_has_related_artefact_in_api @artefact, @related_artefact
 end
 
 Then /^the API should say that the artefacts are not related$/ do
-  assert_not_include related_artefact_ids_from_api(@artefact), @related_artefact.id
+  check_artefact_does_not_have_related_artefact_in_api @artefact, @related_artefact
 end
 
 Then /^the API should say that more of the artefacts are related$/ do
-  related_artefact_ids = related_artefact_ids_from_api(@artefact)
-
-  @related_artefacts.each do |related_artefact|
-    assert_include related_artefact_ids, related_artefact.id
-  end
-  assert_not_include related_artefact_ids, @unrelated_artefact.id
+  check_artefact_has_related_artefacts_in_api @artefact, @related_artefacts
+  check_artefact_does_not_have_related_artefact_in_api @artefact, @unrelated_artefact
 end
 
 Then /^the API should say that the artefact has the contact$/ do
-  assert_include contact_ids_from_api(@artefact), @contact.id
+  check_artefact_has_contact_in_api @artefact, @contact
 end
 
 Then /^the API should say that the artefact does not have the contact$/ do
-  assert_not_include contact_ids_from_api(@artefact), @contact.id
+  check_artefact_does_not_have_contact_in_api @artefact, @contact
 end
