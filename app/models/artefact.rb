@@ -1,6 +1,5 @@
 class Artefact < ActiveRecord::Base
   MAXIMUM_RELATED_ITEMS = 8
-  MAXIMUM_RELATED_CONTACTS = 3
 
   SECTIONS = [
     'Rights',
@@ -32,8 +31,7 @@ class Artefact < ActiveRecord::Base
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy 
   has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy 
   has_many :related_artefacts, :through => :related_items, :source => :artefact  
-  has_many :related_contacts, :order => 'sort_key ASC'
-  has_many :contacts, :through => :related_contacts
+  belongs_to :contact
   has_and_belongs_to_many :audiences
 
   before_validation :normalise, :on => :create
@@ -48,11 +46,6 @@ class Artefact < ActiveRecord::Base
     :allow_destroy  => true,
     :reject_if      => -> attributes { attributes[:artefact_id].blank? },
     :limit          => MAXIMUM_RELATED_ITEMS
-
-  accepts_nested_attributes_for :related_contacts,
-    :allow_destroy  => true,
-    :reject_if      => -> attributes { attributes[:contact_id].blank? },
-    :limit          => MAXIMUM_RELATED_CONTACTS
 
   scope :in_alphabetical_order, order('name ASC')
 
