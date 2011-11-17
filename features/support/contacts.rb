@@ -3,11 +3,11 @@ def create_contact
 end
 
 def select_contact(contact)
-  select_within 'Contacts', @contact.name
+  select_within 'Contacts', contact.name
 end
 
 def unselect_contact(contact)
-  unselect_within 'Contacts', @contact.name
+  unselect_within 'Contacts', contact.name
 end
 
 def add_contact(artefact, contact)
