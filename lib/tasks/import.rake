@@ -180,12 +180,6 @@ task :import => :environment do
   Bundler.require :import
   require 'open-uri'
 
-  Identifier.all(order: 'slug asc').each do |identifier|
-    print "      * #{identifier.slug}... "
-    success = ArtefactImporter.new(identifier).execute
-    puts success ? ' -> ok' : ' -> failed'
-  end
-
   Artefact.all(order: 'slug asc').each do |artefact|
     puts "      * #{artefact.slug}..."
     success = RelatedItemImporter.new(artefact).execute
