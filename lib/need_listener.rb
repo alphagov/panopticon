@@ -15,13 +15,16 @@ class NeedListener
   end                                  
   
   def listen_on_updated
-    @marples.when 'need-o-tron', '*', 'updated' do |need|
+    @marples.when 'need-o-tron', 'needs', 'updated' do |need|
       logger.info "Found need #{need}"
 
       begin
         logger.info "Processing need `#{need['title']}`"
+        
+        need_info_url = Plek.current.find('needotron') + "/needs/#{need['id']}.json"
+        logger.info "Getting need information from `#{need_info_url}`"
                                                                      
-        need_data = JSON.parse open( Plek.current.find('needotron') + "/needs/#{need['id']}.json" ).read
+        need_data = JSON.parse open( need_info_url ).read
         artefact = Artefact.find_by_need_id(need['id'])
         logger.info "Found artefact `#{artefact.name}` in Panopticon"
         
@@ -41,6 +44,6 @@ class NeedListener
   end
 
   def logger
-    @logger ||= Logger.new(STDOUT).tap { |logger| logger.level = Logger::DEBUG }
+    @logger ||= Rails.logger
   end
 end
