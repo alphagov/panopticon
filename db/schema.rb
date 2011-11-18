@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111118143239) do
+ActiveRecord::Schema.define(:version => 20111118154228) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -49,16 +49,6 @@ ActiveRecord::Schema.define(:version => 20111118143239) do
     t.string  "name",            :null => false
     t.integer "contactotron_id", :null => false
   end
-
-  create_table "identifiers", :force => true do |t|
-    t.boolean  "active",                   :default => false, :null => false
-    t.string   "slug",       :limit => 63,                    :null => false
-    t.string   "owning_app", :limit => 50,                    :null => false
-    t.string   "kind",       :limit => 50,                    :null => false
-    t.datetime "created_at"
-  end
-
-  add_index "identifiers", ["slug"], :name => "unique_identifiers_slug", :unique => true
 
   create_table "related_items", :force => true do |t|
     t.integer "source_artefact_id", :null => false
