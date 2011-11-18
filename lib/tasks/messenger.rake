@@ -12,5 +12,11 @@ namespace :messenger do
       Rake::Task['environment'].invoke
       ContactListener.new.listen
     end
-  end
+                                  
+    Daemonette.run('panopticon_need_listener') do
+      require 'need_listener.rb'  
+      Rake::Task['environment'].invoke
+      NeedListener.new.listen                         
+    end
+  end            
 end

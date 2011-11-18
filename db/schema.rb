@@ -11,20 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111110161012) do
+ActiveRecord::Schema.define(:version => 20111118143239) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
-    t.string   "name",                          :null => false
-    t.string   "slug",                          :null => false
-    t.string   "kind",                          :null => false
-    t.string   "owning_app",                    :null => false
-    t.boolean  "active",     :default => false, :null => false
+    t.string   "name",                             :null => false
+    t.string   "slug",                             :null => false
+    t.string   "kind",                             :null => false
+    t.string   "owning_app",                       :null => false
+    t.boolean  "active",        :default => false, :null => false
     t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "need_id"
     t.string   "department"
+    t.string   "fact_checkers"
   end
 
   add_index "artefacts", ["need_id"], :name => "index_artefacts_on_need_id"
@@ -47,6 +48,16 @@ ActiveRecord::Schema.define(:version => 20111110161012) do
     t.string  "name",            :null => false
     t.integer "contactotron_id", :null => false
   end
+
+  create_table "identifiers", :force => true do |t|
+    t.boolean  "active",                   :default => false, :null => false
+    t.string   "slug",       :limit => 63,                    :null => false
+    t.string   "owning_app", :limit => 50,                    :null => false
+    t.string   "kind",       :limit => 50,                    :null => false
+    t.datetime "created_at"
+  end
+
+  add_index "identifiers", ["slug"], :name => "unique_identifiers_slug", :unique => true
 
   create_table "related_contacts", :force => true do |t|
     t.integer "artefact_id", :null => false
