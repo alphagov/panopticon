@@ -6,7 +6,6 @@
       <%= f.input :slug %>
       <%= f.input :tags %>                                            
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
-<<<<<<< HEAD
       <%= f.input :need_id, :input_html => { :disabled => true } %> (<%= link_to "View this need in Need-O-Tron", Plek.current.find('needotron') + "/needs/#{@artefact.need_id}" %>)
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
