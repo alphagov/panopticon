@@ -31,13 +31,13 @@ class NeedListener
         artefact.department = need_data['need']['writing_team']['name'] rescue nil                      
         artefact.fact_checkers = need_data['need']['fact_checkers'].collect{ |e| e['fact_checker']['email'] }.join(', ')                                                       
         artefact.save!
-        logger.info "\t--> Saved `#{artefact.name}` with department `#{artefact.department}` and fact checkers `#{artefact.fact_checkers}`"                          
+        logger.info "----> Saved `#{artefact.name}` with department `#{artefact.department}` and fact checkers `#{artefact.fact_checkers}`"                          
       rescue => e
         logger.error "Unable to process message #{need}"
         logger.error [e.message, e.backtrace].flatten.join("\n")
       end
 
-      logger.info "Finished processing message #{need}"
+      logger.info "Finished processing `#{artefact.name}`"
     end
 
     logger.info 'Listening for updated objects in Needotron'
