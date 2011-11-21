@@ -37,7 +37,7 @@ class NeedListener
         logger.error [e.message, e.backtrace].flatten.join("\n")
       end
 
-      logger.info "Finished processing `#{artefact.name}`"
+      logger.info "Finished processing `#{need}`"
     end
 
     logger.info 'Listening for updated objects in Needotron'
