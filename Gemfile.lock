@@ -182,6 +182,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ansi
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
   cucumber-rails
