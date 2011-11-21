@@ -24,14 +24,14 @@ class ContactListener
     marples.when 'contactotron', '*', 'created' do |message|
       process message do |contact|
         logger.info "Creating contact #{message['id']}"
-        contact.update_attributes! :name => message['name']
+        contact.update_from_contactotron
       end
     end
 
     marples.when 'contactotron', '*', 'updated' do |message|
       process message do |contact|
         logger.info "Updating contact #{message['id']}"
-        contact.update_attributes! :name => message['name']
+        contact.update_from_contactotron
       end
     end
 
