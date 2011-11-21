@@ -37,7 +37,7 @@ class Artefact < ActiveRecord::Base
   before_validation :normalise, :on => :create
 
   validates :name, :presence => true
-  validates :slug, :presence => true, :uniqueness => true
+  validates :slug, :presence => true, :uniqueness => true, :slug => true
   validates :kind, :inclusion => { :in => FORMATS }
 
   accepts_nested_attributes_for :related_items,
