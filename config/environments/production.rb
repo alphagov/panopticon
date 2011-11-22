@@ -59,5 +59,5 @@ Panopticon::Application.configure do
   config.active_support.deprecation = :notify
 
   config.action_controller.asset_host = Plek.current.find('assets')
-  config.middleware.use Slimmer::App, :asset_host => Plek.current.find('assets')
+  config.slimmer.asset_host = Plek.current.find("assets")
 end
