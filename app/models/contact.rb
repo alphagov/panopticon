@@ -1,12 +1,14 @@
 require 'open-uri'
 
 class Contact < ActiveRecord::Base
+  serialize :phone_numbers
+
   validates :name, :presence => true
 
   scope :in_alphabetical_order, order('name ASC')
 
   def update_from_contactotron
-    update_attributes! data_from_contactotron.slice(:name, :postal_address, :email_address, :website_url, :opening_hours)
+    update_attributes! data_from_contactotron.slice(:name, :postal_address, :phone_numbers, :email_address, :website_url, :opening_hours)
   end
 
   private

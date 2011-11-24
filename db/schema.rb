@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111121105635) do
+ActiveRecord::Schema.define(:version => 20111124104037) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20111121105635) do
     t.string  "email_address"
     t.string  "website_url"
     t.text    "opening_hours"
+    t.text    "phone_numbers"
   end
 
   create_table "related_items", :force => true do |t|
