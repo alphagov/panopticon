@@ -9,7 +9,7 @@
       <%= f.input :need_id, :input_html => { :disabled => true } %> (<%= link_to "View this need in Need-O-Tron", Plek.current.find('needotron') + "/needs/#{@artefact.need_id}" %>)
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
-      <%= f.input :contact %>
+      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
       <%= f.input :audiences, :as => :check_boxes, :collection => Audience.all, :title => "Who is likely to use this information?" %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
