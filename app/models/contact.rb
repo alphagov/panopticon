@@ -5,7 +5,7 @@ class Contact < ActiveRecord::Base
 
   validates :name, :presence => true
 
-  scope :in_alphabetical_order, order('name ASC')
+  scope :in_alphabetical_order, order(arel_table[:name].asc)
 
   def update_from_contactotron
     update_attributes! data_from_contactotron.slice(:name, :postal_address, :phone_numbers, :email_address, :website_url, :opening_hours)
