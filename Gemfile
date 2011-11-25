@@ -21,7 +21,7 @@ gem 'mysql2'
 if ENV['SLIMMER_DEV']
   gem 'slimmer', :path => '../slimmer'
 else
-  gem 'slimmer', :git => 'git@github.com:alphagov/slimmer.git'
+  gem 'slimmer'
 end
 
 group :test do
