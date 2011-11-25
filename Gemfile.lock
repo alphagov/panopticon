@@ -94,10 +94,10 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marples (0.0.22)
+    marples (1.0.2)
       activesupport
+      i18n
       null_logger
-      pethau (>= 0.0.2)
     mechanize (2.0.1)
       net-http-digest_auth (~> 1.1, >= 1.1.1)
       net-http-persistent (~> 1.8)
@@ -193,7 +193,7 @@ DEPENDENCIES
   factory_girl_rails
   fakeweb
   formtastic (= 2.0.0.rc5)
-  marples (= 0.0.22)
+  marples
   minitest
   mysql2
   nokogiri
