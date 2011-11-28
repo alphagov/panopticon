@@ -5,11 +5,11 @@ group :passenger_compatibility do
   gem 'rake', '0.9.2'
 end
 
-gem 'plek', '0.1.8'
+gem 'plek', '~> 0'
 gem 'formtastic', '2.0.0.rc5'
 gem 'stomp'
 gem 'pethau'
-gem 'marples'
+gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'             
 gem 'ansi'
@@ -21,7 +21,7 @@ gem 'mysql2'
 if ENV['SLIMMER_DEV']
   gem 'slimmer', :path => '../slimmer'
 else
-  gem 'slimmer'
+  gem 'slimmer', '~> 1.1'
 end
 
 group :test do
