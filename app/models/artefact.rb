@@ -2,19 +2,14 @@ class Artefact < ActiveRecord::Base
   MAXIMUM_RELATED_ITEMS = 8
 
   SECTIONS = [
-    'Rights',
-    'Justice',
-    'Education and skills',
+    'Crime and justice',
+    'Education',
     'Work',
     'Family',
     'Money',
-    'Taxes',
-    'Benefits and schemes',
+    'Tax',
     'Driving',
     'Housing',
-    'Communities',
-    'Pensions',
-    'Disabled people',
     'Travel',
     'Citizenship'
   ].freeze
