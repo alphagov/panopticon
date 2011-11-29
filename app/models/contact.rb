@@ -19,7 +19,7 @@ class Contact < ActiveRecord::Base
     end
 
     def json_from_contactotron
-      open(contactotron_uri.to_s).read
+      contactotron_uri.read
     end
 
     def data_from_contactotron
