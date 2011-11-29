@@ -14,12 +14,12 @@ class Contact < ActiveRecord::Base
   private
     def contactotron_uri
       URI.parse(Plek.current.find('contactotron')).tap do |uri|
-        uri.path = "/contacts/#{contactotron_id}.json"
+        uri.path = "/contacts/#{contactotron_id}"
       end
     end
 
     def json_from_contactotron
-      contactotron_uri.read
+      contactotron_uri.read 'Accept' => Mime::JSON.to_s
     end
 
     def data_from_contactotron
