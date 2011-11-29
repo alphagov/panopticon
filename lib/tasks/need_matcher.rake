@@ -5,12 +5,12 @@ namespace :needs do
    
   task :import_csv => :environment do
     
-    @artefacts = CSV.read( File.join( Rails.root, 'lib', 'import', '20111121_need_ids.csv' ) ).collect{ |row| { :artefact_id => row[0].to_i, :need_id => row[2] } }
+    @artefacts = CSV.read( File.join( Rails.root, 'lib', 'import', '20111129_need_ids.csv' ) ).collect{ |row| { :artefact_id => row[0].to_i, :need_id => row[2] } }
     @artefacts.each_with_index do |a, i|              
       puts "[#{i+1}/#{@artefacts.size}] Looking for artefact #{a[:artefact_id]}..."
       record = Artefact.find(a[:artefact_id].to_i) rescue nil     
                               
-      if (a[:need_id].match(/delete/i) rescue false)
+      if (a[:need_id].match(/delete/i) rescue false) || (a[:need_id].match(/Not found/i) rescue false)
         print "\t----> #{ANSI.cyan('Need is marked for deletion, skipping.')}\n"
       elsif a[:need_id].to_i == 0
         print "\t----> #{ANSI.red('No need ID specified in the CSV.')}\n"

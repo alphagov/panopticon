@@ -1,98 +1,98 @@
 Panopticon ID,Title,Need ID,Questions
-102,Letting a property,,DELETE?
-126,Protect a property against fraud,,DELETE?
-244,A transaction link,,DELETE?
-245,A guide link,,DELETE?
-246,An answer link,,DELETE?
-247,A programme link,,DELETE?
-272,Get careers advice,,DELETE?
-274,Going to court if you're disabled,,DELETE?
-278,Managing a house with multiple private tenants,,DELETE?
-280,Getting landlords' energy savings allowance,,DELETE?
-281,Stop anti-social behaviour in privately rented accommodation,,DELETE?
-282,"Wills, inheritance and probate",,757?
-177,Prepare for the Life in the UK Test,,?DELETE
-187,Report discrimination at school,,?DELETE
-193,What is an ISA,,?DELETE
-195,Tax free savings for children,,?DELETE
-204,Manage Child Benefit,,?DELETE
-205,Seatbelts - the rules,,?DELETE
-206,Get a child passport,,?DELETE
-207,Driving before your licence is returned,,?DELETE
-210,Get legal advice,,?DELETE
-258,Houses in multiple occupation,,?DELETE
-262,Travelling to the USA,,?DELETE
-270,Employment Tribunals,,?Delete
-294,Insurers offering Pass Plus discounts,,?DELETE
-295,Local authorities offering Pass Plus course discounts,,?DELETE
-320,Improvements and repair grants for your home,,?DELETE
-338,Applying for vehicle tax exemption,,?DELETE
-340,"Agricultural, horticultural and forestry vehicles exempt from vehicle tax",,?DELETE
-346,Disability Employment Advisers,,?DELETE
-254,Claim Child Benefit,,?824
-312,Get copies of certifcates,,?753
-296,Check eligibility for Paternity Pay,,?62
-224,Know about age discrimination at work,,?587
-87,How to claim Child Tax Credit,,?558
-27,Company sick pay,,?47
-94,Jobseeker's Allowance (1),,?43 or 1028
-95,Jobseeker's Allowance (2),,?43 or 1028
-185,Jobseeker's Allowance,,?43 ?1028
-142,State Pension if you retire abroad,,?390
-61,Confirm your National Insurance number,,?39
-120,Payslips: your rights,,?348
-98,Jury service - 2,,?286
-81,Changing your property's boundary,,?214
-318,Check if a vehicle is taxed,,?21
-168,Who is legally classed as disabled,,?1978
-78,Going to court as a victim or witness (dg),,?1939?
-79,Going to court as a victim or witness (B),,?1939?
-137,Respond to a court claim for money,,?1920
-198,Change a practical driving test,,?1892
-199,Check a practical driving test,,?1892
-319,Claim VAT relief when building your new home,,?188
-321,Repairs to private rented accommodation,,?1835
-255,Low cost home ownership schemes,,?181
-327,Apply to replace your driving licence,,?1746
-287,Booking an MOT test,,?146
-315,Book an MOT,,?146
-285,Flexible working rights,,?1458
-139,School uniform: law,,?1325
-140,School uniform: the law,,?1325
-249,Employment rights,,?130
-60,Find out what prison someone is in,,?1189
-289,Tips and the minimum wage,,?112
-211,Find a legal aid solicitor,,?1064
-248,Who needs a Criminal Records Bureau check?,,?1051
-141,Stamp Duty Land Tax rates,,?105
-47,Education Maintenance Allowance (EMA),,??
-63,Find your pension centre,,??
-64,Formatting options,,??
-65,Get a carer's assessment - NEW FORMAT TBA??,,??
-71,Get a passport urgently,,??
-156,Upper Tribunal (Administrative Appeals Chamber) appeals (pract mock-up),,??
-160,Vehicles exempt from vehicle tax,,??
-164,What to do after someone dies,,??
-173,Your rights about work hours,,??
-217,Disability rights,,??
-219,Adapting your home,,??
-222,Who to contact about disability benefits,,??
-223,Know if you're legally classed as disabled,,??
-228,Find an approved driving instructor (ADI),,??
-237,Apply for a student loan,,??
-267,Help getting back to work,,??
-310,Getting married and civil partnerships,,??
-17,Change the address on your driving licence,,? 1943 or847
-5,Bringing cash into the UK,,?460
-12,Calculate benefits,,?
-13,Calculate benefits DUP,,?
-14,Calculate your redundancy pay,,?147
-54,Find a part-time course,,?
-84,Help as a parent of a disabled child,,?
-129,Register offices,,?
-241,Learning and working - your options,,?
-305,Bona vacantia' - ownerless property,,?
-308,Apply for a tax disc,,?
+102,Letting a property,1867,Binned
+126,Protect a property against fraud,278,Binned
+244,A transaction link,,Presume this was for testing
+245,A guide link,,Presume this was for testing
+246,An answer link,,Presume this was for testing
+247,A programme link,,Presume this was for testing
+272,Get careers advice,342,Binned
+274,Going to court if you're disabled,284,Binned
+278,Managing a house with multiple private tenants,1838,Binned
+280,Getting landlords' energy savings allowance,538,Binned
+281,Stop anti-social behaviour in privately rented accommodation,1832,Binned
+282,"Wills, inheritance and probate",757,In progress
+177,Prepare for the Life in the UK Test,1879,Binned
+187,Report discrimination at school,703,Binned
+193,What is an ISA,994,Binned
+195,Tax free savings for children,970,Binned
+204,Manage Child Benefit,61 or 831,Both binned
+205,Seatbelts - the rules,29,Binned
+206,Get a child passport,1916,Binned
+207,Driving before your licence is returned,1971,Published
+210,Get legal advice,621,Binned
+258,Houses in multiple occupation,Not found,DELETE
+262,Travelling to the USA,Not found,DELETE
+270,Employment Tribunals,366,Binned
+294,Insurers offering Pass Plus discounts,Not found,DELETE
+295,Local authorities offering Pass Plus course discounts,Not found,DELETE
+320,Improvements and repair grants for your home,1733,Done
+338,Applying for vehicle tax exemption,Not found,DELETE
+340,"Agricultural, horticultural and forestry vehicles exempt from vehicle tax",Not found,DELETE
+346,Disability Employment Advisers,"608, 1014, 1508",All binned
+254,Claim Child Benefit,61 or 831,All binned
+312,Get copies of certifcates,Not found,DELETE
+296,Check eligibility for Paternity Pay,Not found,DELETE
+224,Know about age discrimination at work,595,Format assigned
+87,How to claim Child Tax Credit,558,In progress
+27,Company sick pay,1467,Binned
+94,Jobseeker's Allowance (1),43,DELETE
+95,Jobseeker's Allowance (2),43,DELETE
+185,Jobseeker's Allowance,1028,In progress
+142,State Pension if you retire abroad,390,Done
+61,Confirm your National Insurance number,39,In progress
+120,Payslips: your rights,348,In progress
+98,Jury service - 2,not found,DELETE
+81,Changing your property's boundary,192,Format assigned
+318,Check if a vehicle is taxed,Not found,DELETE
+168,Who is legally classed as disabled,721
+78,Going to court as a victim or witness (dg),Not found,DELETE
+79,Going to court as a victim or witness (B),1939
+137,Respond to a court claim for money,Not found,DELETE
+198,Change a practical driving test,Not found,DELETE
+199,Check a practical driving test,Not found,DELETE
+319,Claim VAT relief when building your new home,188,Binned
+321,Repairs to private rented accommodation,1835,Binned
+255,Low cost home ownership schemes,181,In progress
+327,Apply to replace your driving licence,Not found,DELETE
+287,Booking an MOT test,146,In progress
+315,Book an MOT,Not found,DELETE
+285,Flexible working rights,Not found,DELETE
+139,School uniform: law,Not found,DELETE
+140,School uniform: the law,1325,In progress
+249,Employment rights,Not found,DELETE
+60,Find out what prison someone is in,1987,In progress
+289,Tips and the minimum wage,112,In progress
+211,Find a legal aid solicitor,Not found,DELETE
+248,Who needs a Criminal Records Bureau check?,1051,Done
+141,Stamp Duty Land Tax rates,105,Done
+47,Education Maintenance Allowance (EMA),1735,Done
+63,Find your pension centre,Not found,DELETE
+64,Formatting options,KEEP,KEEP
+65,Get a carer's assessment - NEW FORMAT TBA??,431,Format assigned
+71,Get a passport urgently,384,In progress
+156,Upper Tribunal (Administrative Appeals Chamber) appeals (pract mock-up),Not found,DELETE
+160,Vehicles exempt from vehicle tax,No need ID but don't delete,KEEP
+164,What to do after someone dies,662,In progress
+173,Your rights about work hours,359,Done
+217,Disability rights,Not found,DELETE
+219,Adapting your home,Not found,DELETE
+222,Who to contact about disability benefits,Not found,DELETE
+223,Know if you're legally classed as disabled,721,Format assigned
+228,Find an approved driving instructor (ADI),Not found,DELETE
+237,Apply for a student loan,Not found,DELETE
+267,Help getting back to work,336,Format assigned
+310,Getting married and civil partnerships,754,In progress
+17,Change the address on your driving licence,847,In progress
+5,Bringing cash into the UK,1450,Done
+12,Calculate benefits,not found,DELETE
+13,Calculate benefits DUP,not found,DELETE
+14,Calculate your redundancy pay,1761,Done
+54,Find a part-time course,Not found,DELETE
+84,Help as a parent of a disabled child,502,Binned
+129,Register offices,663,Done
+241,Learning and working - your options,Not found,DELETE
+305,Bona vacantia' - ownerless property,1008,In progress
+308,Apply for a tax disc,835,In progress
 1,Bereavement Allowance,72
 2,Bereavement Payment,1891
 3,Book the Life in the UK Test,1879
