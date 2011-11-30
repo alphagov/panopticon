@@ -6,18 +6,9 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.js do # TODO use format.json
-        # TODO extract presenter
-        render :json =>
-          @artefact.as_json(
-            :include => {
-              :audiences      => {},
-              :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
-              :contact        => {}
-            }
-          )
-      end
-
+      # TODO: Remove need for format.js by updating other apps
+      format.json { render :json => aretefact_json }
+      format.js { render :json => artefact_json }
       format.html { redirect_to @artefact.admin_url }
     end
   end
@@ -58,6 +49,17 @@ class ArtefactsController < ApplicationController
 
     def build_artefact
       @artefact = Artefact.new(params[:artefact])
+    end
+    
+    # TODO: Convert this to a presenter
+    def artefact_json
+      @artefact.as_json(
+        :include => {
+          :audiences      => {},
+          :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
+          :contact        => {}
+        }
+      )
     end
 
     def mark_removed_records_for_destruction
