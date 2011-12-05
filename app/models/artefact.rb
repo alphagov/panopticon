@@ -68,4 +68,9 @@ class Artefact < ActiveRecord::Base
     # FIXME: A hack until the Publisher has panopticon ids for every article
     find_by_slug(slug_or_id) || find(slug_or_id)
   end
+
+  def to_xml options = {}, &blk
+    options[:include] = [ :audiences ] unless options.key? :include
+    super options, &blk
+  end
 end
