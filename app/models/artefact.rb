@@ -23,9 +23,9 @@ class Artefact < ActiveRecord::Base
     "place"
   ].freeze
 
-  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy
-  has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy
-  has_many :related_artefacts, :through => :related_items, :source => :artefact
+  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy 
+  has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy 
+  has_many :related_artefacts, :through => :related_items, :source => :artefact  
   belongs_to :contact
   has_and_belongs_to_many :audiences
 
@@ -67,10 +67,5 @@ class Artefact < ActiveRecord::Base
   def self.from_param(slug_or_id)
     # FIXME: A hack until the Publisher has panopticon ids for every article
     find_by_slug(slug_or_id) || find(slug_or_id)
-  end
-
-  def to_xml options = {}, &blk
-    options[:include] = [ :audiences, :related_items ] unless options.key? :include
-    super options, &blk
   end
 end
