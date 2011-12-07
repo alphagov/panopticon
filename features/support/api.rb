@@ -1,5 +1,5 @@
 def artefact_data_from_api(artefact)
-  visit artefact_path(artefact, :format => :js)
+  visit artefact_path(artefact, :format => :json)
   JSON.parse(source).with_indifferent_access
 end
 

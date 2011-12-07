@@ -6,9 +6,7 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_to do |format|
-      # TODO: Remove need for format.js by updating other apps
       format.json { render :json => artefact_json }
-      format.js { render :json => artefact_json }
       format.html { redirect_to @artefact.admin_url }
     end
   end
