@@ -1,6 +1,5 @@
 namespace :relatedness do
   task :draw => :environment do
-    require 'open-uri'
     class Graph
       attr_accessor :nodes, :vertices
       private :nodes=, :vertices=
@@ -70,10 +69,13 @@ namespace :relatedness do
       # FIXME: It'd be nice if Panopticon knew which slugs were published,
       # being drafted, reviewed, etc.
       def cluster
-        open Plek.current.find("publisher") + '/publications/' + artefact.slug + '.json?edition=latest'
-        "published"
-      rescue
-        "not started"
+        require 'gds_api/publisher'
+        api = GdsApi::Publisher.new(Plek.current.environment, 'http://localhost:3000')
+        if artefact.valid? and api.publication_for_slug(artefact.slug)
+          "published"
+        else
+          "not started"
+        end
       end
 
       include Comparable
