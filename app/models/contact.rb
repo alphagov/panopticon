@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'gds_api/contactotron'
 
 class Contact < ActiveRecord::Base
   serialize :phone_numbers
@@ -8,7 +8,7 @@ class Contact < ActiveRecord::Base
   scope :in_alphabetical_order, order(arel_table[:name].asc)
 
   def update_from_contactotron
-    update_attributes! data_from_contactotron.slice(:name, :postal_address, :phone_numbers, :email_address, :website_url, :opening_hours)
+    update_attributes! [:name, :postal_address, :phone_numbers, :email_address, :website_url, :opening_hours].collect { |k| data_from_contactotron.send(k) }
   end
 
   private
@@ -18,11 +18,11 @@ class Contact < ActiveRecord::Base
       end
     end
 
-    def json_from_contactotron
-      contactotron_uri.read 'Accept' => Mime::JSON.to_s
+    def api_adapter
+      GdsApi::Contactotron.new
     end
 
     def data_from_contactotron
-      ActiveSupport::JSON.decode(json_from_contactotron).with_indifferent_access
+      @data_from_contactotron ||= api_adapter.contact_for_uri(contactotron_uri)
     end
 end
