@@ -1,7 +1,7 @@
 require 'active_record_ext'
 require 'messenger'
 
-if Rails.env.test?
+if Rails.env.test? or ENV['NO_MESSENGER'].present?
   Messenger.transport = Marples::NullTransport.instance
   ActiveRecord::Base.marples_transport = Marples::NullTransport.instance
 else
