@@ -20,18 +20,19 @@ class NeedListener
 
       begin
         logger.info "Processing need `#{need['title']}`"
-        
-        need_info_url = Plek.current.find('needotron') + "/needs/#{need['id']}.json"
-        logger.info "Getting need information from `#{need_info_url}`"
-                                                                     
-        need_data = JSON.parse open( need_info_url ).read
+
         artefact = Artefact.find_by_need_id(need['id'])
         logger.info "Found artefact `#{artefact.name}` in Panopticon"
-        
-        artefact.department = need_data['need']['writing_team']['name'] rescue nil                      
-        artefact.fact_checkers = need_data['need']['fact_checkers'].collect{ |e| e['fact_checker']['email'] }.join(', ')                                                       
+
+        require 'gds_api/needotron'
+        api = GdsApi::Needotron.new(Plek.current.environment)
+        need_data = api.need_by_id(need['id'])
+        logger.info "Getting need information from `#{need['id']}`"
+
+        artefact.department = need_data.writing_team.name rescue nil
+        artefact.fact_checkers = need_data.fact_checkers.collect{ |e| e.fact_checker.email }.join(', ')
         artefact.save!
-        logger.info "----> Saved `#{artefact.name}` with department `#{artefact.department}` and fact checkers `#{artefact.fact_checkers}`"                          
+        logger.info "----> Saved `#{artefact.name}` with department `#{artefact.department}` and fact checkers `#{artefact.fact_checkers}`"
       rescue => e
         logger.error "Unable to process message #{need}"
         logger.error [e.message, e.backtrace].flatten.join("\n")
