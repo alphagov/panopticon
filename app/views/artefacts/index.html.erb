@@ -1,0 +1,7 @@
+<h2>Everything We Have</h2>
+
+<ul>
+<% @artefacts.each do |artefact| %>
+  <li><%= link_to artefact.name, edit_artefact_path(artefact.id) %></li>
+<% end %>
+</ul>

@@ -4,6 +4,10 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :mark_removed_records_for_destruction, :only => :update
 
+  def index
+    @artefacts = Artefact.all
+  end
+
   def show
     respond_to do |format|
       format.json { render :json => artefact_json }
