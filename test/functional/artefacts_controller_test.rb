@@ -3,7 +3,7 @@ require 'test_helper'
 class ArtefactsControllerTest < ActionController::TestCase
   context "accept HTML" do
     context "GET show" do
-      should "redirect to publisher" do
+      should "redirect to publisher when publisher is the owning app" do
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever'
         get :show, id: artefact.to_param
 
