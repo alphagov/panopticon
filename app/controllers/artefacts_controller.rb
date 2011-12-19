@@ -4,13 +4,15 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :mark_removed_records_for_destruction, :only => :update
 
+  respond_to :html, :json
+
+
   def index
     @artefacts = Artefact.all
   end
 
   def show
-    respond_to do |format|
-      format.json { render :json => artefact_json }
+    respond_with @artefact do |format|
       format.html { redirect_to @artefact.admin_url }
     end
   end
@@ -22,21 +24,15 @@ class ArtefactsController < ApplicationController
   end
 
   def create
-    if @artefact.save
-      destination = @artefact.admin_url
-      destination += '?return_to=' + params[:return_to] if params[:return_to]
-      redirect_to destination
-    else
-      render :new
-    end
+    ok = @artefact.save
+    location = @artefact.admin_url
+    location += '?return_to=' + params[:return_to] if params[:return_to]
+    respond_with @artefact, location: location
   end
 
   def update
-    if @artefact.update_attributes(params[:artefact])
-      redirect_to @artefact
-    else
-      render :edit
-    end
+    @artefact.update_attributes!(params[:artefact] || params.slice(*Artefact.attribute_names))
+    respond_with @artefact
   end
 
   private
@@ -50,19 +46,10 @@ class ArtefactsController < ApplicationController
     end
 
     def build_artefact
-      @artefact = Artefact.new(params[:artefact])
+      @artefact = Artefact.new(params[:artefact] || params.slice(*Artefact.attribute_names))
     end
     
     # TODO: Convert this to a presenter
-    def artefact_json
-      @artefact.as_json(
-        :include => {
-          :audiences      => {},
-          :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
-          :contact        => {}
-        }
-      )
-    end
 
     def mark_removed_records_for_destruction
       [:related_artefacts].each do |association|
@@ -77,6 +64,7 @@ class ArtefactsController < ApplicationController
     def mark_associated_records_for_destruction(association, options)
       primary_key = Artefact.reflect_on_association(association).active_record_primary_key
 
+      return unless params[:artefact] && params[:artefact][:"#{association}_attributes"]
       params[:artefact][:"#{association}_attributes"].each_value do |attributes|
         attributes[:_destroy] = attributes[primary_key].present? && options[:if].call(attributes)
       end

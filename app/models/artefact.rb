@@ -63,6 +63,16 @@ class Artefact < ActiveRecord::Base
   def to_param
     slug
   end
+  
+  def to_json(options)
+    super(options.merge(
+      :include => {
+        :audiences      => {},
+        :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
+        :contact        => {}
+      }
+    ))
+  end  
 
   def self.from_param(slug_or_id)
     # FIXME: A hack until the Publisher has panopticon ids for every article

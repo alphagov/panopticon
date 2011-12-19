@@ -36,6 +36,7 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'minitest'
+  gem "shoulda", "~> 2.11.3"
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
