@@ -20,7 +20,9 @@ class Artefact < ActiveRecord::Base
     "programme",
     "local_transaction",
     "transaction",
-    "place"
+    "place",
+    "smart-answer",
+    "custom-application"
   ].freeze
 
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy 
@@ -34,6 +36,7 @@ class Artefact < ActiveRecord::Base
   validates :name, :presence => true
   validates :slug, :presence => true, :uniqueness => true, :slug => true
   validates :kind, :inclusion => { :in => FORMATS }
+  validates_presence_of :owning_app
 
   accepts_nested_attributes_for :related_items,
     :allow_destroy  => true,

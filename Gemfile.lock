@@ -4,6 +4,14 @@ GIT
   specs:
     daemonette (0.1.0)
 
+GIT
+  remote: git@github.com:alphagov/gds-api-adapters.git
+  revision: aa220e3aff0c30d3c3d4dd4a46cb149bda3c95c9
+  specs:
+    gds-api-adapters (0.0.12)
+      null_logger
+      plek
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -75,9 +83,6 @@ GEM
     ffi (1.0.9)
     formtastic (2.0.0.rc5)
       rails (~> 3.0)
-    gds-api-adapters (0.0.11)
-      null_logger
-      plek
     gherkin (2.6.1)
       json (>= 1.4.6)
     hike (1.2.1)
@@ -192,7 +197,7 @@ DEPENDENCIES
   factory_girl_rails
   fakeweb
   formtastic (= 2.0.0.rc5)
-  gds-api-adapters (~> 0.0.7)
+  gds-api-adapters!
   marples (~> 1.0)
   minitest
   mysql2

@@ -28,6 +28,9 @@ class ArtefactsController < ApplicationController
     location = @artefact.admin_url
     location += '?return_to=' + params[:return_to] if params[:return_to]
     respond_with @artefact, location: location
+  rescue => e
+    logger.info(e + " " + e.backtrace.join("\n"))
+    raise
   end
 
   def update
@@ -47,6 +50,9 @@ class ArtefactsController < ApplicationController
 
     def build_artefact
       @artefact = Artefact.new(params[:artefact] || params.slice(*Artefact.attribute_names))
+    rescue => e
+      logger.info(e + " " + e.backtrace.join("\n"))
+      raise
     end
     
     # TODO: Convert this to a presenter

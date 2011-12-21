@@ -1,3 +1,7 @@
+Then /^the API should say that the artefact exists$/ do
+  check_artefact_exists_in_api @artefact
+end
+
 Then /^the API should say that the artefacts are related$/ do
   check_artefact_has_related_artefact_in_api @artefact, @related_artefact
 end

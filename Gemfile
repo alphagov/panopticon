@@ -13,7 +13,8 @@ gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'             
 gem 'ansi'
-gem 'gds-api-adapters', '~> 0.0.7'
+
+gem 'gds-api-adapters', :git => 'git@github.com:alphagov/gds-api-adapters.git'
 
 gem 'rails', '~> 3.1.1'
 
