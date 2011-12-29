@@ -1,8 +1,28 @@
 <h2>Everything We Have</h2>
 
-<ul>
-<% @artefacts.each do |artefact| %>
-  <li><%= link_to artefact.name, edit_artefact_path(artefact.id) %></li>
-<% end %>
+<table id="solution-list" border="2">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Section</th>
+      <th>Number of Related Items</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @artefacts.each do |artefact| %>
+    <tr>
+      <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
+      <td><%= artefact.section %></td>
+      <td><%= artefact.related_items_count %></td>
+  <% end %>
+  </tbody>
+</table>
 
-</ul>
+<style type="text/css">
+#solution-list th {
+  text-align: left;
+}
+#solution-list th, td {
+  padding: 0.5em;
+}
+</style>
