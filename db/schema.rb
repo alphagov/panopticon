@@ -48,22 +48,13 @@ ActiveRecord::Schema.define(:version => 20111229180512) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string   "name",           :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "postal_address"
-    t.string   "email_address"
-    t.string   "website_url"
-    t.text     "opening_hours"
-  end
-
-  create_table "phone_numbers", :force => true do |t|
-    t.integer  "contact_id", :null => false
-    t.string   "kind",       :null => false
-    t.string   "label"
-    t.string   "value",      :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string  "name",            :null => false
+    t.integer "contactotron_id", :null => false
+    t.text    "postal_address"
+    t.string  "email_address"
+    t.string  "website_url"
+    t.text    "opening_hours"
+    t.text    "phone_numbers"
   end
 
   create_table "related_items", :force => true do |t|
