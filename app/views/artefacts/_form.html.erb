@@ -22,7 +22,7 @@
     <% if artefact.new_record? %>
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
     <% end %>
-    <%= f.input :tags %>
+    <%= f.inputs :tags %>
     <%= f.submit :value => "Satisfy my need", :class => "button" %>
   <% end %>
 
