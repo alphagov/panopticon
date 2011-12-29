@@ -14,7 +14,7 @@ gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'             
 gem 'ansi'
 
-gem 'gds-api-adapters', :git => 'git@github.com:alphagov/gds-api-adapters.git'
+gem 'gds-api-adapters', '~> 0.0.15'
 
 gem 'rails', '~> 3.1.1'
 
