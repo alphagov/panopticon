@@ -8,7 +8,7 @@ class ArtefactsController < ApplicationController
 
 
   def index
-    @artefacts = Artefact.all
+    @artefacts = Artefact.order(:name).all
   end
 
   def show
