@@ -4,9 +4,8 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug %>
-      <%= f.input :tags %>                                        
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
-      <%= f.input :need_id, :input_html => { :disabled => true } %> (<%= link_to "View this need in Need-O-Tron", Plek.current.find('needotron') + "/needs/#{@artefact.need_id}" %>)
+      <%= f.input :need_id, :input_html => { :disabled => true } %>(<%= link_to "View this need in Need-O-Tron", Plek.current.find('needotron') + "/needs/#{@artefact.need_id}" %>)
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
       <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
@@ -21,9 +20,9 @@
       <% end %>
     <% end %>
     <% if artefact.new_record? %>
-      <%= f.input :need_id, :as => :hidden %>
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
     <% end %>
+    <%= f.input :tags %>
     <%= f.submit :value => "Satisfy my need", :class => "button" %>
   <% end %>
 
