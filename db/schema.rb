@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124104037) do
+ActiveRecord::Schema.define(:version => 20111229180512) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
-    t.string   "name",                             :null => false
-    t.string   "slug",                             :null => false
-    t.string   "kind",                             :null => false
-    t.string   "owning_app",                       :null => false
-    t.boolean  "active",        :default => false, :null => false
+    t.string   "name",                                   :null => false
+    t.string   "slug",                                   :null => false
+    t.string   "kind",                                   :null => false
+    t.string   "owning_app",                             :null => false
+    t.boolean  "active",              :default => false, :null => false
     t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -27,8 +27,10 @@ ActiveRecord::Schema.define(:version => 20111124104037) do
     t.string   "department"
     t.integer  "contact_id"
     t.string   "fact_checkers"
+    t.integer  "related_items_count", :default => 0
   end
 
+  add_index "artefacts", ["name"], :name => "index_artefacts_on_name"
   add_index "artefacts", ["need_id"], :name => "index_artefacts_on_need_id"
 
   create_table "artefacts_audiences", :id => false, :force => true do |t|
@@ -46,13 +48,22 @@ ActiveRecord::Schema.define(:version => 20111124104037) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string  "name",            :null => false
-    t.integer "contactotron_id", :null => false
-    t.text    "postal_address"
-    t.string  "email_address"
-    t.string  "website_url"
-    t.text    "opening_hours"
-    t.text    "phone_numbers"
+    t.string   "name",           :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "postal_address"
+    t.string   "email_address"
+    t.string   "website_url"
+    t.text     "opening_hours"
+  end
+
+  create_table "phone_numbers", :force => true do |t|
+    t.integer  "contact_id", :null => false
+    t.string   "kind",       :null => false
+    t.string   "label"
+    t.string   "value",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "related_items", :force => true do |t|
