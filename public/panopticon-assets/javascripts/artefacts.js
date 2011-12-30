@@ -18,4 +18,7 @@ $(function() {
     no_results_text: "No results matched"
   });
   $('form.formtastic fieldset.related, form.formtastic fieldset.related > ol > li').css('overflow', 'visible');
+
+  $('.flash-notice').delay(4000).slideUp(300).
+    one('click', function () { $(this).slideUp(300); });
 });

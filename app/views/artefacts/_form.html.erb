@@ -1,5 +1,8 @@
-<div id="panopticon" class="ui-widget-content">
+<% if flash[:notice].present? %>
+<p class="flash-notice"><%= flash[:notice] %></p>
+<% end %>
 
+<div id="panopticon" class="ui-widget-content">
   <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
