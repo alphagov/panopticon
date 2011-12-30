@@ -4,7 +4,7 @@
 development:
   adapter: mysql2
   database: panopticon_development
-  username: root
+  username: panopticon
   encoding: utf8
 
 # Warning: The database defined as "test" will be erased and
@@ -13,7 +13,8 @@ development:
 test: &test
   adapter: mysql2
   database: panopticon_test
-  username: root
+  username: panopticon
+  password: panopticon
   encoding: utf8
 
 production:
