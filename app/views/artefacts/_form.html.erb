@@ -17,9 +17,15 @@
     <% end %>
 
     <%= f.inputs do %>
-      <%= f.input :need_id, :input_html => { :disabled => true } %>
-      (<%= link_to "View this need in Need-O-Tron", need_url(f.object), :rel => 'external' %>)
-      (<%= link_to "View on site", published_url(f.object), :rel => 'external' %>)
+      <li>
+      <%= f.label :need_id %>
+      <%= f.number_field :need_id, disabled: true %>
+      <span>
+      <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
+      <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
+      </span>
+      </li>
+
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
       <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
