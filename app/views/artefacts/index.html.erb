@@ -5,7 +5,7 @@
     <tr>
       <th>Title</th>
       <th>Section</th>
-      <th>Number of Related Items</th>
+      <th>Related Items</th>
     </tr>
   </thead>
   <tbody>
@@ -26,3 +26,10 @@
   padding: 0.5em;
 }
 </style>
+
+<%= javascript_include_tag '/javascripts/libs/jquery/plugins/jquery.tablesorter.min.js' %>
+<script type="text/javascript">
+$(function () {
+  $('#solution-list').tablesorter();
+});
+</script>
