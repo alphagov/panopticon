@@ -3,6 +3,24 @@ Given /^two artefacts exist$/ do
   flush_notifications
 end
 
+When /^I change the title of the first artefact$/ do
+  visit edit_artefact_path(@artefact)
+  fill_in "Name", :with => 'Some other new name'
+end
+
+When /^I save, indicating that I want to continue editing afterwards$/ do
+  click_button 'Save and continue editing'
+end
+
+Then /^I should be redirected back to the edit page$/ do
+  assert_equal edit_artefact_url(@artefact), current_url
+end
+
+Then /^I should see an indication that the save worked$/ do
+  assert_match /Panopticon item updated/, page.body
+end
+
+
 When /^I create a relationship between them$/ do
   visit edit_artefact_path(@artefact)
   select_related_artefact @related_artefact

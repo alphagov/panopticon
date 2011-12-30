@@ -2,6 +2,13 @@ Feature: Editing artefacts
   In order to maintain GovUK metadata
   I want to edit artefacts
 
+  Scenario: Editing an artefact and returning to edit some more
+    Given two artefacts exist
+    When I change the title of the first artefact
+    And I save, indicating that I want to continue editing afterwards
+    Then I should be redirected back to the edit page
+    And I should see an indication that the save worked
+
   Scenario: Assign a related item
     Given two artefacts exist
     When I create a relationship between them

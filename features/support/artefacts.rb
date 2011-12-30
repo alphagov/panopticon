@@ -43,7 +43,7 @@ def select_related_artefacts(artefacts)
 end
 
 def submit_artefact_form
-  click_button 'Satisfy my need'
+  click_button 'Save and go to item'
 end
 
 def check_redirect(app, artefact)
