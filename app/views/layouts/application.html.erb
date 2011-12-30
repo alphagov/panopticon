@@ -3,20 +3,18 @@
 <head>
   <title>Panopticon</title>
   <%= stylesheet_link_tag '/stylesheets/formtastic.css', '/stylesheets/formtastic_changes.css' %>
-  <%= javascript_include_tag "application" %>
   <meta name="x-section-name" content="Panopticon" />
   <meta name="x-section-link" content="panopticon" />
   <%= csrf_meta_tags %>
+  <%= yield :extra_headers %>
 </head>
 <body>
   <div id="wrapper" class="wrapper">
     <h1 id="site-title">Panopticon</h1>
     <div class="content" role="main">
       <%= yield %>
+      <%= yield :extra_javascript %>
     </div>
   </div>
-
-<%= javascript_include_tag '/javascripts/jquery-1.6.2.min.js', '/javascripts/jquery-ui-1.8.16.custom.min.js' %>
-
 </body>
 </html>

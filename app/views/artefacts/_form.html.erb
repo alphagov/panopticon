@@ -27,24 +27,8 @@
     <%= f.inputs :tags %>
     <%= f.submit :value => "Satisfy my need", :class => "button" %>
   <% end %>
-
-<%= javascript_tag do %>
-(function() {
-  var blankByDefault = ($("#artefact_slug").attr('value') != '');
-  var generateSlug = function generateSlug() {
-    if(blankByDefault) { return }
-    var title = $("#artefact_name").val();
-    var slug = title.toLowerCase()
-      .replace(/[^\w ]+/g, '')
-      .replace(/ +/g, '-')
-      .replace(/^-+|-+$/, '')
-    $("#artefact_slug").val(slug);
-  }
-  $("#artefact_name").change(generateSlug)
-  $("#artefact_name").bind('keyup', generateSlug)
-
-  $('a[rel=external]').attr('target','_blank');
-}())
-<% end %>
-
 </div>
+
+
+<%= content_for :extra_javascript, javascript_include_tag('libs/jquery/plugins/chosen.jquery.min.js', '/panopticon-assets/javascripts/artefacts') %>
+<% content_for :extra_headers, stylesheet_link_tag('libs/jquery/plugins/chosen') %>
