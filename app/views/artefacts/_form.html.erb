@@ -38,10 +38,11 @@
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
     <% end %>
     <%= f.inputs :tags %>
-    <%= f.submit :value => "Save and go to item", :class => "button" %>
+
     <% if f.object.persisted? %>
       <%= f.submit :value => "Save and continue editing", :class => "button" %>
     <% end %>
+    <%= f.submit :value => "Save and go to item", :class => "button" %>
   <% end %>
 </div>
 
