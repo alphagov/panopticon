@@ -4,10 +4,10 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug %>
-      (<%= link_to "View on site", published_url(artefact), :rel => 'external' %>)
+      (<%= link_to "View on site", published_url(f.object), :rel => 'external' %>)
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
       <%= f.input :need_id, :input_html => { :disabled => true } %>
-      (<%= link_to "View this need in Need-O-Tron", need_url(@artefact), :rel => 'external' %>)
+      (<%= link_to "View this need in Need-O-Tron", need_url(f.object), :rel => 'external' %>)
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
       <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
