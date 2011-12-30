@@ -25,10 +25,12 @@
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
     <% end %>
     <%= f.inputs :tags %>
-    <%= f.submit :value => "Satisfy my need", :class => "button" %>
+    <%= f.submit :value => "Save and go to item", :class => "button" %>
+    <% if f.object.persisted? %>
+      <%= f.submit :value => "Save and continue editing", :class => "button" %>
+    <% end %>
   <% end %>
 </div>
-
 
 <%= content_for :extra_javascript, javascript_include_tag('libs/jquery/plugins/chosen.jquery.min.js', '/panopticon-assets/javascripts/artefacts') %>
 <% content_for :extra_headers, stylesheet_link_tag('libs/jquery/plugins/chosen') %>

@@ -35,7 +35,12 @@ class ArtefactsController < ApplicationController
 
   def update
     @artefact.update_attributes!(params[:artefact] || params.slice(*Artefact.attribute_names))
-    respond_with @artefact
+
+    if params[:commit] == "Save and continue editing"
+      redirect_to edit_artefact_path(@artefact), :notice => 'Panopticon item updated'
+    else
+      respond_with @artefact
+    end
   end
 
   private
