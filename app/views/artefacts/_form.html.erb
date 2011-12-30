@@ -7,16 +7,7 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug %>
-      (<%= link_to "View on site", published_url(f.object), :rel => 'external' %>)
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
-      <%= f.input :need_id, :input_html => { :disabled => true } %>
-      (<%= link_to "View this need in Need-O-Tron", need_url(f.object), :rel => 'external' %>)
-      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
-      <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
-      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
-      <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
-      <% end %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
       <% f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
@@ -24,6 +15,19 @@
         <%= related_item.input :sort_key, :as => :hidden %>
       <% end %>
     <% end %>
+
+    <%= f.inputs do %>
+      <%= f.input :need_id, :input_html => { :disabled => true } %>
+      (<%= link_to "View this need in Need-O-Tron", need_url(f.object), :rel => 'external' %>)
+      (<%= link_to "View on site", published_url(f.object), :rel => 'external' %>)
+      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
+      <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
+      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
+      <% if artefact.new_record? %>
+        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
+      <% end %>
+    <% end %>
+
     <% if artefact.new_record? %>
       <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
     <% end %>
