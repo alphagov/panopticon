@@ -4,9 +4,10 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug %>
+      (<%= link_to "View on site", published_url(artefact), :rel => 'external' %>)
       <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
       <%= f.input :need_id, :input_html => { :disabled => true } %>
-      (<%= link_to "View this need in Need-O-Tron", need_url(@artefact), :id => 'need-link' %>)
+      (<%= link_to "View this need in Need-O-Tron", need_url(@artefact), :rel => 'external' %>)
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
       <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
       <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
@@ -42,7 +43,7 @@
   $("#artefact_name").change(generateSlug)
   $("#artefact_name").bind('keyup', generateSlug)
 
-  $('#need-link').attr('target','_blank');
+  $('a[rel=external]').attr('target','_blank');
 }())
 <% end %>
 

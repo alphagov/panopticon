@@ -8,6 +8,10 @@ module ArtefactsHelper
     Plek.current.find('needotron') + "/needs/#{artefact.need_id}"
   end
 
+  def published_url(artefact)
+    Plek.current.find('frontend') + "/#{artefact.slug}"
+  end
+
   private
     def associated_record_with_sort_key(association, sort_key)
       association.detect { |record| record.sort_key == sort_key } || association.new(:sort_key => sort_key)
