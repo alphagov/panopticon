@@ -15,6 +15,7 @@ gem 'whenever'
 gem 'ansi'
 
 gem 'gds-api-adapters', '~> 0.0.15'
+gem 'aws-ses', :require => 'aws/ses'
 
 gem 'rails', '~> 3.1.1'
 

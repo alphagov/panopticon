@@ -37,6 +37,11 @@ GEM
       multi_json (~> 1.0)
     ansi (1.4.1)
     arel (2.2.1)
+    aws-ses (0.4.4)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
     builder (3.0.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -176,6 +181,7 @@ GEM
     whenever (0.7.2)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
+    xml-simple (1.1.1)
     xpath (0.1.4)
       nokogiri (~> 1.3)
 
@@ -184,6 +190,7 @@ PLATFORMS
 
 DEPENDENCIES
   ansi
+  aws-ses
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
   cucumber-rails
