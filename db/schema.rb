@@ -62,6 +62,15 @@ ActiveRecord::Schema.define(:version => 20111229180512) do
     t.integer "artefact_id",        :null => false
     t.integer "sort_key",           :null => false
   end
+  
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "uid"
+    t.integer  "version"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   add_index "related_items", ["artefact_id"], :name => "index_related_items_on_artefact_id"
   add_index "related_items", ["sort_key"], :name => "index_related_items_on_sort_key"
