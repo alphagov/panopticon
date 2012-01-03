@@ -4,6 +4,17 @@ GIT
   specs:
     daemonette (0.1.0)
 
+GIT
+  remote: git@github.com:alphagov/gds-sso.git
+  revision: 9262d94221a46ad9329a5a4040cb71cbe5fdc1f7
+  specs:
+    gds-sso (0.2.0)
+      oa-core (= 0.2.6)
+      oa-oauth (= 0.2.6)
+      oauth2 (= 0.4.1)
+      rails (>= 3.0.0)
+      warden
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -35,6 +46,7 @@ GEM
       activesupport (= 3.1.3)
     activesupport (3.1.3)
       multi_json (~> 1.0)
+    addressable (2.2.6)
     ansi (1.4.1)
     arel (2.2.1)
     aws-ses (0.4.4)
@@ -79,6 +91,10 @@ GEM
       factory_girl (~> 2.3.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
+    faraday (0.6.1)
+      addressable (~> 2.2.4)
+      multipart-post (~> 1.1.0)
+      rack (>= 1.1.0, < 2)
     ffi (1.0.11)
     formtastic (2.0.0.rc5)
       rails (~> 3.0)
@@ -106,11 +122,25 @@ GEM
     mime-types (1.17.2)
     minitest (2.10.0)
     multi_json (1.0.4)
+    multi_xml (0.2.2)
+    multipart-post (1.1.4)
     mysql2 (0.3.11)
     net-http-digest_auth (1.2)
     net-http-persistent (1.9)
     nokogiri (1.5.0)
     null_logger (0.0.1)
+    oa-core (0.2.6)
+    oa-oauth (0.2.6)
+      faraday (~> 0.6.1)
+      multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.2)
+      oa-core (= 0.2.6)
+      oauth (~> 0.4.0)
+      oauth2 (~> 0.4.1)
+    oauth (0.4.5)
+    oauth2 (0.4.1)
+      faraday (~> 0.6.1)
+      multi_json (>= 0.0.5)
     pethau (0.0.3)
     plek (0.1.15)
       builder
@@ -178,6 +208,8 @@ GEM
     turn (0.8.3)
       ansi
     tzinfo (0.3.31)
+    warden (1.0.6)
+      rack (>= 1.0)
     webrobots (0.0.12)
       nokogiri (>= 1.4.4)
     whenever (0.7.2)
@@ -204,6 +236,7 @@ DEPENDENCIES
   fakeweb
   formtastic (= 2.0.0.rc5)
   gds-api-adapters (~> 0.0.15)
+  gds-sso!
   marples (~> 1.0)
   minitest
   mysql2
@@ -221,4 +254,5 @@ DEPENDENCIES
   stomp
   test-unit
   turn
+  warden (= 1.0.6)
   whenever
