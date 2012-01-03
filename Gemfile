@@ -14,6 +14,8 @@ gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'             
 gem 'ansi'
 
+gem 'exception_notification'
+
 gem 'gds-api-adapters', '~> 0.0.15'
 gem 'aws-ses', :require => 'aws/ses'
 
