@@ -11,8 +11,9 @@ gem 'stomp'
 gem 'pethau'
 gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
-gem 'whenever'             
+gem 'whenever'
 gem 'ansi'
+gem 'gelf'
 
 gem 'exception_notification'
 

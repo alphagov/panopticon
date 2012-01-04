@@ -31,10 +31,11 @@ Panopticon::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = :debug
+  config.log_level = :info
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
+  config.logger = GELF::Logger.new("graylog.cluster", "12201", max_size = 'WAN', { :facility => "panopticon" })
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
