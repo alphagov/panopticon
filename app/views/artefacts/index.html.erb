@@ -6,6 +6,7 @@
       <th>Title</th>
       <th>Section</th>
       <th>Related Items</th>
+      <th>Slug</th>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +15,7 @@
       <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
       <td><%= artefact.section %></td>
       <td><%= artefact.related_items_count %></td>
+      <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
   <% end %>
   </tbody>
 </table>
