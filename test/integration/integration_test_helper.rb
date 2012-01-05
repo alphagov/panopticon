@@ -7,7 +7,7 @@ DatabaseCleaner.strategy = :truncation
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
-  use_transactional_fixtures = false
+  self.use_transactional_fixtures = false
   
   def setup
     DatabaseCleaner.clean

@@ -1,10 +1,13 @@
 require 'test_helper'
 
 class ArtefactsControllerTest < ActionController::TestCase
+  setup do
+    login_as_stub_user
+  end
+  
   context "accept HTML" do
     context "GET show" do
       should "redirect to publisher when publisher is the owning app" do
-        login_as_stub_user
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever'
         get :show, id: artefact.to_param
 
