@@ -121,8 +121,11 @@ GEM
       net-http-persistent (~> 1.8)
       nokogiri (~> 1.4)
       webrobots (~> 0.0, >= 0.0.9)
+    metaclass (0.0.1)
     mime-types (1.17.2)
     minitest (2.10.0)
+    mocha (0.10.0)
+      metaclass (~> 0.0.1)
     multi_json (1.0.4)
     multi_xml (0.2.2)
     multipart-post (1.1.4)
@@ -242,6 +245,7 @@ DEPENDENCIES
   gelf
   marples (~> 1.0)
   minitest
+  mocha
   mysql2
   nokogiri
   pethau

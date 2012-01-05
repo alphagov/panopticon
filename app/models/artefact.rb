@@ -62,10 +62,6 @@ class Artefact < ActiveRecord::Base
     app = Plek.current.find owning_app
     app += '/admin/publications/' + id.to_s
   end
-
-  def to_param
-    slug
-  end
   
   def to_json(options)
     super(options.merge(

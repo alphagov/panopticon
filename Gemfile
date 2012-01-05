@@ -53,6 +53,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'fakeweb'
+  gem 'mocha'
 end
 
 group :import do

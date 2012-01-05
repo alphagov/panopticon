@@ -2,6 +2,16 @@ Feature: Editing artefacts
   In order to maintain GovUK metadata
   I want to edit artefacts
 
+  Background:
+    Given I am an admin
+
+  Scenario: Editing an artefact and giving it a bad slug
+    Given two artefacts exist
+    When I change the slug of the first artefact to "a 'bad' slug"
+    And I save
+    Then I should see the edit form again
+    And I should see an indication that the save failed
+
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
     When I change the title of the first artefact

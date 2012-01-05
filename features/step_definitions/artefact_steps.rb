@@ -8,18 +8,35 @@ When /^I change the title of the first artefact$/ do
   fill_in "Name", :with => 'Some other new name'
 end
 
-When /^I save, indicating that I want to continue editing afterwards$/ do
+When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
+  visit edit_artefact_path(@artefact)
+  fill_in "Slug", :with => slug
+end
+
+When /^I save$/ do
   click_button 'Save and continue editing'
 end
 
 Then /^I should be redirected back to the edit page$/ do
-  assert_equal edit_artefact_url(@artefact), current_url
+  assert_equal edit_artefact_url(@artefact), page.current_url
+end
+
+Then /^I should see an indication that the save failed$/ do
+  assert page.has_content?('Failed to save item')
+  assert page.has_content?('must be usable in a URL')
+end
+
+When /^I save, indicating that I want to continue editing afterwards$/ do
+  click_button 'Save and continue editing'
+end
+
+Then /^I should see the edit form again$/ do
+  assert page.has_css?('form.artefact')
 end
 
 Then /^I should see an indication that the save worked$/ do
   assert_match /Panopticon item updated/, page.body
 end
-
 
 When /^I create a relationship between them$/ do
   visit edit_artefact_path(@artefact)
