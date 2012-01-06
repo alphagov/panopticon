@@ -6,12 +6,12 @@ class Artefact < ActiveRecord::Base
     'Education',
     'Work',
     'Family',
-    'Money',
-    'Tax',
+    'Money and Tax',
     'Driving',
     'Housing',
     'Travel',
-    'Citizenship'
+    'Life in the UK',
+    'Neighbourhoods'
   ].freeze
 
   FORMATS = [
