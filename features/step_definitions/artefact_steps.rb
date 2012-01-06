@@ -3,6 +3,10 @@ Given /^two artefacts exist$/ do
   flush_notifications
 end
 
+When /^I mark relatedness as done$/ do
+  check :relatedness_done
+end
+
 When /^I change the title of the first artefact$/ do
   visit edit_artefact_path(@artefact)
   fill_in "Name", :with => 'Some other new name'
