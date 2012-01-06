@@ -70,6 +70,7 @@ GEM
     chronic (0.6.6)
     ci_reporter (1.6.9)
       builder (>= 2.1.2)
+    colorize (0.5.8)
     cucumber (1.1.4)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.2)
@@ -232,6 +233,7 @@ DEPENDENCIES
   aws-ses
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
+  colorize (~> 0.5.8)
   cucumber-rails
   daemonette!
   database_cleaner
