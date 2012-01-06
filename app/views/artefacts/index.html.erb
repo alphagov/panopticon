@@ -6,6 +6,7 @@
       <th>Title</th>
       <th>Section</th>
       <th>Related Items</th>
+      <th>Relatedness Done?</th>
       <th>Slug</th>
     </tr>
   </thead>
@@ -13,8 +14,9 @@
   <% @artefacts.each do |artefact| %>
     <tr>
       <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
-      <td><%= artefact.section %></td>
-      <td><%= artefact.related_items_count %></td>
+      <td><%=h artefact.section %></td>
+      <td><%=h artefact.related_items_count %></td>
+      <td><%=h artefact.relatedness_done %></td>
       <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
   <% end %>
   </tbody>
