@@ -68,6 +68,14 @@ ActiveRecord::Schema.define(:version => 20120109170059) do
     t.datetime "updated_at"
   end
 
+  create_table "users", :force => true do |t|
+    t.string :name
+    t.string :uid
+    t.integer :version
+    t.string :email
+    t.timestamps
+  end
+
   create_table "related_items", :force => true do |t|
     t.integer "source_artefact_id", :null => false
     t.integer "artefact_id",        :null => false
