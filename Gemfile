@@ -28,7 +28,6 @@ gem 'colorize', '~> 0.5.8'
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'warden', '1.0.6'
   gem 'gds-sso', :git => 'git@github.com:alphagov/gds-sso.git'
 end
 
