@@ -13,6 +13,7 @@ class ArtefactsController < ApplicationController
 
   def index
     @artefacts = Artefact.order(:name).all
+    respond_with @artefacts
   end
 
   def show
