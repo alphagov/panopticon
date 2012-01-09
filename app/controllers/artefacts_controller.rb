@@ -4,12 +4,7 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :mark_removed_records_for_destruction, :only => :update
   
-  skip_before_filter :authenticate_user!, :if => lambda { |c|
-    c.action_name == 'show' && c.request.format.json?
-  }
-
   respond_to :html, :json
-
 
   def index
     @artefacts = Artefact.order(:name).all

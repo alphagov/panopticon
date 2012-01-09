@@ -4,5 +4,6 @@ class ApplicationController < ActionController::Base
   slimmer_template :admin
 
   before_filter :authenticate_user!
+  
 #  protect_from_forgery
 end
