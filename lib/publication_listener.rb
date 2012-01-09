@@ -1,4 +1,4 @@
-class DeletedPublicationListener
+class PublicationListener
   def listen
     Signal.trap('TERM') do
       client.close
@@ -7,17 +7,17 @@ class DeletedPublicationListener
 
     marples = Messenger.instance.client
 
-    marples.when 'publisher', '*', 'destroyed' do |publication|
+    marples.when 'publisher', '*', 'updated' do |publication|
       logger.info "Found publication #{publication}"
 
       begin
         logger.info "Processing artefact #{publication['panopticon_id']}"
+        logger.info "Publication #{publication['_id']}"
 
         artefact = Artefact.find(publication['panopticon_id'])
-        logger.info 'Getting need ID from Panopticon'
+        artefact.update_attribute :publication_id, publication['_id']
 
-        artefact.destroy
-        logger.info 'Artefact destroyed'
+        logger.info 'Artefact saved'
       rescue => e
         logger.error "Unable to process message #{publication}"
         logger.error [e.message, e.backtrace].flatten.join("\n")
@@ -26,11 +26,11 @@ class DeletedPublicationListener
       logger.info "Finished processing message #{publication}"
     end
 
-    logger.info 'Listening for deleted objects in Publisher'
+    logger.info 'Listening for updated objects in Publisher'
     marples.join
   end
 
   def logger
-    @logger ||= Logger.new(STDOUT)#.tap { |logger| logger.level = Logger::DEBUG }
+    @logger ||= Rails.logger
   end
 end

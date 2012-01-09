@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120105162050) do
+ActiveRecord::Schema.define(:version => 20120109170059) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20120105162050) do
     t.string   "fact_checkers"
     t.integer  "related_items_count", :default => 0
     t.boolean  "relatedness_done",    :default => false
+    t.string   "publication_id"
   end
 
   add_index "artefacts", ["name"], :name => "index_artefacts_on_name"
@@ -49,13 +50,22 @@ ActiveRecord::Schema.define(:version => 20120105162050) do
   end
 
   create_table "contacts", :force => true do |t|
-    t.string  "name",            :null => false
-    t.integer "contactotron_id", :null => false
-    t.text    "postal_address"
-    t.string  "email_address"
-    t.string  "website_url"
-    t.text    "opening_hours"
-    t.text    "phone_numbers"
+    t.string   "name",           :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "postal_address"
+    t.string   "email_address"
+    t.string   "website_url"
+    t.text     "opening_hours"
+  end
+
+  create_table "phone_numbers", :force => true do |t|
+    t.integer  "contact_id", :null => false
+    t.string   "kind",       :null => false
+    t.string   "label"
+    t.string   "value",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "related_items", :force => true do |t|
@@ -67,14 +77,5 @@ ActiveRecord::Schema.define(:version => 20120105162050) do
   add_index "related_items", ["artefact_id"], :name => "index_related_items_on_artefact_id"
   add_index "related_items", ["sort_key"], :name => "index_related_items_on_sort_key"
   add_index "related_items", ["source_artefact_id"], :name => "index_related_items_on_source_artefact_id"
-
-  create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "uid"
-    t.integer  "version"
-    t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

@@ -7,6 +7,7 @@
       <th>Section</th>
       <th>Related Items</th>
       <th>Relatedness Done?</th>
+      <th>Publisher</th>
       <th>Slug</th>
     </tr>
   </thead>
@@ -17,6 +18,7 @@
       <td><%=h artefact.section %></td>
       <td><%=h artefact.related_items_count %></td>
       <td><%=h artefact.relatedness_done %></td>
+      <td><%= artefact.publication_id.present? ? link_to( truncate(artefact.publication_id.to_s, :length => 10), artefact.admin_url) : "-" %></td>
       <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
   <% end %>
   </tbody>

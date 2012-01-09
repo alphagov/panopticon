@@ -7,6 +7,12 @@ namespace :messenger do
       DeletedPublicationListener.new.listen
     end
 
+    Daemonette.run("panopticon_publication_listener") do
+      require "publication_listener.rb"
+      Rake::Task["environment"].invoke
+      PublicationListener.new.listen
+    end
+
     Daemonette.run('panopticon_contact_listener') do
       require 'contact_listener.rb'
       Rake::Task['environment'].invoke
