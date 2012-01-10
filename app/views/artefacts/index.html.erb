@@ -18,7 +18,7 @@
       <td><%=h artefact.section %></td>
       <td><%=h artefact.related_items_count %></td>
       <td><%=h artefact.relatedness_done %></td>
-      <td><%= artefact.publication_id.present? ? link_to( "Yes", artefact.admin_url) : "<em>-</em>".html_safe %></td>
+      <td><%= artefact.publication_id.present? ? link_to( "yes", artefact.admin_url) : "<em>no</em>".html_safe %></td>
       <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
   <% end %>
   </tbody>
