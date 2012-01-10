@@ -7,7 +7,7 @@
       <th>Section</th>
       <th>Related Items</th>
       <th>Relatedness Done?</th>
-      <th>Publisher</th>
+      <th>App</th>
       <th>Slug</th>
     </tr>
   </thead>
@@ -18,7 +18,7 @@
       <td><%=h artefact.section %></td>
       <td><%=h artefact.related_items_count %></td>
       <td><%=h artefact.relatedness_done %></td>
-      <td><%= artefact.publication_id.present? ? link_to( "yes", artefact.admin_url) : "<em>no</em>".html_safe %></td>
+      <td><%= artefact.owning_app %></td>
       <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
   <% end %>
   </tbody>
