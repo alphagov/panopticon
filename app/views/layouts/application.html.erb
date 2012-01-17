@@ -11,6 +11,16 @@
 <body>
   <div id="wrapper" class="wrapper">
     <h1 id="site-title">Panopticon</h1>
+    <nav class="admin-nav group" role="navigation">
+      <ul>
+        <li class="publications-nav">
+          <ul>
+            <li><%= link_to 'Sign out', gds_sign_out_path %></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
     <div class="content" role="main">
       <%= yield %>
       <%= yield :extra_javascript %>
