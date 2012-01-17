@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Title</th>
+      <th>Format</th>
       <th>Section</th>
       <th>Related Items</th>
       <th>Relatedness Done?</th>
@@ -15,6 +16,7 @@
   <% @artefacts.each do |artefact| %>
     <tr>
       <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
+      <td><%=h artefact.kind %></td>
       <td><%=h artefact.section %></td>
       <td><%=h artefact.related_items_count %></td>
       <td><%=h artefact.relatedness_done %></td>
