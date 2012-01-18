@@ -16,6 +16,7 @@ gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'
 gem 'ansi'
 gem 'gelf'
+gem 'null_logger'
 
 gem 'exception_notification'
 
