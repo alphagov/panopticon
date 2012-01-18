@@ -1,18 +1,21 @@
 class Artefact < ActiveRecord::Base
   MAXIMUM_RELATED_ITEMS = 8
 
-  SECTIONS = [
-    'Crime and justice',
-    'Education',
-    'Work',
-    'Family',
-    'Money and Tax',
-    'Driving',
-    'Housing',
-    'Travel',
-    'Life in the UK',
-    'Neighbourhoods'
-  ].freeze
+  def self.sections
+    @@sections ||= load_sections
+  end
+  
+  def self.load_sections
+    section = nil
+    File.open(Rails.root.join('app', 'models', 'sections.txt'), 'r').map do |line|
+      if line =~ /^  /
+        raise "Bad section.txt, must start with a section (no spaces at start of first line)" if section.nil?
+        "#{section}:#{line.strip}"
+      else
+        section = line.strip
+      end
+    end
+  end
 
   FORMATS = [
     "answer",

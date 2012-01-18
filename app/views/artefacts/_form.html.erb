@@ -7,7 +7,7 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug %>
-      <%= f.input :section, :as => :select, :collection => Artefact::SECTIONS %>
+      <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
       <%= f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
