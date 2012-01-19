@@ -5,6 +5,8 @@ group :passenger_compatibility do
   gem 'rake', '0.9.2'
 end
 
+gem 'gds-warmup-controller'
+
 gem 'plek', '~> 0'
 gem 'formtastic', '2.0.0.rc5'
 gem 'stomp'
@@ -14,6 +16,7 @@ gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
 gem 'whenever'
 gem 'ansi'
 gem 'gelf'
+gem 'null_logger'
 
 gem 'exception_notification'
 
@@ -28,7 +31,7 @@ gem 'colorize', '~> 0.5.8'
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'gds-sso', :git => 'git@github.com:alphagov/gds-sso.git'
+  gem 'gds-sso', '~> 0.4.1'
 end
 
 if ENV['SLIMMER_DEV']
