@@ -4,7 +4,7 @@ class Artefact < ActiveRecord::Base
   def self.sections
     @@sections ||= load_sections
   end
-  
+
   def self.load_sections
     section = nil
     File.open(Rails.root.join('app', 'models', 'sections.txt'), 'r').map do |line|
@@ -28,9 +28,9 @@ class Artefact < ActiveRecord::Base
     "custom-application"
   ].freeze
 
-  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy 
-  has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy 
-  has_many :related_artefacts, :through => :related_items, :source => :artefact  
+  has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy
+  has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy
+  has_many :related_artefacts, :through => :related_items, :source => :artefact
   belongs_to :contact
   has_and_belongs_to_many :audiences
 
@@ -65,7 +65,7 @@ class Artefact < ActiveRecord::Base
     app = Plek.current.find owning_app
     app += '/admin/publications/' + id.to_s
   end
-  
+
   def to_json(options)
     super(options.merge(
       :include => {
@@ -74,7 +74,7 @@ class Artefact < ActiveRecord::Base
         :contact        => {}
       }
     ))
-  end  
+  end
 
   def self.from_param(slug_or_id)
     # FIXME: A hack until the Publisher has panopticon ids for every article
