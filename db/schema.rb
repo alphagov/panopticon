@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120110114800) do
+ActiveRecord::Schema.define(:version => 20120123130043) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120110114800) do
 
   add_index "artefacts", ["name"], :name => "index_artefacts_on_name"
   add_index "artefacts", ["need_id"], :name => "index_artefacts_on_need_id"
+  add_index "artefacts", ["slug"], :name => "index_artefacts_on_slug", :unique => true
 
   create_table "artefacts_audiences", :id => false, :force => true do |t|
     t.integer "artefact_id", :null => false
