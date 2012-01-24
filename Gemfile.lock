@@ -7,6 +7,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    PriorityQueue (0.1.2)
     actionmailer (3.1.3)
       actionpack (= 3.1.3)
       mail (~> 2.3.0)
@@ -88,7 +89,8 @@ GEM
     ffi (1.0.11)
     formtastic (2.0.0.rc5)
       rails (~> 3.0)
-    gds-api-adapters (0.0.37)
+    gds-api-adapters (0.0.40)
+      lrucache (~> 0.1.1)
       null_logger
       plek
     gds-sso (0.4.1)
@@ -108,6 +110,8 @@ GEM
     hike (1.2.1)
     i18n (0.6.0)
     json (1.6.5)
+    lrucache (0.1.1)
+      PriorityQueue (~> 0.1.2)
     mail (2.3.0)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
