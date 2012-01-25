@@ -27,6 +27,7 @@ Work
   Health and safety at work
   Work-related benefits and schemes
   Ending work
+  Sickness
 Family
   Maternity and paternity
   Parenting
@@ -86,4 +87,3 @@ Neighbourhoods
   Council services
   Reporting a problem
   Open spaces
-  Your local area
