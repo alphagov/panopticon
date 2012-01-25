@@ -9,21 +9,20 @@ Crime and justice
   Young people and crime
   Your neighbourhood
   Victims of crime
-  Mental capacity and the law
 Education
   School admissions
-  Schools
+  In school
   Special educational needs
   Student money
   Further and higher education
   Adult learning
   Libraries
 Work
-  Finding work
+  Finding a job
   Starting work
   Types of employment
   Employment rights
-  Time off from work
+  Time off work
   Health and safety at work
   Work-related benefits and schemes
   Ending work
@@ -32,20 +31,21 @@ Family
   Maternity and paternity
   Parenting
   Adoption and fostering
-  Separation and divorce
+  Divorce and separation
   Death and bereavement
-  Childcare
+  Children
   Registering life events
   Marriage and civil partnership
+  Mental capacity and the law
 Money and tax
   Children
   Home
-  Sickness, disability and carers
+  Disability and carers
   Tax credits
   Pensions
   Debt and bankruptcy
   Tax
-  Seasonal payments
+  Winter payments
 Driving
   Learning to drive
   Your driving licence
@@ -59,7 +59,7 @@ Driving
 Housing
   Emergency housing
   Council Tax
-  Council housing
+  Council and Housing Association homes
   Local council services
   Housing problems and issues
   Housing benefits, grants and schemes
@@ -72,18 +72,18 @@ Life in the UK
   The monarchy 
   How government works
   Voting
-  Becoming a British citizen
+  Rights and citizenship
 Travel
   Foreign travel
   Air travel
   Passports
-  Animals and the UK
+  Animals, food and plants
   Moving and living abroad
-  Travelling in the UK
+  Domestic travel
 Neighbourhoods
-  Community
-  Library and learning
+  Community and local services
+  Libraries and learning
   Charities and volunteering
   Council services
   Reporting a problem
-  Open spaces
+  Parks and open spaces
