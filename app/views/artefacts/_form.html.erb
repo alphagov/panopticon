@@ -6,7 +6,7 @@
   <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
-      <%= f.input :slug %>
+      <%= f.input :slug, :input_html => { :disabled => true } %>
       <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
