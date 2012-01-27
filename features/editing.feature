@@ -5,12 +5,12 @@ Feature: Editing artefacts
   Background:
     Given I am an admin
 
-  Scenario: Editing an artefact and giving it a bad slug
+  Scenario: Editing an artefact and changing the slug
     Given two artefacts exist
-    When I change the slug of the first artefact to "a 'bad' slug"
+    When I change the slug of the first artefact to "a new slug"
     And I save
     Then I should see the edit form again
-    And I should see an indication that the save failed
+      And I should see an indication that the save worked
 
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
