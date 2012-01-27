@@ -6,7 +6,8 @@ namespace :sections do
     @section_migrations = {
       'Driving:Owning a car/motorbike'  => 'Driving:Owning a car or motorbike',
       'Education:In schools'            => 'Education:In school',
-      'Family:Separation and divorce'   => 'Family:Divorce and separation'
+      'Family:Separation and divorce'   => 'Family:Divorce and separation',
+      'Driving:Buying/selling a vehicle'=> 'Driving:Buying and selling a vehicle'
     }
     
     Artefact.all.each do |a|
