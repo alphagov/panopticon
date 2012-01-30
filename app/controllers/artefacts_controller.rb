@@ -3,7 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :update]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :mark_removed_records_for_destruction, :only => :update
-  
+
   respond_to :html, :json
 
   def index
@@ -29,7 +29,7 @@ class ArtefactsController < ApplicationController
     location += '?return_to=' + params[:return_to] if params[:return_to]
     respond_with @artefact, location: location
   rescue => e
-    logger.info(e + " " + e.backtrace.join("\n"))
+    logger.info("#{e} #{e.backtrace.join("\n")}")
     raise
   end
 
@@ -62,7 +62,7 @@ class ArtefactsController < ApplicationController
       logger.info(e + " " + e.backtrace.join("\n"))
       raise
     end
-    
+
     # TODO: Convert this to a presenter
 
     def mark_removed_records_for_destruction
