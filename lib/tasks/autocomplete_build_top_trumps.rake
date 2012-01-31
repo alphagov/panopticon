@@ -24,6 +24,14 @@ namespace :autocomplete do
           "keywords" => phrase,
           "weight" => weight
         }
+        
+        docs << {
+          "title" => a.name,
+          "link" => "/" + a.slug,
+          "format" => a.kind,
+          "keywords" => a.name,
+          "weight" => 0.5
+        }
       else
         raise "Couldn't find slug '#{slug}'"
       end
