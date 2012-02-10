@@ -2,6 +2,14 @@
 <p class="flash-notice"><%= flash[:notice] %></p>
 <% end %>
 
+<% if artefact.errors.count > 0 %>
+<ul class="flash-alert">
+  <% artefact.errors.full_messages.each do |message| %>
+  <li><%= message %></li>
+  <% end %>
+</ul>
+<% end %>
+
 <div id="panopticon" class="ui-widget-content">
   <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
     <%= f.inputs :name => "Basic information" do %>
