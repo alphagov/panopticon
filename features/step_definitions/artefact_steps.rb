@@ -34,6 +34,10 @@ When /^I save, indicating that I want to continue editing afterwards$/ do
   click_button 'Save and continue editing'
 end
 
+When /^I save, indicating that I want to go to the item$/ do
+  click_button 'Save and go to item'
+end
+
 Then /^I should see the edit form again$/ do
   assert page.has_css?('form.artefact')
 end
@@ -49,7 +53,7 @@ When /^I create a relationship between them$/ do
 end
 
 Then /^I should be redirected to (.*)$/ do |app|
-  check_redirect app, @artefact
+  check_redirect app, (@artefact || Artefact.last)
 end
 
 Given /^the artefacts are related$/ do
@@ -99,4 +103,28 @@ When /^I remove the contact from the artefact$/ do
   visit edit_artefact_path(@artefact)
   unselect_contact @contact
   submit_artefact_form
+end
+
+When /^I visit the homepage$/ do
+  visit root_path
+end
+
+Then /^I should see a link to create an item$/ do
+  xpath = "//a[@href='#{new_artefact_path}']"
+  assert page.has_xpath?(xpath)
+end
+
+When /^I follow the link link to create an item$/ do
+  visit new_artefact_path
+end
+
+Then /^I should see the artefact form$/ do
+  assert page.has_css?('form.artefact')
+end
+
+When /^I fill in the form for a business need$/ do
+  fill_in "Name", with: "A key business need"
+  fill_in "Slug", with: "key-business-need"
+  fill_in "Need", with: "Biz001"
+  select "answer", from: "Kind"
 end

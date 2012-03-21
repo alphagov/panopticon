@@ -48,8 +48,10 @@ class ArtefactsController < ApplicationController
 
   private
     def redirect_to_show_if_need_met
-      artefact = Artefact.find_by_need_id params[:artefact][:need_id]
-      redirect_to artefact if artefact.present?
+      if params[:artefact] and params[:artefact][:need_id]
+        artefact = Artefact.find_by_need_id params[:artefact][:need_id]
+        redirect_to artefact if artefact.present?
+      end
     end
 
     def find_artefact
