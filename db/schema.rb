@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120123130043) do
+ActiveRecord::Schema.define(:version => 20120321095221) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20120123130043) do
     t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "need_id"
+    t.string   "need_id"
     t.string   "department"
     t.integer  "contact_id"
     t.string   "fact_checkers"
