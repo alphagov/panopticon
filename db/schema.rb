@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120321095221) do
+ActiveRecord::Schema.define(:version => 20120327161032) do
 
   create_table "artefacts", :force => true do |t|
     t.string   "section"
-    t.string   "name",                                   :null => false
-    t.string   "slug",                                   :null => false
-    t.string   "kind",                                   :null => false
-    t.string   "owning_app",                             :null => false
-    t.boolean  "active",              :default => false, :null => false
+    t.string   "name",                                    :null => false
+    t.string   "slug",                                    :null => false
+    t.string   "kind",                                    :null => false
+    t.string   "owning_app",                              :null => false
+    t.boolean  "active",               :default => false, :null => false
     t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -27,9 +27,10 @@ ActiveRecord::Schema.define(:version => 20120321095221) do
     t.string   "department"
     t.integer  "contact_id"
     t.string   "fact_checkers"
-    t.integer  "related_items_count", :default => 0
-    t.boolean  "relatedness_done",    :default => false
+    t.integer  "related_items_count",  :default => 0
+    t.boolean  "relatedness_done",     :default => false
     t.string   "publication_id"
+    t.boolean  "business_proposition", :default => false
   end
 
   add_index "artefacts", ["name"], :name => "index_artefacts_on_name"
