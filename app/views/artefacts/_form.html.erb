@@ -15,6 +15,7 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug, :input_html => { :disabled => f.object.persisted? } %>
+      <%= f.input :business_proposition, :label => 'Business Content?' %>
       <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>

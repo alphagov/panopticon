@@ -38,6 +38,7 @@ class Artefact < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :slug, :presence => true, :uniqueness => true, :slug => true
+  validates :business_proposition, :presence => true
   validates :kind, :inclusion => { :in => FORMATS }
   validates_presence_of :owning_app
 
