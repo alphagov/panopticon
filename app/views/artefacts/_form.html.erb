@@ -16,6 +16,19 @@
       <%= f.input :name %>
       <%= f.input :slug, :input_html => { :disabled => f.object.persisted? } %>
       <%= f.input :business_proposition, :label => 'Business Content?' %>
+      <% if artefact.new_record? %>
+        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
+      <% end %>
+      <li class="required">
+        <%= f.label :need_id, required: true %>
+        <%= f.text_field :need_id, disabled: f.object.persisted?, required: true %>
+        <% if ! artefact.new_record? && ! artefact.business_proposition%>
+        <span>
+          <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
+          <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
+        </span>
+        <% end %>
+      </li>
       <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
@@ -27,21 +40,11 @@
     <% end %>
 
     <%= f.inputs do %>
-      <li>
-      <%= f.label :need_id %>
-      <%= f.number_field :need_id, disabled: true %>
-      <span>
-      <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
-      <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
-      </span>
-      </li>
 
-      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
-      <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
+      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted? } %>
+      <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted? } %>
       <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
-      <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
-      <% end %>
+
     <% end %>
 
     <% if artefact.new_record? %>
