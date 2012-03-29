@@ -38,9 +38,9 @@ class Artefact < ActiveRecord::Base
 
   validates :name, :presence => true
   validates :slug, :presence => true, :uniqueness => true, :slug => true
-  validates :business_proposition, :presence => true
   validates :kind, :inclusion => { :in => FORMATS }
   validates_presence_of :owning_app
+  validates_presence_of :need_id
 
   accepts_nested_attributes_for :related_items,
     :allow_destroy  => true,
