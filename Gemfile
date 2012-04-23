@@ -27,6 +27,11 @@ gem 'rails', '~> 3.1.1'
 gem 'mysql2'
 gem 'colorize', '~> 0.5.8'
 
+gem "mongoid", "~> 2.3"
+gem "mongo", "1.5.2"
+gem "bson_ext", "1.5.2"
+gem "bson", "1.5.2"
+
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
