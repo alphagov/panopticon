@@ -32,7 +32,6 @@ class Artefact < ActiveRecord::Base
   has_many :reverse_related_items, :foreign_key => :artefact_id, :class_name => 'RelatedItem', :order => 'sort_key ASC', :dependent => :destroy
   has_many :related_artefacts, :through => :related_items, :source => :artefact
   belongs_to :contact
-  has_and_belongs_to_many :audiences
 
   before_validation :normalise, :on => :create
 
@@ -70,7 +69,6 @@ class Artefact < ActiveRecord::Base
   def to_json(options)
     super(options.merge(
       :include => {
-        :audiences      => {},
         :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
         :contact        => {}
       }
