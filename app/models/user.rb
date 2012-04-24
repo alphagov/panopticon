@@ -1,6 +1,11 @@
 class User
   include Mongoid::Document
 
+  field "name",    type: String
+  field "uid",     type: String
+  field "version", type: Integer
+  field "email",   type: String
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :name, :uid, :version
 

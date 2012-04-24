@@ -15,7 +15,7 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug, :input_html => { :disabled => f.object.persisted? } %>
-      <%= f.input :business_proposition, :label => 'Business Content?' %>
+      <%= f.input :business_proposition, :label => 'Business Content?', :as => :boolean %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
       <% end %>
@@ -32,11 +32,8 @@
       <%= f.input :section, :as => :select, :collection => Section.all.map { |s| [s.to_s, s.slug] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
-      <%= f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
-        <%= related_item.input :artefact, :as => :select, :collection => Artefact.in_alphabetical_order, :label => false %>
-        <%= related_item.input :sort_key, :as => :hidden %>
-      <% end %>
-      <%= f.input :relatedness_done %>
+      <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true } %>
+      <%= f.input :relatedness_done, :as => :boolean %>
     <% end %>
 
     <%= f.inputs do %>

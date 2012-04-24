@@ -30,4 +30,16 @@ class ArtefactTest < ActiveSupport::TestCase
     a.normalise
     assert_equal "other", a.kind
   end
+
+  test "should store related artefacts in order" do
+    a = Artefact.create!(slug: "a", name: "a", kind: "place", need_id: 1, owning_app: "x")
+    b = Artefact.create!(slug: "b", name: "b", kind: "place", need_id: 2, owning_app: "x")
+    c = Artefact.create!(slug: "c", name: "c", kind: "place", need_id: 3, owning_app: "x")
+
+    a.related_artefacts = [b, c]
+    a.save!
+    a.reload
+
+    assert_equal [b, c], a.related_artefacts
+  end
 end

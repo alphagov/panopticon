@@ -21,7 +21,7 @@ def create_six_artefacts
 end
 
 def add_related_artefact(artefact, related_artefact)
-  artefact.related_items.create! :artefact => related_artefact, :sort_key => (artefact.related_items.maximum(:sort_key) || -1) + 1
+  artefact.related_artefacts << related_artefact
 end
 
 def add_related_artefacts(artefact, related_artefacts)

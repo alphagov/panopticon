@@ -23,7 +23,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_difference "Artefact.count" do
           post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         end
-        artefact = Artefact.order("id desc").last
+        artefact = Artefact.order_by([[:id, :desc]]).last
         assert_equal "whatever", artefact.slug
         assert_equal "guide", artefact.kind
         assert_equal "publisher", artefact.owning_app
@@ -47,7 +47,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         get :show, id: artefact.id, format: :json
         parsed = JSON.parse(response.body)
 
-        assert_equal artefact.id, parsed['id']
+        assert_equal artefact.id.to_s, parsed['id']
         assert_equal artefact.name, parsed['name']
         assert_equal artefact.slug, parsed['slug']
         assert_equal artefact.kind, parsed['kind']
