@@ -29,7 +29,7 @@
         </span>
         <% end %>
       </li>
-      <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
+      <%= f.input :section, :as => :select, :collection => Section.all.map { |s| [s.to_s, s.slug] } %>
     <% end %>
     <%= f.inputs "Related items", :class => "related" do %>
       <%= f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
