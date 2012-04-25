@@ -8,7 +8,7 @@ end
 gem 'gds-warmup-controller'
 
 gem 'plek', '~> 0'
-gem 'formtastic', '2.0.0.rc5'
+gem 'formtastic'
 gem 'stomp'
 gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
