@@ -12,6 +12,13 @@ class Artefact < ActiveRecord::Base
     "custom-application"
   ].freeze
 
+  KIND_TRANSLATIONS = {
+    'standard transaction link'        => 'transaction',
+    'local authority transaction link' => 'local_transaction',
+    'benefit / scheme'                 => 'programme',
+    'find my nearest'                  => 'place',
+  }.tap { |h| h.default_proc = -> _, k { k } }.freeze
+
   has_many :related_items, :foreign_key => :source_artefact_id, :order => 'sort_key ASC', :dependent => :destroy
   has_many :related_artefacts, :through => :related_items, :source => :artefact
   belongs_to :contact
@@ -32,16 +39,8 @@ class Artefact < ActiveRecord::Base
   scope :in_alphabetical_order, order('name ASC')
 
   def normalise
-    normalise_kind
-  end
-
-  def normalise_kind
     return unless kind.present?
-    self.kind = kind.to_s.downcase.strip
-    self.kind = 'transaction' if kind == 'standard transaction link'
-    self.kind = 'local_transaction' if kind == 'local authority transaction link'
-    self.kind = 'programme' if kind == 'benefit / scheme'
-    self.kind = 'place' if kind == 'find my nearest'
+    self.kind = KIND_TRANSLATIONS[kind.to_s.downcase.strip]
   end
 
   def admin_url
