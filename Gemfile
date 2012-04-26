@@ -30,7 +30,7 @@ gem 'colorize', '~> 0.5.8'
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'gds-sso', '~> 0.4.1'
+  gem 'gds-sso', '~> 0.5'
 end
 
 if ENV['SLIMMER_DEV']
