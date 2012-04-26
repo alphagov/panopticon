@@ -18,4 +18,16 @@ class ArtefactTest < ActiveSupport::TestCase
     assert ! a.valid?
     assert a.errors[:slug].any?
   end
+
+  test "should translate kind into internally normalised form" do
+    a = Artefact.new(:kind => "benefit / scheme")
+    a.normalise
+    assert_equal "programme", a.kind
+  end
+
+  test "should not translate unknown kinds" do
+    a = Artefact.new(:kind => "other")
+    a.normalise
+    assert_equal "other", a.kind
+  end
 end
