@@ -3,7 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   test "should convert to string" do
     user = User.new(:email => "user@example.com")
-    assert_equal "user@example.com", user.email
+    assert_equal "user@example.com", user.to_s
   end
 
   test "should find existing user by oauth hash" do
