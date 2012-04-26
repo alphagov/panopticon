@@ -6,13 +6,13 @@ class ArtefactTest < ActiveSupport::TestCase
     a.valid?
     assert a.errors[:slug].empty?
   end
-  
+
   test "it doesn't allow apostrophes in slugs" do
     a = Artefact.new(:slug => "it's-a-nice-day")
     assert ! a.valid?
     assert a.errors[:slug].any?
   end
-  
+
   test "it doesn't allow spaces in slugs" do
     a = Artefact.new(:slug => "it is-a-nice-day")
     assert ! a.valid?

@@ -1,19 +1,19 @@
 class NeedListener
-                  
+
   def initialize
-    @marples = Messenger.instance.client  
+    @marples = Messenger.instance.client
   end
-  
+
   def listen
     Signal.trap('TERM') do
       client.close
       exit
     end
-    
+
     listen_on_updated
     @marples.join
-  end                                  
-  
+  end
+
   def listen_on_updated
     @marples.when 'need-o-tron', 'needs', 'updated' do |need|
       logger.info "Found need #{need}"
