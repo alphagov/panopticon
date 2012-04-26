@@ -14,12 +14,12 @@ class DeletedPublicationListenerTest < ActiveSupport::TestCase
 
     messenger = mock_messenger
     messenger.expects(:when).with("publisher", "*", "destroyed").yields(message)
-    Messenger.instance.stubs(:client).returns(messenger)
 
     artefact = Artefact.new
     artefact.expects(:destroy)
     Artefact.expects(:find).with(1234).returns(artefact)
 
-    DeletedPublicationListener.new.listen
+    DeletedPublicationListener.new(messenger, stub_everything).listen
   end
 end
+

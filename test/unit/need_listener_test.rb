@@ -15,7 +15,6 @@ class NeedListenerTest < ActiveSupport::TestCase
 
     messenger = mock_messenger
     messenger.expects(:when).with("need-o-tron", "needs", "updated").yields(message)
-    Messenger.instance.stubs(:client).returns(messenger)
 
     artefact = Artefact.new
     artefact.expects(:save!)
@@ -32,7 +31,7 @@ class NeedListenerTest < ActiveSupport::TestCase
     api.expects(:need_by_id).with(1234).returns(need_data)
     GdsApi::Needotron.expects(:new).returns(api)
 
-    NeedListener.new.listen
+    NeedListener.new(messenger, stub_everything).listen
 
     assert_equal "WRITING TEAM NAME", artefact.department
     assert_equal "A, B", artefact.fact_checkers
