@@ -48,7 +48,7 @@
     <% end %>
 
     <% if artefact.new_record? %>
-      <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
+      <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
     <% end %>
     <%= f.inputs :tags %>
 
