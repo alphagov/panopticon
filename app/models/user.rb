@@ -3,16 +3,13 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :uid, :version
 
   def self.find_for_gds_oauth(auth_hash)
-    user = find_by_uid(auth_hash["uid"])
-    if user
-      user
-    else # Create a user.
-      create_from_auth_hash(auth_hash)
-    end
+    find_by_uid(auth_hash["uid"]) || create_from_auth_hash(auth_hash)
   end
 
   def self.create_from_auth_hash(auth_hash)
-    user_params = auth_hash['extra']['user_hash'].dup.keep_if { |k,v| ['uid', 'email', 'name', 'version'].include?(k) }
+    user_params = auth_hash['extra']['user_hash'].select { |k,v|
+      %w[ uid email name version ].include?(k)
+    }
     User.create!(user_params)
   end
 
