@@ -128,3 +128,7 @@ When /^I fill in the form for a business need$/ do
   fill_in "Need", with: "Biz001"
   select "answer", from: "Kind"
 end
+
+When /^I try to create a new artefact with the same need$/ do
+  visit new_artefact_path(:artefact => {:need_id => @artefact.need_id})
+end
