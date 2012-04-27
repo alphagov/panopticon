@@ -8,18 +8,20 @@ class Contact < ActiveRecord::Base
   scope :in_alphabetical_order, order(arel_table[:name].asc)
 
   def update_from_contactotron
-    update_attributes! [:name, :postal_address, :phone_numbers, :email_address, :website_url, :opening_hours].collect { |k| data_from_contactotron.send(k) }
+    [ :name, :postal_address, :phone_numbers, :email_address, :website_url,
+      :opening_hours ].each do |k|
+      send "#{k}=", data_from_contactotron.send(k)
+    end
+    save!
   end
 
   private
     def contactotron_uri
-      URI.parse(Plek.current.find('contactotron')).tap do |uri|
-        uri.path = "/contacts/#{contactotron_id}"
-      end
+      URI.join(Plek.current.find('contactotron'), "/contacts/#{contactotron_id}").to_s
     end
 
     def api_adapter
-      GdsApi::Contactotron.new
+      GdsApi::Contactotron.new(Plek.current.environment)
     end
 
     def data_from_contactotron

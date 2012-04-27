@@ -9,4 +9,15 @@ class ContactTest < ActiveSupport::TestCase
     )
     assert_equal phone_numbers, contact.reload.phone_numbers
   end
+
+  test "should import contact details from contactotron" do
+    FakeWeb.register_uri(:get, 'http://contactotron.test.gov.uk/contacts/189',
+      body: File.read(Rails.root.join("test", "fixtures", "contactotron_api_response.json"))
+    )
+    contact = Contact.new(contactotron_id: 189)
+    contact.update_from_contactotron
+    contact.reload
+    assert_equal "Contact Name", contact.name
+    assert_equal "contact@example.com", contact.email_address
+  end
 end
