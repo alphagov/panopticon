@@ -1,4 +1,7 @@
 class CreateArtefacts < ActiveRecord::Migration
+  class Audience < ActiveRecord::Base
+  end
+
   def up
     create_table :related_items do |t|
       t.integer :source_artefact_id, :null => false
