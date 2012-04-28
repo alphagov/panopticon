@@ -14,6 +14,10 @@ module RegistrationInfo
     }.to_json
   end
 
+  def setup_user
+    User.create!(name: "Test", email: "test@example.com", uid: 123)
+  end
+
   def stub_search
     FakeWeb.register_uri(:post, "http://search.test.gov.uk/documents", {})
   end
