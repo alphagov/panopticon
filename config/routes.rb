@@ -1,5 +1,6 @@
 Panopticon::Application.routes.draw do
   resources :artefacts
+  resources :registrations, only: :create
 
   match 'google_insight' => 'seo#show'
 
