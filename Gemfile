@@ -26,6 +26,7 @@ gem 'rails', '~> 3.1.1'
 
 gem 'mysql2'
 gem 'colorize', '~> 0.5.8'
+gem 'rummageable'
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
