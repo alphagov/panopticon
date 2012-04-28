@@ -1,6 +1,7 @@
 When /^I post a smart answer's details into panopticon$/ do
 
   stub_search
+  setup_user
 
   # TODO: Make this work via API Adapters
   # interface = GdsApi::CoreApi.new('test', "http://example.com")
