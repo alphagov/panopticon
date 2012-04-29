@@ -6,7 +6,7 @@ class RegistrationsController < ApplicationController
   # Items are matched on 'slug' and new details will replace any
   # previous item with that slug
   def create
-    structure = normalise_names(JSON.parse(params[:resource]))
+    structure = normalise_keys(JSON.parse(params[:resource]))
     
     artefact = find_or_build_artefact(structure)
 
@@ -26,7 +26,7 @@ class RegistrationsController < ApplicationController
 
   # A translation layer because we have inconsistent language.
   # TODO: Make language consistent so this isn't needed any more
-  def normalise_names(structure)
+  def normalise_keys(structure)
     structure["name"] ||= structure["title"]
     structure["kind"] ||= structure["format"]
     structure["kind"] = 'smart-answer' if structure["kind"] == 'smart_answer'
