@@ -1,6 +1,10 @@
 class RegistrationsController < ApplicationController
   respond_to :json
 
+  # We're presuming that all registrations are for published items
+  # that should be stored in panopticon and registered in search.
+  # Items are matched on 'slug' and new details will replace any
+  # previous item with that slug
   def create
     structure = normalise_names(JSON.parse(params[:resource]))
     
