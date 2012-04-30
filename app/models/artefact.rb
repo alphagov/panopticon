@@ -48,7 +48,7 @@ class Artefact < ActiveRecord::Base
     app += '/admin/publications/' + id.to_s
   end
 
-  def to_json(options)
+  def as_json(options={})
     super(options.merge(
       :include => {
         :related_items  => { :include => :artefact }, # TODO use :related_artefacts => {}
