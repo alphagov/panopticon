@@ -11,9 +11,11 @@ class ContactTest < ActiveSupport::TestCase
   end
 
   test "should import contact details from contactotron" do
-    FakeWeb.register_uri(:get, 'http://contactotron.test.gov.uk/contacts/189',
-      body: File.read(Rails.root.join("test", "fixtures", "contactotron_api_response.json"))
-    )
+    %w[ http https ].each do |protocol|
+      FakeWeb.register_uri(:get, "#{protocol}://contactotron.test.gov.uk/contacts/189",
+        body: File.read(Rails.root.join("test", "fixtures", "contactotron_api_response.json"))
+      )
+    end
     contact = Contact.new(contactotron_id: 189)
     contact.update_from_contactotron
     contact.reload
