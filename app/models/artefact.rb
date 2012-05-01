@@ -2,6 +2,8 @@ require 'marples/model_action_broadcast'
 
 class Artefact
   include Mongoid::Document
+  include Mongoid::Timestamps
+
   include Marples::ModelActionBroadcast
   self.marples_client_name = 'panopticon'
   self.marples_logger = Rails.logger

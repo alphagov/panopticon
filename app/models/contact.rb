@@ -2,6 +2,7 @@ require 'gds_api/contactotron'
 
 class Contact
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   field "name",            type: String
   field "postal_address",  type: String
