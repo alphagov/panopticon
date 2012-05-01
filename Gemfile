@@ -8,7 +8,7 @@ end
 gem 'gds-warmup-controller'
 
 gem 'plek', '~> 0'
-gem 'formtastic', '2.0.0.rc5'
+gem 'formtastic'
 gem 'stomp'
 gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
@@ -24,13 +24,17 @@ gem 'aws-ses', :require => 'aws/ses'
 
 gem 'rails', '~> 3.1.1'
 
-gem 'mysql2'
 gem 'colorize', '~> 0.5.8'
+
+gem "mongoid", "~> 2.3"
+gem "mongo", "1.5.2"
+gem "bson_ext", "1.5.2"
+gem "bson", "1.5.2"
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'gds-sso', '~> 0.4.1'
+  gem 'gds-sso', '~> 0.5'
 end
 
 if ENV['SLIMMER_DEV']
@@ -54,6 +58,7 @@ group :test do
   gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
+  gem 'launchy'
   gem 'fakeweb'
   gem 'mocha'
 end

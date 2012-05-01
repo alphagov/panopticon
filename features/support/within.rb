@@ -8,16 +8,12 @@ end
 
 def select_within(locator, value)
   within_fieldset locator do
-    within_select_with_no_selection do
-      select value
-    end
+    select value
   end
 end
 
 def unselect_within(locator, value)
   within_fieldset locator do
-    within_select_with_selection(value) do
-      select ''
-    end
+    unselect value
   end
 end

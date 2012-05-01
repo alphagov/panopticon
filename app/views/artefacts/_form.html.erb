@@ -15,36 +15,37 @@
     <%= f.inputs :name => "Basic information" do %>
       <%= f.input :name %>
       <%= f.input :slug, :input_html => { :disabled => f.object.persisted? } %>
-      <%= f.input :section, :as => :select, :collection => Artefact.sections.map {|s| [s.gsub(':', ' > '), s] } %>
-    <% end %>
-    <%= f.inputs "Related items", :class => "related" do %>
-      <%= f.semantic_fields_for :related_items, related_items_for(artefact) do |related_item| %>
-        <%= related_item.input :artefact, :as => :select, :collection => Artefact.in_alphabetical_order, :label => false %>
-        <%= related_item.input :sort_key, :as => :hidden %>
-      <% end %>
-      <%= f.input :relatedness_done %>
-    <% end %>
-
-    <%= f.inputs do %>
-      <li>
-      <%= f.label :need_id %>
-      <%= f.number_field :need_id, disabled: true %>
-      <span>
-      <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
-      <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
-      </span>
-      </li>
-
-      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => true } %>
-      <%= f.input :fact_checkers, :input_html => { :disabled => true } %>
-      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
+      <%= f.input :business_proposition, :label => 'Business Content?', :as => :boolean %>
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
       <% end %>
+      <li class="required">
+        <%= f.label :need_id, required: true %>
+        <%= f.text_field :need_id, disabled: f.object.persisted?, required: true %>
+        <% if ! artefact.new_record? && ! artefact.business_proposition%>
+        <span>
+          <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
+          <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
+        </span>
+        <% end %>
+      </li>
+      <%= f.input :section, :as => :select, :collection => Section.all.map { |s| [s.to_s, s.slug] } %>
+    <% end %>
+    <%= f.inputs "Related items", :class => "related" do %>
+      <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true } %>
+      <%= f.input :relatedness_done, :as => :boolean %>
+    <% end %>
+
+    <%= f.inputs do %>
+
+      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted? } %>
+      <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted? } %>
+      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
+
     <% end %>
 
     <% if artefact.new_record? %>
-      <%= f.input :owning_app, :as => :hidden, :value => "publisher" %>
+      <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
     <% end %>
     <%= f.inputs :tags %>
 

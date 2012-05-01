@@ -7,7 +7,7 @@ namespace :autocomplete do
     input_file = "autocomplete-top-trumps.csv"
     output_file = "search-top-trumps.json"
     raise "Can't read #{input_file}" unless File.exist?(input_file)
-    
+
     docs = []
     i = 0
     CSV.foreach(input_file) do |row|
@@ -24,7 +24,7 @@ namespace :autocomplete do
           "keywords" => phrase,
           "weight" => weight
         }
-        
+
         docs << {
           "title" => a.name,
           "link" => "/" + a.slug,
@@ -37,7 +37,7 @@ namespace :autocomplete do
       end
     end
 
-    File.open(output_file, "w")  do |f| 
+    File.open(output_file, "w")  do |f|
       f << %q{if (typeof(GDS) == 'undefined') { GDS = {}; };} + "\n"
       f << %q{GDS.search_top_trumps = }
       f << JSON.dump(docs).gsub(/},{/, "},\n{")
@@ -45,4 +45,3 @@ namespace :autocomplete do
     end
   end
 end
-

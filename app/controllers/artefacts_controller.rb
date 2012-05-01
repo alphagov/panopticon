@@ -2,12 +2,11 @@ class ArtefactsController < ApplicationController
   before_filter :redirect_to_show_if_need_met, :only => :new
   before_filter :find_artefact, :only => [:show, :edit, :update]
   before_filter :build_artefact, :only => [:new, :create]
-  before_filter :mark_removed_records_for_destruction, :only => :update
 
   respond_to :html, :json
 
   def index
-    @artefacts = Artefact.order(:name).all
+    @artefacts = Artefact.order_by([[:name, :asc]]).all
     respond_with @artefacts
   end
 
@@ -28,13 +27,10 @@ class ArtefactsController < ApplicationController
     location = @artefact.admin_url
     location += '?return_to=' + params[:return_to] if params[:return_to]
     respond_with @artefact, location: location
-  rescue => e
-    logger.info("#{e} #{e.backtrace.join("\n")}")
-    raise
   end
 
   def update
-    parameters_to_use = params[:artefact] || params.slice(*Artefact.attribute_names)
+    parameters_to_use = params[:artefact] || params.slice(*Artefact.fields.keys)
 
     save = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = save ? 'Panopticon item updated' : 'Failed to save item'
@@ -49,8 +45,8 @@ class ArtefactsController < ApplicationController
   private
     def redirect_to_show_if_need_met
       if params[:artefact] and params[:artefact][:need_id]
-        artefact = Artefact.find_by_need_id params[:artefact][:need_id]
-        redirect_to artefact if artefact.present?
+        artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
+        redirect_to artefact if artefact
       end
     end
 
@@ -59,30 +55,6 @@ class ArtefactsController < ApplicationController
     end
 
     def build_artefact
-      @artefact = Artefact.new(params[:artefact] || params.slice(*Artefact.attribute_names))
-    rescue => e
-      logger.info(e + " " + e.backtrace.join("\n"))
-      raise
-    end
-
-    # TODO: Convert this to a presenter
-
-    def mark_removed_records_for_destruction
-      [:related_artefacts].each do |association|
-        reflection = Artefact.reflect_on_association association
-        through_association, foreign_key = reflection.through_reflection.name, reflection.foreign_key
-
-        mark_associated_records_for_destruction through_association,
-          :if => -> attributes { attributes[foreign_key].blank? }
-      end
-    end
-
-    def mark_associated_records_for_destruction(association, options)
-      primary_key = Artefact.reflect_on_association(association).active_record_primary_key
-
-      return unless params[:artefact] && params[:artefact][:"#{association}_attributes"]
-      params[:artefact][:"#{association}_attributes"].each_value do |attributes|
-        attributes[:_destroy] = attributes[primary_key].present? && options[:if].call(attributes)
-      end
+      @artefact = Artefact.new(params[:artefact] || params.slice(*Artefact.fields.keys))
     end
 end

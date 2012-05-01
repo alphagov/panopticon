@@ -6,17 +6,17 @@ namespace :messenger do
       Rake::Task["environment"].invoke
       DeletedPublicationListener.new.listen
     end
-    
+
     Daemonette.run('panopticon_contact_listener') do
       require 'contact_listener.rb'
       Rake::Task['environment'].invoke
       ContactListener.new.listen
     end
-                                  
+
     Daemonette.run('panopticon_need_listener') do
-      require 'need_listener.rb'  
+      require 'need_listener.rb'
       Rake::Task['environment'].invoke
-      NeedListener.new.listen                         
+      NeedListener.new.listen
     end
-  end            
+  end
 end

@@ -20,6 +20,11 @@ Feature: Editing artefacts
     Then I should be redirected back to the edit page
     And I should see an indication that the save worked
 
+  Scenario: Trying to create an artefact for a need that is already met
+    Given an artefact exists
+    When I try to create a new artefact with the same need
+    Then I should be redirected to Publisher
+
   Scenario: Assign a related item
     Given two artefacts exist
     When I create a relationship between them

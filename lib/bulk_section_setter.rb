@@ -1,11 +1,11 @@
 class BulkSectionSetter
   attr_accessor :artefacts
-  
+
   def initialize(filename, logger = nil)
     @artefacts = load(filename)
     @logger = logger || NullLogger.instance
   end
-  
+
   def load(filename)
     artefacts = []
     section = nil
@@ -25,7 +25,7 @@ class BulkSectionSetter
     end
     artefacts
   end
-  
+
   def set_all
     @artefacts.each do |record|
       artefact = Artefact.find_by_name(record[:title])
@@ -37,7 +37,7 @@ class BulkSectionSetter
           @logger.info("Set '#{record[:title]}' to set section '#{section}'")
         rescue => e
           @logger.warn("Couldn't save '#{record[:title]}' because '#{e}'")
-        end          
+        end
       else
         @logger.warn("Couldn't find '#{record[:title]}' to set section '#{section}'")
       end
