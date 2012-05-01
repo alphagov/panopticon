@@ -15,7 +15,9 @@ artefact_id_map = {}
 contact_id_map = {}
 
 export["users"].each do |u|
-  params = build_params(u, [:name, :uid, :version, :email])
+  params = build_params(u, [
+    :name, :uid, :version, :email, :created_at, :updated_at
+  ])
   User.create!(params)
 end
 
@@ -23,7 +25,7 @@ export["artefacts"].each do |a|
   next unless a["contact"]
   params = build_params(a["contact"], [
     :contactotron_id, :email_address, :name, :opening_hours, :postal_address,
-    :website_url
+    :website_url, :created_at, :updated_at
   ])
   if a["contact"]["phone_numbers"]
     params["phone_numbers"] = a["contact"]["phone_numbers"].map { |pn|
@@ -38,7 +40,7 @@ export["artefacts"].each do |a|
   params = build_params(a, [
     :section, :name, :slug, :kind, :owning_app, :active, :tags,
     :need_id, :department, :fact_checkers, :relatedness_done,
-    :publication_id, :business_proposition
+    :publication_id, :business_proposition, :created_at, :updated_at
   ])
   artefact = Artefact.new(params)
   if a["contact"]
