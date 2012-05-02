@@ -22,7 +22,8 @@ namespace :sections do
       end
     end
 
-    Artefact.all.each do |a|
+    Artefact.all.each_with_index do |a, index|
+      puts index if index % 100 == 0
       next if a.need_id.blank?
 
       # HACK: correct the one section that was hard-coded, then changed
