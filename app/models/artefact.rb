@@ -69,17 +69,18 @@ class Artefact
 
 
   def save_section_as_tags
-    return unless self.section
+    return if self.section.blank?
 
     # goes from 'Crime and Justice:The police'
     # to 'crime-and-justice', 'the-police'
     # tag_ids: 'crime-and-justice', 'crime-and-justice/the-police'
     section, sub_section = self.section.downcase.gsub(' ', '-').split(':')
 
-    tag_ids = [section, "#{section}/#{sub_section}"]
+    tag_ids = [section]
+    tag_ids.push "#{section}/#{sub_section}" unless sub_section.blank?
 
-    raise 'missing tag' unless tag_ids.all? do |tag_id|
-      TagRepository.load(tag_id)
+    tag_ids.each do |tag_id|
+      raise "missing tag #{tag_id}" unless TagRepository.load(tag_id)
     end
     self.tag_ids = tag_ids
   end
