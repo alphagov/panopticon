@@ -10,8 +10,12 @@ class User
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :name, :uid, :version
 
+  def self.find_by_uid(uid)
+    where(uid: uid).first
+  end
+
   def self.find_for_gds_oauth(auth_hash)
-    where(uid: auth_hash["uid"]).first || create_from_auth_hash(auth_hash)
+    find_by_uid(auth_hash["uid"]) || create_from_auth_hash(auth_hash)
   end
 
   def self.create_from_auth_hash(auth_hash)
