@@ -99,9 +99,12 @@ class Artefact
     super(options.merge(
       include: {contact: {}}
     )).tap { |hash|
-      unless tag_ids
-        hash.delete("tag_ids")
+      if hash['tag_ids']
+        hash['tag_ids'] = hash['tag_ids'].map { |tag_id| TagRepository.load(tag_id).as_json }
+      else
+        hash.delete 'tag_ids'
       end
+
       unless options[:ignore_related_artefacts]
         hash["related_items"] = related_artefacts.map { |a| {"artefact" => a.as_json(ignore_related_artefacts: true)} }
       end
