@@ -1,4 +1,5 @@
-== Welcome to Panopticon
+Welcome to Panopticon
+=====================
 
 The GOV.UK content platform has been built with a focus on tools over content.
 That is manifest in the existence of numerous small applications that provide
@@ -11,14 +12,13 @@ to attach consistent metadata to the pieces, connect them together as 'related
 items' and generally have a complete overview of all the solutions/artefacts in
 the system. That's this app: Panopticon.
 
-== Interfaces
+Interfaces
+----------
 
 Panopticon provides:
 
 * an admin UI where items can be created and their metadata
-edited. This is authenticated in conjunction with sign-on-o-tron.
-
+  edited. This is authenticated in conjunction with sign-on-o-tron.
 * a writeable API where applications can register the content
-they provide. This is authenticated using HTTP Basic.
-
+  they provide. This is authenticated using HTTP Basic.
 * a read API for retrieving metadata about a given item
