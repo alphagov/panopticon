@@ -6,6 +6,8 @@ class Tag
 
   index :tag_id, :unique => true
 
+  validates_presence_of :tag_id, :title, :tag_type
+
   def as_json(options={})
     {
       :id => self.tag_id,
