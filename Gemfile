@@ -37,12 +37,6 @@ else
   gem 'gds-sso', '~> 0.5'
 end
 
-if ENV['SLIMMER_DEV']
-  gem 'slimmer', :path => '../slimmer'
-else
-  gem 'slimmer', '~> 1.1', ">= 1.1.16"
-end
-
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false

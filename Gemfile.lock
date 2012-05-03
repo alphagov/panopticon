@@ -204,12 +204,6 @@ GEM
     simplecov-html (0.4.5)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    slimmer (1.1.27)
-      json
-      nokogiri (~> 1.5.0)
-      null_logger
-      plek (>= 0.1.8)
-      rack (~> 1.3.5)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -277,7 +271,6 @@ DEPENDENCIES
   shoulda (~> 2.11.3)
   simplecov (= 0.4.2)
   simplecov-rcov
-  slimmer (~> 1.1, >= 1.1.16)
   sqlite3-ruby
   stomp
   test-unit
