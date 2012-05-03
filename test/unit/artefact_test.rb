@@ -48,4 +48,22 @@ class ArtefactTest < ActiveSupport::TestCase
       Artefact.from_param('something-fake')
     end
   end
+
+  test "should save section as tags" do
+    TagRepository.put(:tag_id => "crime", :tag_type => "section", :title => "Crime")
+    TagRepository.put(:tag_id => "crime/the-police", :tag_type => "section", :title => "The Police")
+
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer", :need_id => 1,
+                         :owning_app => "x", :section => "Crime:The Police")
+    assert_equal a.tag_ids, ["crime", "crime/the-police"]
+  end
+
+  test "should save top level section as tag" do
+    TagRepository.put(:tag_id => "crime", :tag_type => "section", :title => "Crime")
+
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer", :need_id => 1,
+                         :owning_app => "x", :section => "Crime")
+    assert_equal a.tag_ids, ["crime"]
+  end
+
 end
