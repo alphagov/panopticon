@@ -21,6 +21,7 @@ class Artefact
   field "relatedness_done",     type: Boolean, default: false
   field "publication_id",       type: String
   field "business_proposition", type: Boolean, default: false
+  field "tag_ids",              type: Array
 
   MAXIMUM_RELATED_ITEMS = 8
 
@@ -52,6 +53,8 @@ class Artefact
   validates :kind, :inclusion => { :in => FORMATS }
   validates_presence_of :owning_app
 
+  before_save :save_section_as_tags
+
   # TODO: Remove this 'unless' hack after importing. It's only here because
   # some old entries in Panopticon lack a need_id.
   validates_presence_of :need_id, :unless => lambda { defined? IMPORTING_LEGACY_DATA }
@@ -62,6 +65,24 @@ class Artefact
 
   def self.find_by_slug(s)
     where(slug: s).first
+  end
+
+
+  def save_section_as_tags
+    return if self.section.blank?
+
+    # goes from 'Crime and Justice:The police'
+    # to 'crime-and-justice', 'the-police'
+    # tag_ids: 'crime-and-justice', 'crime-and-justice/the-police'
+    section, sub_section = self.section.downcase.gsub(' ', '-').split(':')
+
+    tag_ids = [section]
+    tag_ids.push "#{section}/#{sub_section}" unless sub_section.blank?
+
+    tag_ids.each do |tag_id|
+      raise "missing tag #{tag_id}" unless TagRepository.load(tag_id)
+    end
+    self.tag_ids = tag_ids
   end
 
   def normalise
@@ -79,6 +100,12 @@ class Artefact
     super(options.merge(
       include: {contact: {}}
     )).tap { |hash|
+      if hash['tag_ids']
+        hash['tag_ids'] = hash['tag_ids'].map { |tag_id| TagRepository.load(tag_id).as_json }
+      else
+        hash.delete 'tag_ids'
+      end
+
       unless options[:ignore_related_artefacts]
         hash["related_items"] = related_artefacts.map { |a| {"artefact" => a.as_json(ignore_related_artefacts: true)} }
       end
