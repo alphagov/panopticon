@@ -8,19 +8,22 @@ class Artefact
   self.marples_client_name = 'panopticon'
   self.marples_logger = Rails.logger
 
+  # NOTE: these fields are deprecated, and soon to be replaced with a
+  # tag-based implementation
   field "section",              type: String
+  field "department",           type: String
+  field "tags",                 type: String
+  field "business_proposition", type: Boolean, default: false
+
   field "name",                 type: String
   field "slug",                 type: String
   field "kind",                 type: String
   field "owning_app",           type: String
   field "active",               type: Boolean, default: false
-  field "tags",                 type: String
   field "need_id",              type: String
-  field "department",           type: String
   field "fact_checkers",        type: String
   field "relatedness_done",     type: Boolean, default: false
   field "publication_id",       type: String
-  field "business_proposition", type: Boolean, default: false
   field "tag_ids",              type: Array
 
   MAXIMUM_RELATED_ITEMS = 8
