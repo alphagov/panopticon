@@ -1,7 +1,13 @@
 module TagRepository
 
-  def self.load_all
-    Tag.all
+  # Load all tags. If tag_type parameter is given, load all tags of that type.
+  def self.load_all(options={})
+    tag_type = options[:tag_type]
+    if tag_type.nil?
+      Tag.all
+    else
+      Tag.where(:tag_type => tag_type)
+    end
   end
 
   def self.load(id)
