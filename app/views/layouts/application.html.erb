@@ -2,29 +2,38 @@
 <html>
 <head>
   <title>Panopticon</title>
-  <%= stylesheet_link_tag '/stylesheets/formtastic.css', '/stylesheets/formtastic_changes.css' %>
   <%= csrf_meta_tags %>
   <%= yield :extra_headers %>
   <%= stylesheet_link_tag 'bootstrap.min.css', 'bootstrap-responsive.min.css', 'application.css' %>
-
+  <%= stylesheet_link_tag 'formtastic.css', 'formtastic_changes.css' %>
 </head>
+
 <body>
-  <div id="wrapper" class="wrapper">
-    <h1 id="site-title">Panopticon</h1>
-    <nav class="admin-nav group" role="navigation">
-      <ul>
-        <li class="publications-nav">
-          <ul>
+  <header class="navbar navbar-fixed-top" role="banner">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
+        <nav role="navigation" class="nav-collapse">
+          <ul class="nav">
+            <li><%= link_to 'All items', root_path %></li>
+            <li><%= link_to 'Add item', new_artefact_path %></li>
+          </ul>
+          <ul class="nav pull-right">
             <li><%= link_to 'Sign out', gds_sign_out_path %></li>
           </ul>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="content" role="main">
-      <%= yield %>
+          <p class="navbar-text pull-right">Signed in as <a href="<%= Plek.current.find('signon') %>"><%= current_user %></a></p>
+        </nav>
+      </div>
     </div>
-  </div>
+  </header>
+
+  <section class="container-fluid" role="main">
+    <%= yield %>
+    <hr>
+    <footer>
+      <p>&copy; GDS. <span class="pull-right">Panopticon version 2.0</span></p>
+    </footer>
+  </section>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <%= javascript_include_tag('bootstrap.min.js') %>
