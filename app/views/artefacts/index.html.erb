@@ -4,7 +4,7 @@
   </div>
 
   <div>
-    <table class="table table-striped table-bordered table-condensed" summary="List of everything">
+    <table class="table table-striped table-bordered table-condensed" id="artefact-list" summary="List of everything">
       <thead>
         <tr>
           <th scope="col">Need</th>
@@ -34,18 +34,13 @@
   </div>
 </div>
 
-<style type="text/css">
-#solution-list th {
-  text-align: left;
-}
-#solution-list th, td {
-  padding: 0.5em;
-}
-</style>
 
-<%= javascript_include_tag '/javascripts/libs/jquery/plugins/jquery.tablesorter.min.js' %>
-<script type="text/javascript">
-$(function () {
-  $('#solution-list').tablesorter();
-});
-</script>
+<%= content_for :extra_javascript do %>
+  <%= javascript_include_tag 'libs/jquery/plugins/jquery.tablesorter.min.js' %>
+  <script type="text/javascript">
+  $(function () {
+    $('#artefact-list').tablesorter();
+  });
+  </script>
+<% end %>
+
