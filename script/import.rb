@@ -22,7 +22,11 @@ export["users"].each do |u|
 end
 
 export["artefacts"].each do |a|
+  # Don't create contacts for artefacts that already exist
+  next if Artefact.where(slug: a["slug"]).any?
+
   next unless a["contact"]
+
   params = build_params(a["contact"], [
     :contactotron_id, :email_address, :name, :opening_hours, :postal_address,
     :website_url, :created_at, :updated_at
@@ -37,6 +41,12 @@ export["artefacts"].each do |a|
 end
 
 export["artefacts"].each do |a|
+  # Don't duplicate existing artefacts
+  if Artefact.where(slug: a["slug"]).any?
+    puts "exists: #{a["slug"]}"
+    next
+  end
+
   params = build_params(a, [
     :section, :name, :slug, :kind, :owning_app, :active, :tags,
     :need_id, :department, :fact_checkers, :relatedness_done,
@@ -48,12 +58,19 @@ export["artefacts"].each do |a|
   end
   artefact.save!
   artefact_id_map[a["id"]] = artefact._id
+  puts "add: #{a["slug"]}; #{a["id"]} => #{artefact._id}"
 end
 
 export["artefacts"].each do |a|
+  # Skip anything we haven't created in this run
+  next unless artefact_id_map[a["id"]]
+
   artefact = Artefact.find(artefact_id_map[a["id"]])
   a["related_items"].each do |r|
-    related = Artefact.find(artefact_id_map[r["artefact"]["id"]])
-    artefact.related_artefacts << related
+    related = Artefact.where(slug: artefact_id_map[r["artefact"]["slug"]]).first
+    if related
+      artefact.related_artefacts << related
+      puts "relate: #{artefact.slug} => #{related.slug}"
+    end
   end
 end
