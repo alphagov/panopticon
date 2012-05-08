@@ -24,7 +24,7 @@ class Artefact
   field "fact_checkers",        type: String
   field "relatedness_done",     type: Boolean, default: false
   field "publication_id",       type: String
-  field "tag_ids",              type: Array
+  field "tag_ids",              type: Array, default: []
 
   MAXIMUM_RELATED_ITEMS = 8
 
