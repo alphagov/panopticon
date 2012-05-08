@@ -16,3 +16,23 @@ body {
   margin-left: 0;
   padding-left: 2em;
 }
+
+/* Styling for tablesorter plugin */
+table thead tr th {
+  cursor: pointer;
+}
+
+table thead tr th.header {
+  padding-right: 20px;
+  background: url(bg.gif) no-repeat right 75%;
+}
+
+table thead tr .header.headerSortUp {
+  background: url(asc.gif) no-repeat right 75%;
+}
+
+table thead tr .header.headerSortDown {
+  background: url(desc.gif) no-repeat right 75%;
+}
+
+/* end of tablesorter styling */
