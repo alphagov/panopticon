@@ -3,9 +3,8 @@
 <head>
   <title><%= yield :page_title %> | GOV.UK Panopticon</title>
   <%= csrf_meta_tags %>
-  <%= yield :extra_headers %>
   <%= stylesheet_link_tag 'bootstrap.min.css', 'bootstrap-responsive.min.css', 'application.css' %>
-  <%= stylesheet_link_tag 'formtastic.css', 'formtastic_changes.css' %>
+  <%= yield :extra_headers %>
 </head>
 
 <body>

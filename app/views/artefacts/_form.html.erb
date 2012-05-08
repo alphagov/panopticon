@@ -1,60 +1,74 @@
 <% if flash[:notice].present? %>
-<p class="flash-notice"><%= flash[:notice] %></p>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
 <% end %>
 
 <% if artefact.errors.count > 0 %>
-<ul class="flash-alert">
-  <% artefact.errors.full_messages.each do |message| %>
-  <li><%= message %></li>
-  <% end %>
-</ul>
+  <div class="alert alert-error">
+    <ul>
+      <% artefact.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
 
-<div id="panopticon" class="ui-widget-content">
-  <%= semantic_form_for(artefact, :html => { :class => 'artefact' }) do |f| %>
-    <%= f.inputs :name => "Basic information" do %>
-      <%= f.input :name %>
-      <%= f.input :slug, :input_html => { :disabled => f.object.persisted? } %>
+<div class="well">
+  <%= semantic_form_for(artefact, :html => { :class => '' }) do |f| %>
+    <%= f.inputs do %>
+      <%= f.input :name, :input_html => { :class => "span6" } %>
+      <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
+      <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
+      <% if ! artefact.new_record? && ! artefact.business_proposition %>
+          <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
+          <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
+      <% end %>      
+
+      <hr>
+
       <%= f.input :business_proposition, :label => 'Business Content?', :as => :boolean %>
+
+      <hr>
+
       <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select %>
+        <%= f.input :kind, :collection => Artefact::FORMATS, :as => :select, :class => "span6" %>
       <% end %>
-      <li class="required">
-        <%= f.label :need_id, required: true %>
-        <%= f.text_field :need_id, disabled: f.object.persisted?, required: true %>
-        <% if ! artefact.new_record? && ! artefact.business_proposition%>
-        <span>
-          <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external' %> |
-          <%= link_to "View on site", published_url(f.object), :rel => 'external' %>
-        </span>
-        <% end %>
-      </li>
       <%= f.input :section, :as => :select, :collection => Section.all.map { |s| [s.to_s, s.slug] } %>
     <% end %>
-    <%= f.inputs "Related items", :class => "related" do %>
-      <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true } %>
-      <%= f.input :relatedness_done, :as => :boolean %>
+
+    <hr>
+
+    <%= f.inputs do %>
+      <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
+      <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
     <% end %>
+
+    <hr>
 
     <%= f.inputs do %>
 
-      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted? } %>
-      <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted? } %>
-      <%= f.input :contact, :collection => Contact.in_alphabetical_order %>
+      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
+      <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
+      <%= f.input :contact, :as => :hidden, :collection => Contact.in_alphabetical_order %>
 
     <% end %>
 
     <% if artefact.new_record? %>
       <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
     <% end %>
-    <%= f.inputs :tags %>
+
+    <hr>
+    
+    <%= f.input :tags, :input_html => {:class => "span6"} %>
 
     <% if f.object.persisted? %>
-      <%= f.submit :value => "Save and continue editing", :class => "button" %>
+      <%= f.submit :value => "Save and continue editing", :class => "btn" %>
     <% end %>
-    <%= f.submit :value => "Save and go to item", :class => "button" %>
+    <%= f.submit :value => "Save and go to item", :class => "btn btn-success" %>
   <% end %>
 </div>
 
-<%= content_for :extra_javascript, javascript_include_tag('chosen.jquery.min.js', 'artefacts') %>
+<%= content_for :extra_javascript do %>
+<%= javascript_include_tag('chosen.jquery.min.js', 'artefacts') %>
+  <script type="text/javascript"> $(".chzn-select").chosen(); </script>
+<% end %>
 <% content_for :extra_headers, stylesheet_link_tag('chosen') %>
