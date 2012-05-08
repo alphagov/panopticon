@@ -88,6 +88,10 @@ Given /^an artefact exists$/ do
   flush_notifications
 end
 
+Given /^a section exists$/ do
+  @section = create_section
+end
+
 When /^I add the contact to the artefact$/ do
   visit edit_artefact_path(@artefact)
   select_contact @contact
@@ -99,9 +103,25 @@ Given /^the artefact has the contact$/ do
   flush_notifications
 end
 
+Given /^the artefact has the section$/ do
+  add_section @artefact, @section
+end
+
 When /^I remove the contact from the artefact$/ do
   visit edit_artefact_path(@artefact)
   unselect_contact @contact
+  submit_artefact_form
+end
+
+When /^I add the section to the artefact$/ do
+  visit edit_artefact_path(@artefact)
+  select_section @section
+  submit_artefact_form
+end
+
+When /^I remove the section from the artefact$/ do
+  visit edit_artefact_path(@artefact)
+  unselect_section @section
   submit_artefact_form
 end
 
