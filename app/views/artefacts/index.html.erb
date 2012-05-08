@@ -22,7 +22,9 @@
       <tr>
         <td><%= artefact.need_id %></td>
         <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
-        <td><%=h artefact.kind %></td>
+        <td class="icon">
+          <%= image_tag "icon-#{artefact.kind.downcase}.png", :title => artefact.kind.humanize %>
+        </td>
         <td><%=h artefact.section %></td>
         <td><%=h artefact.related_artefacts.count %></td>
         <td><%=h artefact.relatedness_done %></td>

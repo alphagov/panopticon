@@ -17,6 +17,10 @@ body {
   padding-left: 2em;
 }
 
+td.icon {
+  text-align: center;
+}
+
 /* Styling for tablesorter plugin */
 table thead tr th {
   cursor: pointer;
