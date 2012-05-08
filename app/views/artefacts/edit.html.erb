@@ -1,2 +1,5 @@
 <%= content_for :page_title, "Editing artefact #{@artefact.name}" %>
+<div class="page-header">
+  <h1>Editing <%= @artefact.name %></h1>
+</div>
 <%= render 'form', artefact: @artefact %>
