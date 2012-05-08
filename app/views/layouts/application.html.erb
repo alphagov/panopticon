@@ -14,12 +14,28 @@
         <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
         <nav role="navigation" class="nav-collapse">
           <ul class="nav">
-            <li><%= link_to 'All items', root_path %></li>
-            <li><%= link_to 'Add item', new_artefact_path %></li>
+            <li><%= link_to 'All artefacts', root_path %></li>
+            <li><%= link_to 'Add artefact', new_artefact_path %></li>
           </ul>
           <ul class="nav pull-right">
-            <li><%= link_to 'Sign out', gds_sign_out_path %></li>
+            <li class="dropdown">
+              <a href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown">
+                Services
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="http://digital.cabinetoffice.gov.uk/">GDS blog</a></li>
+                <li><a href="http://wiki.digital.cabinet-office.gov.uk/">GDS wiki</a></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Analytics', 'https://www.google.com/analytics/web/#dashboard/default/a26179049w50705554p51337955/'%></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Sign out', gds_sign_out_path %></li>
+              </ul>
+            </li>
           </ul>
+
           <p class="navbar-text pull-right">Signed in as <a href="<%= Plek.current.find('signon') %>"><%= current_user %></a></p>
         </nav>
       </div>
