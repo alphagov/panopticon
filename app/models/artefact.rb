@@ -70,6 +70,29 @@ class Artefact
     where(slug: s).first
   end
 
+  # All the section tags assigned to this artefact
+  def sections
+    self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }
+  end
+
+  # Set the section tags for this artefact
+  def sections=(section_ids)
+    # Check each new section ID exists
+    new_tags = section_ids.map { |i| TagRepository.load i }
+    new_tags.each do |new_tag|
+      raise "Missing tag '#{new_tag}" if new_tag.nil?
+      raise "Tag #{new_tag} is not a section" if new_tag[:tag_type] != 'section'
+    end
+
+    # Remove any existing tags that aren't in the assigned value
+    self.tag_ids = (self.tag_ids or []).reject do |tag_id|
+      tag = TagRepository.load(tag_id)
+      tag.tag_type == 'section' and not section_ids.include? tag_id
+    end
+    # Add any missing sections
+    self.tag_ids = (self.tag_ids + section_ids).uniq
+    return nil
+  end
 
   def save_section_as_tags
     return if self.section.blank?
