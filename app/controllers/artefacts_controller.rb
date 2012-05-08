@@ -30,12 +30,19 @@ class ArtefactsController < ApplicationController
   end
 
   def update
-    parameters_to_use = params[:artefact] || params.slice(*Artefact.fields.keys)
+    fields_to_update = Artefact.fields.keys + ['sections']
+    parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
 
-    save = @artefact.update_attributes(parameters_to_use)
-    flash[:notice] = save ? 'Panopticon item updated' : 'Failed to save item'
+    # Strip out the empty submit option for sections
+    ['sections'].each do |param|
+      param_value = parameters_to_use[param]
+      param_value.reject! &:blank? unless param_value.nil?
+    end
 
-    if save and params[:commit] == 'Save and continue editing'
+    saved = @artefact.update_attributes(parameters_to_use)
+    flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
+
+    if saved and params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
       respond_with @artefact
