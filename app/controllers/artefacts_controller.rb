@@ -30,10 +30,10 @@ class ArtefactsController < ApplicationController
   def update
     parameters_to_use = params[:artefact] || params.slice(*Artefact.fields.keys)
 
-    save = @artefact.update_attributes(parameters_to_use)
-    flash[:notice] = save ? 'Panopticon item updated' : 'Failed to save item'
+    saved = @artefact.update_attributes(parameters_to_use)
+    flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
-    if save and params[:commit] == 'Save and continue editing'
+    if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
       respond_with @artefact
