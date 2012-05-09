@@ -24,9 +24,7 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save
-    location = @artefact.admin_url
-    location += '?return_to=' + params[:return_to] if params[:return_to]
-    respond_with @artefact, location: location
+    respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
   def update

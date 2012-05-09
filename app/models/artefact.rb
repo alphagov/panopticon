@@ -90,9 +90,10 @@ class Artefact
     self.kind = KIND_TRANSLATIONS[kind.to_s.downcase.strip]
   end
 
-  def admin_url
-    app = Plek.current.find owning_app
-    app += '/admin/publications/' + id.to_s
+  def admin_url(options = {})
+    [ "#{Plek.current.find(owning_app)}/admin/publications/#{id}",
+      options.to_query
+    ].reject(&:blank?).join("?")
   end
 
   # TODO: Replace this nonsense with a proper API layer.
