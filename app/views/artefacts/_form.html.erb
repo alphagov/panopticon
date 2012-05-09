@@ -38,6 +38,7 @@
     <hr>
 
     <%= f.inputs do %>
+      <input name="artefact[related_artefact_ids][]" type="hidden" value="">
       <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
       <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
     <% end %>
