@@ -4,6 +4,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "rails/test_unit/railtie"
+require "sprockets/railtie"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -17,6 +18,11 @@ module Panopticon
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+    config.assets.version = '1.0'
+    config.assets.prefix = '/assets'
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/app/repositories)
@@ -41,11 +47,5 @@ module Panopticon
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
-
-    # Enable the asset pipeline
-    config.assets.enabled = false
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
   end
 end

@@ -1,30 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Panopticon</title>
-  <%= stylesheet_link_tag '/stylesheets/formtastic.css', '/stylesheets/formtastic_changes.css' %>
-  <meta name="x-section-name" content="Panopticon" />
-  <meta name="x-section-link" content="panopticon" />
+  <title><%= yield :page_title %> | GOV.UK Panopticon</title>
   <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'bootstrap.min.css', 'bootstrap-responsive.min.css', 'application.css' %>
   <%= yield :extra_headers %>
 </head>
-<body>
-  <div id="wrapper" class="wrapper">
-    <h1 id="site-title">Panopticon</h1>
-    <nav class="admin-nav group" role="navigation">
-      <ul>
-        <li class="publications-nav">
-          <ul>
-            <li><%= link_to 'Sign out', gds_sign_out_path %></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
 
-    <div class="content" role="main">
-      <%= yield %>
-      <%= yield :extra_javascript %>
+<body>
+  <header class="navbar navbar-fixed-top" role="banner">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
+        <nav role="navigation" class="nav-collapse">
+          <ul class="nav">
+            <li><%= nav_link 'All artefacts', artefacts_path %></li>
+            <li><%= nav_link 'Add artefact', new_artefact_path %></li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown">
+                Services
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="http://digital.cabinetoffice.gov.uk/">GDS blog</a></li>
+                <li><a href="http://wiki.digital.cabinet-office.gov.uk/">GDS wiki</a></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Analytics', 'https://www.google.com/analytics/web/#dashboard/default/a26179049w50705554p51337955/'%></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Sign out', gds_sign_out_path %></li>
+              </ul>
+            </li>
+          </ul>
+
+          <p class="navbar-text pull-right">Signed in as <a href="<%= Plek.current.find('signon') %>"><%= current_user %></a></p>
+        </nav>
+      </div>
     </div>
-  </div>
+  </header>
+
+  <section class="container-fluid" role="main">
+    <%= yield %>
+    <hr>
+    <footer>
+      <p>&copy; GDS. <span class="pull-right">Panopticon version 2.0</span></p>
+    </footer>
+  </section>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <%= javascript_include_tag('bootstrap.min.js') %>
+  <%= yield :extra_javascript %>
+
 </body>
 </html>
