@@ -19,7 +19,7 @@ $(function() {
   //   no_results_text: "No results matched"
   // });
 
-  $('select#artefact_section').chosen({
+  $('select#artefact_sections').chosen({
     allow_single_deselect: true, 
     no_results_text: "Section not found"
   });
