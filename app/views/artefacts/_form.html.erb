@@ -32,7 +32,8 @@
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
       <% end %>
-      <%= f.input :sections, :as => :select, :collection => all_sections, :input_html => { :multiple => true }, :prompt => "Select a section" %>
+      <input name="artefact[sections][]" type="hidden" value="">
+      <%= f.input :sections, :as => :select, :collection => all_sections, :input_html => { :multiple => true } %>
     <% end %>
 
     <hr>
