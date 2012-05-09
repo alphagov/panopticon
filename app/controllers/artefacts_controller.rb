@@ -1,5 +1,4 @@
 class ArtefactsController < ApplicationController
-  before_filter :redirect_to_show_if_need_met, :only => :new
   before_filter :find_artefact, :only => [:show, :edit, :update]
   before_filter :build_artefact, :only => [:new, :create]
 
@@ -17,6 +16,7 @@ class ArtefactsController < ApplicationController
   end
 
   def new
+    redirect_to_show_if_need_met
   end
 
   def edit
@@ -44,7 +44,7 @@ class ArtefactsController < ApplicationController
 
   private
     def redirect_to_show_if_need_met
-      if params[:artefact] and params[:artefact][:need_id]
+      if params[:artefact] && params[:artefact][:need_id]
         artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
         redirect_to artefact if artefact
       end
