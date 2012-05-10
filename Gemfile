@@ -8,7 +8,8 @@ end
 gem 'gds-warmup-controller'
 
 gem 'plek', '~> 0'
-gem 'formtastic'
+gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
+gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 gem 'stomp'
 gem 'marples', '~> 1.0'
 gem 'daemonette', :git => 'git@github.com:alphagov/daemonette.git'
@@ -37,10 +38,9 @@ else
   gem 'gds-sso', '~> 0.5'
 end
 
-if ENV['SLIMMER_DEV']
-  gem 'slimmer', :path => '../slimmer'
-else
-  gem 'slimmer', '~> 1.1', ">= 1.1.16"
+group :assets do
+  gem "therubyracer", "~> 0.9.4"
+  gem 'uglifier'
 end
 
 group :test do
