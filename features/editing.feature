@@ -48,19 +48,19 @@ Feature: Editing artefacts
       And the API should say that more of the artefacts are related
       And the rest of the system should be notified that the artefact has been updated
 
-  Scenario: Assign a contact
-    Given an artefact exists
-      And a contact exists
-    When I add the contact to the artefact
-    Then I should be redirected to Publisher
-      And the API should say that the artefact has the contact
-      And the rest of the system should be notified that the artefact has been updated
+#  Scenario: Assign a contact
+#    Given an artefact exists
+#      And a contact exists
+#    When I add the contact to the artefact
+#    Then I should be redirected to Publisher
+#      And the API should say that the artefact has the contact
+#      And the rest of the system should be notified that the artefact has been updated
 
-  Scenario: Unassign a contact
-    Given an artefact exists
-      And a contact exists
-      And the artefact has the contact
-    When I remove the contact from the artefact
-    Then I should be redirected to Publisher
-      And the API should say that the artefact does not have the contact
-      And the rest of the system should be notified that the artefact has been updated
+#  Scenario: Unassign a contact
+#    Given an artefact exists
+#      And a contact exists
+#      And the artefact has the contact
+#    When I remove the contact from the artefact
+#    Then I should be redirected to Publisher
+#      And the API should say that the artefact does not have the contact
+#      And the rest of the system should be notified that the artefact has been updated
