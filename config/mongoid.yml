@@ -1,11 +1,12 @@
 development:
   host: localhost
-  database: panopticon_development
+  database: govuk_content_development
   persist_in_safe_mode: true
 
 test:
   host: localhost
-  database: panopticon_test
+  # Don't want this interfering with a concurrent Publisher test run
+  database: govuk_content_panopticon_test
 
 # set these environment variables on your prod server
 production:
