@@ -1,4 +1,12 @@
 require 'messenger'
+require 'marples/model_action_broadcast'
+require 'artefact'
+
+class Artefact
+  include Marples::ModelActionBroadcast
+  self.marples_client_name = 'panopticon'
+  self.marples_logger = Rails.logger
+end
 
 # Marples config needs to be triggered by on_prepare so it doesn't get merrily
 # blatted whenever the Artefact model reloads in development mode

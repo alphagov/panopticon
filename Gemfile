@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
 group :passenger_compatibility do
   gem 'rack', '1.3.5'
@@ -20,7 +21,7 @@ gem 'null_logger'
 
 gem 'exception_notification'
 
-gem 'gds-api-adapters', '~> 0.0.15'
+gem 'gds-api-adapters'
 gem 'aws-ses', :require => 'aws/ses'
 
 gem 'rails', '~> 3.1.1'
@@ -31,6 +32,8 @@ gem "mongoid", "~> 2.3"
 gem "mongo", "1.5.2"
 gem "bson_ext", "1.5.2"
 gem "bson", "1.5.2"
+
+gem "govuk_content_models", "0.0.1"
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
