@@ -21,7 +21,7 @@
       <% if ! artefact.new_record? && ! artefact.business_proposition %>
           <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
           <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
-      <% end %>      
+      <% end %>
 
       <hr>
 
@@ -58,7 +58,7 @@
     <% end %>
 
     <hr>
-    
+
     <%= f.input :tags, :input_html => {:class => "span6"} %>
 
     <% if f.object.persisted? %>
