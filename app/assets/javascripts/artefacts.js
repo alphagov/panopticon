@@ -13,14 +13,14 @@ $(function() {
   $("#artefact_name").bind('keyup', generateSlug)
 
   $('a[rel=external]').attr('target','_blank');
-  
+
   // $('.related select').chosen({
-  //   allow_single_deselect: true, 
+  //   allow_single_deselect: true,
   //   no_results_text: "No results matched"
   // });
 
   $('select#artefact_section').chosen({
-    allow_single_deselect: true, 
+    allow_single_deselect: true,
     no_results_text: "Section not found"
   });
 
