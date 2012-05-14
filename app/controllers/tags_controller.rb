@@ -10,10 +10,11 @@ class TagsController < ApplicationController
 
   def show
     @tag = TagRepository.load(params[:id])
-    if not @tag
-      head :not_found and return
+    if @tag
+      respond_with(:status=>'ok', :tag => @tag)
+    else
+      head :not_found
     end
-    respond_with(:status=>'ok', :tag => @tag)
   end
 
 end

@@ -24,6 +24,14 @@ module Panopticon
     config.assets.version = '1.0'
     config.assets.prefix = '/assets'
 
+    config.assets.precompile += %W(application.css bootstrap.min.css bootstrap-responsive.min.css chosen.css
+    artefacts.js bootstrap.min.js chosen.jquery.min.js jquery.tablesorter.min.js jquery.min.js
+    asc.gif bg.gif desc.gif
+    chosen-sprite.png
+    glyphicons-halflings-white.png glyphicons-halflings.png
+    header-crown.png icon-answer.png icon-custom-application.png icon-guide.png icon-local_transaction.png
+    icon-place.png icon-programme.png icon-service.png icon-transaction.png icon-smart-answer.png)
+
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/app/repositories)
 

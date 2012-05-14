@@ -8,6 +8,10 @@ class Artefact
   self.marples_client_name = 'panopticon'
   self.marples_logger = Rails.logger
 
+  # Setup accessible (or protected) attributes for your model
+  attr_accessor :primary_section
+
+
   # NOTE: these fields are deprecated, and soon to be replaced with a
   # tag-based implementation
   field "section",              type: String
@@ -68,6 +72,11 @@ class Artefact
     where(slug: s).first
   end
 
+  def primary_section
+    return unless self.tag_ids.present?
+    self.sections.first
+  end
+
   # All the section tags assigned to this artefact
   def sections
     self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }
@@ -97,9 +106,10 @@ class Artefact
     self.kind = KIND_TRANSLATIONS[kind.to_s.downcase.strip]
   end
 
-  def admin_url
-    app = Plek.current.find owning_app
-    app += '/admin/publications/' + id.to_s
+  def admin_url(options = {})
+    [ "#{Plek.current.find(owning_app)}/admin/publications/#{id}",
+      options.to_query
+    ].reject(&:blank?).join("?")
   end
 
   # TODO: Replace this nonsense with a proper API layer.

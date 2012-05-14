@@ -1,5 +1,4 @@
 class ArtefactsController < ApplicationController
-  before_filter :redirect_to_show_if_need_met, :only => :new
   before_filter :find_artefact, :only => [:show, :edit, :update]
   before_filter :build_artefact, :only => [:new, :create]
 
@@ -17,6 +16,7 @@ class ArtefactsController < ApplicationController
   end
 
   def new
+    redirect_to_show_if_need_met
   end
 
   def edit
@@ -24,9 +24,7 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save
-    location = @artefact.admin_url
-    location += '?return_to=' + params[:return_to] if params[:return_to]
-    respond_with @artefact, location: location
+    respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
   def update
@@ -35,7 +33,7 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
-    if saved and params[:commit] == 'Save and continue editing'
+    if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
       respond_with @artefact
@@ -44,7 +42,7 @@ class ArtefactsController < ApplicationController
 
   private
     def redirect_to_show_if_need_met
-      if params[:artefact] and params[:artefact][:need_id]
+      if params[:artefact] && params[:artefact][:need_id]
         artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
         redirect_to artefact if artefact
       end
