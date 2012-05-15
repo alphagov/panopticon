@@ -34,7 +34,7 @@
       <% end %>
       <%= f.input :primary_section, :as => :select, :collection => all_sections, :input_html => { :multiple => false } %>
       <input name="artefact[sections][]" type="hidden" value="">
-      <%= f.input :sections, :as => :select, :collection => all_sections, :input_html => { :multiple => true } %>
+      <%= f.input :sections, :as => :select, :collection => all_sections(:except=> artefact.primary_section), :input_html => { :multiple => true } %>
     <% end %>
 
     <hr>
