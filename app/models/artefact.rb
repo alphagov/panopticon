@@ -151,6 +151,9 @@ class Artefact
       hash.delete("related_artefact_ids")
       hash["id"] = hash.delete("_id")
       hash["contact"]["id"] = hash["contact"].delete("_id") if hash["contact"]
+
+      # Add a section identifier if needed
+      hash["section"] ||= section
     }
   end
 
