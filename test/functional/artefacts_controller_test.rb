@@ -67,6 +67,18 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal "Changed", artefact.reload.name
         assert_response :success
       end
+
+      should "Update our primary section and ensure it persists into sections" do
+        @tags = FactoryGirl.create_list(:tag, 3)
+        artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
+                                    :owning_app => 'publisher', :name => 'Whatever', :need_id => 1,
+                                    :tag_ids => [@tags[0].tag_id, @tags[1].tag_id])
+        put :update, :id => artefact.id, :primary_section => @tags[2].tag_id
+        artefact.reload
+
+        assert_equal @tags[2].tag_id, artefact.primary_section
+        assert_equal [@tags[2].tag_id, @tags[0].tag_id, @tags[1].tag_id], artefact.sections
+      end
     end
 
   end

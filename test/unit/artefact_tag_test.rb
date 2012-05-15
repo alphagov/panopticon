@@ -68,4 +68,12 @@ class ArtefactTagTest < ActiveSupport::TestCase
     a.reload
     assert_equal a.tag_ids, ['crime/batman', 'crime', 'crime/the-police']
   end
+
+  test "can obtain primary section" do
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => "x",
+                         :tag_ids => ['cheese', 'crime/the-police', 'crime/batman'])
+    assert_equal a.primary_section, "crime/the-police"
+  end
+
 end

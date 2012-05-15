@@ -8,9 +8,6 @@ class Artefact
   self.marples_client_name = 'panopticon'
   self.marples_logger = Rails.logger
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessor :primary_section
-
 
   # NOTE: these fields are deprecated, and soon to be replaced with a
   # tag-based implementation
@@ -29,6 +26,7 @@ class Artefact
   field "relatedness_done",     type: Boolean, default: false
   field "publication_id",       type: String
   field "tag_ids",              type: Array, default: []
+  field "primary_section",      type: String
 
   MAXIMUM_RELATED_ITEMS = 8
 
@@ -72,9 +70,17 @@ class Artefact
     where(slug: s).first
   end
 
-  def primary_section
-    return unless self.tag_ids.present?
-    self.sections.first
+  # primary section is the home section for the artefact
+  # this is used to display the bread crumb
+  def primary_section=(section_id)
+    t = TagRepository.load(section_id)
+    raise "Missing tag '#{t}" if t.nil?
+    raise "Tag #{t} is not a section" if t[:tag_type] != 'section'
+
+    self['primary_section'] = section_id
+    if not self.tag_ids.include?(section_id)
+      self.tag_ids.insert(0, section_id)
+    end
   end
 
   # All the section tags assigned to this artefact
@@ -91,13 +97,13 @@ class Artefact
       raise "Tag #{new_tag} is not a section" if new_tag[:tag_type] != 'section'
     end
 
-    # Remove any existing tags that aren't in the assigned value
-    self.tag_ids = (self.tag_ids or []).reject do |tag_id|
-      tag = TagRepository.load(tag_id)
-      tag.tag_type == 'section' and not section_ids.include? tag_id
+    self.tag_ids = (section_ids).uniq
+
+    # we are implying an order to section tags here
+    # the first section tag is the same as the primary_section
+    if self.primary_section.present? and self.tag_ids[0] != self.primary_section
+      self.tag_ids.insert(0, self.primary_section)
     end
-    # Add any missing sections
-    self.tag_ids = (self.tag_ids + section_ids).uniq
     return nil
   end
 
