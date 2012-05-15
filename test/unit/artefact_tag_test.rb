@@ -19,9 +19,22 @@ class ArtefactTagTest < ActiveSupport::TestCase
     a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
                          :need_id => 1, :owning_app => 'x')
     a.sections = ['crime', 'crime/the-police']
+    a.primary_section = 'crime'
     assert_equal ['crime', 'crime/the-police'], a.tag_ids, 'Mismatched tags'
     assert_equal ['crime', 'crime/the-police'], a.sections, 'Mismatched sections'
+
+    assert_equal 'Crime', a.section
   end
+
+  test "can set subsection as primary section" do
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => 'x')
+    a.sections = ['crime/the-police', 'crime']
+    a.primary_section = 'crime/the-police'
+
+    assert_equal 'Crime:The Police', a.section
+  end
+
 
   test "cannot set non-existent sections" do
     a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
@@ -41,6 +54,8 @@ class ArtefactTagTest < ActiveSupport::TestCase
     a.sections = ['crime', 'crime/the-police']
     a.sections = []
     assert_equal [], a.sections
+
+    assert_equal '', a.section
   end
 
   test "setting sections doesn't break other tags" do
@@ -48,7 +63,10 @@ class ArtefactTagTest < ActiveSupport::TestCase
                          :need_id => 1, :owning_app => 'x')
     a.tag_ids = ['cheese', 'bacon']
     a.sections = ['crime']
+    a.primary_section = 'crime'
     assert_equal ['bacon', 'cheese', 'crime'], a.tag_ids.sort
+
+    assert_equal 'Crime', a.section
   end
 
   test "can prepend tags" do

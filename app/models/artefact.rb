@@ -11,7 +11,6 @@ class Artefact
 
   # NOTE: these fields are deprecated, and soon to be replaced with a
   # tag-based implementation
-  field "section",              type: String
   field "department",           type: String
   field "tags",                 type: String
   field "business_proposition", type: Boolean, default: false
@@ -68,6 +67,17 @@ class Artefact
 
   def self.find_by_slug(s)
     where(slug: s).first
+  end
+
+  # The old-style section string identifier, of the form 'Crime:Prisons'
+  def section
+    return '' unless self.primary_section
+    primary_section_tag = TagRepository.load self.primary_section
+    if primary_section_tag.parent
+      [primary_section_tag.parent.title, primary_section_tag.title].join ':'
+    else
+      primary_section_tag.title
+    end
   end
 
   # primary section is the home section for the artefact
