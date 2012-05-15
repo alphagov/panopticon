@@ -97,7 +97,12 @@ class Artefact
       raise "Tag #{new_tag} is not a section" if new_tag[:tag_type] != 'section'
     end
 
-    self.tag_ids = (section_ids).uniq
+    self.tag_ids = (self.tag_ids or []).reject do |tag_id|
+      tag = TagRepository.load(tag_id)
+      tag.tag_type == 'section'
+    end
+
+    self.tag_ids = (self.tag_ids + section_ids).uniq
 
     # we are implying an order to section tags here
     # the first section tag is the same as the primary_section
