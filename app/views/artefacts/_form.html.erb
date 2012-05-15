@@ -13,7 +13,7 @@
 <% end %>
 
 <div class="well">
-  <%= semantic_form_for(artefact, :html => { :class => '' }) do |f| %>
+  <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
     <%= f.inputs do %>
       <%= f.input :name, :input_html => { :class => "span6" } %>
       <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
@@ -72,6 +72,9 @@
 
 <%= content_for :extra_javascript do %>
 <%= javascript_include_tag('chosen.jquery.min.js', 'artefacts') %>
-  <script type="text/javascript"> $(".chzn-select").chosen(); </script>
+  <script type="text/javascript"> 
+    $(".chzn-select").chosen();
+    // Onchange handler needed here.
+  </script>
 <% end %>
 <% content_for :extra_headers, stylesheet_link_tag('chosen') %>
