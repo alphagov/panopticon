@@ -50,4 +50,22 @@ class ArtefactTagTest < ActiveSupport::TestCase
     a.sections = ['crime']
     assert_equal a.tag_ids.sort, ['bacon', 'cheese', 'crime']
   end
+
+  test "can prepend tags" do
+    # A bug in earlier versions of the mongoid library meant it would try to be
+    # a little too clever dealing with arrays, and in so doing would process
+    # modified arrays as $pushAll operators, breaking the array's ordering
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => 'x')
+    a.tag_ids = ['crime', 'crime/the-police']
+    a.save
+    a.reload
+    assert_equal a.tag_ids, ['crime', 'crime/the-police']
+
+    a.tag_ids = ['crime/batman'] + a.sections
+    assert_equal a.tag_ids, ['crime/batman', 'crime', 'crime/the-police']
+    a.save
+    a.reload
+    assert_equal a.tag_ids, ['crime/batman', 'crime', 'crime/the-police']
+  end
 end
