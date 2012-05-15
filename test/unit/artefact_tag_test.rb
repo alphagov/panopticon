@@ -40,7 +40,7 @@ class ArtefactTagTest < ActiveSupport::TestCase
                          :need_id => 1, :owning_app => 'x')
     a.sections = ['crime', 'crime/the-police']
     a.sections = []
-    assert_equal a.sections, []
+    assert_equal [], a.sections
   end
 
   test "setting sections doesn't break other tags" do
@@ -48,7 +48,7 @@ class ArtefactTagTest < ActiveSupport::TestCase
                          :need_id => 1, :owning_app => 'x')
     a.tag_ids = ['cheese', 'bacon']
     a.sections = ['crime']
-    assert_equal a.tag_ids.sort, ['bacon', 'cheese', 'crime']
+    assert_equal ['bacon', 'cheese', 'crime'], a.tag_ids.sort
   end
 
   test "can prepend tags" do
