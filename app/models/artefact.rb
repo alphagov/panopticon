@@ -95,7 +95,7 @@ class Artefact
 
   # All the section tags assigned to this artefact
   def sections
-    self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }
+    self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }.freeze
   end
 
   # Set the section tags for this artefact

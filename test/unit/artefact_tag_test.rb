@@ -69,6 +69,18 @@ class ArtefactTagTest < ActiveSupport::TestCase
     assert_equal 'Crime', a.section
   end
 
+  test "appending sections either works or raises an exception" do
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => 'x')
+    a.sections = ['crime']
+    begin
+      a.sections << 'crime/the-police'
+    rescue RuntimeError
+      return  # If the sections list is frozen, that's ok
+    end
+    assert_equal ['crime', 'crime/the-police'], a.sections
+  end
+
   test "can prepend tags" do
     # A bug in earlier versions of the mongoid library meant it would try to be
     # a little too clever dealing with arrays, and in so doing would process
