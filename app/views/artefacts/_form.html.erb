@@ -25,23 +25,23 @@
 
       <hr>
 
-      <%= f.input :business_proposition, :label => 'Business Content?', :as => :boolean %>
+      <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
 
       <hr>
 
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
       <% end %>
-      <%= f.input :primary_section, :as => :select, :collection => all_sections, :input_html => { :multiple => false, :class => "chzn-select" } %>
+      <%= f.input :primary_section, :as => :select, :collection => all_sections, :input_html => { :multiple => false, :class => "span6 chzn-select" }, :hint => "This is the primary section the content will live in. This will form the content breadcrumb." %>
       <input name="artefact[sections][]" type="hidden" value="">
-      <%= f.input :sections, :as => :select, :collection => all_sections(:except=> artefact.primary_section), :input_html => { :multiple => true, :class => "chzn-select" } %>
+      <%= f.input :sections, :as => :select, :collection => all_sections(:except=> artefact.primary_section), :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Pick some extra sections that the content will also appear in." %>
     <% end %>
 
     <hr>
 
     <%= f.inputs do %>
       <input name="artefact[related_artefact_ids][]" type="hidden" value="">
-      <%= f.input :related_artefacts, :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
+      <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
       <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
     <% end %>
 
@@ -61,7 +61,7 @@
 
     <hr>
     
-    <%= f.input :tags, :input_html => {:class => "span6"} %>
+    <%= f.input :tags, :label => "Keyword tags", :input_html => {:class => "span6"}, :hint => "Comma seperated keyword tags." %>
 
     <% if f.object.persisted? %>
       <%= f.submit :value => "Save and continue editing", :class => "btn" %>
