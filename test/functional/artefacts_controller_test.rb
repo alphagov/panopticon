@@ -53,6 +53,16 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal artefact.kind, parsed['kind']
         assert_equal artefact.owning_app, parsed['owning_app']
       end
+
+      should "Include section ID" do
+        TagRepository.put :tag_id => 'crime', :tag_type => 'section', :title => 'Crime'
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1, :primary_section => 'crime'
+        get :show, id: artefact.id, format: :json
+        parsed = JSON.parse(response.body)
+
+        assert_equal artefact.section, parsed['section']
+      end
+
     end
 
     context "PUT /artefacts/:id" do

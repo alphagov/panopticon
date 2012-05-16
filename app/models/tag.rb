@@ -15,4 +15,10 @@ class Tag
       :type => self.tag_type
     }
   end
+
+  def parent
+    # Warning: distinctly hacky implementation of parent detection
+    return nil unless tag_id.include? '/'
+    return TagRepository.load tag_id.split('/').first
+  end
 end

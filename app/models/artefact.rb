@@ -11,7 +11,6 @@ class Artefact
 
   # NOTE: these fields are deprecated, and soon to be replaced with a
   # tag-based implementation
-  field "section",              type: String
   field "department",           type: String
   field "tags",                 type: String
   field "business_proposition", type: Boolean, default: false
@@ -70,6 +69,17 @@ class Artefact
     where(slug: s).first
   end
 
+  # The old-style section string identifier, of the form 'Crime:Prisons'
+  def section
+    return '' unless self.primary_section
+    primary_section_tag = TagRepository.load self.primary_section
+    if primary_section_tag.parent
+      [primary_section_tag.parent.title, primary_section_tag.title].join ':'
+    else
+      primary_section_tag.title
+    end
+  end
+
   # primary section is the home section for the artefact
   # this is used to display the bread crumb
   def primary_section=(section_id)
@@ -85,7 +95,7 @@ class Artefact
 
   # All the section tags assigned to this artefact
   def sections
-    self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }
+    self.tag_ids.select { |t| TagRepository.load(t).tag_type == 'section' }.freeze
   end
 
   # Set the section tags for this artefact
@@ -141,6 +151,9 @@ class Artefact
       hash.delete("related_artefact_ids")
       hash["id"] = hash.delete("_id")
       hash["contact"]["id"] = hash["contact"].delete("_id") if hash["contact"]
+
+      # Add a section identifier if needed
+      hash["section"] ||= section
     }
   end
 
