@@ -81,6 +81,24 @@ class ArtefactTagTest < ActiveSupport::TestCase
     assert_equal ['crime', 'crime/the-police'], a.sections
   end
 
+  test "setting primary section adds section to tags" do
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => 'x')
+    a.sections = ['crime', 'crime/the-police']
+    a.primary_section = 'crime/batman'
+    assert_include a.sections, 'crime/batman'
+  end
+
+  test "setting primary section to existing section works" do
+    a = Artefact.create!(:slug => "a", :name => "a", :kind => "answer",
+                         :need_id => 1, :owning_app => 'x')
+    a.sections = ['crime', 'crime/the-police']
+    a.primary_section = 'crime/the-police'
+    # Note: not testing the order of the sections in this test, just testing
+    # that the section is still present and not duplicated
+    assert_equal ['crime', 'crime/the-police'], a.sections.sort
+  end
+
   test "can prepend tags" do
     # A bug in earlier versions of the mongoid library meant it would try to be
     # a little too clever dealing with arrays, and in so doing would process
