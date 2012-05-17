@@ -22,3 +22,11 @@ end
 Then /^the API should say that the artefact does not have the contact$/ do
   check_artefact_does_not_have_contact_in_api @artefact, @contact
 end
+
+Then /^the API should say that the artefact has the section$/ do
+  check_artefact_has_tag_in_api @artefact, @section.tag_id
+end
+
+Then /^the API should say that the artefact does not have the section$/ do
+  check_artefact_does_not_have_tag_in_api @artefact, @section.tag_id
+end

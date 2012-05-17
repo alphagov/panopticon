@@ -292,7 +292,7 @@ DEPENDENCIES
   minitest
   mocha
   mongo (= 1.5.2)
-  mongoid (~> 2.3)
+  mongoid (~> 2.4.2)
   nokogiri
   null_logger
   plek (~> 0)
