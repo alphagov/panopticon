@@ -28,7 +28,7 @@ class ArtefactsController < ApplicationController
   end
 
   def update
-    parameters_to_use = params[:artefact] || params.slice(*Artefact.fields.keys)
+    parameters_to_use = extract_parameters(params)
 
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
@@ -53,6 +53,19 @@ class ArtefactsController < ApplicationController
     end
 
     def build_artefact
-      @artefact = Artefact.new(params[:artefact] || params.slice(*Artefact.fields.keys))
+      @artefact = Artefact.new(extract_parameters(params))
     end
+
+    def extract_parameters(params)
+      fields_to_update = Artefact.fields.keys + ['sections']
+      parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
+
+      # Strip out the empty submit option for sections
+      ['sections'].each do |param|
+        param_value = parameters_to_use[param]
+        param_value.reject! &:blank? if param_value
+      end
+      parameters_to_use
+    end
+
 end

@@ -64,3 +64,18 @@ Feature: Editing artefacts
 #    Then I should be redirected to Publisher
 #      And the API should say that the artefact does not have the contact
 #      And the rest of the system should be notified that the artefact has been updated
+
+  Scenario: Add a section
+    Given an artefact exists
+      And a section exists
+    When I add the section to the artefact
+    Then I should be redirected to Publisher
+      And the API should say that the artefact has the section
+
+  Scenario: Remove a section
+    Given an artefact exists
+      And a section exists
+      And the artefact has the section
+    When I remove the section from the artefact
+    Then I should be redirected to Publisher
+      And the API should say that the artefact does not have the section

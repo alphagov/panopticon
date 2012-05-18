@@ -28,12 +28,12 @@ gem 'rails', '~> 3.1.1'
 
 gem 'colorize', '~> 0.5.8'
 
-gem "mongoid", "~> 2.3"
+gem "mongoid", "~> 2.4.2"
 gem "mongo", "1.5.2"
 gem "bson_ext", "1.5.2"
 gem "bson", "1.5.2"
 
-gem "govuk_content_models", "0.0.1"
+gem "govuk_content_models", "0.0.5"
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
