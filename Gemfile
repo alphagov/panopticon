@@ -33,7 +33,7 @@ gem "mongo", "1.5.2"
 gem "bson_ext", "1.5.2"
 gem "bson", "1.5.2"
 
-gem "govuk_content_models", "0.0.1"
+gem "govuk_content_models", "0.0.4"
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
