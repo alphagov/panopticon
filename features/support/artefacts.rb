@@ -31,11 +31,11 @@ def add_related_artefacts(artefact, related_artefacts)
 end
 
 def select_related_artefact(artefact)
-  select artefact.name, :from => 'Related artefacts'
+  select artefact.name, :from => 'Related content'
 end
 
 def unselect_related_artefact(artefact)
-  unselect artefact.name, :from => 'Related artefacts'
+  unselect artefact.name, :from => 'Related content'
 end
 
 def select_related_artefacts(artefacts)
