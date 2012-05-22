@@ -20,10 +20,11 @@ module SectionsHelper
     sections.reject { |s| s[1] == options[:except] }
   end
 
-  def section_tab_list
-    s = all_sections
-
-    output = s.map do |title, tag_id|
+  def parent_section_tab_list
+    parent_sections = all_sections.reject do |title, tag_id|
+      tag_id =~ %r{/}
+    end
+    output = parent_sections.map do |title, tag_id|
       content_tag(:li) do
         link_to(title, :section => tag_id)
       end
