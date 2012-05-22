@@ -5,7 +5,12 @@ class ArtefactsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @artefacts = Artefact.order_by([[:name, :asc]]).all
+    @artefacts = Artefact.order_by([[:name, :asc]])
+
+    if !params[:section].blank?
+      @artefacts = @artefacts.where(:tag_ids => params[:section])
+    end
+
     respond_with @artefacts
   end
 
