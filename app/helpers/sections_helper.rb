@@ -20,11 +20,16 @@ module SectionsHelper
     sections.reject { |s| s[1] == options[:except] }
   end
 
-  def parent_section_tab_list(options)
+  def parent_sections
     parent_sections = all_sections.reject do |title, tag_id|
       tag_id =~ %r{/}
     end
-    output = parent_sections.map do |title, tag_id|
+  end
+
+  def parent_section_tab_list(options)
+    sections = [["All", "all"]] + parent_sections
+
+    output = sections.map do |title, tag_id|
       css_class = ""
       if tag_id == options[:current].downcase
         css_class = "active"

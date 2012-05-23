@@ -7,8 +7,8 @@ class ArtefactsController < ApplicationController
   def index
     @artefacts = Artefact.order_by([[:name, :asc]])
 
-    if !params[:section].blank?
-      @section = params[:section]
+    @section = params[:section] || "all"
+    if !params[:section].blank? && params[:section] != "all"
       @artefacts = @artefacts.where(:tag_ids => params[:section])
     end
 
