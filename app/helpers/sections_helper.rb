@@ -1,12 +1,31 @@
 module SectionsHelper
 
+  # Load all the section tags and return them in a form suitable for
+  # use with the rails form helpers to build a select box.
+  #
+  # To force a tag to be excluded pass in the +options+ hash with a
+  # key of :except
   def all_sections(options = {})
     section_tags = TagRepository.load_all(:type => 'section')
 
+    sections = options_for_sections(section_tags)
+
+    return sections unless options[:except]
+    sections.reject { |s| s[1] == options[:except] }
+  end
+
+  # Convert an array of sections into a nested array suitable for
+  # using with the rails form helpers' select box tools.
+  #
+  # The way that tags are nested can lead to ambiguous titles (eg. two
+  # independent sections called 'Children' with different parents).
+  # These are then distinguished by displaying the tag_id which will
+  # reveal the parentage.
+  def options_for_sections(section_tags)
     title_counts = Hash.new(0)
     section_tags.each { |tag| title_counts[tag.title] += 1 }
 
-    sections = section_tags.map do |tag|
+    section_tags.map do |tag|
       # Annotate tags, where necessary, with their IDs
       if title_counts[tag.title] > 1
         display_name = "#{tag.title} [#{tag.tag_id}]"
@@ -15,13 +34,10 @@ module SectionsHelper
       end
       [display_name, tag.tag_id]
     end
-
-    return sections unless options[:except]
-    sections.reject { |s| s[1] == options[:except] }
   end
 
   def parent_sections
-    parent_sections = all_sections.reject do |title, tag_id|
+    parent_sections = all_sections.select do |title, tag_id|
       tag_id =~ %r{/}
     end
   end
