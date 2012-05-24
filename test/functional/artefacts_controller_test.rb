@@ -14,6 +14,22 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_redirected_to Plek.current.find('publisher') + "/admin/publications/#{artefact.id}"
       end
     end
+
+    context "GET index" do
+      should "should filter by section" do
+        tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+        tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
+
+        artefact1 = FactoryGirl.create(:artefact, tag_ids: ["crime"])
+        artefact2 = FactoryGirl.create(:artefact, tag_ids: ["education"])
+
+        get :index, section: "crime"
+        assert_select "tbody tr", count: 1
+        assert_select "tbody tr td", /crime/
+        assert_select "tbody tr td", artefact1.name
+      end
+    end
+
   end
 
   context "accept JSON" do
