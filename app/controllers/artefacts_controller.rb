@@ -8,8 +8,8 @@ class ArtefactsController < ApplicationController
     @artefacts = Artefact.order_by([[:name, :asc]])
 
     @section = params[:section] || "all"
-    if !params[:section].blank? && params[:section] != "all"
-      @artefacts = @artefacts.where(:tag_ids => params[:section])
+    unless params[:section].blank? || params[:section] != "all"
+      @artefacts = @artefacts.where(tag_ids: params[:section])
     end
 
     respond_with @artefacts
@@ -69,7 +69,7 @@ class ArtefactsController < ApplicationController
       # Strip out the empty submit option for sections
       ['sections'].each do |param|
         param_value = parameters_to_use[param]
-        param_value.reject! &:blank? if param_value
+        param_value.reject!(&:blank?) if param_value
       end
       parameters_to_use
     end
