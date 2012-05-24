@@ -17,6 +17,10 @@ body {
   padding-left: 2em;
 }
 
+.sidebar-nav {
+  padding: 9px 0;
+}
+
 td.icon {
   text-align: center;
 }
