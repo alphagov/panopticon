@@ -30,7 +30,6 @@ Feature: Editing artefacts
     When I create a relationship between them
     Then I should be redirected to Publisher
       And the API should say that the artefacts are related
-      And the rest of the system should be notified that the artefact has been updated
 
   Scenario: Unassign a related item
     Given two artefacts exist
@@ -38,7 +37,6 @@ Feature: Editing artefacts
     When I destroy their relationship
     Then I should be redirected to Publisher
       And the API should say that the artefacts are not related
-      And the rest of the system should be notified that the artefact has been updated
 
   Scenario: Assign additional related items
     Given several artefacts exist
@@ -46,7 +44,6 @@ Feature: Editing artefacts
     When I create more relationships between them
     Then I should be redirected to Publisher
       And the API should say that more of the artefacts are related
-      And the rest of the system should be notified that the artefact has been updated
 
 #  Scenario: Assign a contact
 #    Given an artefact exists
@@ -54,7 +51,6 @@ Feature: Editing artefacts
 #    When I add the contact to the artefact
 #    Then I should be redirected to Publisher
 #      And the API should say that the artefact has the contact
-#      And the rest of the system should be notified that the artefact has been updated
 
 #  Scenario: Unassign a contact
 #    Given an artefact exists
@@ -63,7 +59,6 @@ Feature: Editing artefacts
 #    When I remove the contact from the artefact
 #    Then I should be redirected to Publisher
 #      And the API should say that the artefact does not have the contact
-#      And the rest of the system should be notified that the artefact has been updated
 
   Scenario: Add a section
     Given an artefact exists
