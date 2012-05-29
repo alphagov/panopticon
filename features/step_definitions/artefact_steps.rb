@@ -1,6 +1,5 @@
 Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
-  flush_notifications
 end
 
 When /^I mark relatedness as done$/ do
@@ -58,7 +57,6 @@ end
 
 Given /^the artefacts are related$/ do
   add_related_artefact @artefact, @related_artefact
-  flush_notifications
 end
 
 When /^I destroy their relationship$/ do
@@ -69,12 +67,10 @@ end
 
 Given /^several artefacts exist$/ do
   @artefact, *@related_artefacts, @unrelated_artefact = create_six_artefacts
-  flush_notifications
 end
 
 Given /^some of the artefacts are related$/ do
   add_related_artefacts @artefact, @related_artefacts[0...(@related_artefacts.length / 2)]
-  flush_notifications
 end
 
 When /^I create more relationships between them$/ do
@@ -85,7 +81,6 @@ end
 
 Given /^an artefact exists$/ do
   @artefact = create_artefact
-  flush_notifications
 end
 
 Given /^a section exists$/ do
@@ -100,7 +95,6 @@ end
 
 Given /^the artefact has the contact$/ do
   add_contact @artefact, @contact
-  flush_notifications
 end
 
 Given /^the artefact has the section$/ do

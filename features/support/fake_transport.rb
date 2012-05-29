@@ -19,8 +19,4 @@ class FakeTransport
     attr_writer :notifications
 end
 
-Artefact.marples_transport = Messenger.transport = FakeTransport.instance
-
-Before do
-  flush_notifications
-end
+Messenger.transport = FakeTransport.instance
