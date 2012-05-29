@@ -15,12 +15,6 @@ GIT
     formtastic (2.1.1)
       actionpack (~> 3.0)
 
-GIT
-  remote: git@github.com:alphagov/daemonette.git
-  revision: 8179408a2db8f2e882965a2b95ddfc4cdf5230f3
-  specs:
-    daemonette (0.1.0)
-
 GEM
   remote: http://rubygems.org/
   remote: https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/
@@ -279,7 +273,6 @@ DEPENDENCIES
   ci_reporter
   colorize (~> 0.5.8)
   cucumber-rails
-  daemonette!
   database_cleaner
   exception_notification
   factory_girl
