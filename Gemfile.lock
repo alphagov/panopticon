@@ -291,7 +291,7 @@ DEPENDENCIES
   gds-sso (~> 0.5)
   gds-warmup-controller
   gelf
-  govuk_content_models (~> 0.0.7)
+  govuk_content_models (~> 0.0.11)
   launchy
   marples (~> 1.0)
   minitest
