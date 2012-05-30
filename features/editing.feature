@@ -7,7 +7,7 @@ Feature: Editing artefacts
 
   Scenario: Editing an artefact and changing the slug
     Given two artefacts exist
-    When I change the slug of the first artefact to "a new slug"
+    When I change the slug of the first artefact to "a-new-slug"
     And I save
     Then I should see the edit form again
       And I should see an indication that the save worked
