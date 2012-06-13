@@ -1,7 +1,6 @@
 Panopticon::Application.routes.draw do
   resources :artefacts
   resources :registrations, only: :create
-
   resources :tags, :defaults => {:format => 'json'}
 
   resources :curated_lists, only: :index
