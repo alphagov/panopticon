@@ -2,14 +2,14 @@ def create_artefact
   Factory.create :artefact, :name => 'Child Benefit rates', :need_id => 1
 end
 
-def create_two_artefacts
+def create_two_artefacts(owning_app="publisher")
   [
     'Probation',
     'Leaving prison'
-  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1 }
+  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
 end
 
-def create_six_artefacts
+def create_six_artefacts(owning_app="publisher")
   [
     'Driving disqualifications',
     'Book the practical driving test',
@@ -17,7 +17,7 @@ def create_six_artefacts
     'National Driver Offender Retraining Scheme',
     'Apply for a new driving licence',
     'Get a divorce'
-  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1 }
+  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
 end
 
 def add_related_artefact(artefact, related_artefact)

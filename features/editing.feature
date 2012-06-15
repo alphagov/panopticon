@@ -26,10 +26,10 @@ Feature: Editing artefacts
     Then I should be redirected to Publisher
 
   Scenario: Assign a related item
-    Given two artefacts exist
+    Given two non-publisher artefacts exist
     When I create a relationship between them
-    Then I should be redirected to Publisher
-      And the API should say that the artefacts are related
+      And I save
+    Then the API should say that the artefacts are related
 
   Scenario: Unassign a related item
     Given two artefacts exist
@@ -39,11 +39,11 @@ Feature: Editing artefacts
       And the API should say that the artefacts are not related
 
   Scenario: Assign additional related items
-    Given several artefacts exist
+    Given several non-publisher artefacts exist
       And some of the artefacts are related
     When I create more relationships between them
-    Then I should be redirected to Publisher
-      And the API should say that more of the artefacts are related
+      And I save
+    Then the API should say that more of the artefacts are related
 
 #  Scenario: Assign a contact
 #    Given an artefact exists
