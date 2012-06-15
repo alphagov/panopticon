@@ -1,4 +1,4 @@
-Feature: Editing artefacts
+Feature: Managing contacts
   In order that citizens know who to talk to if GovUK doesn't answer their question
   I want to connect contacts and artefacts
   This feature is not currently in use
