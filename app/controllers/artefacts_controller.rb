@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit, :update]
+  before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
 
   respond_to :html, :json
@@ -33,7 +33,15 @@ class ArtefactsController < ApplicationController
     respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
+  # NB: We are departing from usual rails conventions here. PUTing a resource
+  # will create it if it doesn't exist, rather than the usual 404.
   def update
+    begin
+      @artefact = Artefact.from_param(params[:id])
+    rescue Mongoid::Errors::DocumentNotFound
+      @artefact = Artefact.new(slug: params[:id])
+    end
+
     parameters_to_use = extract_parameters(params)
 
     saved = @artefact.update_attributes(parameters_to_use)
