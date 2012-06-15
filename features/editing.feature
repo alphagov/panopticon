@@ -15,10 +15,10 @@ Feature: Editing artefacts
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
     When I change the title of the first artefact
-    And I mark relatedness as done
-    And I save, indicating that I want to continue editing afterwards
+      And I mark relatedness as done
+      And I save, indicating that I want to continue editing afterwards
     Then I should be redirected back to the edit page
-    And I should see an indication that the save worked
+      And I should see an indication that the save worked
 
   Scenario: Trying to create an artefact for a need that is already met
     Given an artefact exists
@@ -44,21 +44,6 @@ Feature: Editing artefacts
     When I create more relationships between them
     Then I should be redirected to Publisher
       And the API should say that more of the artefacts are related
-
-#  Scenario: Assign a contact
-#    Given an artefact exists
-#      And a contact exists
-#    When I add the contact to the artefact
-#    Then I should be redirected to Publisher
-#      And the API should say that the artefact has the contact
-
-#  Scenario: Unassign a contact
-#    Given an artefact exists
-#      And a contact exists
-#      And the artefact has the contact
-#    When I remove the contact from the artefact
-#    Then I should be redirected to Publisher
-#      And the API should say that the artefact does not have the contact
 
   Scenario: Add a section
     Given an artefact exists
