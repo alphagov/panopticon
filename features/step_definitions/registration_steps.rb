@@ -1,4 +1,4 @@
-When /^I post a smart answer's details into panopticon$/ do
+When /^I put a new smart answer's details into panopticon$/ do
 
   stub_search
   setup_user
@@ -7,7 +7,7 @@ When /^I post a smart answer's details into panopticon$/ do
   # interface = GdsApi::CoreApi.new('test', "http://example.com")
   # interface.register(resource_details)
 
-  post "/registrations.json", resource: example_smart_answer_json
+  put "/artefacts/#{example_smart_answer['slug']}.json", resource: example_smart_answer_json
 end
 
 Then /^I should have an artefact created$/ do
