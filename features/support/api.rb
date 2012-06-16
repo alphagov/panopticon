@@ -24,6 +24,10 @@ def check_artefact_exists_in_api(artefact_or_slug)
   assert !! api_client.artefact_for_slug(slug)
 end
 
+def check_artefact_has_name_in_api(artefact, name)
+  assert_equal name, artefact_data_from_api(artefact)[:name]
+end
+
 def check_artefact_has_related_artefact_in_api(artefact, related_artefact)
   assert_include related_artefact_ids_from_api(artefact), related_artefact.id.to_s
 end

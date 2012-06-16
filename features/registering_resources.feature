@@ -9,10 +9,10 @@ Feature: Registering resources
       And rummager should be notified
       And the router should be notified
 
-  @wip
   Scenario: Updating a smart answer
     When I put updated smart answer details into panopticon
     Then the relevant artefact should be updated
+      And the API should reflect the change
       And rummager should be notified
       And the router should be notified
 
@@ -23,10 +23,11 @@ Feature: Registering resources
       And rummager should not be notified
       And the router should not be notified
 
-  # Scenario: Putting an item whose slug is owned by another app
-  #   When I put a new item into panopticon whose slug is already taken
-  #   Then I should receive an HTTP 409 response
-  #     And the relevant artefact should not be updated
+  @wip
+  Scenario: Putting an item whose slug is owned by another app
+    When I put a new item into panopticon whose slug is already taken
+    Then I should receive an HTTP 409 response
+      And the relevant artefact should not be updated
 
   # Scenario: Editing an item that's draft
   #   When I edit a draft item's details

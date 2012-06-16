@@ -4,7 +4,6 @@ Given /^I have stubbed search and router$/ do
 end
 
 When /^I put a new smart answer's details into panopticon$/ do
-
   stub_search
   stub_router
   setup_user
@@ -16,8 +15,29 @@ When /^I put a new smart answer's details into panopticon$/ do
   put "/artefacts/#{example_smart_answer['slug']}.json", artefact: example_smart_answer
 end
 
+When /^I put updated smart answer details into panopticon$/ do
+  stub_search
+  stub_router
+  setup_user
+  setup_existing_artefact
+
+  artefact_basics = example_smart_answer
+  artefact_basics['name'] = 'Something simpler'
+  put "/artefacts/#{artefact_basics['slug']}.json", 
+    artefact: artefact_basics
+end
+
 Then /^a new artefact should be created$/ do
-  assert_equal 201, last_response.status, last_response.inspect
+  assert_equal 201, last_response.status, "Expected 201, got #{last_response.status}"
+end
+
+Then /^the relevant artefact should be updated$/ do
+  # Check status code of response
+  assert_equal 200, last_response.status, "Expected 200, got #{last_response.status}"
+end
+
+Then /^the API should reflect the change$/ do
+  check_artefact_has_name_in_api @artefact, 'Something simpler'
 end
 
 Then /^rummager should be notified$/ do

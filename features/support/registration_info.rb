@@ -29,6 +29,10 @@ module RegistrationInfo
   def stub_router
     @fake_router = FakeWeb.register_uri(:put, /http:\/\/router.cluster:8080\/router\/routes\/.*/, times: 1)
   end
+
+  def setup_existing_artefact
+    @artefact = Artefact.create!(example_smart_answer)
+  end
 end
 
 World(RegistrationInfo)
