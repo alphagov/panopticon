@@ -27,11 +27,6 @@ Feature: Registering resources
   #   Then I should receive an HTTP 409 response
   #     And the relevant artefact should not be updated
 
-  # Scenario: Editing a live item
-  #   When I edit a live item's details but not it's slug
-  #   Then rummager should be notified
-  #     And the router should not be notified
-
   # Scenario: Editing a live item's slug
   #   When I edit a live item's slug
   #   Then rummager should be told to do a partial update

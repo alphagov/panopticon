@@ -6,6 +6,10 @@ Given /^the first artefact is in draft$/ do
   Artefact.first.update_attribute 'live', false
 end
 
+Given /^the first artefact is live$/ do
+  Artefact.first.update_attribute 'live', true
+end
+
 When /^I mark relatedness as done$/ do
   check :relatedness_done
 end

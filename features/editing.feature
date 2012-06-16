@@ -39,9 +39,16 @@ Feature: Editing artefacts
   Scenario: Editing an item that's draft
     Given two artefacts exist
       And the first artefact is in draft
-
     When I change the title of the first artefact
       And I save
-
     Then rummager should not be notified
       And the router should not be notified
+
+  # TODO: Update to look for partial updates of rummager
+  Scenario: Editing a live item
+    Given two artefacts exist
+      And the first artefact is live
+    When I change the title of the first artefact
+      And I save
+    Then rummager should be notified
+      And the router should be notified
