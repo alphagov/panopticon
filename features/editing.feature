@@ -44,11 +44,17 @@ Feature: Editing artefacts
     Then rummager should not be notified
       And the router should not be notified
 
-  # TODO: Update to look for partial updates of rummager
+  @wip
   Scenario: Editing a live item
     Given two artefacts exist
       And the first artefact is live
     When I change the title of the first artefact
       And I save
-    Then rummager should be notified
+    Then rummager should be told to do a partial update
       And the router should be notified
+
+  @wip
+  Scenario: Editing a live item's slug
+    When I edit a live item's slug
+    Then rummager should be told to do a partial update
+      And the router should be told to create a redirect

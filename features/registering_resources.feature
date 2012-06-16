@@ -26,8 +26,3 @@ Feature: Registering resources
     When I put a new item into panopticon whose slug is already taken
     Then I should receive an HTTP 409 response
       And the relevant artefact should not be updated
-
-  # Scenario: Editing a live item's slug
-  #   When I edit a live item's slug
-  #   Then rummager should be told to do a partial update
-  #     And the router should be told to create a redirect
