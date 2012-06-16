@@ -55,6 +55,11 @@ Feature: Editing artefacts
 
   @wip
   Scenario: Editing a live item's slug
-    When I edit a live item's slug
+    Given two artefacts exist
+      And the first artefact is live
+
+    # Could be via the API or the UI?
+    When I change the slug of the first artefact
+      And I save
     Then rummager should be told to do a partial update
       And the router should be told to create a redirect
