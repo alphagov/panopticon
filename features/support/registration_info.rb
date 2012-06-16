@@ -23,7 +23,11 @@ module RegistrationInfo
   end
 
   def stub_search
-    FakeWeb.register_uri(:post, "http://search.test.gov.uk/documents", {})
+    @fake_search = FakeWeb.register_uri(:post, "http://search.test.gov.uk/documents", times: 1)
+  end
+
+  def stub_router
+    @fake_router = FakeWeb.register_uri(:put, /http:\/\/router.cluster:8080\/router\/routes\/.*/, times: 1)
   end
 end
 

@@ -4,6 +4,7 @@ Feature: Editing artefacts
 
   Background:
     Given I am an admin
+      And I have stubbed search and router
 
   Scenario: Editing an artefact and changing the slug
     Given two artefacts exist

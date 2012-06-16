@@ -1,4 +1,3 @@
-@wip
 Feature: Registering resources
   In order to introduce new resources into the system
   I want to register artefacts in panopticon
@@ -10,12 +9,14 @@ Feature: Registering resources
       And rummager should be notified
       And the router should be notified
 
+  @wip
   Scenario: Updating a smart answer
     When I put updated smart answer details into panopticon
     Then the relevant artefact should be updated
       And rummager should be notified
       And the router should be notified
 
+  @wip
   Scenario: Creating a draft item
     When I put a draft smart answer's details into panopticon
     Then a new artefact should be created

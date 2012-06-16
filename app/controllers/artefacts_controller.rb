@@ -49,6 +49,11 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
+    if saved
+      update_router
+      update_search
+    end
+
     if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
@@ -64,6 +69,38 @@ class ArtefactsController < ApplicationController
       end
     end
 
+    # TODO: This behaviour probably belongs in an Observer
+    def update_router
+      @router = Router::Client.new(logger: Rails.logger)
+
+      # We assume for now that the application is already registered
+      # We also assume we have the same value for owning_app as the router has for app id
+      # TODO: Remove these assumptions
+      # TODO: What do we do about alternate routes (eg. {slug}.json or things with parts/print/video)?
+      # TODO: What do we do about apps that want to claim prefix routes?
+      @router.routes.update(application_id: "smartanswers", route_type: :prefix, incoming_path: "/#{@artefact.slug}")
+    end
+
+    # TODO: This behaviour probably belongs in an Observer
+    def update_search
+      structure = normalise_keys(params[:artefact])
+      Rummageable.index(rummageable_params(structure))
+    end
+
+    # A translation layer because we have inconsistent language.
+    # TODO: Make language consistent so this isn't needed any more
+    def normalise_keys(structure)
+      structure["name"] ||= structure["title"]
+      structure["kind"] ||= structure["format"]
+      structure["kind"] = 'smart-answer' if structure["kind"] == 'smart_answer'
+
+      structure
+    end
+
+    def rummageable_params(structure)
+      structure.slice(Rummageable::VALID_KEYS)
+    end
+
     def find_artefact
       @artefact = Artefact.from_param(params[:id])
     end
@@ -74,6 +111,8 @@ class ArtefactsController < ApplicationController
 
     def extract_parameters(params)
       fields_to_update = Artefact.fields.keys + ['sections']
+
+      # TODO: Remove this variance
       parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
 
       # Strip out the empty submit option for sections
