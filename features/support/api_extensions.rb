@@ -1,8 +1,8 @@
 require 'gds_api/json_client'
 
-class GdsApi::CoreApi < GdsApi::Base
+class GdsApi::PanopticonApi < GdsApi::Base
   def register(details)
-    post_json(base_url + ".json", resource: details)
+    put_json(base_url + ".json", artefact: details)
   end
 
   private
@@ -11,7 +11,7 @@ class GdsApi::CoreApi < GdsApi::Base
   end
 
   def base_url
-    "#{endpoint}/registrations"
+    "#{endpoint}/artefacts"
   end
 end
 
@@ -22,7 +22,7 @@ end
 #     flow = flow_registry.flows.first
 #     presenter = TextPresenter.new(flow)
 
-#     interface = GdsApi::CoreApi.new
+#     interface = GdsApi::PanopticonApi.new
 #     interface.register({
 #       need_id: flow.need_id,
 #       slug: flow.name,
