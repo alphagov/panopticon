@@ -49,7 +49,7 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
-    if saved
+    if saved and @artefact.live?
       update_router
       update_search
     end

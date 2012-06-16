@@ -4,9 +4,7 @@ Given /^I have stubbed search and router$/ do
 end
 
 When /^I put a new smart answer's details into panopticon$/ do
-  stub_search
-  stub_router
-  setup_user
+  prepare_registration_environment
 
   # TODO: Make this work via API Adapters
   # interface = GdsApi::CoreApi.new('test', "http://example.com")
@@ -16,15 +14,22 @@ When /^I put a new smart answer's details into panopticon$/ do
 end
 
 When /^I put updated smart answer details into panopticon$/ do
-  stub_search
-  stub_router
-  setup_user
+  prepare_registration_environment
   setup_existing_artefact
 
   artefact_basics = example_smart_answer
   artefact_basics['name'] = 'Something simpler'
   put "/artefacts/#{artefact_basics['slug']}.json", 
     artefact: artefact_basics
+end
+
+When /^I put a draft smart answer's details into panopticon$/ do
+  prepare_registration_environment
+  
+  details = example_smart_answer
+  details['live'] = false
+
+  put "/artefacts/#{example_smart_answer['slug']}.json", artefact: details
 end
 
 Then /^a new artefact should be created$/ do
@@ -50,4 +55,12 @@ Then /^the router should be notified$/ do
   # We allow one request to the router. FakeWeb will decrement
   # the allowed number of requests each time one is made
   assert_equal 1, @fake_router.first.options[:times] - @fake_router.first.times
+end
+
+Then /^rummager should not be notified$/ do
+  assert_equal @fake_search.first.options[:times], @fake_search.first.times
+end
+
+Then /^the router should not be notified$/ do
+  assert_equal @fake_router.first.options[:times], @fake_router.first.times
 end
