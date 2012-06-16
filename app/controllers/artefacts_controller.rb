@@ -30,6 +30,8 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save
+    # TODO: This needs the same router/search behaviour as update
+    # that should follow naturally if we move it to an observer
     respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
@@ -53,6 +55,7 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
+    # TODO: This behaviour probably belongs in an Observer
     if saved and @artefact.live?
       update_router
       update_search
