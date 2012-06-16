@@ -35,3 +35,13 @@ Feature: Editing artefacts
     When I remove the section from the artefact
     Then I should be redirected to Publisher
       And the API should say that the artefact does not have the section
+
+  Scenario: Editing an item that's draft
+    Given two artefacts exist
+      And the first artefact is in draft
+
+    When I change the title of the first artefact
+      And I save
+
+    Then rummager should not be notified
+      And the router should not be notified

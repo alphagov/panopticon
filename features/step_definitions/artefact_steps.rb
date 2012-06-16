@@ -2,6 +2,10 @@ Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
 end
 
+Given /^the first artefact is in draft$/ do
+  Artefact.first.update_attribute 'live', false
+end
+
 When /^I mark relatedness as done$/ do
   check :relatedness_done
 end
