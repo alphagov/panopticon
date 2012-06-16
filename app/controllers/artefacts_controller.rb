@@ -46,6 +46,10 @@ class ArtefactsController < ApplicationController
 
     parameters_to_use = extract_parameters(params)
 
+    if attempting_to_change_owning_app_via_api?(parameters_to_use)
+      respond_with(@artefact, status: 409) and return
+    end
+
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
@@ -62,6 +66,12 @@ class ArtefactsController < ApplicationController
   end
 
   private
+
+    def attempting_to_change_owning_app_via_api?(parameters_to_use)
+      request.format.json? && @artefact.persisted? && 
+        parameters_to_use['owning_app'] != @artefact.owning_app
+    end
+
     def redirect_to_show_if_need_met
       if params[:artefact] && params[:artefact][:need_id]
         artefact = Artefact.where(need_id: params[:artefact][:need_id]).first

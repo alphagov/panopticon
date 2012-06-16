@@ -22,10 +22,10 @@ Feature: Registering resources
       And rummager should not be notified
       And the router should not be notified
 
-  # Scenario: Putting an item whose slug is owned by another app
-  #   When I put a new item into panopticon whose slug is already taken
-  #   Then I should receive an HTTP 409 response
-  #     And the relevant artefact should not be updated
+  Scenario: Putting an item whose slug is owned by another app
+    When I put a new item into panopticon whose slug is already taken
+    Then I should receive an HTTP 409 response
+      And the relevant artefact should not be updated
 
   # Scenario: Editing a live item's slug
   #   When I edit a live item's slug
