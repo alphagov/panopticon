@@ -38,8 +38,10 @@ class ArtefactsController < ApplicationController
   def update
     begin
       @artefact = Artefact.from_param(params[:id])
+      status_to_use = 200
     rescue Mongoid::Errors::DocumentNotFound
       @artefact = Artefact.new(slug: params[:id])
+      status_to_use = 201
     end
 
     parameters_to_use = extract_parameters(params)
@@ -50,7 +52,7 @@ class ArtefactsController < ApplicationController
     if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
-      respond_with @artefact
+      respond_with @artefact, status: status_to_use
     end
   end
 

@@ -7,11 +7,11 @@ When /^I put a new smart answer's details into panopticon$/ do
   # interface = GdsApi::CoreApi.new('test', "http://example.com")
   # interface.register(resource_details)
 
-  put "/artefacts/#{example_smart_answer['slug']}.json", resource: example_smart_answer_json
+  put "/artefacts/#{example_smart_answer['slug']}.json", artefact: example_smart_answer
 end
 
-Then /^I should have an artefact created$/ do
-  assert Artefact.find_by_slug("calculate-married-couples-allowance")
+Then /^a new artefact should be created$/ do
+  assert_equal 201, last_response.status, last_response.inspect
 end
 
 Then /^rummager should be notified$/ do
