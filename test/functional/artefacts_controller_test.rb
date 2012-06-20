@@ -90,8 +90,8 @@ class ArtefactsControllerTest < ActionController::TestCase
           put :update, id: artefact.id, format: :json, name: "Changed"
         end
 
-        assert_equal "Changed", artefact.reload.name
         assert_response :success
+        assert_equal "Changed", artefact.reload.name
       end
 
       should "Update our primary section and ensure it persists into sections" do
