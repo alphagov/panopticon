@@ -221,9 +221,10 @@ GEM
       multi_json (~> 1.0.4)
       rubyzip
     shoulda (2.11.3)
-    simplecov (0.4.2)
-      simplecov-html (~> 0.4.4)
-    simplecov-html (0.4.5)
+    simplecov (0.6.4)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
     sprockets (2.0.4)
@@ -298,7 +299,7 @@ DEPENDENCIES
   rails (~> 3.1.1)
   rake (= 0.9.2)
   shoulda (~> 2.11.3)
-  simplecov (= 0.4.2)
+  simplecov (~> 0.6.4)
   simplecov-rcov
   sqlite3-ruby
   stomp
