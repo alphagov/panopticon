@@ -10,6 +10,10 @@ Given /^the first artefact is live$/ do
   Artefact.first.update_attribute 'live', true
 end
 
+Given /^two non-publisher artefacts exist$/ do
+  @artefact, @related_artefact = create_two_artefacts("smart-answers")
+end
+
 When /^I mark relatedness as done$/ do
   check :relatedness_done
 end
@@ -56,7 +60,6 @@ end
 When /^I create a relationship between them$/ do
   visit edit_artefact_path(@artefact)
   select_related_artefact @related_artefact
-  submit_artefact_form
 end
 
 Then /^I should be redirected to (.*)$/ do |app|
@@ -73,8 +76,8 @@ When /^I destroy their relationship$/ do
   submit_artefact_form
 end
 
-Given /^several artefacts exist$/ do
-  @artefact, *@related_artefacts, @unrelated_artefact = create_six_artefacts
+Given /^several non-publisher artefacts exist$/ do
+  @artefact, *@related_artefacts, @unrelated_artefact = create_six_artefacts("smart-answers")
 end
 
 Given /^some of the artefacts are related$/ do
@@ -84,7 +87,6 @@ end
 When /^I create more relationships between them$/ do
   visit edit_artefact_path(@artefact)
   select_related_artefacts @related_artefacts[(@related_artefacts.length / 2)..-1]
-  submit_artefact_form
 end
 
 Given /^an artefact exists$/ do

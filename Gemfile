@@ -39,7 +39,7 @@ gem "bson", "1.5.2"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", :path => '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.0.18"
+  gem "govuk_content_models", "~> 0.0.19"
 end
 
 if ENV['BUNDLE_DEV']
@@ -57,7 +57,7 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'sqlite3-ruby', :require => false
-  gem 'simplecov', '0.4.2'
+  gem 'simplecov', '~> 0.6.4'
   gem 'simplecov-rcov'
   gem 'ci_reporter'
   gem 'test-unit'
