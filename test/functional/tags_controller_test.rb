@@ -37,4 +37,15 @@ class TagsControllerTest < ActionController::TestCase
     end
   end
 
+  context "GET /tags?type=X" do
+    should "return only tags of a particular type" do
+      TagRepository.put(tag_id: "minister-of-silly", title: "Minister of Silly", tag_type: "role")
+      get :index, format: "json", type: "section"
+      parsed = JSON.parse(response.body)
+      assert_equal 2, parsed["results"].count
+      refute parsed["results"].any? { |result| result["id"] == "minister-of-silly" }
+    end
+  end
+
+
 end
