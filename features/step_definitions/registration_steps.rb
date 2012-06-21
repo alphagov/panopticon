@@ -25,7 +25,7 @@ end
 
 When /^I put a draft smart answer's details into panopticon$/ do
   prepare_registration_environment
-  
+
   details = example_smart_answer
   details['live'] = false
 
