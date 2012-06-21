@@ -64,21 +64,17 @@ Then /^the relevant artefact should not be updated$/ do
 end
 
 Then /^rummager should be notified$/ do
-  # We allow one request to search. FakeWeb will decrement
-  # the allowed number of requests each time one is made
-  assert_equal 1, @fake_search.first.options[:times] - @fake_search.first.times
+  assert_requested @fake_search, times: 1  # The default, but let's be explicit
 end
 
 Then /^the router should be notified$/ do
-  # We allow one request to the router. FakeWeb will decrement
-  # the allowed number of requests each time one is made
-  assert_equal 1, @fake_router.first.options[:times] - @fake_router.first.times
+  assert_requested @fake_router, times: 1  # The default, but let's be explicit
 end
 
 Then /^rummager should not be notified$/ do
-  assert_equal @fake_search.first.options[:times], @fake_search.first.times
+  assert_not_requested @fake_search
 end
 
 Then /^the router should not be notified$/ do
-  assert_equal @fake_router.first.options[:times], @fake_router.first.times
+  assert_not_requested @fake_router
 end

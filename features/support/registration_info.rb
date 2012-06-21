@@ -30,11 +30,11 @@ module RegistrationInfo
   end
 
   def stub_search
-    @fake_search = FakeWeb.register_uri(:post, "http://search.test.gov.uk/documents", times: 1)
+    @fake_search = WebMock.stub_request(:post, "http://search.test.gov.uk/documents").to_return(status: 200)
   end
 
   def stub_router
-    @fake_router = FakeWeb.register_uri(:put, /http:\/\/router.cluster:8080\/router\/routes\/.*/, times: 1)
+    @fake_router = WebMock.stub_request(:put, /http:\/\/router.cluster:8080\/router\/routes\/.*/).to_return(status: 200)
   end
 
   def setup_existing_artefact
