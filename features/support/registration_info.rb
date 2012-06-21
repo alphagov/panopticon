@@ -35,7 +35,7 @@ module RegistrationInfo
   end
 
   def stub_router
-    @fake_router = WebMock.stub_request(:put, /http:\/\/router.cluster:8080\/router\/routes\/.*/).to_return(status: 200)
+    @fake_router = WebMock.stub_request(:put, %r{http://router.cluster:8080/router/routes/.*}).to_return(status: 200)
   end
 
   def setup_existing_artefact
