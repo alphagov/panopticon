@@ -19,7 +19,7 @@ When /^I put updated smart answer details into panopticon$/ do
 
   artefact_basics = example_smart_answer
   artefact_basics['name'] = 'Something simpler'
-  put "/artefacts/#{artefact_basics['slug']}.json", 
+  put "/artefacts/#{artefact_basics['slug']}.json",
     artefact: artefact_basics
 end
 
@@ -38,7 +38,7 @@ When /^I put a new item into panopticon whose slug is already taken$/ do
   artefact_basics = example_smart_answer
   artefact_basics['name'] = 'Something simpler'
   artefact_basics['owning_app'] = 'planner'
-  put "/artefacts/#{artefact_basics['slug']}.json", 
+  put "/artefacts/#{artefact_basics['slug']}.json",
     artefact: artefact_basics
 end
 

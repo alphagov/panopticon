@@ -1,7 +1,7 @@
 module RegistrationInfo
   def example_smart_answer
     {
-      "need_id"           => 2012, 
+      "need_id"           => 2012,
       "slug"              => "calculate-married-couples-allowance",
       "name"              => "Calculate your Married Couple's Allowance",
       "description"       => "Work out whether you can claim Married Couple's Allowance (MCA) and find out how much you could get taken off your tax bill.",
@@ -31,6 +31,7 @@ module RegistrationInfo
 
   def stub_search
     @fake_search = WebMock.stub_request(:post, "http://search.test.gov.uk/documents").to_return(status: 200)
+    @fake_search_amend = WebMock.stub_request
   end
 
   def stub_router
