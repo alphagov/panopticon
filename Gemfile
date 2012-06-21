@@ -35,13 +35,13 @@ gem "bson", "1.5.2"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", :path => '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.0.19"
+  gem "govuk_content_models", "~> 0.1.00"
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'gds-sso', '~> 0.5'
+  gem 'gds-sso', '0.7.0'
 end
 
 group :assets do
