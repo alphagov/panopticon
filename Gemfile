@@ -69,8 +69,8 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'
-  gem 'fakeweb'
   gem 'mocha'
+  gem 'webmock', :require => false
 end
 
 group :import do
