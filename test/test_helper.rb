@@ -35,4 +35,6 @@ class ActiveSupport::TestCase
     temp_user = User.create!(:name => 'Stub User')
     request.env['warden'] = stub(:authenticate! => true, :authenticated? => true, :user => temp_user)
   end
+
+  alias_method :refute, :assert_false
 end
