@@ -141,10 +141,6 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marples (1.0.5)
-      activesupport
-      i18n
-      null_logger
     mechanize (2.0.1)
       net-http-digest_auth (~> 1.1, >= 1.1.1)
       net-http-persistent (~> 1.8)
@@ -284,7 +280,6 @@ DEPENDENCIES
   gelf
   govuk_content_models (~> 0.1.00)
   launchy
-  marples (~> 1.0)
   minitest
   mocha
   mongo (= 1.5.2)
