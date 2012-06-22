@@ -24,7 +24,7 @@ gem 'gds-api-adapters'
 
 gem 'router-client', '2.0.3', require: 'router/client'
 
-gem 'aws-ses', :require => 'aws/ses'
+gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '~> 3.1.1'
 
@@ -37,13 +37,13 @@ gem "bson_ext", "1.5.2"
 gem "bson", "1.5.2"
 
 if ENV['CONTENT_MODELS_DEV']
-  gem "govuk_content_models", :path => '../govuk_content_models'
+  gem "govuk_content_models", path: '../govuk_content_models'
 else
   gem "govuk_content_models", "~> 0.0.19"
 end
 
 if ENV['BUNDLE_DEV']
-  gem 'gds-sso', :path => '../gds-sso'
+  gem 'gds-sso', path: '../gds-sso'
 else
   gem 'gds-sso', '~> 0.5.0'
 end
@@ -55,13 +55,13 @@ end
 
 group :test do
   # Pretty printed test output
-  gem 'turn', :require => false
-  gem 'sqlite3-ruby', :require => false
+  gem 'turn', require: false
+  gem 'sqlite3-ruby', require: false
   gem 'simplecov', '~> 0.6.4'
   gem 'simplecov-rcov'
   gem 'ci_reporter'
   gem 'test-unit'
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'minitest'
   gem "shoulda", "~> 2.11.3"
@@ -70,7 +70,7 @@ group :test do
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'
   gem 'mocha'
-  gem 'webmock', :require => false
+  gem 'webmock', require: false
 end
 
 group :import do
