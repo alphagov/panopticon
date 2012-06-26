@@ -7,7 +7,7 @@ DatabaseCleaner.strategy = :truncation
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
-  include WebMock
+  include WebMock::API
 
   def setup
     DatabaseCleaner.clean
