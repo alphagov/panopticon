@@ -49,7 +49,6 @@ Feature: Editing artefacts
     Then rummager should not be notified
       And the router should not be notified
 
-  @wip
   Scenario: Editing a live item
     Given two artefacts exist
       And the first artefact is live
