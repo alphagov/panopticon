@@ -97,22 +97,7 @@ class ArtefactsController < ApplicationController
 
     # TODO: This behaviour probably belongs in an Observer
     def update_search
-      structure = normalise_keys(params[:artefact])
-      Rummageable.index(rummageable_params(structure))
-    end
-
-    # A translation layer because we have inconsistent language.
-    # TODO: Make language consistent so this isn't needed any more
-    def normalise_keys(structure)
-      structure["name"] ||= structure["title"]
-      structure["kind"] ||= structure["format"]
-      structure["kind"] = 'smart-answer' if structure["kind"] == 'smart_answer'
-
-      structure
-    end
-
-    def rummageable_params(structure)
-      structure.slice(Rummageable::VALID_KEYS)
+      RummageableArtefact.new(@artefact).submit
     end
 
     def find_artefact
