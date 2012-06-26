@@ -13,8 +13,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.slug = "my-artefact"
       artefact.kind = "guide"
     end
+    # Note: the link is not present if we are amending
     expected = {
-      "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
       "description" => nil,
@@ -31,8 +31,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.kind = "guide"
       artefact.description = "Describe describey McDescribe"
     end
+    # Note: the link is not present if we are amending
     expected = {
-      "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
       "description" => "Describe describey McDescribe",
@@ -49,6 +49,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
     end
+    # Note: the link is present if we are not amending
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",

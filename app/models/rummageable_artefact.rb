@@ -9,17 +9,25 @@ class RummageableArtefact
     # providing the indexable_content field to update Rummager. UI requests
     # and requests from apps that don't know about single registration, will
     # not include this field
-    if @artefact.indexable_content
-      Rummageable.index [artefact_hash]
-    else
+    if should_amend
       Rummageable.amend artefact_link, artefact_hash
+    else
+      Rummageable.index [artefact_hash]
     end
+  end
+
+  def should_amend
+    @artefact.indexable_content.nil?
   end
 
   def artefact_hash
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
     rummageable_keys = Rummageable::VALID_KEYS.map { |full_key| full_key[0] }.uniq
+
+    # When amending an artefact, requests with the "link" parameter will be
+    # refused, because we can't amend the link within Rummager
+    rummageable_keys.delete "link" if should_amend
 
     rummageable_keys.inject({}) do |hash, rummageable_key|
       strip_nils = (rummageable_key == "indexable_content")
