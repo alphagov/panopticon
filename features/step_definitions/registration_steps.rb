@@ -71,6 +71,17 @@ Then /^the router should be notified$/ do
   assert_requested @fake_router, times: 1  # The default, but let's be explicit
 end
 
+Then /^rummager should be told to do a partial update$/ do
+  amendments = {
+    title: @new_name,
+    description: "",
+    format: "answer",
+    section: "",
+    subsection: ""
+  }
+  assert_requested :post, artefact_search_url(@artefact), body: amendments
+end
+
 Then /^rummager should not be notified$/ do
   assert_not_requested @fake_search
 end
