@@ -4,14 +4,20 @@ class RummageableArtefact
     @artefact = artefact
   end
 
+  def logger
+    Rails.logger
+  end
+
   def submit
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
     # and requests from apps that don't know about single registration, will
     # not include this field
     if should_amend
+      logger.info "Posting amendments to Rummager: #{artefact_link}"
       Rummageable.amend artefact_link, artefact_hash
     else
+      logger.info "Posting document to Rummager: #{artefact_link}"
       Rummageable.index [artefact_hash]
     end
   end
