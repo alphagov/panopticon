@@ -22,8 +22,6 @@ gem 'exception_notification'
 
 gem 'gds-api-adapters'
 
-gem 'router-client', '2.0.3', require: 'router/client'
-
 gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '~> 3.1.1'

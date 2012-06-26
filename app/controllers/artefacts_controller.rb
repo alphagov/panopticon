@@ -30,7 +30,7 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save
-    # TODO: This needs the same router/search behaviour as update
+    # TODO: This needs the same search behaviour as update
     # that should follow naturally if we move it to an observer
     respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
@@ -57,7 +57,6 @@ class ArtefactsController < ApplicationController
 
     # TODO: This behaviour probably belongs in an Observer
     if saved and @artefact.live?
-      update_router
       update_search
     end
 
@@ -81,18 +80,6 @@ class ArtefactsController < ApplicationController
         artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
         redirect_to artefact if artefact
       end
-    end
-
-    # TODO: This behaviour probably belongs in an Observer
-    def update_router
-      @router = Router::Client.new(logger: Rails.logger)
-
-      # We assume for now that the application is already registered
-      # We also assume we have the same value for owning_app as the router has for app id
-      # TODO: Remove these assumptions
-      # TODO: What do we do about alternate routes (eg. {slug}.json or things with parts/print/video)?
-      # TODO: What do we do about apps that want to claim prefix routes?
-      @router.routes.update(application_id: "smartanswers", route_type: :prefix, incoming_path: "/#{@artefact.slug}")
     end
 
     # TODO: This behaviour probably belongs in an Observer

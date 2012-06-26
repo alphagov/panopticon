@@ -1,6 +1,5 @@
-Given /^I have stubbed search and router$/ do
+Given /^I have stubbed search$/ do
   stub_search
-  stub_router
 end
 
 When /^I put a new smart answer's details into panopticon$/ do
@@ -67,10 +66,6 @@ Then /^rummager should be notified$/ do
   assert_requested @fake_search, times: 1  # The default, but let's be explicit
 end
 
-Then /^the router should be notified$/ do
-  assert_requested @fake_router, times: 1  # The default, but let's be explicit
-end
-
 Then /^rummager should be told to do a partial update$/ do
   amendments = {
     title: @new_name,
@@ -84,8 +79,4 @@ end
 
 Then /^rummager should not be notified$/ do
   assert_not_requested @fake_search
-end
-
-Then /^the router should not be notified$/ do
-  assert_not_requested @fake_router
 end

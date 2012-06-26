@@ -4,7 +4,7 @@ Feature: Editing artefacts
 
   Background:
     Given I am an admin
-      And I have stubbed search and router
+      And I have stubbed search
 
   Scenario: Editing an artefact and changing the slug
     Given two artefacts exist
@@ -47,7 +47,6 @@ Feature: Editing artefacts
     When I change the title of the first artefact
       And I save
     Then rummager should not be notified
-      And the router should not be notified
 
   Scenario: Editing a live item
     Given two artefacts exist
@@ -55,4 +54,3 @@ Feature: Editing artefacts
     When I change the title of the first artefact
       And I save
     Then rummager should be told to do a partial update
-      And the router should be notified

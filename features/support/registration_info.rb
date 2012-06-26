@@ -25,7 +25,6 @@ module RegistrationInfo
   def prepare_registration_environment
     setup_user
     stub_search
-    stub_router
   end
 
   def setup_user
@@ -41,10 +40,6 @@ module RegistrationInfo
     # The search URL to which amendment requests should be POSTed
     link = "/#{artefact.slug}"
     "#{SEARCH_ROOT}/documents/#{CGI.escape link}"
-  end
-
-  def stub_router
-    @fake_router = WebMock.stub_request(:put, %r{http://router.cluster:8080/router/routes/.*}).to_return(status: 200)
   end
 
   def setup_existing_artefact
