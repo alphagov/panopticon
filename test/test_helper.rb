@@ -13,6 +13,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha'
+require 'govuk_content_models/test_helpers/factories'
 FakeWeb.allow_net_connect = false
 
 DatabaseCleaner.strategy = :truncation

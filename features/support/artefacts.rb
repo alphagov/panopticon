@@ -1,3 +1,5 @@
+require 'govuk_content_models/test_helpers/factories'
+
 def create_artefact
   Factory.create :artefact, :name => 'Child Benefit rates', :need_id => 1
 end
