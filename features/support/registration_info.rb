@@ -43,7 +43,9 @@ module RegistrationInfo
   end
 
   def setup_existing_artefact
-    @artefact = Artefact.create!(example_smart_answer)
+    Artefact.observers.disable :update_search_observer do
+      @artefact = Artefact.create!(example_smart_answer)
+    end
   end
 end
 

@@ -30,8 +30,6 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save
-    # TODO: This needs the same search behaviour as update
-    # that should follow naturally if we move it to an observer
     respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
@@ -55,11 +53,6 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes(parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
-    # TODO: This behaviour probably belongs in an Observer
-    if saved and @artefact.live?
-      update_search
-    end
-
     if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
@@ -80,11 +73,6 @@ class ArtefactsController < ApplicationController
         artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
         redirect_to artefact if artefact
       end
-    end
-
-    # TODO: This behaviour probably belongs in an Observer
-    def update_search
-      RummageableArtefact.new(@artefact).submit
     end
 
     def find_artefact
