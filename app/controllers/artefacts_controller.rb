@@ -67,7 +67,8 @@ class ArtefactsController < ApplicationController
   private
 
     def attempting_to_change_owning_app_via_api?(parameters_to_use)
-      request.format.json? && @artefact.persisted? &&
+      api_request = ! request.form_data?
+      api_request && @artefact.persisted? &&
         parameters_to_use.include?('owning_app') &&
         parameters_to_use['owning_app'] != @artefact.owning_app
     end

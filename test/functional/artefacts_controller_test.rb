@@ -105,6 +105,19 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal @tags[2].tag_id, artefact.primary_section
         assert_equal [@tags[2].tag_id, @tags[0].tag_id, @tags[1].tag_id], artefact.sections
       end
+
+      should "Reject JSON requests to update an artefact's owning app" do
+        artefact = Artefact.create!(
+          slug: "whatever",
+          kind: "guide",
+          owning_app: "publisher",
+          name: "Whatever",
+          need_id: 1
+        )
+        put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smart-answers'
+        assert_equal 409, response.status
+        assert response.body.include? "publisher"
+      end
     end
 
   end
