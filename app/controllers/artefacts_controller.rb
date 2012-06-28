@@ -47,7 +47,11 @@ class ArtefactsController < ApplicationController
     parameters_to_use = extract_parameters(params)
 
     if attempting_to_change_owning_app_via_api?(parameters_to_use)
-      respond_with(@artefact, status: 409) and return
+      render(
+        text: "This artefact already belongs to the '#{@artefact.owning_app}' app",
+        status: 409
+      )
+      return
     end
 
     saved = @artefact.update_attributes(parameters_to_use)
