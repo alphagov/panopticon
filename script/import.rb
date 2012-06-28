@@ -18,7 +18,7 @@ export["users"].each do |u|
   params = build_params(u, [
     :name, :uid, :version, :email, :created_at, :updated_at
   ])
-  User.create!(params)
+  FactoryGirl.create(:user, params)
 end
 
 export["artefacts"].each do |a|

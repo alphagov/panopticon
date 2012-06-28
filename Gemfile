@@ -40,7 +40,7 @@ end
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', :path => '../gds-sso'
 else
-  gem 'gds-sso', '0.7.0'
+  gem 'gds-sso', '0.7.7'
 end
 
 group :assets do

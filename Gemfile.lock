@@ -107,7 +107,7 @@ GEM
       lrucache (~> 0.1.1)
       null_logger
       plek
-    gds-sso (0.7.0)
+    gds-sso (0.7.7)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -275,7 +275,7 @@ DEPENDENCIES
   formtastic!
   formtastic-bootstrap!
   gds-api-adapters
-  gds-sso (= 0.7.0)
+  gds-sso (= 0.7.7)
   gds-warmup-controller
   gelf
   govuk_content_models (= 0.1.6)
