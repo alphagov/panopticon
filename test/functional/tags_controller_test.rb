@@ -3,14 +3,14 @@ require 'test_helper'
 class TagsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
-    TagRepository.put(:tag_id => "crime", :title => "Crime", :tag_type => "section")
-    TagRepository.put(:tag_id => "crime/the-police", :title => "The Police", :tag_type => "section")
+    TagRepository.put(tag_id: "crime", title: "Crime", tag_type: "section")
+    TagRepository.put(tag_id: "crime/the-police", title: "The Police", tag_type: "section")
     @tag_count = 2
   end
 
   context "GET /tags/:id" do
     should "return tag" do
-      get :show, :id => "crime/the-police", :format => "json"
+      get :show, id: "crime/the-police", format: "json"
       parsed = JSON.parse(response.body)
       assert_response :success
       assert_equal parsed["status"], "ok"
@@ -20,14 +20,14 @@ class TagsControllerTest < ActionController::TestCase
     end
 
     should "return 404" do
-      get :show, :id => "crime/the-mafia", :format => "json"
+      get :show, id: "crime/the-mafia", format: "json"
       assert_response :not_found
     end
   end
 
   context "GET /tags" do
     should "return all the tags" do
-      get :index, :format => "json"
+      get :index, format: "json"
       parsed = JSON.parse(response.body)
       assert_response :success
       assert_equal parsed["status"], "ok"
@@ -36,5 +36,16 @@ class TagsControllerTest < ActionController::TestCase
 
     end
   end
+
+  context "GET /tags?type=X" do
+    should "return only tags of a particular type" do
+      TagRepository.put(tag_id: "minister-of-silly", title: "Minister of Silly", tag_type: "role")
+      get :index, format: "json", type: "section"
+      parsed = JSON.parse(response.body)
+      assert_equal 2, parsed["results"].count
+      refute parsed["results"].any? { |result| result["id"] == "minister-of-silly" }
+    end
+  end
+
 
 end

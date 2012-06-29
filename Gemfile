@@ -12,7 +12,6 @@ gem 'plek', '~> 0'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 gem 'stomp'
-gem 'marples', '~> 1.0'
 gem 'whenever'
 gem 'ansi'
 gem 'gelf'
@@ -37,13 +36,13 @@ gem "bson", "1.5.2"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.0.19"
+  gem "govuk_content_models", "~> 0.1.00"
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '~> 0.5.0'
+  gem 'gds-sso', '0.7.0'
 end
 
 group :assets do
