@@ -6,7 +6,7 @@ group :passenger_compatibility do
   gem 'rake', '0.9.2'
 end
 
-gem 'gds-warmup-controller'
+gem 'gds-warmup-controller', '0.1.0'
 
 gem 'plek', '~> 0'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
