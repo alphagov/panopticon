@@ -13,8 +13,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha'
+require 'webmock'
 require 'govuk_content_models/test_helpers/factories'
-FakeWeb.allow_net_connect = false
 
 DatabaseCleaner.strategy = :truncation
 # initial clean
@@ -28,6 +28,10 @@ class ActiveSupport::TestCase
   end
   set_callback :teardown, :before, :clean_db
 
+  def setup
+    WebMock.disable_net_connect!
+  end
+
   def app
     Panopticon::Application
   end
@@ -35,6 +39,10 @@ class ActiveSupport::TestCase
   def login_as_stub_user
     temp_user = User.create!(:name => 'Stub User')
     request.env['warden'] = stub(:authenticate! => true, :authenticated? => true, :user => temp_user)
+  end
+
+  def teardown
+    WebMock.reset!
   end
 
   alias_method :refute, :assert_false

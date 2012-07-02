@@ -1,19 +1,24 @@
 require_relative '../test_helper'
 require 'capybara/rails'
 require 'capybara/mechanize'
-FakeWeb.allow_net_connect = true
-FakeWeb.register_uri :get, /assets.test.gov.uk/, :status => [404, 'Not found']
+require 'webmock'
+
 DatabaseCleaner.strategy = :truncation
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
+  include WebMock::API
 
   def setup
     DatabaseCleaner.clean
+
+    WebMock.allow_net_connect!
+    stub_request(:get, /assets\.test\.gov\.uk/).to_return(status: 404)
   end
 
   def teardown
     DatabaseCleaner.clean
+    WebMock.reset!  # Not entirely sure whether this happens anyway
   end
 
 end

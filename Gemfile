@@ -20,11 +20,13 @@ gem 'null_logger'
 gem 'exception_notification'
 
 gem 'gds-api-adapters'
-gem 'aws-ses', :require => 'aws/ses'
+
+gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '~> 3.1.1'
 
 gem 'colorize', '~> 0.5.8'
+gem 'rummageable', "~> 0.3.0"
 
 gem "mongoid", "~> 2.4.2"
 gem "mongo", "1.5.2"
@@ -32,13 +34,13 @@ gem "bson_ext", "1.5.2"
 gem "bson", "1.5.2"
 
 if ENV['CONTENT_MODELS_DEV']
-  gem "govuk_content_models", :path => '../govuk_content_models'
+  gem "govuk_content_models", path: '../govuk_content_models'
 else
   gem "govuk_content_models", "0.1.6"
 end
 
 if ENV['BUNDLE_DEV']
-  gem 'gds-sso', :path => '../gds-sso'
+  gem 'gds-sso', path: '../gds-sso'
 else
   gem 'gds-sso', '0.7.0'
 end
@@ -50,13 +52,13 @@ end
 
 group :test do
   # Pretty printed test output
-  gem 'turn', :require => false
-  gem 'sqlite3-ruby', :require => false
+  gem 'turn', require: false
+  gem 'sqlite3-ruby', require: false
   gem 'simplecov', '~> 0.6.4'
   gem 'simplecov-rcov'
   gem 'ci_reporter'
   gem 'test-unit'
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'minitest'
   gem "shoulda", "~> 2.11.3"
@@ -64,8 +66,8 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'
-  gem 'fakeweb'
   gem 'mocha'
+  gem 'webmock', require: false
 end
 
 group :import do
