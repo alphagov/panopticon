@@ -6,7 +6,7 @@ group :passenger_compatibility do
   gem 'rake', '0.9.2'
 end
 
-gem 'gds-warmup-controller'
+gem 'gds-warmup-controller', '0.1.0'
 
 gem 'plek', '~> 0'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
@@ -36,7 +36,7 @@ gem "bson", "1.5.2"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.1.00"
+  gem "govuk_content_models", "0.1.6"
 end
 
 if ENV['BUNDLE_DEV']
@@ -62,7 +62,7 @@ group :test do
   gem 'database_cleaner'
   gem 'minitest'
   gem "shoulda", "~> 2.11.3"
-  gem 'factory_girl'
+  gem 'factory_girl', "3.3.0"
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'

@@ -12,6 +12,8 @@
     <div class="navbar-inner">
       <div class="container-fluid">
         <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
+        <% if user_signed_in? %>
+
         <nav role="navigation" class="nav-collapse">
           <ul class="nav">
             <%= nav_link 'All artefacts', artefacts_path %>
@@ -38,6 +40,8 @@
 
           <p class="navbar-text pull-right">Signed in as <a href="<%= Plek.current.find('signon') %>"><%= current_user.name %></a></p>
         </nav>
+
+        <% end %>
       </div>
     </div>
   </header>

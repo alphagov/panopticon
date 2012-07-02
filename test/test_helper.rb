@@ -14,7 +14,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha'
 require 'webmock'
-
+require 'govuk_content_models/test_helpers/factories'
 
 DatabaseCleaner.strategy = :truncation
 # initial clean
