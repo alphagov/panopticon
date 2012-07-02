@@ -36,7 +36,7 @@ class RummageableArtefact
     rummageable_keys.delete "link" if should_amend
 
     rummageable_keys.inject({}) do |hash, rummageable_key|
-      strip_nils = (rummageable_key == "indexable_content")
+      strip_nils = ["indexable_content", "description"].include? rummageable_key
 
       # Use the relevant extraction method from this class if it exists
       if respond_to? "artefact_#{rummageable_key}"
