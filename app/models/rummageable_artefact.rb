@@ -38,9 +38,6 @@ class RummageableArtefact
     rummageable_keys.inject({}) do |hash, rummageable_key|
       strip_nils = (rummageable_key == "indexable_content")
 
-      # method_name = KEY_MAPPING[rummageable_key].to_sym
-      # return hash unless @artefact.respond_to? method_name
-      # 
       # Use the relevant extraction method from this class if it exists
       if respond_to? "artefact_#{rummageable_key}"
         value = __send__ "artefact_#{rummageable_key}"
