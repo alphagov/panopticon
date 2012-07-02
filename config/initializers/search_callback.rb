@@ -8,7 +8,11 @@ end
 
 if update_search
   Rails.logger.info "Registering search observer for artefacts"
-  Panopticon::Application.config.mongoid.observers << :update_search_observer
+  # Use to_prepare so this gets reloaded with the app when in development
+  # In production, it will only be called once
+  ActionDispatch::Callbacks.to_prepare do
+    Panopticon::Application.config.mongoid.observers << :update_search_observer
+  end
 else
   Rails.logger.info "In development/test mode: not registering search observer"
 end
