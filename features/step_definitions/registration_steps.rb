@@ -69,7 +69,6 @@ end
 Then /^rummager should be told to do a partial update$/ do
   amendments = {
     title: @new_name,
-    description: "",
     format: "answer",
     section: "",
     subsection: ""
