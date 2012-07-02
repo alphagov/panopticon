@@ -1,5 +1,5 @@
 def create_contact
-  Factory.create :contact, :name => 'Child Support Agency'
+  FactoryGirl.create :contact, :name => 'Child Support Agency'
 end
 
 def select_contact(contact)

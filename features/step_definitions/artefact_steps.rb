@@ -2,6 +2,14 @@ Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
 end
 
+Given /^the first artefact is in draft$/ do
+  Artefact.first.update_attribute 'live', false
+end
+
+Given /^the first artefact is live$/ do
+  Artefact.first.update_attribute 'live', true
+end
+
 Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
@@ -12,7 +20,8 @@ end
 
 When /^I change the title of the first artefact$/ do
   visit edit_artefact_path(@artefact)
-  fill_in "Name", :with => 'Some other new name'
+  @new_name = "Some other new name"
+  fill_in "Name", :with => @new_name
 end
 
 When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|

@@ -21,17 +21,17 @@ namespace :migrate do
 
       field "slug", type: String
     end
-    
+
     curated_lists = {
       "neighbourhoods" => [
-        "uk-online-centre-internet-access-computer-training", 
-        "organise-fete-street-party", 
-        "noise-pollution-road-train-plane", 
-        "control-dog-public", 
-        "report-litter", 
+        "uk-online-centre-internet-access-computer-training",
+        "organise-fete-street-party",
+        "noise-pollution-road-train-plane",
+        "control-dog-public",
+        "report-litter",
         "report-abandoned-vehicle",
-        "join-library", 
-        "garden-bonfires-rules", 
+        "join-library",
+        "garden-bonfires-rules",
         "find-out-about-local-park",
         "book-computer-at-library",
         "find-a-community-support-group-or-organisation",

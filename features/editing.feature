@@ -4,6 +4,7 @@ Feature: Editing artefacts
 
   Background:
     Given I am an admin
+      And I have stubbed search
 
   Scenario: Editing an artefact and changing the slug
     Given two artefacts exist
@@ -15,50 +16,15 @@ Feature: Editing artefacts
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
     When I change the title of the first artefact
-    And I mark relatedness as done
-    And I save, indicating that I want to continue editing afterwards
+      And I mark relatedness as done
+      And I save, indicating that I want to continue editing afterwards
     Then I should be redirected back to the edit page
-    And I should see an indication that the save worked
+      And I should see an indication that the save worked
 
   Scenario: Trying to create an artefact for a need that is already met
     Given an artefact exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher
-
-  Scenario: Assign a related item
-    Given two non-publisher artefacts exist
-    When I create a relationship between them
-      And I save
-    Then the API should say that the artefacts are related
-
-  Scenario: Unassign a related item
-    Given two artefacts exist
-      And the artefacts are related
-    When I destroy their relationship
-    Then I should be redirected to Publisher
-      And the API should say that the artefacts are not related
-
-  Scenario: Assign additional related items
-    Given several non-publisher artefacts exist
-      And some of the artefacts are related
-    When I create more relationships between them
-      And I save
-    Then the API should say that more of the artefacts are related
-
-#  Scenario: Assign a contact
-#    Given an artefact exists
-#      And a contact exists
-#    When I add the contact to the artefact
-#    Then I should be redirected to Publisher
-#      And the API should say that the artefact has the contact
-
-#  Scenario: Unassign a contact
-#    Given an artefact exists
-#      And a contact exists
-#      And the artefact has the contact
-#    When I remove the contact from the artefact
-#    Then I should be redirected to Publisher
-#      And the API should say that the artefact does not have the contact
 
   Scenario: Add a section
     Given an artefact exists
@@ -74,3 +40,17 @@ Feature: Editing artefacts
     When I remove the section from the artefact
     Then I should be redirected to Publisher
       And the API should say that the artefact does not have the section
+
+  Scenario: Editing an item that's draft
+    Given two artefacts exist
+      And the first artefact is in draft
+    When I change the title of the first artefact
+      And I save
+    Then rummager should not be notified
+
+  Scenario: Editing a live item
+    Given two artefacts exist
+      And the first artefact is live
+    When I change the title of the first artefact
+      And I save
+    Then rummager should be told to do a partial update

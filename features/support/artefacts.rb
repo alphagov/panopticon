@@ -1,14 +1,14 @@
 require 'govuk_content_models/test_helpers/factories'
 
 def create_artefact
-  Factory.create :artefact, :name => 'Child Benefit rates', :need_id => 1
+  FactoryGirl.create :artefact, :name => 'Child Benefit rates', :need_id => 1
 end
 
 def create_two_artefacts(owning_app="publisher")
   [
     'Probation',
     'Leaving prison'
-  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
+  ].map { |name| FactoryGirl.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
 end
 
 def create_six_artefacts(owning_app="publisher")
@@ -19,7 +19,7 @@ def create_six_artefacts(owning_app="publisher")
     'National Driver Offender Retraining Scheme',
     'Apply for a new driving licence',
     'Get a divorce'
-  ].map { |name| Factory.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
+  ].map { |name| FactoryGirl.create :artefact, :name => name, :need_id => 1, owning_app: owning_app }
 end
 
 def add_related_artefact(artefact, related_artefact)
