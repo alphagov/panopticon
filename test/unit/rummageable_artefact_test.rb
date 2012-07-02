@@ -17,7 +17,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     expected = {
       "title" => "My artefact",
       "format" => "guide",
-      "description" => nil,
       "section" => nil,
       "subsection" => nil
     }
@@ -54,7 +53,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "description" => nil,
       "section" => nil,
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
@@ -75,7 +73,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "description" => nil,
       "section" => "Crime",
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
@@ -96,7 +93,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "description" => nil,
       "section" => "Crime",
       "subsection" => "Batman",
       "indexable_content" => "Blah blah blah index this"
