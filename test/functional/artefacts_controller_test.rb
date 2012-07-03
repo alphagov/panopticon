@@ -79,6 +79,11 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal artefact.section, parsed['section']
       end
 
+      should "return 404 if the artefact's not found" do
+        get :show, id: 'bad-slug', format: :json
+        assert_equal 404, response.code.to_i
+      end
+
     end
 
     context "PUT /artefacts/:id" do
