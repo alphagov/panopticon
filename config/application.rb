@@ -56,5 +56,8 @@ module Panopticon
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+    # Disable Rack::Cache.
+    config.action_dispatch.rack_cache = nil
   end
 end
