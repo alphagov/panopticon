@@ -14,7 +14,7 @@ class ApiAcceptanceTest < ActionDispatch::IntegrationTest
   end
 
   def create_test_user
-    User.create!(name: "Test", email: "test@example.com", uid: 123)
+    FactoryGirl.create(:user, name: "Test", email: "test@example.com", uid: 123)
   end
 
   test "Can create an artefact via the api" do
