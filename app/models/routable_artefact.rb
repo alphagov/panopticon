@@ -1,0 +1,26 @@
+require 'router'
+
+class RoutableArtefact
+
+  def initialize(artefact)
+    @artefact = artefact
+  end
+
+  def logger
+    Rails.logger
+  end
+
+  def router
+    @router ||= Router.new("http://router.cluster:8080/router")
+  end
+
+  def ensure_application_exists
+    backend_url = Plek.current.find(@artefact.owning_app)
+    router.update_application(@artefact.owning_app, backend_url)
+  end
+
+  def submit
+    ensure_application_exists
+    @router.create_route(@artefact.slug, "full", @artefact.owning_app)
+  end
+end
