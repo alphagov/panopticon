@@ -21,6 +21,13 @@ class RoutableArtefact
 
   def submit
     ensure_application_exists
-    @router.create_route(@artefact.slug, "full", @artefact.owning_app)
+    paths = (@artefact.paths || [])
+    paths << @artefact.slug
+    paths.uniq.each do |path|
+      @router.create_route(path, "full", @artefact.owning_app)
+    end
+    (@artefact.prefixes || []).each do |prefix|
+      @router.create_route(prefix, "prefix", @artefact.owning_app)
+    end
   end
 end
