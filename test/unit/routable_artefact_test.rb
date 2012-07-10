@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RouteableArtefactTest < ActiveSupport::TestCase
+class RoutableArtefactTest < ActiveSupport::TestCase
   setup do
     @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
     @routable = RoutableArtefact.new(@artefact)
