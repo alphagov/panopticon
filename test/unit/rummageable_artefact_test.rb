@@ -60,6 +60,25 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
+  test "should work with no primary section" do
+    artefact = Artefact.new do |artefact|
+      artefact.name = "My artefact"
+      artefact.slug = "my-artefact"
+      artefact.kind = "guide"
+      artefact.indexable_content = "Blah blah blah index this"
+      artefact.sections = []
+      artefact.primary_section = nil
+    end
+    expected = {
+      "link" => "/my-artefact",
+      "title" => "My artefact",
+      "format" => "guide",
+      "section" => nil,
+      "subsection" => nil,
+      "indexable_content" => "Blah blah blah index this"
+    }
+  end
+
   test "should include section information" do
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
@@ -73,7 +92,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "section" => "Crime",
+      "section" => "crime",
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
@@ -93,8 +112,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "section" => "Crime",
-      "subsection" => "Batman",
+      "section" => "crime",
+      "subsection" => "batman",
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash

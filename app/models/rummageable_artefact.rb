@@ -55,11 +55,11 @@ class RummageableArtefact
   end
 
   def artefact_section
-    @artefact.section.split(":")[0]
+    section_parts[0]
   end
 
   def artefact_subsection
-    @artefact.section.split(":")[1]
+    section_parts[1]
   end
 
   def artefact_format
@@ -72,5 +72,10 @@ class RummageableArtefact
 
   def artefact_link
     "/#{@artefact.slug}"
+  end
+
+private
+  def section_parts
+    (@artefact.primary_section || "").split("/")
   end
 end
