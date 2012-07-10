@@ -1,6 +1,7 @@
 module RegistrationInfo
 
   SEARCH_ROOT = "http://search.test.gov.uk"
+  ROUTER_ROOT = "http://router.cluster:8080"
 
   def example_smart_answer
     {
@@ -25,6 +26,7 @@ module RegistrationInfo
   def prepare_registration_environment
     setup_user
     stub_search
+    stub_router
   end
 
   def setup_user
@@ -36,6 +38,26 @@ module RegistrationInfo
     @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
   end
 
+  def stub_router
+    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
+        with(:body => { "backend_url" => %r{^.*.test.gov.uk:80$} }).
+        to_return(:status => 200, :body => "{}", :headers => {})
+
+    # catch-all
+    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/routes/.*$}).
+          with(:body => {"application_id" => /.+/, "route_type" => "full"}).
+          to_return(:status => 200, :body => "{}", :headers => {})
+
+    # so that we can assert on them later
+    @fake_routers = [OpenStruct.new(example_smart_answer), @artefact, @related_artefact].reject(&:nil?).map do |artefact|
+      WebMock.stub_request(:put, "#{ROUTER_ROOT}/router/routes/#{artefact.slug}").
+            with(:body => { "application_id" => artefact.owning_app, "route_type" => "full"}).
+            to_return(:status => 200, :body => "{}", :headers => {})
+    end
+  end
+
+
+
   def artefact_search_url(artefact)
     # The search URL to which amendment requests should be POSTed
     link = "/#{artefact.slug}"
@@ -44,7 +66,9 @@ module RegistrationInfo
 
   def setup_existing_artefact
     Artefact.observers.disable :update_search_observer do
-      @artefact = Artefact.create!(example_smart_answer)
+      Artefact.observers.disable :update_router_observer do
+        @artefact = Artefact.create!(example_smart_answer)
+      end
     end
   end
 end
