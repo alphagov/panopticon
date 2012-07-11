@@ -39,18 +39,18 @@ module RegistrationInfo
   end
 
   def stub_router
-    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
+    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/applications/.*$}).
         with(:body => { "backend_url" => %r{^.*.test.gov.uk:80$} }).
         to_return(:status => 200, :body => "{}", :headers => {})
 
     # catch-all
-    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/routes/.*$}).
+    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/routes/.*$}).
           with(:body => {"application_id" => /.+/, "route_type" => "full"}).
           to_return(:status => 200, :body => "{}", :headers => {})
 
     # so that we can assert on them later
     @fake_routers = [OpenStruct.new(example_smart_answer), @artefact, @related_artefact].reject(&:nil?).map do |artefact|
-      WebMock.stub_request(:put, "#{ROUTER_ROOT}/router/routes/#{artefact.slug}").
+      WebMock.stub_request(:put, "#{ROUTER_ROOT}/routes/#{artefact.slug}").
             with(:body => { "application_id" => artefact.owning_app, "route_type" => "full"}).
             to_return(:status => 200, :body => "{}", :headers => {})
     end
