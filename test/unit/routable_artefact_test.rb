@@ -47,4 +47,16 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     Router.any_instance.expects(:create_route).with("re", "prefix", "bee")
     @routable.submit
   end
+
+  context "the slug is also a prefix" do
+    setup do
+      @artefact.prefixes = [@artefact.slug]
+    end
+
+    should "send it as a prefix, and not send a full route" do
+      Router.any_instance.stubs(:update_application)
+      Router.any_instance.expects(:create_route).with(@artefact.slug, "prefix", "bee")
+      @routable.submit
+    end
+  end
 end
