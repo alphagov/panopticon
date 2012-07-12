@@ -15,8 +15,8 @@ class RoutableArtefact
   end
 
   def ensure_application_exists
-    backend_url = Plek.current.find(@artefact.owning_app)
-    router.update_application(@artefact.owning_app, backend_url)
+    backend_url = Plek.current.find(rendering_app)
+    router.update_application(rendering_app, backend_url)
   end
 
   def submit
@@ -27,10 +27,15 @@ class RoutableArtefact
       paths << @artefact.slug
     end
     paths.uniq.each do |path|
-      @router.create_route(path, "full", @artefact.owning_app)
+      @router.create_route(path, "full", rendering_app)
     end
     prefixes.each do |prefix|
-      @router.create_route(prefix, "prefix", @artefact.owning_app)
+      @router.create_route(prefix, "prefix", rendering_app)
     end
   end
+
+  private
+    def rendering_app
+      @artefact.rendering_app || @artefact.owning_app
+    end
 end
