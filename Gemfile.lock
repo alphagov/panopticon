@@ -107,7 +107,7 @@ GEM
       lrucache (~> 0.1.1)
       null_logger
       plek
-    gds-sso (0.7.9)
+    gds-sso (1.0.0)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -118,11 +118,11 @@ GEM
       json
     gherkin (2.7.3)
       json (>= 1.4.6)
-    govuk_content_models (0.1.6)
+    govuk_content_models (0.1.14)
       bson_ext
       differ
       gds-api-adapters
-      gds-sso (~> 0.7.0)
+      gds-sso (>= 0.7, < 1.2)
       mongoid (~> 2.4.10)
       omniauth-oauth2 (~> 1.0)
       plek (~> 0.1.22)
@@ -132,8 +132,8 @@ GEM
     httpauth (0.1)
     i18n (0.6.0)
     json (1.7.3)
-    jwt (0.1.4)
-      json (>= 1.2.4)
+    jwt (0.1.5)
+      multi_json (>= 1.0)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     libv8 (3.3.10.4)
@@ -291,10 +291,10 @@ DEPENDENCIES
   formtastic!
   formtastic-bootstrap!
   gds-api-adapters
-  gds-sso (= 0.7.9)
+  gds-sso (= 1.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 0.1.6)
+  govuk_content_models (= 0.1.14)
   launchy
   minitest
   mocha
