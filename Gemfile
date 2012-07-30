@@ -1,11 +1,6 @@
 source 'http://rubygems.org'
 source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
-group :passenger_compatibility do
-  gem 'rack', '1.3.5'
-  gem 'rake', '0.9.2'
-end
-
 gem 'gds-warmup-controller', '0.1.0'
 
 gem 'plek', '~> 0.3.0'
