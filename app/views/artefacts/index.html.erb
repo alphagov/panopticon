@@ -41,10 +41,10 @@
               <td class="icon">
                 <%= image_tag "icon-#{artefact.kind.downcase}.png", :title => artefact.kind.humanize %>
               </td>
-              <td><%=h artefact.primary_section %></td>
-              <td><%=h (artefact.sections - [artefact.primary_section]).join(", ") %></td>
-              <td><%=h artefact.related_artefact_ids.count %></td>
-              <td><%=h artefact.relatedness_done %></td>
+              <td><%= artefact.primary_section %></td>
+              <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
+              <td><%= artefact.related_artefact_ids.count %></td>
+              <td><%= artefact.relatedness_done %></td>
               <td><%= artefact.owning_app %></td>
               <td><%= link_to artefact.slug, "https://www.gov.uk/#{artefact.slug}" %></td>
             </tr>
