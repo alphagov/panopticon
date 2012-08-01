@@ -28,13 +28,21 @@
       <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
 
       <hr>
-
+      <input type="hidden" name="artefact[sections][]" value="" />
       <% if artefact.new_record? %>
         <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
       <% end %>
-      <%= f.input :primary_section, :as => :select, :collection => all_sections, :input_html => { :multiple => false, :class => "span6 chzn-select" }, :hint => "This is the primary section the content will live in. This will form the content breadcrumb." %>
-      <input name="artefact[sections][]" type="hidden" value="">
-      <%= f.input :sections, :as => :select, :collection => all_sections(:except=> artefact.primary_section), :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Pick some extra sections that the content will also appear in." %>
+
+      <label for="artefact[sections][]">Sections</label>
+      <% if artefact.section_ids.length > 0 %>
+        <% artefact.section_ids.each do | section_id | %>
+          <%= render :partial => 'artefact_section', :locals => {:section_id => section_id} %>
+        <% end %>
+      <% else %>
+        <%= render :partial => 'artefact_section', :locals => {:section_id => nil} %>
+      <% end %>
+      
+      <button id="add-section" class="btn btn-success">Add another section</button>
     <% end %>
 
     <hr>
@@ -72,24 +80,9 @@
 <%= javascript_include_tag('chosen.jquery.min.js', 'artefacts') %>
   <script type="text/javascript">
     $(".chzn-select").chosen();
-
-    // Need to prevent our selected primary section from appearing in the sections box
-    var current_primary_section = $("select#artefact_primary_section option:selected").clone();
-    // onchange event listener of chosen we want to append/remove some section options
-    $("#artefact_primary_section").chosen().change(function() {
-      var new_primary_section = $("select#artefact_primary_section option:selected").clone();
-      new_primary_section.removeAttr('selected');
-      $("select#artefact_sections").find("option[value='" + new_primary_section.val() + "']").remove();
-
-      if (current_primary_section.val() != "") {
-        current_primary_section.removeAttr('selected');
-        $("select#artefact_sections").append(current_primary_section);
-      }
-      current_primary_section = new_primary_section;
-
-      // this trigger will cause chosen to update its own lists
-      $("select#artefact_sections").trigger("liszt:updated");
-    });
+    if ($('.artefact-section').size() == 1) {
+      $('.remove-section').hide();
+    }
   </script>
 <% end %>
 <% content_for :extra_headers, stylesheet_link_tag('chosen') %>
