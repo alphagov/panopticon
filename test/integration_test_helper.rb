@@ -22,3 +22,4 @@ class ActionDispatch::IntegrationTest
     FactoryGirl.create(:user)
   end
 end
+

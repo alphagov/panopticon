@@ -60,7 +60,9 @@ class ArtefactsController < ApplicationController
     if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
-      respond_with @artefact, status: status_to_use
+      respond_with @artefact, status: status_to_use do |format|
+        format.json { render json: @artefact.to_json, status: status_to_use }
+      end
     end
   end
 
