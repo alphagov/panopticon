@@ -15,8 +15,10 @@ class RoutableArtefact
   end
 
   def ensure_application_exists
-    backend_url = Plek.current.find(rendering_app)
-    router.update_application(rendering_app, backend_url)
+    backend_url = URI.parse Plek.current.find(rendering_app)
+    # Plek returns a full URL (https URL in production and preview).
+    # We only want to pass the host to the router.
+    router.update_application(rendering_app, backend_url.host)
   end
 
   def submit

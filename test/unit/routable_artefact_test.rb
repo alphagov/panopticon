@@ -6,10 +6,22 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     @routable = RoutableArtefact.new(@artefact)
   end
 
-  should "ensure that the application exists in the router" do
-    Router.any_instance.expects(:update_application).with("bee", "http://bee.test.gov.uk")
-    Router.any_instance.stubs(:create_route)
-    @routable.submit
+  context "registering the application" do
+    should "ensure that the application exists in the router" do
+      Router.any_instance.expects(:update_application).with("bee", "bee.test.gov.uk")
+      Router.any_instance.stubs(:create_route)
+      @routable.submit
+    end
+
+    should "strip the scheme from the URL returned by Plek" do
+      # Plek returns the external URL's for applications, this is the HTTPS version
+      # in preview and production.  If an https URL is passed to the router, it gets confused.
+      Plek.any_instance.stubs(:find).with('bee').returns("https://bee.test.gov.uk")
+
+      Router.any_instance.expects(:update_application).with("bee", "bee.test.gov.uk")
+      Router.any_instance.stubs(:create_route)
+      @routable.submit
+    end
   end
 
   should "create a full route for the slug" do
@@ -64,7 +76,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     # Was previously using the publically visible hostname (www...) which was breaking things.
     Plek.stubs(:current_env).returns('production')
     @artefact.update_attributes!(:owning_app => 'frontend')
-    Router.any_instance.expects(:update_application).with("frontend", "https://frontend.production.alphagov.co.uk")
+    Router.any_instance.expects(:update_application).with("frontend", "frontend.production.alphagov.co.uk")
     Router.any_instance.stubs(:create_route)
     @routable.submit
   end
