@@ -14,11 +14,23 @@ class ActionDispatch::IntegrationTest
 
     WebMock.allow_net_connect!
     stub_request(:get, /assets\.test\.gov\.uk/).to_return(status: 404)
+
+    @server = startup_server
   end
 
   def teardown
     DatabaseCleaner.clean
     WebMock.reset!  # Not entirely sure whether this happens anyway
+  end
+
+  def startup_server
+    server = Capybara::Server.new(Capybara.app)
+    server.boot
+    server
+  end
+
+  def create_test_user
+    FactoryGirl.create(:user, name: "Test", email: "test@example.com", uid: 123)
   end
 end
 
