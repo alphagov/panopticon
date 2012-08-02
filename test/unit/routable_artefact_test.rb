@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative '../test_helper'
 
 class RoutableArtefactTest < ActiveSupport::TestCase
   setup do
@@ -58,5 +58,14 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       Router.any_instance.expects(:create_route).with(@artefact.slug, "prefix", "bee")
       @routable.submit
     end
+  end
+
+  should "use the internal hostname for frontend" do
+    # Was previously using the publically visible hostname (www...) which was breaking things.
+    Plek.stubs(:current_env).returns('production')
+    @artefact.update_attributes!(:owning_app => 'frontend')
+    Router.any_instance.expects(:update_application).with("frontend", "https://frontend.production.alphagov.co.uk")
+    Router.any_instance.stubs(:create_route)
+    @routable.submit
   end
 end

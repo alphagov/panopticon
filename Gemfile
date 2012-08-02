@@ -8,7 +8,7 @@ end
 
 gem 'gds-warmup-controller', '0.1.0'
 
-gem 'plek', '~> 0'
+gem 'plek', '~> 0.3.0'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 gem 'stomp'
@@ -38,7 +38,7 @@ gem 'lograge'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "0.2.4"
+  gem "govuk_content_models", "~> 0.2.4"
 end
 
 if ENV['BUNDLE_DEV']
