@@ -107,7 +107,7 @@ GEM
       lrucache (~> 0.1.1)
       null_logger
       plek
-    gds-sso (1.2.0)
+    gds-sso (1.2.1)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -118,7 +118,7 @@ GEM
       json
     gherkin (2.7.3)
       json (>= 1.4.6)
-    govuk_content_models (0.2.1)
+    govuk_content_models (0.2.4)
       bson_ext
       differ
       gds-api-adapters
@@ -297,7 +297,7 @@ DEPENDENCIES
   gds-sso (~> 1.2.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (~> 0.2.0)
+  govuk_content_models (= 0.2.4)
   launchy
   lograge
   minitest

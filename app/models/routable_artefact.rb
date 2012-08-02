@@ -27,9 +27,11 @@ class RoutableArtefact
       paths << @artefact.slug
     end
     paths.uniq.each do |path|
+      logger.debug("Registering #{path} full #{rendering_app}")
       @router.create_route(path, "full", rendering_app)
     end
     prefixes.each do |prefix|
+      logger.debug("Registering #{prefix} prefix #{rendering_app}")
       @router.create_route(prefix, "prefix", rendering_app)
     end
   end
