@@ -1,4 +1,4 @@
-require_relative '../test_helper'
+require 'test_helper'
 require 'capybara/rails'
 require 'capybara/mechanize'
 require 'webmock'
@@ -20,7 +20,6 @@ class ActionDispatch::IntegrationTest
     DatabaseCleaner.clean
     WebMock.reset!  # Not entirely sure whether this happens anyway
   end
-
 end
 
 Capybara.app = Rack::Builder.new do
