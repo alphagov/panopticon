@@ -2,9 +2,23 @@ require 'integration_test_helper'
 require 'gds_api/panopticon'
 
 class ApiAcceptanceTest < ActionDispatch::IntegrationTest
+  def server
+    @server ||= startup_server
+  end
+
+  def startup_server
+    server = Capybara::Server.new(Capybara.app)
+    server.boot
+    server
+  end
+
+  def create_test_user
+    FactoryGirl.create(:user, name: "Test", email: "test@example.com", uid: 123)
+  end
+
   test "Can create an artefact via the api" do
     create_test_user
-    api_client = GdsApi::Panopticon.new(nil, endpoint_url: @server.url(""), timeout: 5)
+    api_client = GdsApi::Panopticon.new(nil, endpoint_url: server.url(""), timeout: 5)
     artefact_fixture = {slug: "foo", name: "Foo", owning_app: "Test", kind: "custom-application", need_id: 1}
 
     created = nil
