@@ -11,7 +11,7 @@ class RoutableArtefact
   end
 
   def router
-    @router ||= Router.new
+    @router ||= Router.new("http://router.cluster:8080/router")
   end
 
   def ensure_application_exists
