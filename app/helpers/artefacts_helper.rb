@@ -4,6 +4,6 @@ module ArtefactsHelper
   end
 
   def published_url(artefact)
-    Plek.current.find('frontend') + "/#{artefact.slug}"
+    Plek.current.find('www') + "/#{artefact.slug}"
   end
 end
