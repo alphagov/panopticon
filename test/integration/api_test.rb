@@ -1,4 +1,5 @@
-require 'integration_test_helper'
+require_relative '../integration_test_helper'
+require 'capybara/mechanize'
 require 'gds_api/panopticon'
 
 class ApiAcceptanceTest < ActionDispatch::IntegrationTest
@@ -12,8 +13,9 @@ class ApiAcceptanceTest < ActionDispatch::IntegrationTest
     server
   end
 
-  def create_test_user
-    FactoryGirl.create(:user, name: "Test", email: "test@example.com", uid: 123)
+  setup do
+    WebMock.allow_net_connect!
+    Capybara.current_driver = :mechanize
   end
 
   test "Can create an artefact via the api" do
