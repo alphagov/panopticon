@@ -11,6 +11,18 @@ class DiffEnabledActionTest < ActiveSupport::TestCase
     assert a.initial?
   end
 
+  test "should report changes on an initial action" do
+    action = ArtefactAction.new(
+      action_type: "update",
+      snapshot: {"fish" => 1, "badger" => true, "walrus" => "yes"}
+    )
+    a = DiffEnabledAction.new(action, nil)
+    assert_equal(
+      {"fish" => [nil, 1], "badger" => [nil, true], "walrus" => [nil, "yes"]},
+      a.changes
+    )
+  end
+
   test "should show no changes from itself" do
     action = ArtefactAction.new(
       action_type: "update",

@@ -15,10 +15,13 @@ class DiffEnabledAction
   end
 
   def changes
-    return @action.snapshot unless @previous
+    # If this is an initial action, fake out the previous snapshot as an empty
+    # hash, for consistency with the general case
+    previous_snapshot = @previous ? @previous.snapshot : {}
+    snapshots = [previous_snapshot, @action.snapshot]
 
     changed_keys.reduce({}) { |changes, key|
-      changes.merge key => [@previous, @action].map { |a| a.snapshot[key] }
+      changes.merge key => snapshots.map { |snapshot| snapshot[key] }
     }
   end
 
