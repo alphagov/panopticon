@@ -1,6 +1,7 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
+  before_filter :tag_collection, :only => [:new, :edit]
 
   respond_to :html, :json
 
@@ -11,8 +12,7 @@ class ArtefactsController < ApplicationController
     if @section != "all"
       @artefacts = @artefacts.where(tag_ids: params[:section])
     end
-
-    respond_with @artefacts
+    respond_with @artefacts, @tag_collection
   end
 
   def show
@@ -67,6 +67,10 @@ class ArtefactsController < ApplicationController
   end
 
   private
+
+    def tag_collection
+      @tag_collection = TagRepository.load_all(:type => 'section').asc(:title)
+    end
 
     def attempting_to_change_owning_app?(parameters_to_use)
       @artefact.persisted? &&

@@ -37,10 +37,10 @@
       <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
       <% if artefact.section_ids.length > 0 %>
         <% artefact.section_ids.each do | section_id | %>
-          <%= render :partial => 'artefact_section', :locals => {:section_id => section_id} %>
+          <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
         <% end %>
       <% else %>
-        <%= render :partial => 'artefact_section', :locals => {:section_id => nil} %>
+        <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
       <% end %>
       
       <button id="add-section" class="btn btn-success">Add another section</button>

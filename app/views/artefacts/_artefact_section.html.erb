@@ -1,4 +1,4 @@
 <div class="row-fluid artefact-section">
-  <%= select_tag("artefact[sections][]", options_from_collection_for_select(TagRepository.load_all(:type => 'section').asc(:title), :tag_id, :full_path_title, section_id), {:prompt => "Select a section", :class => "span4"}) %>
+  <%= select_tag("artefact[sections][]", options_from_collection_for_select(tag_collection, :tag_id, :full_path_title, section_id), {:prompt => "Select a section", :class => "span4"}) %>
   <button class="btn btn-danger remove-section offset1">Remove this section</button>
 </div>
