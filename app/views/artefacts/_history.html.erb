@@ -4,14 +4,18 @@
     <dt><%= human_timestamp(action.created_at) %></dt>
     <dd>
       <p>
-      <%= action.user || "An unknown user" %>
-      <% case action.action_type %>
-      <% when "create" %>
-        created this artefact
-      <% when "update" %>
-        updated this artefact
+      <% if ! action.user and action.action_type == "snapshot" %>
+        Automatic snapshot
       <% else %>
-        did a "<%= action.action_type %>" action
+        <%= action.user || "An unknown user" %>
+        <% case action.action_type %>
+        <% when "create" %>
+          created this artefact
+        <% when "update" %>
+          updated this artefact
+        <% else %>
+          did a "<%= action.action_type %>" action
+        <% end %>
       <% end %>
       </p>
       <% unless action.initial? %>
