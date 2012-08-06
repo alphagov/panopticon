@@ -1,5 +1,5 @@
 namespace :migrate do
-  desc "Populate tag objects with parent ids"
+  desc "Copy data from attr primary_section to taggable primary_section"
   task :move_primary_section_into_taggable => :environment do
     Artefact.all.each do |artefact|
       unless artefact.attributes['primary_section'].nil?
