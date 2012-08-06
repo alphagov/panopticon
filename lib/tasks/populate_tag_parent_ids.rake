@@ -7,7 +7,7 @@ namespace :migrate do
         parent = Tag.where(tag_id: bits[0]).first
         if not parent.nil?
           tag.parent_id = parent.tag_id
-          tag.save
+          tag.save!
         end
       end
     end
