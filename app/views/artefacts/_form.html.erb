@@ -34,6 +34,7 @@
       <% end %>
 
       <label for="artefact[sections][]">Sections</label>
+      <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
       <% if artefact.section_ids.length > 0 %>
         <% artefact.section_ids.each do | section_id | %>
           <%= render :partial => 'artefact_section', :locals => {:section_id => section_id} %>
