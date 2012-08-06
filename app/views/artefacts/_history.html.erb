@@ -1,8 +1,9 @@
 <div class="well">
   <dl class="dl-horizontal">
-  <% artefact.actions.each do |action| %>
+  <% actions.each do |action| %>
     <dt><%= human_timestamp(action.created_at) %></dt>
     <dd>
+      <p>
       <%= action.user || "An unknown user" %>
       <% case action.action_type %>
       <% when "create" %>
@@ -11,6 +12,20 @@
         updated this artefact
       <% else %>
         did a "<%= action.action_type %>" action
+      <% end %>
+      </p>
+      <% unless action.initial? %>
+        <% if action.changes.empty? %>
+        No changes
+        <% else %>
+        Changed fields:
+        <ul>
+          <% action.changes.each do |key, values| %>
+            <li><code><%= key %></code>
+              from <%= values[0].inspect %> to <%= values[1].inspect %></li>
+          <% end %>
+        </ul>
+        <% end %>
       <% end %>
     </dd>
   <% end %>

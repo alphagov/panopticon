@@ -26,6 +26,14 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
+    # Construct a list of actions, with embedded diffs
+    # The reason for appending the nil is so that the initial action is
+    # included: the DiffEnabledAction class handles the case where the previous
+    # action does not exist
+    reverse_actions = @artefact.actions.reverse
+    @actions = (reverse_actions + [nil]).each_cons(2).map { |action, previous|
+      DiffEnabledAction.new(action, previous)
+    }
   end
 
   def create
