@@ -4,7 +4,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
 
   setup do
     TagRepository.put tag_type: "section", tag_id: "crime", title: "Crime"
-    TagRepository.put tag_type: "section", tag_id: "crime/batman", title: "Batman"
+    TagRepository.put tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime"
   end
 
   test "should extract artefact attributes" do
@@ -67,7 +67,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = []
-      artefact.primary_section = nil
     end
     expected = {
       "link" => "/my-artefact",
@@ -86,7 +85,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = ["crime"]
-      artefact.primary_section = "crime"
     end
     expected = {
       "link" => "/my-artefact",
@@ -106,7 +104,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = ["crime/batman"]
-      artefact.primary_section = "crime/batman"
     end
     expected = {
       "link" => "/my-artefact",

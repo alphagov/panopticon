@@ -20,12 +20,12 @@ class ArtefactsControllerTest < ActionController::TestCase
         tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
         tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
 
-        artefact1 = FactoryGirl.create(:artefact, tag_ids: ["crime"])
-        artefact2 = FactoryGirl.create(:artefact, tag_ids: ["education"])
+        artefact1 = FactoryGirl.create(:artefact, sections: ["crime"])
+        artefact2 = FactoryGirl.create(:artefact, sections: ["education"])
 
         get :index, section: "crime"
         assert_select "tbody tr", count: 1
-        assert_select "tbody tr td", /crime/
+        assert_select "tbody tr td", /crime/i
         assert_select "tbody tr td", artefact1.name
       end
     end
@@ -72,7 +72,9 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       should "Include section ID" do
         TagRepository.put :tag_id => 'crime', :tag_type => 'section', :title => 'Crime'
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1, :primary_section => 'crime'
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact.sections = ['crime']
+        artefact.save!
         get :show, id: artefact.id, format: :json
         parsed = JSON.parse(response.body)
 
@@ -100,15 +102,18 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Update our primary section and ensure it persists into sections" do
-        @tags = FactoryGirl.create_list(:tag, 3)
-        artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
-                                    :owning_app => 'publisher', :name => 'Whatever', :need_id => 1,
-                                    :tag_ids => [@tags[0].tag_id, @tags[1].tag_id])
-        put :update, :id => artefact.id, :primary_section => @tags[2].tag_id
-        artefact.reload
+        tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+        tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
 
-        assert_equal @tags[2].tag_id, artefact.primary_section
-        assert_equal [@tags[2].tag_id, @tags[0].tag_id, @tags[1].tag_id], artefact.sections
+        artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
+                                    :owning_app => 'publisher', :name => 'Whatever', :need_id => 1)
+        artefact.sections = [tag1.tag_id]
+        artefact.save!
+        put :update, :id => artefact.id, :artefact => {:primary_section => tag2.tag_id}
+
+        artefact.reload
+        assert_equal tag2.tag_id, artefact.primary_section.tag_id
+        assert_equal [tag2.tag_id, tag1.tag_id], artefact.sections.map(&:tag_id)
       end
 
       should "Reject JSON requests to update an artefact's owning app" do
