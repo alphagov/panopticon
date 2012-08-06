@@ -37,19 +37,21 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       should "create a new artefact" do
         assert_difference "Artefact.count" do
-          post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+          post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => "frontend", :name => 'Whatever', :need_id => 1
         end
         artefact = Artefact.order_by([[:id, :desc]]).last
         assert_equal "whatever", artefact.slug
         assert_equal "guide", artefact.kind
         assert_equal "publisher", artefact.owning_app
+        assert_equal "frontend", artefact.rendering_app
         assert_equal "Whatever", artefact.name
       end
 
       should "respond with JSON representing the new artefact" do
-        post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
         parsed = JSON.parse(response.body)
         assert_equal "publisher", parsed["owning_app"]
+        assert_equal "frontend", parsed["rendering_app"]
         assert_equal "guide", parsed["kind"]
         assert_equal "whatever", parsed["slug"]
         assert_equal "Whatever", parsed["name"]
@@ -91,7 +93,7 @@ class ArtefactsControllerTest < ActionController::TestCase
     context "PUT /artefacts/:id" do
 
       should "Update existing artefact" do
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
 
         assert_difference "Artefact.count", 0 do
           put :update, id: artefact.id, format: :json, name: "Changed"

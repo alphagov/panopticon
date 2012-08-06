@@ -1,14 +1,9 @@
 source 'http://rubygems.org'
 source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
-group :passenger_compatibility do
-  gem 'rack', '1.3.5'
-  gem 'rake', '0.9.2'
-end
-
 gem 'gds-warmup-controller', '0.1.0'
 
-gem 'plek', '~> 0'
+gem 'plek', '~> 0.3.0'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 gem 'stomp'
@@ -24,7 +19,7 @@ gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '~> 3.1.1'
+gem 'rails', '3.2.7'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
@@ -38,7 +33,7 @@ gem 'lograge'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.2.0"
+  gem "govuk_content_models", "~> 0.2.4"
 end
 
 if ENV['BUNDLE_DEV']

@@ -11,12 +11,14 @@ class RoutableArtefact
   end
 
   def router
-    @router ||= Router.new
+    @router ||= Router.new("http://router.cluster:8080/router")
   end
 
   def ensure_application_exists
-    backend_url = Plek.current.find(rendering_app)
-    router.update_application(rendering_app, backend_url)
+    backend_url = URI.parse Plek.current.find(rendering_app)
+    # Plek returns a full URL (https URL in production and preview).
+    # We only want to pass the host to the router.
+    router.update_application(rendering_app, backend_url.host)
   end
 
   def submit
@@ -27,9 +29,11 @@ class RoutableArtefact
       paths << @artefact.slug
     end
     paths.uniq.each do |path|
+      logger.debug("Registering #{path} full #{rendering_app}")
       @router.create_route(path, "full", rendering_app)
     end
     prefixes.each do |prefix|
+      logger.debug("Registering #{prefix} prefix #{rendering_app}")
       @router.create_route(prefix, "prefix", rendering_app)
     end
   end

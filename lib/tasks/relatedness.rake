@@ -63,7 +63,7 @@ namespace :relatedness do
       end
 
       def to_dot
-        %Q(#{name}[label="#{artefact.name}",labelURL="#{Plek.current.find('frontend')}/#{artefact.slug}"])
+        %Q(#{name}[label="#{artefact.name}",labelURL="#{Plek.current.find('www')}/#{artefact.slug}"])
       end
 
       # FIXME: It'd be nice if Panopticon knew which slugs were published,

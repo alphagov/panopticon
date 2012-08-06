@@ -1,5 +1,4 @@
 class UpdateSearchObserver < Mongoid::Observer
-
   observe :artefact
 
   def after_save(artefact)

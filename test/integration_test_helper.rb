@@ -1,6 +1,5 @@
-require_relative '../test_helper'
+require_relative 'test_helper'
 require 'capybara/rails'
-require 'capybara/mechanize'
 require 'webmock'
 
 DatabaseCleaner.strategy = :truncation
@@ -9,24 +8,18 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include WebMock::API
 
-  def setup
+  setup do
     DatabaseCleaner.clean
-
-    WebMock.allow_net_connect!
-    stub_request(:get, /assets\.test\.gov\.uk/).to_return(status: 404)
   end
 
-  def teardown
+  teardown do
     DatabaseCleaner.clean
     WebMock.reset!  # Not entirely sure whether this happens anyway
+    Capybara.use_default_driver
   end
 
-end
-
-Capybara.app = Rack::Builder.new do
-  map "/" do
-    run Capybara.app
+  def create_test_user
+    FactoryGirl.create(:user)
   end
 end
 
-Capybara.default_driver = :mechanize
