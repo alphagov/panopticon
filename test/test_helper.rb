@@ -36,9 +36,16 @@ class ActiveSupport::TestCase
     Panopticon::Application
   end
 
+  def stub_user
+    @stub_user ||= FactoryGirl.create(:user, :name => 'Stub User')
+  end
+
   def login_as_stub_user
-    temp_user = FactoryGirl.create(:user, :name => 'Stub User')
-    request.env['warden'] = stub(:authenticate! => true, :authenticated? => true, :user => temp_user)
+    request.env['warden'] = stub(
+      :authenticate! => true,
+      :authenticated? => true,
+      :user => stub_user
+    )
   end
 
   def teardown

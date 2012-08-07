@@ -26,10 +26,18 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
+    # Construct a list of actions, with embedded diffs
+    # The reason for appending the nil is so that the initial action is
+    # included: the DiffEnabledAction class handles the case where the previous
+    # action does not exist
+    reverse_actions = @artefact.actions.reverse
+    @actions = (reverse_actions + [nil]).each_cons(2).map { |action, previous|
+      DiffEnabledAction.new(action, previous)
+    }
   end
 
   def create
-    @artefact.save
+    @artefact.save_as current_user
     respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
   end
 
@@ -54,7 +62,7 @@ class ArtefactsController < ApplicationController
       return
     end
 
-    saved = @artefact.update_attributes(parameters_to_use)
+    saved = @artefact.update_attributes_as(current_user, parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
     if saved && params[:commit] == 'Save and continue editing'
