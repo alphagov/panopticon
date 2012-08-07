@@ -158,6 +158,25 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal stub_user, artefact.actions.last.user
       end
 
+      should "Not record the user for API requests" do
+        login_as GDS::SSO::ApiUser.new
+        artefact = Artefact.create!(
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+
+        put :update, id: artefact.id, format: :json, name: "Changed"
+        assert_response :success
+
+        artefact.reload
+        assert_equal nil, artefact.actions.last.user
+      end
+
+
       should "Update our primary section and ensure it persists into sections" do
         @tags = FactoryGirl.create_list(:tag, 3)
         artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
