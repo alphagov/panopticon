@@ -57,6 +57,25 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal "Whatever", parsed["name"]
         assert parsed["id"].present?
       end
+
+      should "record a create action on the artefact with the current user" do
+        post(
+          :create,
+          format: "json",
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+        parsed = JSON.parse(response.body)
+        artefact_id = parsed["id"]
+        artefact = Artefact.find(artefact_id)
+        assert_equal 1, artefact.actions.size
+        assert_equal "create", artefact.actions.first.action_type
+        assert_equal stub_user, artefact.actions.first.user
+      end
     end
 
     context "GET /artefacts/:id" do
@@ -99,6 +118,23 @@ class ArtefactsControllerTest < ActionController::TestCase
 
         assert_response :success
         assert_equal "Changed", artefact.reload.name
+      end
+
+      should "Record the action and responsible user" do
+        artefact = Artefact.create!(
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+
+        put :update, id: artefact.id, format: :json, name: "Changed"
+        assert_response :success
+
+        artefact.reload
+        assert_equal stub_user, artefact.actions.last.user
       end
 
       should "Update our primary section and ensure it persists into sections" do
