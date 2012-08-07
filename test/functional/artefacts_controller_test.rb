@@ -105,6 +105,27 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal 404, response.code.to_i
       end
 
+      context "GET /artefacts/:id/edit" do
+        should "Include history" do
+          # Create and update the artefact to set up some actions
+          artefact = Artefact.create!(
+            :slug => 'whatever',
+            :kind => 'guide',
+            :owning_app => 'publisher',
+            :name => 'Whatever',
+            :need_id => 1,
+          )
+          artefact.update_attributes_as stub_user, name: "Changed"
+
+          get :edit, id: artefact.id, format: :html
+
+          # Check the actions: note reverse order
+          actions = assigns["actions"]
+          assert_equal ["update", "create"], actions.map(&:action_type)
+          assert_equal [false, true], actions.map(&:initial?)
+        end
+      end
+
     end
 
     context "PUT /artefacts/:id" do
