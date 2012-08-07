@@ -55,9 +55,9 @@ GEM
       mail (> 2.2.5)
       mime-types
       xml-simple
-    bson (1.5.2)
-    bson_ext (1.5.2)
-      bson (= 1.5.2)
+    bson (1.6.0)
+    bson_ext (1.6.0)
+      bson (= 1.6.0)
     builder (3.0.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -156,8 +156,8 @@ GEM
     minitest (2.10.0)
     mocha (0.10.1)
       metaclass (~> 0.0.1)
-    mongo (1.5.2)
-      bson (= 1.5.2)
+    mongo (1.6.0)
+      bson (= 1.6.0)
     mongoid (2.4.12)
       activemodel (~> 3.1)
       mongo (<= 1.6.2)
@@ -279,8 +279,8 @@ PLATFORMS
 DEPENDENCIES
   ansi
   aws-ses
-  bson (= 1.5.2)
-  bson_ext (= 1.5.2)
+  bson (= 1.6.0)
+  bson_ext (= 1.6.0)
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
   colorize (~> 0.5.8)
@@ -300,7 +300,7 @@ DEPENDENCIES
   lograge
   minitest
   mocha
-  mongo (= 1.5.2)
+  mongo (= 1.6.0)
   mongoid (~> 2.4.2)
   nokogiri
   null_logger
