@@ -1,7 +1,7 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
-  before_filter :tag_collection, :only => [:new, :edit]
+  before_filter :tag_collection, :except => [:show]
 
   respond_to :html, :json
 
