@@ -69,7 +69,16 @@ class ArtefactsController < ApplicationController
   private
 
     def tag_collection
-      @tag_collection = TagRepository.load_all(:type => 'section').asc(:title)
+      @tag_collection = TagRepository.load_all(:type => 'section').asc(:title).to_a
+
+      title_counts = Hash.new(0)
+      @tag_collection.each do |tag|
+        title_counts[tag.title] += 1
+      end
+
+      @tag_collection.each do |tag|
+        tag.uniquely_named = title_counts[tag.title] < 2
+      end
     end
 
     def attempting_to_change_owning_app?(parameters_to_use)
