@@ -57,6 +57,25 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal "Whatever", parsed["name"]
         assert parsed["id"].present?
       end
+
+      should "record a create action on the artefact with the current user" do
+        post(
+          :create,
+          format: "json",
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+        parsed = JSON.parse(response.body)
+        artefact_id = parsed["id"]
+        artefact = Artefact.find(artefact_id)
+        assert_equal 1, artefact.actions.size
+        assert_equal "create", artefact.actions.first.action_type
+        assert_equal stub_user, artefact.actions.first.user
+      end
     end
 
     context "GET /artefacts/:id" do
@@ -88,6 +107,27 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal 404, response.code.to_i
       end
 
+      context "GET /artefacts/:id/edit" do
+        should "Include history" do
+          # Create and update the artefact to set up some actions
+          artefact = Artefact.create!(
+            :slug => 'whatever',
+            :kind => 'guide',
+            :owning_app => 'publisher',
+            :name => 'Whatever',
+            :need_id => 1,
+          )
+          artefact.update_attributes_as stub_user, name: "Changed"
+
+          get :edit, id: artefact.id, format: :html
+
+          # Check the actions: note reverse order
+          actions = assigns["actions"]
+          assert_equal ["update", "create"], actions.map(&:action_type)
+          assert_equal [false, true], actions.map(&:initial?)
+        end
+      end
+
     end
 
     context "PUT /artefacts/:id" do
@@ -102,6 +142,42 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_response :success
         assert_equal "Changed", artefact.reload.name
       end
+
+      should "Record the action and responsible user" do
+        artefact = Artefact.create!(
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+
+        put :update, id: artefact.id, format: :json, name: "Changed"
+        assert_response :success
+
+        artefact.reload
+        assert_equal stub_user, artefact.actions.last.user
+      end
+
+      should "Not record the user for API requests" do
+        login_as GDS::SSO::ApiUser.new
+        artefact = Artefact.create!(
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :rendering_app => 'frontend',
+          :name => 'Whatever',
+          :need_id => 1
+        )
+
+        put :update, id: artefact.id, format: :json, name: "Changed"
+        assert_response :success
+
+        artefact.reload
+        assert_equal nil, artefact.actions.last.user
+      end
+
 
       should "Update our primary section and ensure it persists into sections" do
         tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")

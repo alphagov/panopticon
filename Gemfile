@@ -25,15 +25,15 @@ gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
 
 gem "mongoid", "~> 2.4.2"
-gem "mongo", "1.5.2"
-gem "bson_ext", "1.5.2"
-gem "bson", "1.5.2"
+gem "mongo", "1.6.2"
+gem "bson_ext", "1.6.2"
+gem "bson", "1.6.2"
 gem 'lograge'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "~> 0.2.4"
+  gem "govuk_content_models", "0.4.0"
 end
 
 if ENV['BUNDLE_DEV']

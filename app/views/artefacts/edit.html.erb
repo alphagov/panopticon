@@ -2,4 +2,17 @@
 <div class="page-header">
   <h1>Editing <%= @artefact.name %></h1>
 </div>
-<%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#edit" data-toggle="tab">Edit</a></li>
+    <li><a href="#history" data-toggle="tab">History</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="edit">
+      <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
+    </div>
+    <div class="tab-pane" id="history">
+      <%= render 'history', actions: @actions %>
+    </div>
+  </div>
+</div>
