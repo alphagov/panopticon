@@ -54,7 +54,6 @@ group :test do
   gem 'simplecov', '~> 0.6.4'
   gem 'simplecov-rcov'
   gem 'ci_reporter'
-  gem 'test-unit'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'minitest'
