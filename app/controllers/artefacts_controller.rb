@@ -1,6 +1,7 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
+  before_filter :tag_collection, :except => [:show]
 
   respond_to :html, :json
 
@@ -11,8 +12,7 @@ class ArtefactsController < ApplicationController
     if @section != "all"
       @artefacts = @artefacts.where(tag_ids: params[:section])
     end
-
-    respond_with @artefacts
+    respond_with @artefacts, @tag_collection
   end
 
   def show
@@ -76,6 +76,19 @@ class ArtefactsController < ApplicationController
 
   private
 
+    def tag_collection
+      @tag_collection = TagRepository.load_all(:type => 'section').asc(:title).to_a
+
+      title_counts = Hash.new(0)
+      @tag_collection.each do |tag|
+        title_counts[tag.title] += 1
+      end
+
+      @tag_collection.each do |tag|
+        tag.uniquely_named = title_counts[tag.title] < 2
+      end
+    end
+
     def attempting_to_change_owning_app?(parameters_to_use)
       @artefact.persisted? &&
         parameters_to_use.include?('owning_app') &&
@@ -98,7 +111,7 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
-      fields_to_update = Artefact.fields.keys + ['sections']
+      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
 
       # TODO: Remove this variance
       parameters_to_use = params[:artefact] || params.slice(*fields_to_update)

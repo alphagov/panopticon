@@ -37,7 +37,7 @@ module SectionsHelper
   end
 
   def parent_sections
-    parent_sections = all_sections.select do |title, tag_id|
+    parent_sections = all_sections.reject do |title, tag_id|
       tag_id =~ %r{/}
     end
   end

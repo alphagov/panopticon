@@ -26,6 +26,15 @@ td.icon {
   text-align: center;
 }
 
+.artefact-section {
+  margin-bottom: 8px;
+}
+
+select#artefact_sections_ {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
 /* Styling for tablesorter plugin */
 table thead tr th {
   cursor: pointer;

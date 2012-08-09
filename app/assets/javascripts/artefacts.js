@@ -26,4 +26,24 @@ $(function() {
 
   $('.flash-notice').delay(4000).slideUp(300).
     one('click', function () { $(this).slideUp(300); });
+
+  // add sections
+  $('#add-section').click(function () {
+    $('.remove-section').show();
+    var new_select = $('.artefact-section').first().clone(true);
+    new_select.find('select option:selected').removeAttr('selected');
+    new_select.insertBefore(this);
+    return false;
+  })
+
+  $('.remove-section').click(function () {
+    if ($('.artefact-section').size() >= 2) {
+      $(this).parent().remove();
+      if ($('.artefact-section').size() == 1) {
+        $('.remove-section').hide();
+      }
+    } 
+    return false;
+  })
+
 });

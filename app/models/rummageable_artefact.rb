@@ -76,6 +76,12 @@ class RummageableArtefact
 
 private
   def section_parts
-    (@artefact.primary_section || "").split("/")
+    section_parts = []
+    return section_parts if @artefact.sections.empty?
+
+    if @artefact.primary_section.has_parent?
+      section_parts.push(@artefact.primary_section.parent.tag_id)
+    end
+    section_parts.push(@artefact.primary_section.tag_id.split("/").last)
   end
 end
