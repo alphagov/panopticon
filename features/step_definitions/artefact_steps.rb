@@ -136,11 +136,7 @@ end
 
 When /^I remove the second section from the artefact$/ do
   visit edit_artefact_path(@artefact)
-  within(:xpath, "(//*[contains(@class, 'artefact-section')])[2]") do
-    # Can't rely on the Remove button here, as JavaScript may not have loaded
-    # and the buttons aren't full of progressive enhancement goodness
-    select "Select a section", from: "artefact[sections][]"
-  end
+  unselect_section @sections[1]
   submit_artefact_form
 end
 

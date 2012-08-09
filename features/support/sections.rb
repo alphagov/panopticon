@@ -22,7 +22,12 @@ def select_section(section)
 end
 
 def unselect_section(section)
-  select section.title, :from => "artefact[sections][]"
+  tag_id = section.tag_id
+  within(:xpath, "//option[@value='#{tag_id}'][@selected='selected']/../..") do
+    # Can't rely on the Remove button here, as JavaScript may not have loaded
+    # and the buttons aren't full of progressive enhancement goodness
+    select "Select a section", from: "artefact[sections][]"
+  end
 end
 
 def add_section(artefact, section)
