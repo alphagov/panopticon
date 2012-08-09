@@ -98,6 +98,10 @@ Given /^a section exists$/ do
   @section = create_section
 end
 
+Given /^two sections exist$/ do
+  @sections = create_sections
+end
+
 When /^I add the contact to the artefact$/ do
   visit edit_artefact_path(@artefact)
   select_contact @contact
@@ -112,6 +116,12 @@ Given /^the artefact has the section$/ do
   add_section @artefact, @section
 end
 
+Given /^the artefact has both sections$/ do
+  @sections.each do |section|
+    add_section @artefact, section
+  end
+end
+
 When /^I remove the contact from the artefact$/ do
   visit edit_artefact_path(@artefact)
   unselect_contact @contact
@@ -124,9 +134,13 @@ When /^I add the section to the artefact$/ do
   submit_artefact_form
 end
 
-When /^I remove the section from the artefact$/ do
+When /^I remove the second section from the artefact$/ do
   visit edit_artefact_path(@artefact)
-  unselect_section @section
+  within(:xpath, "(//*[contains(@class, 'artefact-section')])[2]") do
+    # Can't rely on the Remove button here, as JavaScript may not have loaded
+    # and the buttons aren't full of progressive enhancement goodness
+    select "Select a section", from: "artefact[sections][]"
+  end
   submit_artefact_form
 end
 
