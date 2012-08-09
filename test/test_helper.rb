@@ -55,6 +55,4 @@ class ActiveSupport::TestCase
   def teardown
     WebMock.reset!
   end
-
-  alias_method :refute, :assert_false
 end
