@@ -17,5 +17,4 @@ class ArtefactTest < ActiveSupport::TestCase
     reloaded_artefact = Artefact.find(@artefact.id)
     assert_nil reloaded_artefact.indexable_content
   end
-
 end
