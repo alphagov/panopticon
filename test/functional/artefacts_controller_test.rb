@@ -76,6 +76,24 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal "create", artefact.actions.first.action_type
         assert_equal stub_user, artefact.actions.first.user
       end
+
+      should "create an artefact of kind 'video' for the current user" do
+        post :create, format: "json", slug: "welcome-to-the-world-of-tomorrow", kind: "video", owning_app: "publisher", rendering_app: "frontend", name: "Welcome to the world of Tomorrow!", need_id: 1352344
+
+        parsed = JSON.parse(response.body)
+        assert_equal "publisher", parsed["owning_app"]
+        assert_equal "frontend", parsed["rendering_app"]
+        assert_equal "video", parsed["kind"]
+        assert_equal "welcome-to-the-world-of-tomorrow", parsed["slug"]
+        assert_equal "Welcome to the world of Tomorrow!", parsed["name"]
+        assert_equal true, parsed["id"].present?
+
+        artefact_id = parsed["id"]
+        artefact = Artefact.find(artefact_id)
+        assert_equal 1, artefact.actions.size
+        assert_equal "create", artefact.actions.first.action_type
+        assert_equal stub_user, artefact.actions.first.user
+      end
     end
 
     context "GET /artefacts/:id" do
