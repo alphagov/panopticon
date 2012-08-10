@@ -29,7 +29,7 @@ def check_artefact_has_name_in_api(artefact, name)
 end
 
 def check_artefact_has_related_artefact_in_api(artefact, related_artefact)
-  assert_include related_artefact_ids_from_api(artefact), related_artefact.id.to_s
+  assert_includes related_artefact_ids_from_api(artefact), related_artefact.id.to_s
 end
 
 def check_artefact_has_related_artefacts_in_api(artefact, related_artefacts)
@@ -39,7 +39,7 @@ def check_artefact_has_related_artefacts_in_api(artefact, related_artefacts)
 end
 
 def check_artefact_does_not_have_related_artefact_in_api(artefact, unrelated_artefact)
-  assert_not_include related_artefact_ids_from_api(artefact), unrelated_artefact.id.to_s
+  refute_includes related_artefact_ids_from_api(artefact), unrelated_artefact.id.to_s
 end
 
 def check_artefact_has_contact_in_api(artefact, contact)
@@ -51,9 +51,9 @@ def check_artefact_does_not_have_contact_in_api(artefact, contact)
 end
 
 def check_artefact_has_tag_in_api(artefact, tag_id)
-  assert_include tag_ids_from_api(artefact), tag_id
+  assert_includes tag_ids_from_api(artefact), tag_id
 end
 
 def check_artefact_does_not_have_tag_in_api(artefact, tag_id)
-  assert_not_include tag_ids_from_api(artefact), tag_id
+  refute_includes tag_ids_from_api(artefact), tag_id
 end
