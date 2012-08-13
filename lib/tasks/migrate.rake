@@ -1,4 +1,5 @@
 namespace :migrate do
+  desc "Add descriptions for section tags"
   task :add_tag_descriptions => :environment do
     descriptions = {
       'business' => 'Information about starting up and running a business in the UK, including help if you\'re self employed or a sole trader.',
@@ -16,6 +17,7 @@ namespace :migrate do
     descriptions.each do |tag_id, description|
       tag = Tag.where(tag_id: tag_id).first
       tag.update_attributes!(description: description)
+      puts "Added description to tag: #{tag.tag_id}"
     end
   end
 end
