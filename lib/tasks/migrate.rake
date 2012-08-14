@@ -20,4 +20,16 @@ namespace :migrate do
       puts "Added description to tag: #{tag.tag_id}"
     end
   end
+
+  desc "Move Artefacts from the 'live' column to having a 'state' column"
+  task :move_artefacts_to_state_column => :environment do
+    Artefact.all.each do |artefact|
+      if artefact[:live]
+        artefact.state = "published"
+      else
+        artefact.state = "draft"
+      end
+      artefact.save!
+    end
+  end
 end

@@ -116,6 +116,13 @@ class ArtefactsController < ApplicationController
       # TODO: Remove this variance
       parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
 
+      # Partly for legacy reasons, the API can receive live=true
+      if live_param = parameters_to_use[:live]
+        if ["true", true, "1"].include?(live_param)
+          parameters_to_use[:state] = "live"
+        end
+      end
+
       # Strip out the empty submit option for sections
       ['sections'].each do |param|
         param_value = parameters_to_use[param]
