@@ -208,5 +208,24 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    context "DELETE /artefacts/:id" do
+      should "mark an artefact as archived" do
+        artefact = Artefact.create!(
+          slug: "whatever",
+          kind: "guide",
+          owning_app: "publisher",
+          name: "Whatever",
+          need_id: 1
+        )
+        delete :destroy, id: artefact.id, "CONTENT_TYPE" => "application/json"
+        assert_equal 200, response.status
+        assert_equal "archived", artefact.reload.state
+      end
+
+      should "return a 404" do
+        delete :destroy, id: "4567", "CONTENT_TYPE" => "application/json"
+        assert_equal 404, response.status
+      end
+    end
   end
 end

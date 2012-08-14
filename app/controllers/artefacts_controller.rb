@@ -74,6 +74,14 @@ class ArtefactsController < ApplicationController
     end
   end
 
+  def destroy
+    @artefact = Artefact.from_param(params[:id])
+    @artefact.update_attributes_as(action_user, state: "archived")
+    respond_with(@artefact) do |format|
+      format.html { head 200 }
+    end
+  end
+
   private
 
     def tag_collection
