@@ -209,6 +209,13 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "DELETE /artefacts/:id" do
+      setup do
+        WebMock.stub_request(:delete, "http://router.cluster:8080/router/routes/whatever").
+            to_return(:status => 200)
+        WebMock.stub_request(:delete, "http://search.test.gov.uk/documents/%2Fwhatever").
+            to_return(:status => 200)
+      end
+
       should "mark an artefact as archived" do
         artefact = Artefact.create!(
           slug: "whatever",
