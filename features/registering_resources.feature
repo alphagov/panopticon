@@ -26,3 +26,9 @@ Feature: Registering resources
     When I put a new item into panopticon whose slug is already taken
     Then I should receive an HTTP 409 response
       And the relevant artefact should not be updated
+
+  Scenario: Deleting an item
+    When I delete an artefact
+    Then the artefact state should be archived
+     And rummager should be notified of the delete
+     And the router should be notified of the delete

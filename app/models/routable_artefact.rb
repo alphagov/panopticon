@@ -38,6 +38,12 @@ class RoutableArtefact
     end
   end
 
+  def delete
+    ([@artefact.slug] + @artefact.paths + @artefact.prefixes).each do |path|
+      router.delete_route(path)
+    end
+  end
+
   private
     def rendering_app
       @artefact.rendering_app || @artefact.owning_app

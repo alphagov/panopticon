@@ -30,7 +30,7 @@ When /^I put a draft smart answer's details into panopticon$/ do
   prepare_registration_environment
 
   details = example_smart_answer
-  details['live'] = false
+  details['state'] = 'draft'
 
   put "/artefacts/#{example_smart_answer['slug']}.json", artefact: details
 end
@@ -43,6 +43,15 @@ When /^I put a new item into panopticon whose slug is already taken$/ do
   artefact_basics['owning_app'] = 'planner'
   put "/artefacts/#{artefact_basics['slug']}.json",
     artefact: artefact_basics
+end
+
+When /^I delete an artefact$/ do
+  prepare_registration_environment
+  setup_existing_artefact
+  stub_search_delete
+  stub_router_delete
+
+  delete "/artefacts/#{@artefact.slug}.json"
 end
 
 Then /^a new artefact should be created$/ do
@@ -96,4 +105,19 @@ end
 
 Then /^rummager should not be notified$/ do
   assert_not_requested @fake_search
+end
+
+Then /^the artefact state should be archived$/ do
+  assert_equal 'archived', Artefact.last.state
+end
+
+Then /^rummager should be notified of the delete$/ do
+  assert_requested @fake_search_delete, times: 1  # The default, but let's be explicit
+end
+
+Then /^the router should be notified of the delete$/ do
+  assert ! @fake_router_deletes.blank?, "No router requests registered to assert on"
+  @fake_router_deletes.each do |fake_router_delete|
+    assert_requested fake_router_delete, times: 1
+  end
 end

@@ -22,6 +22,10 @@ class RummageableArtefact
     end
   end
 
+  def delete
+    Rummageable.delete(artefact_link)
+  end
+
   def should_amend
     @artefact.indexable_content.nil?
   end
