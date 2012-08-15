@@ -30,8 +30,7 @@ When /^I put a draft smart answer's details into panopticon$/ do
   prepare_registration_environment
 
   details = example_smart_answer
-  details['state'] = 'draft' # argh duplication
-  details['live'] = false
+  details['state'] = 'draft'
 
   put "/artefacts/#{example_smart_answer['slug']}.json", artefact: details
 end
