@@ -25,7 +25,7 @@ namespace :migrate do
   task :move_artefacts_to_state_column => :environment do
     Artefact.all.each do |artefact|
       if artefact[:live]
-        artefact.state = "published"
+        artefact.state = "live"
       else
         artefact.state = "draft"
       end
