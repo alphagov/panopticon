@@ -23,13 +23,15 @@ namespace :migrate do
 
   desc "Move Artefacts from the 'live' column to having a 'state' column"
   task :move_artefacts_to_state_column => :environment do
-    Artefact.all.each do |artefact|
-      if artefact[:live]
-        artefact.state = "live"
-      else
-        artefact.state = "draft"
+    Artefact.observers.disable :update_search_observer, :update_router_observer do
+      Artefact.all.each do |artefact|
+        if artefact[:live]
+          artefact.state = "live"
+        else
+          artefact.state = "draft"
+        end
+        artefact.save!
       end
-      artefact.save!
     end
   end
 end
