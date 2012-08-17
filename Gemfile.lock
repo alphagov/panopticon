@@ -15,6 +15,19 @@ GIT
     formtastic (2.1.1)
       actionpack (~> 3.0)
 
+PATH
+  remote: ../govuk_content_models
+  specs:
+    govuk_content_models (1.0.0)
+      bson_ext
+      differ
+      gds-api-adapters
+      gds-sso (>= 0.7, < 2.0)
+      mongoid (~> 2.4.10)
+      omniauth-oauth2 (~> 1.0)
+      plek (>= 0.1.22, < 0.4)
+      state_machine
+
 GEM
   remote: http://rubygems.org/
   remote: https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/
@@ -118,15 +131,6 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govuk_content_models (1.0.0)
-      bson_ext
-      differ
-      gds-api-adapters
-      gds-sso (>= 0.7, < 2.0)
-      mongoid (~> 2.4.10)
-      omniauth-oauth2 (~> 1.0)
-      plek (>= 0.1.22, < 0.4)
-      state_machine
     hashie (1.2.0)
     hike (1.2.1)
     httpauth (0.1)
@@ -302,7 +306,7 @@ DEPENDENCIES
   gds-sso (~> 1.2.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 1.0.0)
+  govuk_content_models!
   launchy
   lograge
   minitest
