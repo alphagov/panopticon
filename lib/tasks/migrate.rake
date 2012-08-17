@@ -20,4 +20,46 @@ namespace :migrate do
       puts "Added description to tag: #{tag.tag_id}"
     end
   end
+
+
+
+
+  desc "Copy all users into app-specific user collections"
+  task :duplicate_users_for_panopticon_and_publisher => :environment do
+    require 'user'
+    # Not really required, but a guard against running with the newer User model
+    class User
+      self.collection_name = "users"
+    end
+
+    class PanopticonUser
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field "name",                type: String
+      field "uid",                 type: String
+      field "version",             type: Integer
+      field "email",               type: String
+      field "permissions",         type: Hash
+      field "remotely_signed_out", type: Boolean, default: false
+    end
+
+    class PublisherUser
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field "name",                type: String
+      field "uid",                 type: String
+      field "version",             type: Integer
+      field "email",               type: String
+      field "permissions",         type: Hash
+      field "remotely_signed_out", type: Boolean, default: false
+    end
+
+    User.all.each do |user|
+      to_keep = user.attributes.reject { |field_name, value| ["_id"].include?(field_name) }
+      PanopticonUser.timeless.create!(to_keep)
+      PublisherUser.timeless.create!(to_keep)
+    end
+  end
 end
