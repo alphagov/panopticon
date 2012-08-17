@@ -118,7 +118,7 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govuk_content_models (1.1.0)
+    govuk_content_models (1.2.0)
       bson_ext
       differ
       gds-api-adapters
@@ -302,7 +302,7 @@ DEPENDENCIES
   gds-sso (~> 1.2.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 1.1.0)
+  govuk_content_models (= 1.2.0)
   launchy
   lograge
   minitest
