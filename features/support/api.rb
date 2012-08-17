@@ -8,7 +8,7 @@ def related_artefact_ids_from_api(artefact)
 end
 
 def tag_ids_from_api(artefact)
-  artefact_data_from_api(artefact)[:tag_ids].map { |tag| tag['id'] }
+  artefact_data_from_api(artefact)[:tag_ids]
 end
 
 def contact_id_from_api(artefact)
