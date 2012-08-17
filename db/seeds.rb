@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Dir[File.join(File.dirname(__FILE__),'seeds','*.rb')].each do |f|
+  puts "Seeding from #{ File.basename f }..."
+  load f
+  puts "Done."
+end
