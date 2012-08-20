@@ -57,9 +57,8 @@ namespace :migrate do
     end
 
     User.all.each do |user|
-      to_keep = user.attributes.reject { |field_name, value| ["_id"].include?(field_name) }
-      PanopticonUser.timeless.create!(to_keep)
-      PublisherUser.timeless.create!(to_keep)
+      PanopticonUser.timeless.create!(user.attributes)
+      PublisherUser.timeless.create!(user.attributes)
     end
   end
 
