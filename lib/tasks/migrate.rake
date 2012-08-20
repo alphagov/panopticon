@@ -4,7 +4,7 @@ namespace :migrate do
     descriptions = {
       'business' => 'Information about starting up and running a business in the UK, including help if you\'re self employed or a sole trader.',
       'crime-and-justice' => 'Simple information to help answer your questions on jury service, courts, sentencing, ASBOs and prisons.',
-      'driving' => 'Book your driving test or renew your vehicle tax online, find out the legal requirements for buying, owning, importing or scrapping a car or motorcycle, and read about your rights and responsibilities as a driver.',
+      'driving' => 'Book your driving test or get a tax disc online, find out the legal requirements for buying, owning, importing or scrapping a car or motorcycle, and read about your rights and responsibilities as a driver.',
       'education' => 'Get help if you&#39;re at school, planning to go on to further or higher education, looking for training or interested in a student or career development loan.',
       'family' => 'Find out about the laws for getting married/civil partnerships, the process of divorce and separation, parental leave, how to adopt a child, and more.',
       'housing' => 'Your legal obligations and rights when renting, buying or owning a home, plus information about Council Tax, what to do if you\'re homeless and where to get help if you have a housing dispute.',
