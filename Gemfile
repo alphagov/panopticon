@@ -30,11 +30,11 @@ gem "bson_ext", "1.6.2"
 gem "bson", "1.6.2"
 gem 'lograge'
 
-# if ENV['CONTENT_MODELS_DEV']
+if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
-# else
-#   gem "govuk_content_models", "1.0.0"
-# end
+else
+  gem "govuk_content_models", "1.0.0"
+end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
