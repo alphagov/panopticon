@@ -1,0 +1,1 @@
+USER_COLLECTION_NAME = "panopticon_users"
