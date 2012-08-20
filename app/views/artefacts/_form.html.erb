@@ -56,6 +56,10 @@
 
     <hr>
 
+    <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
+
+    <hr>
+
     <%= f.inputs do %>
 
       <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>

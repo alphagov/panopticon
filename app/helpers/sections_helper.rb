@@ -14,6 +14,10 @@ module SectionsHelper
     sections.reject { |s| s[1] == options[:except] }
   end
 
+  def options_for_tags_of_type(tag_type)
+    Tag.where(:tag_type => tag_type).order(:title).map {|t| [t.title, t.tag_id]}
+  end
+
   # Convert an array of sections into a nested array suitable for
   # using with the rails form helpers' select box tools.
   #
