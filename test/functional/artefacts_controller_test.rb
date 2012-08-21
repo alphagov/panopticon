@@ -157,6 +157,19 @@ class ArtefactsControllerTest < ActionController::TestCase
           assert_equal ["update", "create"], actions.map(&:action_type)
           assert_equal [false, true], actions.map(&:initial?)
         end
+
+        should "assign list of sections" do
+          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
+          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
+          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
+          FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
+
+          artefact = FactoryGirl.create(:artefact)
+
+          get :edit, id: artefact.id, format: :html
+
+          assert_equal ['fooey', 'gooey', 'kablooey'], assigns["tag_collection"].map(&:tag_id)
+        end
       end
 
     end

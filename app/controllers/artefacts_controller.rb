@@ -85,7 +85,7 @@ class ArtefactsController < ApplicationController
   private
 
     def tag_collection
-      @tag_collection = TagRepository.load_all(:type => 'section').asc(:title).to_a
+      @tag_collection = TagRepository.load_all(:tag_type => 'section').asc(:title).to_a
 
       title_counts = Hash.new(0)
       @tag_collection.each do |tag|
