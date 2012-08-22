@@ -26,14 +26,7 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
-    # Construct a list of actions, with embedded diffs
-    # The reason for appending the nil is so that the initial action is
-    # included: the DiffEnabledAction class handles the case where the previous
-    # action does not exist
-    reverse_actions = @artefact.actions.reverse
-    @actions = (reverse_actions + [nil]).each_cons(2).map { |action, previous|
-      DiffEnabledAction.new(action, previous)
-    }
+    @actions = build_actions
   end
 
   def create
@@ -68,6 +61,7 @@ class ArtefactsController < ApplicationController
     if saved && params[:commit] == 'Save and continue editing'
       redirect_to edit_artefact_path(@artefact)
     else
+      @actions = build_actions
       respond_with @artefact, status: status_to_use do |format|
         format.json { render json: @artefact.to_json, status: status_to_use }
       end
@@ -146,4 +140,14 @@ class ArtefactsController < ApplicationController
       action_user = current_user.is_a?(User) ? current_user : nil
     end
 
+    def build_actions
+      # Construct a list of actions, with embedded diffs
+      # The reason for appending the nil is so that the initial action is
+      # included: the DiffEnabledAction class handles the case where the previous
+      # action does not exist
+      reverse_actions = @artefact.actions.reverse
+      (reverse_actions + [nil]).each_cons(2).map { |action, previous|
+        DiffEnabledAction.new(action, previous)
+      }
+    end
 end

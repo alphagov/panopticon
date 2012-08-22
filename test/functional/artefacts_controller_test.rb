@@ -30,6 +30,16 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    context "PUT update" do
+      context "invalid artefact" do
+        should "be invalid with an empty title" do
+          artefact1 = FactoryGirl.create(:artefact)
+          artefact1.name = ""
+          put :update, id: artefact1.id, artefact: { name: "" }
+          assert_template :edit
+        end
+      end
+    end
   end
 
   context "accept JSON" do
