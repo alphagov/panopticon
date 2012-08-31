@@ -72,7 +72,8 @@ class ArtefactsController < ApplicationController
     @artefact = Artefact.from_param(params[:id])
     @artefact.update_attributes_as(action_user, state: "archived")
     respond_with(@artefact) do |format|
-      format.html { head 200 }
+      format.json { head 200 }
+      format.html { redirect_to artefacts_path }
     end
   end
 

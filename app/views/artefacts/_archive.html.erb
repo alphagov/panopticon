@@ -1,0 +1,8 @@
+<div class="well">
+  <div class="alert alert-error">
+    <h4>Warning!</h4>
+    This will make any published content unavailable.
+  </div>
+  <%= button_to('Archive', artefact_path(artefact), :method => "delete",
+                :class => "btn btn-danger") %>
+</div>
