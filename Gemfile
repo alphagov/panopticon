@@ -20,6 +20,7 @@ gem 'router-client', "3.1.0"
 gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '3.2.7'
+gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
