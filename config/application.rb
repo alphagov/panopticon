@@ -59,5 +59,9 @@ module Panopticon
 
     # Disable Rack::Cache.
     config.action_dispatch.rack_cache = nil
+
+    # Upon archiving an artefact we want this observer to run to remove
+    # any related items that also point to that artefact.
+    config.mongoid.observers << :remove_related_artefacts_observer
   end
 end
