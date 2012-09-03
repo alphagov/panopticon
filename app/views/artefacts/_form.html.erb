@@ -13,71 +13,77 @@
 <% end %>
 
 <div class="well">
-  <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
-    <%= f.inputs do %>
-      <%= f.input :name, :input_html => { :class => "span6" } %>
-      <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
-      <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
-      <% if ! artefact.new_record? && ! artefact.business_proposition %>
-          <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
-      <% end %>
-      <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" unless f.object.new_record? %>
-
-      <hr>
-
-      <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
-
-      <hr>
-      <input type="hidden" name="artefact[sections][]" value="" />
-      <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
-      <% end %>
-
-      <label for="artefact[sections][]">Sections</label>
-      <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-      <% if artefact.section_ids.length > 0 %>
-        <% artefact.section_ids.each do | section_id | %>
-          <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+  <% if artefact.archived? %>
+    <div class="alert">
+      This artefact has been archived and cannot be modified.
+    </div>
+  <% else %>
+    <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
+      <%= f.inputs do %>
+        <%= f.input :name, :input_html => { :class => "span6" } %>
+        <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
+        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
+        <% if ! artefact.new_record? && ! artefact.business_proposition %>
+            <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
         <% end %>
-      <% else %>
-        <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
+        <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" unless f.object.new_record? %>
+
+        <hr>
+
+        <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
+
+        <hr>
+        <input type="hidden" name="artefact[sections][]" value="" />
+        <% if artefact.new_record? %>
+          <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+        <% end %>
+
+        <label for="artefact[sections][]">Sections</label>
+        <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
+        <% if artefact.section_ids.length > 0 %>
+          <% artefact.section_ids.each do | section_id | %>
+            <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+          <% end %>
+        <% else %>
+          <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
+        <% end %>
+
+        <button id="add-section" class="btn btn-success">Add another section</button>
       <% end %>
 
-      <button id="add-section" class="btn btn-success">Add another section</button>
+      <hr>
+
+      <%= f.inputs do %>
+        <input name="artefact[related_artefact_ids][]" type="hidden" value="">
+        <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
+        <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
+      <% end %>
+
+      <hr>
+
+      <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
+
+      <hr>
+
+      <%= f.inputs do %>
+
+        <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
+        <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
+        <%= f.input :contact, :as => :hidden, :collection => Contact.in_alphabetical_order %>
+
+      <% end %>
+
+      <% if artefact.new_record? %>
+        <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
+      <% end %>
+
+      <hr>
+
+      <% if f.object.persisted? %>
+        <%= f.submit :value => "Save and continue editing", :class => "btn" %>
+      <% end %>
+      <%= f.submit :value => "Save and go to item", :class => "btn btn-success" %>
     <% end %>
-
-    <hr>
-
-    <%= f.inputs do %>
-      <input name="artefact[related_artefact_ids][]" type="hidden" value="">
-      <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
-      <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
-    <% end %>
-
-    <hr>
-
-    <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
-
-    <hr>
-
-    <%= f.inputs do %>
-
-      <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
-      <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
-      <%= f.input :contact, :as => :hidden, :collection => Contact.in_alphabetical_order %>
-
-    <% end %>
-
-    <% if artefact.new_record? %>
-      <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
-    <% end %>
-
-    <hr>
-
-    <% if f.object.persisted? %>
-      <%= f.submit :value => "Save and continue editing", :class => "btn" %>
-    <% end %>
-    <%= f.submit :value => "Save and go to item", :class => "btn btn-success" %>
   <% end %>
 </div>
 
