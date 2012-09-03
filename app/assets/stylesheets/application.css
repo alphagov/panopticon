@@ -53,4 +53,8 @@ table thead tr .header.headerSortDown {
   background: url(desc.gif) no-repeat right 75%;
 }
 
+table#artefact-list tr.archived {
+  opacity: 0.5;
+}
+
 /* end of tablesorter styling */
