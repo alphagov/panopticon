@@ -268,6 +268,8 @@ class ArtefactsControllerTest < ActionController::TestCase
             to_return(:status => 200)
         WebMock.stub_request(:delete, "http://search.test.gov.uk/documents/%2Fwhatever").
             to_return(:status => 200)
+        WebMock.stub_request(:post, "http://search.test.gov.uk/commit").
+            to_return(:status => 200)
       end
 
       should "mark an artefact as archived" do
