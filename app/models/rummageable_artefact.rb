@@ -25,6 +25,7 @@ class RummageableArtefact
   def delete
     logger.info "Deleting item from Rummager: #{artefact_link}"
     Rummageable.delete(artefact_link)
+    Rummageable.commit
   end
 
   def should_amend
