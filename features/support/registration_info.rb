@@ -58,6 +58,8 @@ module RegistrationInfo
 
   def stub_search_delete
     @fake_search_delete = WebMock.stub_request(:delete, artefact_search_url(@artefact)).to_return(status: 200)
+    WebMock.stub_request(:post, "http://search.test.gov.uk/commit")
+           .to_return(:status => 200)
   end
 
   def stub_router_delete
