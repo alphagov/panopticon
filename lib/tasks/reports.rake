@@ -20,7 +20,7 @@ namespace :reports do
           a.kind,
           "https://www.gov.uk/#{a.slug}"
         ]
-        row += a.sections.collect { |t| t.title }
+        row += a.sections.collect { |t| t.unique_title }
         csv << row
         print "."
       end
