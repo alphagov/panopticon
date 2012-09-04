@@ -1,0 +1,8 @@
+<div class="well">
+  <div class="alert alert-error">
+    <h4>Careful!</h4>
+    This will remove this content from the website. Once you've unpublished you can't change your mind.
+  </div>
+  <%= button_to('Archive', artefact_path(artefact), :method => "delete",
+                :class => "btn btn-danger") %>
+</div>

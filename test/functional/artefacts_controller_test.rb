@@ -278,13 +278,13 @@ class ArtefactsControllerTest < ActionController::TestCase
           name: "Whatever",
           need_id: 1
         )
-        delete :destroy, id: artefact.id, "CONTENT_TYPE" => "application/json"
+        delete :destroy, id: artefact.id, format: "json"
         assert_equal 200, response.status
         assert_equal "archived", artefact.reload.state
       end
 
       should "return a 404" do
-        delete :destroy, id: "4567", "CONTENT_TYPE" => "application/json"
+        delete :destroy, id: "4567", format: "json"
         assert_equal 404, response.status
       end
     end

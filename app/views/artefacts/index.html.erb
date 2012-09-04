@@ -35,7 +35,7 @@
           </thead>
           <tbody>
           <% @artefacts.each do |artefact| %>
-            <tr>
+            <tr class="<%= artefact.state %>">
               <td><%= artefact.need_id %></td>
               <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
               <td class="icon">
