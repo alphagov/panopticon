@@ -119,6 +119,16 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal artefact.owning_app, parsed['owning_app']
       end
 
+      should "Output json for slug with slash in slug" do
+        artefact = Artefact.create! :slug => 'done/whatever', :kind => 'answer', :owning_app => 'publisher', :name => 'Done Whatever', :need_id => 1
+        get :show, id: artefact.id, format: :json
+        parsed = JSON.parse(response.body)
+
+        assert_equal artefact.id.to_s, parsed['id']
+        assert_equal artefact.name, parsed['name']
+        assert_equal artefact.slug, parsed['slug']
+      end
+
       should "Include section ID" do
         TagRepository.put :tag_id => 'crime', :tag_type => 'section', :title => 'Crime'
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
