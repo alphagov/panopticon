@@ -55,7 +55,7 @@
 
       <%= f.inputs do %>
         <input name="artefact[related_artefact_ids][]" type="hidden" value="">
-        <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.in_alphabetical_order, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
+        <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.relatable_items, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
         <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
       <% end %>
 

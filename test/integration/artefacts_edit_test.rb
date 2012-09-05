@@ -49,4 +49,16 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       assert_equal [@bl], @a.legacy_sources
     end
   end
+
+  should "not include completed transactions in related item lists" do
+    a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
+    b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
+    c = FactoryGirl.create(:artefact, :name => "Done", :slug => 'done/completed-example', :kind => 'completed_transaction')
+
+    visit "/artefacts"
+    click_on "Alpha"
+
+    assert page.has_selector?("#artefact_related_artefact_ids option[value='#{b.id}']")
+    assert ! page.has_selector?("#artefact_related_artefact_ids option[value='#{c.id}']")
+  end
 end

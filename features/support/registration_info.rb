@@ -19,14 +19,30 @@ module RegistrationInfo
     }
   end
 
+  def example_completed_transaction
+    {
+      "need_id"           => 2013,
+      "slug"              => "done/example-transaction",
+      "name"              => "Example Transaction Complete",
+      "description"       => "This transaction is complete.",
+      "kind"              => "completed_transaction",
+      "section"           => "money-and-tax",
+      "subsection"        => "tax",
+      "link"              => "/done/example-transaction",
+      "indexable_content" => "",
+      "owning_app"        => 'publisher',
+      "state"             => "live"
+    }
+  end
+
   def example_smart_answer_json
     {artefact: example_smart_answer}.to_json
   end
 
-  def prepare_registration_environment
+  def prepare_registration_environment(artefact = example_smart_answer)
     setup_user
     stub_search
-    stub_router
+    stub_router(artefact)
   end
 
   def setup_user
@@ -38,7 +54,7 @@ module RegistrationInfo
     @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
   end
 
-  def stub_router
+  def stub_router(artefact = nil)
     WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
         with(:body => { "backend_url" => %r{^.*.test.gov.uk$} }).
         to_return(:status => 200, :body => "{}", :headers => {})
@@ -49,7 +65,7 @@ module RegistrationInfo
           to_return(:status => 200, :body => "{}", :headers => {})
 
     # so that we can assert on them later
-    @fake_routers = [OpenStruct.new(example_smart_answer), @artefact, @related_artefact].reject(&:nil?).map do |artefact|
+    @fake_routers = [OpenStruct.new(artefact), @artefact, @related_artefact].reject(&:nil?).map do |artefact|
       WebMock.stub_request(:put, "#{ROUTER_ROOT}/router/routes/#{artefact.slug}").
             with(:body => { "application_id" => artefact.owning_app, "route_type" => "full"}).
             to_return(:status => 200, :body => "{}", :headers => {})
