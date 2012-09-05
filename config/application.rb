@@ -31,7 +31,7 @@ module Panopticon
     chosen-sprite.png
     glyphicons-halflings-white.png glyphicons-halflings.png
     header-crown.png icon-answer.png icon-custom-application.png icon-guide.png icon-local_transaction.png
-    icon-place.png icon-programme.png icon-service.png icon-transaction.png icon-smart-answer.png)
+    icon-place.png icon-programme.png icon-service.png icon-transaction.png icon-transaction.png icon-completed_transaction.png icon-smart-answer.png)
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/app/repositories)
