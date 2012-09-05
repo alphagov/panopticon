@@ -23,7 +23,9 @@ class RummageableArtefact
   end
 
   def delete
+    logger.info "Deleting item from Rummager: #{artefact_link}"
     Rummageable.delete(artefact_link)
+    Rummageable.commit
   end
 
   def should_amend
@@ -33,7 +35,7 @@ class RummageableArtefact
   def artefact_hash
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
-    rummageable_keys = Rummageable::VALID_KEYS.map { |full_key| full_key[0] }.uniq
+    rummageable_keys = Rummageable::VALID_KEYS.map {|full_key| full_key[0]}.uniq
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager

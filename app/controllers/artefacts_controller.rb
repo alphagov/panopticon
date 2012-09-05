@@ -31,7 +31,8 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save_as action_user
-    respond_with @artefact, location: @artefact.admin_url(params.slice(:return_to))
+    location = @artefact.admin_url(params.slice(:return_to))
+    respond_with @artefact, location: location
   end
 
   # NB: We are departing from usual rails conventions here. PUTing a resource
@@ -49,7 +50,8 @@ class ArtefactsController < ApplicationController
 
     if attempting_to_change_owning_app?(parameters_to_use)
       render(
-        text: "This artefact already belongs to the '#{@artefact.owning_app}' app",
+        text: "This artefact already belongs to the
+               '#{@artefact.owning_app}' app",
         status: 409
       )
       return
@@ -72,14 +74,16 @@ class ArtefactsController < ApplicationController
     @artefact = Artefact.from_param(params[:id])
     @artefact.update_attributes_as(action_user, state: "archived")
     respond_with(@artefact) do |format|
-      format.html { head 200 }
+      format.json { head 200 }
+      format.html { redirect_to artefacts_path }
     end
   end
 
   private
 
     def tag_collection
-      @tag_collection = TagRepository.load_all(:tag_type => 'section').asc(:title).to_a
+      @tag_collection = TagRepository.load_all(:tag_type => 'section')
+                                     .asc(:title).to_a
 
       title_counts = Hash.new(0)
       @tag_collection.each do |tag|
@@ -137,14 +141,14 @@ class ArtefactsController < ApplicationController
       # The user to associate with actions
       # Currently this returns nil for the API user: this should go away once
       # we have real user authentication for API requests
-      action_user = current_user.is_a?(User) ? current_user : nil
+      current_user.is_a?(User) ? current_user : nil
     end
 
     def build_actions
       # Construct a list of actions, with embedded diffs
       # The reason for appending the nil is so that the initial action is
-      # included: the DiffEnabledAction class handles the case where the previous
-      # action does not exist
+      # included: the DiffEnabledAction class handles the case where the
+      # previous action does not exist
       reverse_actions = @artefact.actions.reverse
       (reverse_actions + [nil]).each_cons(2).map { |action, previous|
         DiffEnabledAction.new(action, previous)

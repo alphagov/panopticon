@@ -118,15 +118,15 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (0.8.18)
+    govspeak (1.0.0)
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
-    govuk_content_models (1.4.0)
+    govuk_content_models (1.7.1)
       bson_ext
       differ
       gds-api-adapters
       gds-sso (>= 0.7, < 2.0)
-      govspeak (~> 0.8.15)
+      govspeak (>= 0.8.15, < 2.0.0)
       mongoid (~> 2.4.10)
       omniauth-oauth2 (~> 1.0)
       plek (>= 0.1.22, < 0.4)
@@ -142,7 +142,7 @@ GEM
     jwt (0.1.5)
       multi_json (>= 1.0)
     kgio (2.7.4)
-    kramdown (0.13.7)
+    kramdown (0.13.8)
     launchy (2.1.2)
       addressable (~> 2.3)
     libv8 (3.3.10.4)
@@ -317,7 +317,7 @@ DEPENDENCIES
   gds-sso (~> 1.2.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 1.4.0)
+  govuk_content_models (= 1.7.1)
   launchy
   lograge
   minitest

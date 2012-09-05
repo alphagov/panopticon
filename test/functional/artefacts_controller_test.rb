@@ -278,6 +278,8 @@ class ArtefactsControllerTest < ActionController::TestCase
             to_return(:status => 200)
         WebMock.stub_request(:delete, "http://search.test.gov.uk/documents/%2Fwhatever").
             to_return(:status => 200)
+        WebMock.stub_request(:post, "http://search.test.gov.uk/commit").
+            to_return(:status => 200)
       end
 
       should "mark an artefact as archived" do
@@ -288,13 +290,13 @@ class ArtefactsControllerTest < ActionController::TestCase
           name: "Whatever",
           need_id: 1
         )
-        delete :destroy, id: artefact.id, "CONTENT_TYPE" => "application/json"
+        delete :destroy, id: artefact.id, format: "json"
         assert_equal 200, response.status
         assert_equal "archived", artefact.reload.state
       end
 
       should "return a 404" do
-        delete :destroy, id: "4567", "CONTENT_TYPE" => "application/json"
+        delete :destroy, id: "4567", format: "json"
         assert_equal 404, response.status
       end
     end
