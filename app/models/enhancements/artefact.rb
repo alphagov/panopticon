@@ -8,4 +8,8 @@ class Artefact
   def archived?
     state == 'archived'
   end
+
+  def self.relatable_items
+    self.in_alphabetical_order.where(:kind.nin => ["completed_transaction"])
+  end
 end

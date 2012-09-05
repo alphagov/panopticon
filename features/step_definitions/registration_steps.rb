@@ -35,6 +35,12 @@ When /^I put a draft smart answer's details into panopticon$/ do
   put "/artefacts/#{example_smart_answer['slug']}.json", artefact: details
 end
 
+When /^I put a new completed transaction's details into panopticon$/ do
+  prepare_registration_environment(example_completed_transaction)
+
+  put "/artefacts/#{example_completed_transaction['slug']}.json", artefact: example_completed_transaction
+end
+
 When /^I put a new item into panopticon whose slug is already taken$/ do
   prepare_registration_environment
   setup_existing_artefact

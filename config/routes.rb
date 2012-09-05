@@ -1,5 +1,5 @@
 Panopticon::Application.routes.draw do
-  resources :artefacts
+  resources :artefacts, :constraints => { :id => /[^\.]+/ }
   resources :tags, :defaults => {:format => 'json'}
 
   resources :curated_lists, only: :index
