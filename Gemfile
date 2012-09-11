@@ -34,13 +34,13 @@ gem 'lograge'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "1.7.2"
+  gem "govuk_content_models", "1.7.3"
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '~> 1.2.0'
+  gem 'gds-sso', '2.0.0'
 end
 
 group :assets do

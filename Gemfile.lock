@@ -100,14 +100,14 @@ GEM
     factory_girl_rails (3.3.0)
       factory_girl (~> 3.3.0)
       railties (>= 3.0.0)
-    faraday (0.8.2)
+    faraday (0.8.4)
       multipart-post (~> 1.1)
     ffi (1.1.4)
     gds-api-adapters (0.2.2)
       lrucache (~> 0.1.1)
       null_logger
       plek
-    gds-sso (1.2.1)
+    gds-sso (2.0.0)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -118,19 +118,19 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (1.0.0)
+    govspeak (1.0.1)
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
-    govuk_content_models (1.7.2)
+      sanitize (= 2.0.3)
+    govuk_content_models (1.7.3)
       bson_ext
       differ
       gds-api-adapters
-      gds-sso (>= 0.7, < 2.0)
-      govspeak (>= 0.8.15, < 2.0.0)
+      gds-sso (>= 0.7, < 3.0)
+      govspeak (>= 1.0.1, < 2.0.0)
       mongoid (~> 2.4.10)
       omniauth-oauth2 (~> 1.0)
       plek (>= 0.1.22, < 0.4)
-      sanitize (= 2.0.3)
       state_machine
     hashie (1.2.0)
     hike (1.2.1)
@@ -189,7 +189,7 @@ GEM
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
       rack (~> 1.2)
-    omniauth (1.1.0)
+    omniauth (1.1.1)
       hashie (~> 1.2)
       rack
     omniauth-gds (0.0.3)
@@ -314,10 +314,10 @@ DEPENDENCIES
   formtastic!
   formtastic-bootstrap!
   gds-api-adapters
-  gds-sso (~> 1.2.0)
+  gds-sso (= 2.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 1.7.2)
+  govuk_content_models (= 1.7.3)
   launchy
   lograge
   minitest
