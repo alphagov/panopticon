@@ -13,7 +13,6 @@ namespace :migrate do
     csv_obj = CSV.new(File.read(args[:section_csv]), {headers: :first_row, return_headers: false})
     # eg: [title, slug, desc, parent_slug]
     csv_obj.each do |row|
-      puts row.inspect
       row = row.map { |k,v| v && v.strip }
 
       parent = nil
@@ -34,6 +33,40 @@ namespace :migrate do
       if t.has_parent?
         CuratedList.create!(slug: clean_slug, sections: [t.tag_id])
       end
+    end
+  end
+
+  task :export_all_live_artefacts, [:artefact_csv] => :environment do |t, args|
+    a_file = File.open(args[:artefact_csv], 'w+')
+    Artefact.where(state: 'live').each do |a|
+      a_file.write("#{a.slug}\n")
+    end
+    a_file.close
+  end
+
+  task :tag_content_with_new_sections, [:content_csv] => :environment do |t, args|
+    csv_obj = CSV.new(File.read(args[:content_csv]), {headers: :first_row, return_headers: false})
+    # eg: [slug_of_content,section_slug,section_slug,section_slug]
+    csv_obj.each do |csv_row|
+      row = csv_row.fields
+      puts row.inspect
+      a = Artefact.where(slug: row[0]).first
+      if a.nil?
+        raise "Stop! Artefact #{row[0]} could not be found."
+      end
+      row.shift
+      sections = []
+      row.each do |new_section|
+        unless new_section.nil?
+          tag = Tag.where(tag_type: 'section', tag_id: new_section).first
+          if tag.nil?
+            raise "Stop! New section #{new_section} for Artefact:#{a.slug} was not found."
+          end
+          sections << tag.tag_id
+        end
+      end
+      a.sections = sections
+      a.save!
     end
   end
 end
