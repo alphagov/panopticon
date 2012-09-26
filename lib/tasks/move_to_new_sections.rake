@@ -24,16 +24,23 @@ module NewSectionMigration
           raise "Stop! Parent section #{clean_slug(row[3])} could not be found."
         end
       end
-      clean_slug = clean_slug(row[1])
-      if row[1] != clean_slug
-        puts "Warning: Had to modify slug from '#{row[1]}' to '#{clean_slug}'"
+
+      full_slug = construct_full_slug(row[3], row[1])
+      if row[1] != full_slug.split("/").last # hack to get the cleaned up child slug
+        puts "Warning: Had to modify slug from '#{row[1]}' to '#{full_slug.split("/").last}'"
       end
 
-      t = Tag.create!(tag_type: 'section', title: row[0], tag_id: clean_slug,
+      t = Tag.create!(tag_type: 'section', title: row[0], tag_id: full_slug,
                   description: row[2], parent_id: parent ? parent.tag_id : nil)
-      if t.has_parent?
-        CuratedList.create!(slug: clean_slug, sections: [t.tag_id])
-      end
+      
+      # NOTE CuratedList currently validates it's slug as a slug.
+      # That means it can't include a slash, but subsection urls have slashes...
+      # 
+      # If the tag has a parent, that makes it a subsection. 
+      # If it's a subsection we want it to have a CuratedList.
+      # if t.has_parent?
+      #   CuratedList.create!(slug: full_slug, sections: [t.tag_id])
+      # end
     end
   end
 
@@ -82,6 +89,13 @@ module NewSectionMigration
 
     def self.clean_slug(raw_slug)
       raw_slug.parameterize
+    end
+
+    def self.construct_full_slug(parent_slug, child_slug)
+      [parent_slug, child_slug]
+        .reject(&:blank?)
+        .map(&:parameterize)
+        .join("/")
     end
 end
 
