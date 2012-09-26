@@ -76,6 +76,7 @@ module NewSectionMigration
 
   private
     def self.ensure_file_exists!(filepath)
+      raise "FATAL: File must be specified" if filepath.blank?
       raise "FATAL: File not found #{filepath}" if !File.exist?(filepath)
     end
 
