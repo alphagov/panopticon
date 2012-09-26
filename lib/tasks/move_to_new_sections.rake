@@ -45,9 +45,10 @@ module NewSectionMigration
   end
 
   def self.export_artefacts(csv_save_path)
-    puts "Exporting all #{Artefact.where(state: 'live').count} live artefacts"
+    query = Artefact.all
+    puts "Exporting all #{query.count} artefacts"
     a_file = File.open(csv_save_path, 'w+')
-    Artefact.where(state: 'live').each do |a|
+    query.each do |a|
       a_file.write("#{a.slug}\n")
     end
     a_file.close
@@ -113,7 +114,7 @@ namespace :migrate do
     NewSectionMigration.import_new_sections(args[:section_csv])
   end
 
-  task :export_all_live_artefacts, [:artefact_csv] => :environment do |t, args|
+  task :export_all_artefacts, [:artefact_csv] => :environment do |t, args|
     NewSectionMigration.export_artefacts(args[:artefact_csv])
   end
 
