@@ -54,7 +54,7 @@ module NewSectionMigration
     end
     puts "Exporting #{really_live_artefacts.size} artefacts that are live or in progress"
     really_live_artefacts.each do |a|
-      a_file.write("#{a.slug}\n")
+      a_file.write([a.name, a.slug].to_csv)
     end
     a_file.close
   end
