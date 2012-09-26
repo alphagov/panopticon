@@ -1,7 +1,7 @@
 namespace :migrate do
   desc "Remove old sections, insert new ones, setup curated list"
   task :delete_all_section_tags => :environment do
-    Tag.where(type: 'section').delete_all
+    Tag.where(tag_type: 'section').delete_all
 
     Artefact.all.each do |artefact|
       artefact.sections = []
