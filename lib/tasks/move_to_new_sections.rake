@@ -1,9 +1,20 @@
+module NewSectionHelpers
+  def self.ensure_file_exists!(filepath)
+    raise "FATAL: File not found #{filepath}" if !File.exist?(filepath)
+  end
+
+  def self.clean_slug(raw_slug)
+    raw_slug.parameterize
+  end
+end
+
 namespace :migrate do
   desc "Remove old sections, insert new ones, setup curated list"
   task :delete_all_section_tags => :environment do
     deleted_count = Tag.where(tag_type: 'section').delete_all
     puts "Deleted #{deleted_count} section tags"
 
+    puts "Clearing sections on all #{Artefact.count} artefacts..."
     Artefact.all.each do |artefact|
       artefact.sections = []
       artefact.save!
@@ -11,6 +22,7 @@ namespace :migrate do
   end
 
   task :import_new_sections, [:section_csv] => :environment do |t, args|
+    NewSectionHelpers.ensure_file_exists!(args[:section_csv])
     csv_obj = CSV.new(File.read(args[:section_csv]), {headers: :first_row, return_headers: false})
     # eg: [title, slug, desc, parent_slug]
     csv_obj.each do |row|
@@ -18,13 +30,12 @@ namespace :migrate do
 
       parent = nil
       if !row[3].blank?
-        parent = Tag.where(tag_type: 'section', tag_id: row[3]).first
+        parent = Tag.where(tag_type: 'section', tag_id: NewSectionHelpers.clean_slug(row[3])).first
         if parent.nil?
-          raise "Stop! Parent section #{row[3]} could not be found."
+          raise "Stop! Parent section #{NewSectionHelpers.clean_slug(row[3])} could not be found."
         end
       end
-
-      clean_slug = row[1].parameterize
+      clean_slug = NewSectionHelpers.clean_slug(row[1])
       if row[1] != clean_slug
         puts "Warning: Had to modify slug from '#{row[1]}' to '#{clean_slug}'"
       end
@@ -38,6 +49,7 @@ namespace :migrate do
   end
 
   task :export_all_live_artefacts, [:artefact_csv] => :environment do |t, args|
+    puts "Exporting all #{Artefact.where(state: 'live').count} live artefacts"
     a_file = File.open(args[:artefact_csv], 'w+')
     Artefact.where(state: 'live').each do |a|
       a_file.write("#{a.slug}\n")
@@ -46,22 +58,24 @@ namespace :migrate do
   end
 
   task :tag_content_with_new_sections, [:content_csv] => :environment do |t, args|
+    NewSectionHelpers.ensure_file_exists!(args[:content_csv])
     csv_obj = CSV.new(File.read(args[:content_csv]), {headers: :first_row, return_headers: false})
-    # eg: [slug_of_content,section_slug,section_slug,section_slug]
+    # eg: [slug_of_content,section_slug,section_slug,section_slug...]
     csv_obj.each do |csv_row|
       row = csv_row.fields
-      puts row.inspect
-      a = Artefact.where(slug: row[0]).first
+      clean_slug = NewSectionHelpers.clean_slug(row[0])
+      a = Artefact.where(slug: clean_slug).first
       if a.nil?
-        raise "Stop! Artefact #{row[0]} could not be found."
+        raise "Stop! Artefact '#{clean_slug}' could not be found."
       end
-      row.shift
+      row.shift # remove the artefact slug
       sections = []
-      row.each do |new_section|
+      clean_section_slugs = row.map(&:parameterize)
+      clean_section_slugs.each do |clean_section_slug|
         unless new_section.nil?
-          tag = Tag.where(tag_type: 'section', tag_id: new_section).first
+          tag = Tag.where(tag_type: 'section', tag_id: clean_section_slug).first
           if tag.nil?
-            raise "Stop! New section #{new_section} for Artefact:#{a.slug} was not found."
+            raise "Stop! New section '#{new_section}' for Artefact: #{a.slug} was not found."
           end
           sections << tag.tag_id
         end
