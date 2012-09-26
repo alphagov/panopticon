@@ -48,7 +48,7 @@ module NewSectionMigration
     query = Artefact.all
     puts "Exporting all #{query.count} artefacts"
     a_file = File.open(csv_save_path, 'w+')
-    query.each do |a|
+    query.order([:name, :asc]).each do |a|
       a_file.write("#{a.slug}\n")
     end
     a_file.close
