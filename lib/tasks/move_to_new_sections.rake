@@ -45,10 +45,15 @@ module NewSectionMigration
   end
 
   def self.export_artefacts(csv_save_path)
-    query = Artefact.all
-    puts "Exporting all #{query.count} artefacts"
+    query = Artefact.where(:state.nin => ["archived"]).order([:name, :asc])
     a_file = File.open(csv_save_path, 'w+')
-    query.order([:name, :asc]).each do |a|
+    # Don't trust the Artefact state flag
+    really_live_artefacts = query.reject do |artefact|
+      (artefact.owning_app == "publisher") &&
+          (Edition.where(panopticon_id: artefact.id, :state.nin => ["archived"]).count == 0)
+    end
+    puts "Exporting #{really_live_artefacts.size} artefacts that are live or in progress"
+    really_live_artefacts.each do |a|
       a_file.write("#{a.slug}\n")
     end
     a_file.close
