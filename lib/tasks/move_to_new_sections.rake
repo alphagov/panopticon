@@ -62,14 +62,15 @@ module NewSectionMigration
   def self.tag_content_with_new_sections
     ensure_file_exists!(args[:content_csv])
     csv_obj = CSV.new(File.read(args[:content_csv]), {headers: :first_row, return_headers: false})
-    # eg: [slug_of_content,section_slug,section_slug,section_slug...]
+    # eg: [title,slug_of_content,section_slug,section_slug,section_slug...]
     csv_obj.each do |csv_row|
       row = csv_row.fields
-      clean_slug = clean_slug(row[0])
+      clean_slug = clean_slug(row[1])
       a = Artefact.where(slug: clean_slug).first
       if a.nil?
         raise "Stop! Artefact '#{clean_slug}' could not be found."
       end
+      row.shift # remove the artefact title
       row.shift # remove the artefact slug
       sections = []
       clean_section_slugs = row.map(&:parameterize)
