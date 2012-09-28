@@ -59,26 +59,28 @@ module NewSectionMigration
     a_file.close
   end
 
-  def self.tag_content_with_new_sections
-    ensure_file_exists!(args[:content_csv])
-    csv_obj = CSV.new(File.read(args[:content_csv]), {headers: :first_row, return_headers: false})
+  def self.tag_content_with_new_sections(content_csv)
+    ensure_file_exists!(content_csv)
+    csv_obj = CSV.new(File.read(content_csv), {headers: :first_row, return_headers: false})
     # eg: [title,slug_of_content,section_slug,section_slug,section_slug...]
     csv_obj.each do |csv_row|
       row = csv_row.fields
+      next if row[1].blank?
       clean_slug = clean_slug(row[1])
       a = Artefact.where(slug: clean_slug).first
       if a.nil?
+        puts row
         raise "Stop! Artefact '#{clean_slug}' could not be found."
       end
       row.shift # remove the artefact title
       row.shift # remove the artefact slug
       sections = []
-      clean_section_slugs = row.map(&:parameterize)
+      clean_section_slugs = row.compact.map { |slug_with_slashes| slug_with_slashes.strip.gsub(%r{^/}, "") }
       clean_section_slugs.each do |clean_section_slug|
-        unless new_section.nil?
+        if clean_section_slug
           tag = Tag.where(tag_type: 'section', tag_id: clean_section_slug).first
           if tag.nil?
-            raise "Stop! New section '#{new_section}' for Artefact: #{a.slug} was not found."
+            raise "Stop! New section '#{clean_section_slug}' for Artefact: #{a.slug} was not found."
           end
           sections << tag.tag_id
         end
@@ -95,7 +97,7 @@ module NewSectionMigration
     end
 
     def self.clean_slug(raw_slug)
-      raw_slug.parameterize
+      raw_slug.nil? ? nil : raw_slug.parameterize
     end
 
     def self.construct_full_slug(parent_slug, child_slug)
