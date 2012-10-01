@@ -69,8 +69,8 @@ module NewSectionMigration
       clean_slug = clean_slug(row[1])
       a = Artefact.where(slug: clean_slug).first
       if a.nil?
-        puts row
-        raise "Stop! Artefact '#{clean_slug}' could not be found."
+        puts "Had to ignore Artefact '#{clean_slug}' - could not be found. It's probably been renamed."
+        next
       end
       row.shift # remove the artefact title
       row.shift # remove the artefact slug
