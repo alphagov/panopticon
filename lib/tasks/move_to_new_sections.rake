@@ -93,7 +93,7 @@ module NewSectionMigration
       begin
         a.save!
       rescue StandardError => e
-        puts "Encountered error when saving artefact: #{artefact.slug}: #{e.to_s}. Sections stored in the database are now: #{artefact.reload.sections}"
+        puts "Encountered error when saving artefact: #{a.slug}: #{e.to_s}. Sections stored in the database are now: #{a.reload.sections}"
       end
     end
   end
