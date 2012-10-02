@@ -6,7 +6,11 @@ module NewSectionMigration
   def self.wipe_sections_from_artefacts
     Artefact.all.each do |artefact|
       artefact.sections = []
-      artefact.save!
+      begin
+        artefact.save!
+      rescue StandardError => e
+        puts "Encountered error when saving artefact: #{artefact.slug}: #{e.to_s}. Sections stored in the database are now: #{artefact.reload.sections}"
+      end
     end
   end
 
@@ -86,7 +90,11 @@ module NewSectionMigration
         end
       end
       a.sections = sections
-      a.save!
+      begin
+        a.save!
+      rescue StandardError => e
+        puts "Encountered error when saving artefact: #{artefact.slug}: #{e.to_s}. Sections stored in the database are now: #{artefact.reload.sections}"
+      end
     end
   end
 
