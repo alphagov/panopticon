@@ -7,8 +7,7 @@ class ArtefactSlugMigrator
       rummageable_artefact = RummageableArtefact.new(artefact)
       rummageable_artefact.delete
 
-      artefact.slug = new_slug
-      artefact.save!
+      artefact.update_attribute(:slug, new_slug)
     end
   end
 
