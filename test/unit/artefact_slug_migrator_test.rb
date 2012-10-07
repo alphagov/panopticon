@@ -14,6 +14,8 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
       FactoryGirl.create(:artefact, :slug => "third-original-slug", :state => 'archived')
     ]
 
+    @it = ArtefactSlugMigrator.new( Logger.new("/dev/null") )
+
     RummageableArtefact.any_instance.stubs(:delete).returns(true)
     ArtefactSlugMigrator.any_instance.stubs(:slugs).returns({
         "first-original-slug" => "first-new-slug",
@@ -25,11 +27,11 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
   should "remove artefact from search" do
     RummageableArtefact.any_instance.expects(:delete).at_least_once.returns(true)
 
-    ArtefactSlugMigrator.new.run
+    @it.run
   end
 
   should "update the slug in the artefact" do
-    ArtefactSlugMigrator.new.run
+    @it.run
 
     @artefacts.each(&:reload)
     assert_equal ["first-new-slug", "second-new-slug", "third-new-slug"], @artefacts.map(&:slug)
