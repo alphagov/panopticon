@@ -8,16 +8,24 @@ class ArtefactSlugMigrator
 
   def run
     logger.info "Migrating slugs for #{slugs.size} artefacts"
+    Artefact.observers.disable :update_search_observer
+
     slugs.each do |slug, new_slug|
       artefact = Artefact.where(slug: slug).first
-      raise "Artefact not found with slug #{slug}" if artefact.nil?
+      if artefact
+        artefact.update_attribute(:slug, new_slug)
 
-      rummageable_artefact = RummageableArtefact.new(artefact)
-      rummageable_artefact.delete
+        begin
+          rummageable_artefact = RummageableArtefact.new(artefact)
+          rummageable_artefact.delete
+        rescue e
+          logger.error "Could not remove artefact from search -> #{e}"
+        end
 
-      artefact.update_attribute(:slug, new_slug)
-
-      logger.info "     #{slug} -> #{new_slug}"
+        logger.info "     #{slug} -> #{new_slug}"
+      else
+        logger.error "Artefact not found with slug #{slug}"
+      end
     end
     logger.info "Sequence complete."
   end
