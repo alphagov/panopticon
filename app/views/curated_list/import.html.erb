@@ -1,0 +1,24 @@
+<%= content_for :page_title, "Import for Curated List" %>
+<div class="page-header">
+  <h1>Import Curated lists</h1>
+</div>
+<div class="row-fluid">
+<% if @status %>
+  <h2><%= @status %>!! You can now upload new data.</h2>
+<% end %>
+<% if @error %>
+  <h2>ERROR!! <%= @error %></h2>
+<% end %>
+
+  <div id="new-data">
+    <div class="inner">
+      <h3>Load New Data</h3>
+      <form accept-charset="UTF-8" action="/curated_list/create" enctype="multipart/form-data" id="new_data_set" method="post" novalidate="novalidate">
+        <label class="label" for="curated_list_data_file">CSV of curated lists</label>
+        <input id="curated_list_data_file" name="data_file" type="file">
+        <input class="create" name="commit" type="submit" value="Upload CSV">
+      </form>
+    </div>
+  </div>
+
+</div>
