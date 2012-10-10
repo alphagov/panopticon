@@ -8,7 +8,7 @@
 
     <div class="row-fluid">
       <div class="span12">
-        <table class="table table-striped table-bordered table-condensed" id="curated-list" summary="List of everything">
+        <table class="table table-striped table-bordered table-condensed" id="curated-list" summary="All curated lists">
           <thead>
             <tr>
               <th scope="col">Slug</th>
@@ -18,7 +18,7 @@
           <tbody>
           <% @curated_lists.each do |cl| %>
             <tr>
-              <td><%= link_to cl.slug, edit_curated_list_path(cl.slug)  %></td>
+              <td><%= link_to cl.slug, edit_curated_list_path(cl.slug) %></td>
               <td><%= cl.sections[0] %></td>
             </tr>
           <% end %>

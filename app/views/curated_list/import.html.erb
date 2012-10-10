@@ -4,21 +4,19 @@
 </div>
 <div class="row-fluid">
 <% if flash[:success].present? %>
-  <h2><%= flash[:success] %></h2>
+  <div class="alert alert-success"><%= flash[:success] %></div>
 <% end %>
 <% if flash[:error].present? %>
-  <h2><%= flash[:error] %></h2>
+  <div class="alert alert-danger"><%= flash[:error] %></div>
 <% end %>
 
-  <div id="new-data">
-    <div class="inner">
-      <h3>Load New Data</h3>
-      <form accept-charset="UTF-8" action="/curated_list/create" enctype="multipart/form-data" id="new_data_set" method="post" novalidate="novalidate">
-        <label class="label" for="curated_list_data_file">CSV of curated lists</label>
-        <input id="curated_list_data_file" name="data_file" type="file">
-        <input class="create" name="commit" type="submit" value="Upload CSV">
-      </form>
-    </div>
+  <div class="well" id="new-data">
+    <h2>Load New Data</h2>
+    <form accept-charset="UTF-8" action="/curated_list/create" enctype="multipart/form-data" id="new_data_set" method="post" novalidate="novalidate">
+      <label for="curated_list_data_file">CSV of curated lists</label>
+      <input id="curated_list_data_file" name="data_file" type="file">
+      <input class="btn btn-primary" name="commit" type="submit" value="Upload CSV">
+    </form>
   </div>
 
 </div>
