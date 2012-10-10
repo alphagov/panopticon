@@ -8,9 +8,17 @@ class CuratedListController < ApplicationController
     prohibit_non_csv_uploads
     @data_file = params[:data_file]
     process_data_file
-    render action: 'import', :locals => {:status => "SUCCESS!"}
+    flash[:success] = "Hooray! You can now upload new data."
+    redirect_to curated_list_path
   rescue CSV::MalformedCSVError => e
-    render action: 'import', :locals => {:error => "Could not process CSV file. Please check the format."}
+    flash[:error] = "That looks like it isn't a CSV file."
+    redirect_to curated_list_path
+  rescue HtmlValidationError => e
+    flash[:error] = "Failed at being a valid document."
+    redirect_to curated_list_path
+  rescue EmptyArtefactArray => e
+    flash[:error] = "There's an empty row of artefact slugs against a sub category."
+    redirect_to curated_list_path
   end
 
   protected
@@ -30,10 +38,9 @@ class CuratedListController < ApplicationController
       data = @data_file.read.force_encoding('UTF-8')
       if Govspeak::Document.new(data).valid?
         csv_obj = CSV.parse(data, headers: true)
-          # eg: [sub_category_slug, artefact, artefact, artefact]
+        # eg: [sub_category_slug, artefact, artefact, artefact]
         csv_obj.each do |row|
           row = row.map { |k,v| v && v.strip }
-          # Place.create_from_hash(self, row)
           # lookup if curated list exists
           curated_list = CuratedList.any_in(tag_ids: [row[0]]).first
           if curated_list.nil?
@@ -43,7 +50,6 @@ class CuratedListController < ApplicationController
 
             # HACKY: slug can't be empty, so for now we'll use the tag_id. Ick.
             curated_list.slug = tag_id.parameterize
-
             curated_list.sections = [tag_id]
           end
           artefact_slugs = row.select {|x| !x.nil?}
@@ -52,8 +58,7 @@ class CuratedListController < ApplicationController
             curated_list.artefact_ids = Artefact.any_in(slug: artefact_slugs).collect(&:_id)
             curated_list.save!
           else
-            # TODO: rescue from this error and display message
-            raise "Stop! No artefact_slugs found in data file"
+            raise EmptyArtefactArray
           end
         end
       else
