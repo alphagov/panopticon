@@ -1,0 +1,28 @@
+<%= content_for :page_title, "Editing Category #{@tag.title}" %>
+<div class="page-header">
+  <h1>Editing &ldquo;<%= @tag.title %>&rdquo;</h1>
+</div>
+<div class="tab-pane active" id="edit">
+<% if flash[:notice].present? %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
+<% if @tag.errors.count > 0 %>
+  <div class="alert alert-error">
+    <ul>
+      <% @tag.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="well">
+  <%= semantic_form_for(@tag, :html => { :class => '', :id => 'tag'}) do |f| %>
+    <%= f.inputs do %>
+      <%= f.input :title, :input_html => { :class => "span6" } %>
+      <%= f.input :description, :as => :text, :input_html => { :class => "span6", :rows => 6} %>
+    <% end %>
+      <%= f.submit :value => "Save", :class => "btn btn-success" %>
+  <% end %>
+</div>
+</div>
