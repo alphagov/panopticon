@@ -3,12 +3,14 @@ require 'govspeak'
 
 class CuratedListController < ApplicationController
   respond_to :html
+  class HtmlValidationError < StandardError; end
+  class EmptyArtefactArray < StandardError; end
 
   def create
     prohibit_non_csv_uploads
     @data_file = params[:data_file]
     process_data_file
-    flash[:success] = "Hooray! You can now upload new data."
+    flash[:success] = "Hooray! That worked and you can now upload new data."
     redirect_to curated_list_path
   rescue CSV::MalformedCSVError => e
     flash[:error] = "That looks like it isn't a CSV file."
