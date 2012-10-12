@@ -2,7 +2,7 @@ namespace :migrate do
   desc "Change the parent id for a given tag"
   task :change_tag_parent, [:tag_id, :new_parent] => :environment do |t, args|
     # justice/court-claims-debt-bankruptcy
-    puts args.inspect
+    puts "Migrating #{args[:tag_id]} to be a child of #{args[:new_parent]}"
     tag = Tag.where(tag_id: "#{args[:tag_id]}").first
     if tag.nil?
       raise "Wa? No frakkin' tag with tag_id #{args[:tag_id]}"
