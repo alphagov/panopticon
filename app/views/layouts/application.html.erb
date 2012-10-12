@@ -9,6 +9,7 @@
   <!--[if lt IE 9]>
     <%= javascript_include_tag "html5" %>
   <![endif]-->
+  <%= javascript_include_tag "application" %>
 </head>
 
 <body>
@@ -58,7 +59,6 @@
     </footer>
   </section>
 
-  <%= javascript_include_tag('jquery.min.js', 'bootstrap.min.js') %>
   <%= yield :extra_javascript %>
 
 </body>
