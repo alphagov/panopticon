@@ -20,7 +20,7 @@
   <div class="well">
     <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
       <%= f.inputs do %>
-        <%= f.input :name, :input_html => { :class => "span6" } %>
+        <%= f.input :name, :input_html => { :class => "span6", :disabled => f.object.persisted?, :hint => name_hint_for(f.object) } %>
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
         <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
