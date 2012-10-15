@@ -51,8 +51,8 @@ Feature: Editing artefacts
     Then rummager should not be notified
 
   Scenario: Editing a live item
-    Given two artefacts exist
+    Given an artefact exists
       And the first artefact is live
-    When I change the title of the first artefact
-      And I save
+      And a section exists
+    When I add the section to the artefact
     Then rummager should be told to do a partial update
