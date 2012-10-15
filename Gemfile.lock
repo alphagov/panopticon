@@ -257,9 +257,6 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.6)
-    sqlite3-ruby (1.3.3)
-      sqlite3 (>= 1.3.3)
     state_machine (1.1.2)
     stomp (1.2.5)
     therubyracer (0.9.10)
@@ -333,7 +330,6 @@ DEPENDENCIES
   shoulda (~> 2.11.3)
   simplecov (~> 0.6.4)
   simplecov-rcov
-  sqlite3-ruby
   stomp
   therubyracer (~> 0.9.4)
   turn
