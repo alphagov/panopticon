@@ -24,7 +24,7 @@ namespace :migrate do
       raise "STOP! This has #{artefacts.count} artefacts associated with it"
     end
 
-    tag.delete!
+    tag.delete
     puts "Deleted #{tag.tag_id}"
   end
 end
