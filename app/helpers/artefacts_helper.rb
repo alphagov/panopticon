@@ -12,6 +12,6 @@ module ArtefactsHelper
   end
 
   def name_hint_for(artefact)
-    artefact.persisted? ? "A name/title for the item" : "This should be edited in #{artefact.owning_app}"
+    artefact.persisted? ? "This should be edited in #{artefact.owning_app}" : "A name/title for the item"
   end
 end
