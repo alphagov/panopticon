@@ -86,12 +86,3 @@
     <% end %>
   </div>
 <% end %>
-
-<%= content_for :extra_javascript do %>
-  <script type="text/javascript">
-    $(".chzn-select").chosen();
-    if ($('.artefact-section').size() == 1) {
-      $('.remove-section').hide();
-    }
-  </script>
-<% end %>
