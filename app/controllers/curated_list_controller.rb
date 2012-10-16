@@ -57,7 +57,7 @@ class CuratedListController < ApplicationController
           artefact_slugs = row.select {|x| !x.nil?}
           artefact_slugs.shift
           if artefact_slugs.length > 0
-            curated_list.artefact_ids = Artefact.any_in(slug: artefact_slugs).collect(&:_id)
+            curated_list.artefact_ids = artefacts_in_order(artefact_slugs).map(&:id)
             curated_list.save!
           else
             raise EmptyArtefactArray
@@ -67,6 +67,15 @@ class CuratedListController < ApplicationController
         raise HtmlValidationError
       end
     end
+  end
+
+  def artefacts_in_order(slugs)
+    artefacts_by_slug = slugs.each_with_object({}) { |v,h| h[v] = nil }
+    artefacts = Artefact.any_in(slug: slugs)
+    artefacts.each do |artefact|
+      artefacts_by_slug[artefact.slug] = artefact
+    end
+    artefacts_by_slug.values.compact
   end
 
   def get_file_from_param(param)
