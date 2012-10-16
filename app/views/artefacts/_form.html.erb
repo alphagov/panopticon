@@ -21,6 +21,7 @@
     <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
       <%= f.inputs do %>
         <%= f.input :name, :input_html => { :class => "span6" } %>
+        <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text %>
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
         <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
