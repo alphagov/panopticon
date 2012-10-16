@@ -8,6 +8,10 @@ class RummageableArtefact
     Rails.logger
   end
 
+  def should_be_indexed?
+    @artefact.live?
+  end
+
   def submit
     return if %w[ completed_transaction ].include?(@artefact.kind)
 
