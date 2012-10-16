@@ -1,5 +1,7 @@
 class RummageableArtefact
 
+  FORMATS_NOT_TO_INDEX = %W(business_support)
+
   def initialize(artefact)
     @artefact = artefact
   end
@@ -9,7 +11,7 @@ class RummageableArtefact
   end
 
   def should_be_indexed?
-    @artefact.live?
+    @artefact.live? && ! FORMATS_NOT_TO_INDEX.include?(@artefact.kind)
   end
 
   def submit
