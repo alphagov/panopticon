@@ -115,4 +115,12 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
+
+  test "should consider live items should be indexed" do
+    artefact = Artefact.new do |artefact|
+      artefact.state = "live"
+    end
+
+    assert RummageableArtefact.new(artefact).should_be_indexed?
+  end
 end
