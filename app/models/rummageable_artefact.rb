@@ -1,6 +1,6 @@
 class RummageableArtefact
 
-  FORMATS_NOT_TO_INDEX = %W(business_support)
+  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction)
 
   def initialize(artefact)
     @artefact = artefact
