@@ -101,9 +101,9 @@ end
 
 Then /^rummager should be told to do a partial update$/ do
   amendments = {
-    title: @new_name,
+    title: "Child Benefit rates",
     format: "answer",
-    section: "",
+    section: @section.tag_id,
     subsection: ""
   }
   assert_requested :post, artefact_search_url(@artefact), body: amendments
