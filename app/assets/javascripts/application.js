@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery.min
-//= require bootstrap.min 
-//= require chosen.jquery.min 
+//= require chosen.jquery.min
 //= require jquery.tablesorter.min
+//= require twitter/bootstrap
 //= require_tree .

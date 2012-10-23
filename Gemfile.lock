@@ -75,6 +75,7 @@ GEM
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
     colorize (0.5.8)
+    commonjs (0.2.6)
     crack (0.3.1)
     cucumber (1.2.1)
       builder (>= 2.1.2)
@@ -145,6 +146,13 @@ GEM
     kramdown (0.13.8)
     launchy (2.1.2)
       addressable (~> 2.3)
+    less (2.2.1)
+      commonjs (~> 0.2.6)
+    less-rails (2.2.3)
+      actionpack (>= 3.1)
+      less (~> 2.2.0)
+    less-rails-bootstrap (2.0.13)
+      less-rails (~> 2.2.0)
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
@@ -316,6 +324,7 @@ DEPENDENCIES
   gelf
   govuk_content_models (= 2.0.0)
   launchy
+  less-rails-bootstrap
   lograge
   minitest
   mocha

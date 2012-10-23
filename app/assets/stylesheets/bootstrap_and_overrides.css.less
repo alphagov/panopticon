@@ -1,0 +1,48 @@
+@import "twitter/bootstrap/bootstrap";
+
+body {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+@import "twitter/bootstrap/responsive";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/less.html for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+// Custom styles for Panopticon
+
+.navbar .brand {
+  background-image: url("/assets/header-crown.png");
+  background-position: 0 0.25em;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-family: "GillSans", "Gill Sans", "Helvetica Neue", Helvetica, sans-serif;
+  margin-left: 0;
+  padding-left: 2em;
+}
+
+.sidebar-nav {
+  padding: 9px 0;
+}
+
+td.icon {
+  text-align: center;
+}
+
+.artefact-section {
+  margin-bottom: 8px;
+}
+
+select#artefact_sections_ {
+  display: inline-block;
+  margin-bottom: 0;
+}
