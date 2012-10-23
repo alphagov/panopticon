@@ -21,6 +21,7 @@ gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '3.2.7'
 gem 'unicorn', '4.3.1'
+gem 'less-rails-bootstrap'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
