@@ -43,19 +43,24 @@ class CuratedListController < ApplicationController
         # eg: [sub_category_slug, artefact, artefact, artefact]
         csv_obj.each do |row|
           row = row.map { |k,v| v && v.strip }
-          # lookup if curated list exists
-          curated_list = CuratedList.any_in(tag_ids: [row[0]]).first
+          # guard against slashy data
+          # check if our slug starts with a slash and remove it
+          if row[0][0] == "/"
+            tag_id = row[0].slice(1..-1)
+          else
+            tag_id = row[0]
+          end
+
+          curated_list = CuratedList.any_in(tag_ids: [tag_id]).first
           if curated_list.nil?
             curated_list = CuratedList.new()
-            # remove the slash from our tag_id
-            tag_id = row[0].slice(1..-1)
-
             # HACKY: slug can't be empty, so for now we'll use the tag_id. Ick.
             curated_list.slug = tag_id.parameterize
             curated_list.sections = [tag_id]
           end
           artefact_slugs = row.select {|x| !x.nil?}
           artefact_slugs.shift
+
           if artefact_slugs.length > 0
             curated_list.artefact_ids = artefacts_in_order(artefact_slugs).map(&:id)
             curated_list.save!
