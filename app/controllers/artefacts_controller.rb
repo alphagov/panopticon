@@ -6,11 +6,14 @@ class ArtefactsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @artefacts = Artefact.order_by([[:name, :asc]])
-
     @section = params[:section] || "all"
     if @section != "all"
-      @artefacts = @artefacts.where(tag_ids: params[:section])
+      tags = Tag.where(tag_type: "section", parent_id: @section)
+      tag_ids = tags.collect {|t| t.tag_id}
+      tag_ids << @section
+      @artefacts = Artefact.any_in(tag_ids: tag_ids).order_by([[:name, :asc]])
+    else
+      @artefacts = Artefact.order_by([[:name, :asc]])
     end
     respond_with @artefacts, @tag_collection
   end
