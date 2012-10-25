@@ -37,7 +37,7 @@ class TagsController < ApplicationController
   end
 
   def categories
-    @tags = TagRepository.load_all({:tag_type => 'section'})
+    @tags = TagRepository.load_all({:tag_type => 'section'}).order_by([:tag_id, :asc])
     respond_with @tags
   end
 end
