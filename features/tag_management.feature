@@ -13,3 +13,11 @@ Feature: Managing tags
 
     Then I should see "Successfully updated"
       And I should see "Crime, justice and superheroes"
+
+  Scenario: Updating a tag title
+    When I visit the categories page
+      And I follow the link to edit the category
+      And I change the short description to "A superhero is a fictional character who has powers which are unusual for normal people"
+
+    Then I should see "Successfully updated"
+      And I should see "A superhero is a fictional character who has powers which are unusual for normal people"

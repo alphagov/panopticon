@@ -20,9 +20,10 @@
   <%= semantic_form_for(@tag, :html => { :class => '', :id => 'tag'}) do |f| %>
     <%= f.inputs do %>
       <%= f.input :title, :input_html => { :class => "span6" } %>
+      <%= f.input :short_description, :as => :text, :input_html => { :class => "span6", :rows => 2} %>
       <%= f.input :description, :as => :text, :input_html => { :class => "span6", :rows => 6} %>
     <% end %>
-      <%= f.submit :value => "Save", :class => "btn btn-success" %>
+    <%= f.submit :value => "Save", :class => "btn btn-success" %>
   <% end %>
 </div>
 </div>
