@@ -32,6 +32,11 @@ When /^I change the category title to "(.*?)"$/ do |new_title|
   click_button "Save"
 end
 
+When /^I change the short description to "(.*?)"$/ do |short_description|
+  fill_in "Short description", with: short_description
+  click_button "Save"
+end
+
 Then /^I should be on the categories page$/ do
   assert_equal categories_path, page.current_url
 end
