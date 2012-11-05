@@ -4,22 +4,21 @@ class TagsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
     TagRepository.put(tag_id: "crime", title: "Crime", tag_type: "section",
-                      short_description: "A crime (or misdemeanor or felony) is an act, that a person does, which is against the laws of a country or region")
-    TagRepository.put(tag_id: "crime/the-police", title: "The Police", tag_type: "section",
-                      short_description: "The police are a group of people whose job it is to enforce laws, help with emergencies, solve crimes and protect the public")
+                      short_description: "Legal processes, courts and the police")
+    TagRepository.put(tag_id: "crime/the-police", title: "The Police", tag_type: "section")
     @tag_count = 2
   end
 
   context "GET /tags/:id" do
     should "return tag" do
-      get :show, id: "crime/the-police", format: "json"
+      get :show, id: "crime", format: "json"
       parsed = JSON.parse(response.body)
       assert_response :success
       assert_equal parsed["status"], "ok"
       assert_equal parsed["tag"]["type"], "section"
-      assert_equal parsed["tag"]["id"], "crime/the-police"
-      assert_equal parsed["tag"]["title"], "The Police"
-      assert_match /people whose job it is to enforce laws/, parsed["tag"]["short_description"]
+      assert_equal parsed["tag"]["id"], "crime"
+      assert_equal parsed["tag"]["title"], "Crime"
+      assert_match /Legal processes, courts and the police/, parsed["tag"]["short_description"]
     end
 
     should "return 404" do
