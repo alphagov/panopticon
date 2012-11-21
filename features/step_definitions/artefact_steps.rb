@@ -106,16 +106,6 @@ Given /^two sections exist$/ do
   @sections = create_sections
 end
 
-When /^I add the contact to the artefact$/ do
-  visit edit_artefact_path(@artefact)
-  select_contact @contact
-  submit_artefact_form
-end
-
-Given /^the artefact has the contact$/ do
-  add_contact @artefact, @contact
-end
-
 Given /^the artefact has the section$/ do
   add_section @artefact, @section
 end
@@ -124,12 +114,6 @@ Given /^the artefact has both sections$/ do
   @sections.each do |section|
     add_section @artefact, section
   end
-end
-
-When /^I remove the contact from the artefact$/ do
-  visit edit_artefact_path(@artefact)
-  unselect_contact @contact
-  submit_artefact_form
 end
 
 When /^I add the section to the artefact$/ do

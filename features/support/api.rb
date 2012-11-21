@@ -11,10 +11,6 @@ def tag_ids_from_api(artefact)
   artefact_data_from_api(artefact)[:tag_ids]
 end
 
-def contact_id_from_api(artefact)
-  artefact_data_from_api(artefact)[:contact].try(:[], :id)
-end
-
 def check_artefact_exists_in_api(artefact_or_slug)
   if artefact_or_slug.is_a?(Hash)
     slug = artefact_or_slug[:slug]
@@ -40,14 +36,6 @@ end
 
 def check_artefact_does_not_have_related_artefact_in_api(artefact, unrelated_artefact)
   refute_includes related_artefact_ids_from_api(artefact), unrelated_artefact.id.to_s
-end
-
-def check_artefact_has_contact_in_api(artefact, contact)
-  assert_equal contact_id_from_api(artefact), contact.id.to_s
-end
-
-def check_artefact_does_not_have_contact_in_api(artefact, contact)
-  assert_not_equal contact_id_from_api(artefact), contact.id.to_s
 end
 
 def check_artefact_has_tag_in_api(artefact, tag_id)
