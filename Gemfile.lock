@@ -318,11 +318,11 @@ DEPENDENCIES
   factory_girl_rails
   formtastic!
   formtastic-bootstrap!
-  gds-api-adapters (~> 4.0.0)
+  gds-api-adapters (= 4.0.0)
   gds-sso (= 2.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (~> 2.4.0)
+  govuk_content_models (= 2.4.0)
   launchy
   less-rails-bootstrap
   lograge

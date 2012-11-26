@@ -14,7 +14,7 @@ gem 'null_logger'
 
 gem 'exception_notification'
 
-gem 'gds-api-adapters', '~> 4.0.0'
+gem 'gds-api-adapters', "4.0.0"
 gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
@@ -35,7 +35,7 @@ gem 'lograge'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", '~> 2.4.0'
+  gem "govuk_content_models", "2.4.0"
 end
 
 if ENV['BUNDLE_DEV']
