@@ -9,10 +9,6 @@ end
 When /^I put a new smart answer's details into panopticon$/ do
   prepare_registration_environment
 
-  # TODO: Make this work via API Adapters
-  # interface = GdsApi::CoreApi.new('test', "http://example.com")
-  # interface.register(resource_details)
-
   put "/artefacts/#{example_smart_answer['slug']}.json", artefact: example_smart_answer
 end
 

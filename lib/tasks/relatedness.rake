@@ -70,7 +70,7 @@ namespace :relatedness do
       # being drafted, reviewed, etc.
       def cluster
         require 'gds_api/publisher'
-        api = GdsApi::Publisher.new(Plek.current.environment, 'http://localhost:3000')
+        api = GdsApi::Publisher.new(Plek.current.find('publisher'), 'http://localhost:3000')
         if artefact.valid? and api.publication_for_slug(artefact.slug)
           "published"
         else
