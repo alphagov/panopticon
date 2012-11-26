@@ -70,7 +70,6 @@
 
         <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
         <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
-        <%= f.input :contact, :as => :hidden, :collection => Contact.in_alphabetical_order %>
 
       <% end %>
 
