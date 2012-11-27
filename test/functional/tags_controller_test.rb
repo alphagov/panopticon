@@ -3,9 +3,9 @@ require 'test_helper'
 class TagsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
-    TagRepository.put(tag_id: "crime", title: "Crime", tag_type: "section",
+    FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section",
                       short_description: "Legal processes, courts and the police")
-    TagRepository.put(tag_id: "crime/the-police", title: "The Police", tag_type: "section")
+    FactoryGirl.create(:tag, tag_id: "crime/the-police", title: "The Police", tag_type: "section")
     @tag_count = 2
   end
 
@@ -40,7 +40,7 @@ class TagsControllerTest < ActionController::TestCase
 
   context "GET /tags?type=X" do
     should "return only tags of a particular type" do
-      TagRepository.put(tag_id: "minister-of-silly", title: "Minister of Silly", tag_type: "role")
+      FactoryGirl.create(:tag, tag_id: "minister-of-silly", title: "Minister of Silly", tag_type: "role")
       get :index, format: "json", type: "section"
       parsed = JSON.parse(response.body)
       assert_equal 2, parsed["results"].count
