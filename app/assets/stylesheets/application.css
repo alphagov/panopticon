@@ -36,3 +36,19 @@ table#artefact-list tr.archived {
 }
 
 /* end of tablesorter styling */
+
+.language_icon  {
+  display: inline-block;
+  text-indent: -9999px;
+  vertical-align: middle;
+}
+
+/*
+  Right now - only mark welsh content so that it can be better distinguished in the artefact list.
+  In future, we could show the language for all artefacts.
+*/
+.language_icon.lang_cy {
+  width: 16px;
+  height: 16px;
+  background: url(language_cy.png) no-repeat center center;
+}
