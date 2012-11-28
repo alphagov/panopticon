@@ -50,6 +50,33 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
+  context "editing language" do
+    setup do
+      @artefact = FactoryGirl.create(:artefact, :name => "Bank holidays", :language => nil)
+    end
+
+    should "allow changing language for an artefact" do
+      visit "/artefacts"
+      click_on "Bank holidays"
+
+      select "Welsh", :from => "artefact[language]"
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal "cy", @artefact.language
+    end
+
+    should "select english language by default" do
+      visit "/artefacts"
+      click_on "Bank holidays"
+
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal "en", @artefact.language
+    end
+  end
+
   should "not include completed transactions in related item lists" do
     a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
     b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
