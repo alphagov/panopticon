@@ -31,6 +31,7 @@
 
         <hr>
 
+        <%= f.input :language, :collection => {"English" => "en", "Welsh" => "cy"}, :as => :select, :input_html => { :class => "span2" }, :include_blank => false %>
         <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
 
         <hr>
