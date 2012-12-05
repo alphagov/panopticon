@@ -1,6 +1,6 @@
 module RegistrationInfo
 
-  SEARCH_ROOT = "http://search.test.gov.uk"
+  SEARCH_ROOT = "http://search.dev.gov.uk"
   ROUTER_ROOT = "http://router.cluster:8080"
 
   def example_smart_answer
@@ -56,7 +56,7 @@ module RegistrationInfo
 
   def stub_router(artefact = nil)
     WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
-        with(:body => { "backend_url" => %r{^.*.test.gov.uk$} }).
+        with(:body => { "backend_url" => %r{^.*.dev.gov.uk$} }).
         to_return(:status => 200, :body => "{}", :headers => {})
 
     # catch-all
@@ -74,7 +74,7 @@ module RegistrationInfo
 
   def stub_search_delete
     @fake_search_delete = WebMock.stub_request(:delete, artefact_search_url(@artefact)).to_return(status: 200)
-    WebMock.stub_request(:post, "http://search.test.gov.uk/commit")
+    WebMock.stub_request(:post, "http://search.dev.gov.uk/commit")
            .to_return(:status => 200)
   end
 

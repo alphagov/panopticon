@@ -205,7 +205,7 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
-    plek (0.3.0)
+    plek (1.0.0)
       builder
     polyglot (0.3.3)
     rack (1.4.1)
@@ -319,7 +319,11 @@ DEPENDENCIES
   gds-sso (= 2.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
+<<<<<<< HEAD
   govuk_content_models (= 2.6.1)
+=======
+  govuk_content_models (= 2.5.1)
+>>>>>>> updating tests to remove test.gov.uk
   launchy
   less-rails-bootstrap
   lograge
@@ -329,7 +333,7 @@ DEPENDENCIES
   mongoid (~> 2.4.2)
   nokogiri
   null_logger
-  plek (~> 0.3.0)
+  plek (~> 1.0.0)
   rails (= 3.2.7)
   router-client (= 3.1.0)
   rummageable (~> 0.3.0)
