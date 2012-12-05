@@ -15,6 +15,12 @@ GIT
     formtastic (2.1.1)
       actionpack (~> 3.0)
 
+PATH
+  remote: /var/govuk/plek
+  specs:
+    plek (0.5.0)
+      builder
+
 GEM
   remote: http://rubygems.org/
   remote: https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/
