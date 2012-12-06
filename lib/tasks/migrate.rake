@@ -1,5 +1,5 @@
 namespace :migrate do
-  task :swap_old_tag_uniqueness_index do
+  task :swap_old_tag_uniqueness_index => :environment do
     Tag.collection.drop_index('tag_id_1') # this is the generated name for the unique index of tags by tag_id
     Tag.collection.create_index([ [:tag_id, Mongo::ASCENDING], [:tag_type, Mongo::ASCENDING] ], unique: true)
   end
