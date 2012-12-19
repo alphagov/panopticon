@@ -20,7 +20,7 @@ class ArtefactsController < ApplicationController
 
   def show
     respond_with @artefact do |format|
-      format.html { redirect_to @artefact.admin_url }
+      format.html { redirect_to admin_url_for_edition(@artefact) }
     end
   end
 
@@ -34,7 +34,7 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save_as action_user
-    location = @artefact.admin_url(params.slice(:return_to))
+    location = admin_url_for_edition(@artefact, params.slice(:return_to))
     respond_with @artefact, location: location
   end
 
@@ -83,6 +83,13 @@ class ArtefactsController < ApplicationController
   end
 
   private
+
+    def admin_url_for_edition(artefact, options = {})
+      [
+        "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
+        options.to_query
+      ].reject(&:blank?).join("?")
+    end
 
     def tag_collection
       @tag_collection = TagRepository.load_all(:tag_type => 'section')
