@@ -18,7 +18,7 @@ gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.7'
+gem 'rails', '3.2.11'
 gem 'unicorn', '4.3.1'
 gem 'less-rails-bootstrap'
 
