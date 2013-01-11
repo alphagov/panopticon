@@ -156,7 +156,7 @@ GEM
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
-    lograge (0.0.6)
+    lograge (0.1.2)
       actionpack
       activesupport
     lrucache (0.1.4)
@@ -323,7 +323,7 @@ DEPENDENCIES
   govuk_content_models (= 2.6.1)
   launchy
   less-rails-bootstrap
-  lograge
+  lograge (~> 0.1.0)
   minitest
   mocha
   mongo (= 1.6.2)

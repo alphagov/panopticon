@@ -29,7 +29,7 @@ gem "mongoid", "~> 2.4.2"
 gem "mongo", "1.6.2"
 gem "bson_ext", "1.6.2"
 gem "bson", "1.6.2"
-gem 'lograge'
+gem 'lograge', '~> 0.1.0'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
