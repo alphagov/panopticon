@@ -3,8 +3,8 @@ require 'test_helper'
 class RummageableArtefactTest < ActiveSupport::TestCase
 
   setup do
-    TagRepository.put tag_type: "section", tag_id: "crime", title: "Crime"
-    TagRepository.put tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime"
+    FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime", title: "Crime")
+    FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime")
   end
 
   test "should extract artefact attributes" do

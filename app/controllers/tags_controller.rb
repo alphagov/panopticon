@@ -2,13 +2,17 @@ class TagsController < ApplicationController
   respond_to :json, :html
 
   def index
-    @tags = TagRepository.load_all(tag_type: params[:type])
+    if params[:type]
+      @tags = Tag.where(tag_type: params[:type])
+    else
+      @tags = Tag.all
+    end
     respond_with(status: 'ok', total: @tags.count, from: 0, to: @tags.count - 1,
       pagesize: @tags.count, results: @tags)
   end
 
   def show
-    @tag = TagRepository.load(params[:id])
+    @tag = Tag.where(tag_id: params[:id]).first
     if @tag
       respond_with(status: 'ok', tag: @tag)
     else
@@ -17,7 +21,7 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @tag = TagRepository.load(params[:id])
+    @tag = Tag.where(tag_id: params[:id]).first
     respond_with @tag
   end
 
@@ -37,7 +41,7 @@ class TagsController < ApplicationController
   end
 
   def categories
-    @tags = TagRepository.load_all({:tag_type => 'section'}).order_by([:tag_id, :asc])
+    @tags = Tag.where(tag_type: 'section').order_by([:tag_id, :asc])
     respond_with @tags
   end
 end

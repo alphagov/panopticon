@@ -92,7 +92,7 @@ class ArtefactsController < ApplicationController
     end
 
     def tag_collection
-      @tag_collection = TagRepository.load_all(:tag_type => 'section')
+      @tag_collection = Tag.where(:tag_type => 'section')
                                      .asc(:title).to_a
 
       title_counts = Hash.new(0)
