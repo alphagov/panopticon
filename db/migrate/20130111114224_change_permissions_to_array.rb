@@ -14,7 +14,7 @@ class ChangePermissionsToArray < Mongoid::Migration
     User.all.each do |user|
       if user.permissions.is_a?(Hash)
         user.permissions = user.permissions["Panopticon"]
-        user.save!
+        user.save(validate: false)
       end
     end
   end
@@ -23,7 +23,7 @@ class ChangePermissionsToArray < Mongoid::Migration
     User.all.each do |user|
       unless user.permissions.nil?
         user.permissions = { "Panopticon" => user.permissions }
-        user.save!
+        user.save(validate: false)
       end
     end
   end
