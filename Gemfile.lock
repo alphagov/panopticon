@@ -107,7 +107,7 @@ GEM
       lrucache (~> 0.1.1)
       null_logger
       plek
-    gds-sso (2.0.0)
+    gds-sso (3.0.0)
       omniauth-gds (= 0.0.3)
       rack-accept (~> 0.4.4)
       rails (>= 3.0.0)
@@ -122,11 +122,11 @@ GEM
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
       sanitize (= 2.0.3)
-    govuk_content_models (2.6.1)
+    govuk_content_models (4.0.0)
       bson_ext
       differ
       gds-api-adapters
-      gds-sso (>= 0.7, < 3.0)
+      gds-sso (>= 3.0.0, < 4.0.0)
       govspeak (>= 1.0.1, < 2.0.0)
       mongoid (~> 2.4.10)
       multi_json (= 1.3.7)
@@ -184,11 +184,16 @@ GEM
       activemodel (~> 3.1)
       mongo (<= 1.6.2)
       tzinfo (~> 0.3.22)
+    mongoid_rails_migrations (1.0.0)
+      activesupport (>= 3.2.0)
+      bundler (>= 1.0.0)
+      rails (>= 3.2.0)
+      railties (>= 3.2.0)
     multi_json (1.3.7)
     multipart-post (1.1.5)
     net-http-digest_auth (1.2.1)
     net-http-persistent (2.7)
-    nokogiri (1.5.5)
+    nokogiri (1.5.6)
     ntlm-http (0.1.1)
     null_logger (0.0.1)
     oauth2 (0.8.0)
@@ -317,10 +322,10 @@ DEPENDENCIES
   formtastic!
   formtastic-bootstrap!
   gds-api-adapters (= 4.1.3)
-  gds-sso (= 2.0.0)
+  gds-sso (= 3.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 2.6.1)
+  govuk_content_models (= 4.0.0)
   launchy
   less-rails-bootstrap
   lograge (~> 0.1.0)
@@ -328,6 +333,7 @@ DEPENDENCIES
   mocha
   mongo (= 1.6.2)
   mongoid (~> 2.4.2)
+  mongoid_rails_migrations (= 1.0.0)
   nokogiri
   null_logger
   plek (~> 0.3.0)
