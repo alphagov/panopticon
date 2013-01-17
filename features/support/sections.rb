@@ -1,20 +1,23 @@
+require 'govuk_content_models/test_helpers/factories'
+
 def create_section
-  TagRepository.put(
+  FactoryGirl.create(
+    :tag,
     tag_id: "crime",
     tag_type: "section",
     title: "Crime"
   )
-  return TagRepository.load "crime"
 end
 
 def create_sections
   create_section
-  TagRepository.put(
+  FactoryGirl.create(
+    :tag,
     tag_id: "crime/batman",
     tag_type: "section",
     title: "Batman"
   )
-  return ["crime", "crime/batman"].map { |tag_id| TagRepository.load tag_id }
+  return ["crime", "crime/batman"].map { |tag_id| Tag.where(tag_id: tag_id, tag_type: 'section').first }
 end
 
 def select_section(section)

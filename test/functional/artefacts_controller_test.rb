@@ -130,7 +130,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Include section ID" do
-        TagRepository.put :tag_id => 'crime', :tag_type => 'section', :title => 'Crime'
+        FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         artefact.sections = ['crime']
         artefact.save!
@@ -141,8 +141,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Include tag_ids" do
-        TagRepository.put :tag_id => 'crime', :tag_type => 'section', :title => 'Crime'
-        TagRepository.put :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link'
+        FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
+        FactoryGirl.create(:tag, :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link')
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         artefact.sections = ['crime']
         artefact.legacy_sources = ['businesslink']

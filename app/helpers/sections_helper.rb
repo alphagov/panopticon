@@ -6,7 +6,7 @@ module SectionsHelper
   # To force a tag to be excluded pass in the +options+ hash with a
   # key of :except
   def all_sections(options = {})
-    section_tags = TagRepository.load_all(:type => 'section')
+    section_tags = Tag.where(:tag_type => 'section')
 
     sections = options_for_sections(section_tags)
 

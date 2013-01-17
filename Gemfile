@@ -18,7 +18,7 @@ gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.7'
+gem 'rails', '3.2.11'
 gem 'unicorn', '4.3.1'
 gem 'less-rails-bootstrap'
 
@@ -26,21 +26,22 @@ gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
 
 gem "mongoid", "~> 2.4.2"
+gem "mongoid_rails_migrations", "1.0.0"
 gem "mongo", "1.6.2"
 gem "bson_ext", "1.6.2"
 gem "bson", "1.6.2"
-gem 'lograge'
+gem 'lograge', '~> 0.1.0'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "2.6.1"
+  gem "govuk_content_models", "4.0.0"
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '2.0.0'
+  gem 'gds-sso', '3.0.0'
 end
 
 group :assets do
