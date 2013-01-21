@@ -47,4 +47,8 @@ class ActiveSupport::TestCase
       :user => user
     )
   end
+
+  def create_test_user
+    FactoryGirl.create(:user)
+  end
 end

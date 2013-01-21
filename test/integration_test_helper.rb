@@ -7,9 +7,5 @@ class ActionDispatch::IntegrationTest
   teardown do
     Capybara.use_default_driver
   end
-
-  def create_test_user
-    FactoryGirl.create(:user)
-  end
 end
 
