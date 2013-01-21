@@ -52,6 +52,25 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         error_details = JSON.parse(last_response.body)
         assert_equal({"errors" => ["Kind is not included in the list"]}, error_details)
       end
+
+      should "support travel-advice artefacts with a travel-advice/foo style slug" do
+        artefact_data = {
+          'slug' => 'travel-advice/aruba',
+          'name' => 'Aruba travel advice',
+          'kind' => 'travel-advice',
+          'description' => 'Travel advice for people travelling to Aruba',
+          'owning_app' => 'travel-advice-publisher',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+        }
+
+        put "/artefacts/travel-advice/aruba.json", artefact_data
+
+        assert_equal 201, last_response.status
+
+        artefact = Artefact.find_by_slug('travel-advice/aruba')
+        assert artefact
+      end
     end # for a new artefact
 
     context "for an existing artefact" do
