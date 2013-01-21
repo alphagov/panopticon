@@ -1,12 +1,10 @@
 require_relative 'test_helper'
 require 'capybara/rails'
-require 'webmock'
 
 DatabaseCleaner.strategy = :truncation
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
-  include WebMock::API
 
   setup do
     DatabaseCleaner.clean
@@ -14,7 +12,6 @@ class ActionDispatch::IntegrationTest
 
   teardown do
     DatabaseCleaner.clean
-    WebMock.reset!  # Not entirely sure whether this happens anyway
     Capybara.use_default_driver
   end
 

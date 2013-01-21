@@ -13,7 +13,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha'
-require 'webmock'
+require 'webmock/minitest'
 require 'govuk_content_models/test_helpers/factories'
 
 DatabaseCleaner.strategy = :truncation
@@ -27,10 +27,6 @@ class ActiveSupport::TestCase
     DatabaseCleaner.clean
   end
   set_callback :teardown, :before, :clean_db
-
-  def setup
-    WebMock.disable_net_connect!
-  end
 
   def app
     Panopticon::Application
@@ -50,9 +46,5 @@ class ActiveSupport::TestCase
       :authenticated? => true,
       :user => user
     )
-  end
-
-  def teardown
-    WebMock.reset!
   end
 end
