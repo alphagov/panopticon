@@ -72,7 +72,7 @@ class ArtefactsController < ApplicationController
           if saved
             render json: @artefact.to_json, status: status_to_use
           else
-            render json: {"errors" => @artefact.errors.full_messages}, status: 400
+            render json: {"errors" => @artefact.errors.full_messages}, status: 422
           end
         end
       end

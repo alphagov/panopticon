@@ -48,7 +48,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
         put "/artefacts/wibble.json", artefact_data
 
-        assert_equal 400, last_response.status
+        assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)
         assert_equal({"errors" => ["Kind is not included in the list"]}, error_details)
       end
@@ -115,7 +115,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
         put "/artefacts/wibble.json", artefact_data
 
-        assert_equal 400, last_response.status
+        assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)
         assert_equal({"errors" => ["Kind is not included in the list"]}, error_details)
 
