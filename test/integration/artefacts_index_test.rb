@@ -13,9 +13,9 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
 
     visit "/artefacts"
 
-    assert page.has_link?("alpha", :href => "http://www.test.gov.uk/alpha")
-    assert page.has_link?("bravo", :href => "http://www.test.gov.uk/bravo")
-    assert page.has_link?("charlie", :href => "http://www.test.gov.uk/charlie")
+    assert page.has_link?("alpha", :href => "http://www.dev.gov.uk/alpha")
+    assert page.has_link?("bravo", :href => "http://www.dev.gov.uk/bravo")
+    assert page.has_link?("charlie", :href => "http://www.dev.gov.uk/charlie")
   end
 
   should "display the language for the artefact" do
