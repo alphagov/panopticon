@@ -12,7 +12,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     visit "/artefacts"
     click_on "Alpha"
 
-    assert page.has_link?("View on site", :href => "http://www.test.gov.uk/alpha")
+    assert page.has_link?("View on site", :href => "http://www.dev.gov.uk/alpha")
   end
 
   context "editing legacy_sources" do

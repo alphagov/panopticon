@@ -4,7 +4,7 @@ module ArtefactsHelper
   end
 
   def published_url(artefact)
-    Plek.current.find('www') + "/#{artefact.slug}"
+    ENV['GOVUK_WEBSITE_ROOT'] + "/#{artefact.slug}"
   end
 
   def human_timestamp(timestamp)
