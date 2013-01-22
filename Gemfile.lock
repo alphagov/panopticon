@@ -122,7 +122,7 @@ GEM
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
       sanitize (= 2.0.3)
-    govuk_content_models (4.0.0)
+    govuk_content_models (4.3.0)
       bson_ext
       differ
       gds-api-adapters
@@ -324,7 +324,7 @@ DEPENDENCIES
   gds-sso (= 3.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 4.0.0)
+  govuk_content_models (= 4.3.0)
   launchy
   less-rails-bootstrap
   lograge (~> 0.1.0)
