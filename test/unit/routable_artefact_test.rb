@@ -74,7 +74,6 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   should "use the internal hostname for frontend" do
     # Was previously using the publically visible hostname (www...) which was breaking things.
-    #Plek.stubs(:current_env).returns('production')
     Plek.any_instance.stubs('find').with('frontend').returns("https://frontend.production.alphagov.co.uk")
     @artefact.update_attributes!(:owning_app => 'frontend')
     Router.any_instance.expects(:update_application).with("frontend", "frontend.production.alphagov.co.uk")
