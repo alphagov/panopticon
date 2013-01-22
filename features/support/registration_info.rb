@@ -56,7 +56,7 @@ module RegistrationInfo
 
   def stub_router(artefact = nil)
     WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
-        with(:body => { "backend_url" => %r{^.*.dev.gov.uk$} }).
+        with(:body => { "backend_url" => %r{^.*\.dev\.gov\.uk$} }).
         to_return(:status => 200, :body => "{}", :headers => {})
 
     # catch-all
