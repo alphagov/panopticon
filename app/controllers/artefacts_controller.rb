@@ -68,7 +68,13 @@ class ArtefactsController < ApplicationController
     else
       @actions = build_actions
       respond_with @artefact, status: status_to_use do |format|
-        format.json { render json: @artefact.to_json, status: status_to_use }
+        format.json do
+          if saved
+            render json: @artefact.to_json, status: status_to_use
+          else
+            render json: {"errors" => @artefact.errors.full_messages}, status: 422
+          end
+        end
       end
     end
   end
