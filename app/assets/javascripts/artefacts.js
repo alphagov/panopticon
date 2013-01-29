@@ -32,8 +32,26 @@ $(function() {
       if ($('.artefact-section').size() == 1) {
         $('.remove-section').hide();
       }
-    } 
+    }
     return false;
   })
 
+
+  $('#add-related').click(function () {
+    $('.remove-related').show();
+    var new_select = $('.related-artefact').first().clone(true);
+    new_select.find('select option:selected').removeAttr('selected');
+    new_select.insertBefore(this);
+    return false;
+  })
+
+  $('.remove-related').click(function () {
+    if ($('.related-artefact').size() >= 2) {
+      $(this).parent().remove();
+      if ($('.related-artefact').size() == 1) {
+        $('.remove-related').hide();
+      }
+    }
+    return false;
+  })
 });

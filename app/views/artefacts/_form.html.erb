@@ -56,8 +56,16 @@
       <hr>
 
       <%= f.inputs do %>
-        <input name="artefact[related_artefact_ids][]" type="hidden" value="">
-        <%= f.input :related_artefacts, :label => "Related content", :collection => Artefact.relatable_items, :input_html => { :multiple => true, :class => "span6 chzn-select" }, :hint => "Start typing in to search for and select related links to be associated with this." %>
+        <label for="artefact[related_artefact_ids][]">Related content</label>
+        <% if artefact.related_artefact_ids.length > 0 %>
+          <% artefact.related_artefact_ids.each do |related_artefact_id| %>
+            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, relatable_items: Artefact.relatable_items} %>
+          <% end %>
+        <% else %>
+          <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, relatable_items: Artefact.relatable_items} %>
+        <% end %>
+        <button id="add-related" class="btn btn-success" type="button">Add another related item</button>
+
         <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>
       <% end %>
 
@@ -91,8 +99,12 @@
 <%= content_for :extra_javascript do %>
   <script type="text/javascript">
     $(".chzn-select").chosen();
+
     if ($('.artefact-section').size() == 1) {
       $('.remove-section').hide();
+    }
+    if ($('.related-artefact').size() == 1) {
+      $('.remove-related').hide();
     }
   </script>
 <% end %>

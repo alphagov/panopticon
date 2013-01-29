@@ -1,0 +1,4 @@
+<div class="row-fluid related-artefact">
+  <%= select_tag("artefact[related_artefact_ids][]", options_from_collection_for_select(relatable_items, :id, :name, related_artefact_id), { prompt: "Select a related item", :class => "span4" }) %>
+  <button class="btn btn-danger remove-related offset1" type="button">Remove related item</button>
+</div>
