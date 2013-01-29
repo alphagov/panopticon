@@ -41,7 +41,7 @@ $(function() {
     $('.remove-related').show();
     var new_select = $('.related-artefact').first().clone(true);
     new_select.find('select option:selected').removeAttr('selected');
-    new_select.insertBefore(this);
+    new_select.insertAfter('.related-artefact:last');
     return false;
   })
 

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require chosen.jquery.min
+//= require jquery.ui.sortable
 //= require jquery.tablesorter.min
 //= require twitter/bootstrap
 //= require_tree .
