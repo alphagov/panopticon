@@ -61,10 +61,10 @@
         <div class="related-artefact-group">
           <% if artefact.related_artefact_ids.length > 0 %>
             <% artefact.related_artefact_ids.each do |related_artefact_id| %>
-              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, relatable_items: Artefact.relatable_items} %>
+              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id } %>
             <% end %>
           <% else %>
-            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, relatable_items: Artefact.relatable_items} %>
+            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil } %>
           <% end %>
         </div>
 
