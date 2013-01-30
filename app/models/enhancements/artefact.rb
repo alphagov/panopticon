@@ -10,6 +10,6 @@ class Artefact
   end
 
   def self.relatable_items
-    self.in_alphabetical_order.where(:kind.nin => ["completed_transaction"])
+    self.in_alphabetical_order.where(:kind.nin => ["completed_transaction"], :state.nin => ["archived"])
   end
 end
