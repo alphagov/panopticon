@@ -32,8 +32,22 @@ $(function() {
       if ($('.artefact-section').size() == 1) {
         $('.remove-section').hide();
       }
-    } 
+    }
     return false;
   })
 
+
+  $('#add-related').click(function () {
+    var new_select = $('.related-artefact-template').clone(true);
+    new_select.removeClass('hidden');
+    new_select.removeClass('related-artefact-template');
+    new_select.addClass('related-artefact');
+    new_select.appendTo('.related-artefact-group');
+    return false;
+  })
+
+  $('.remove-related').click(function () {
+    $(this).parent().remove();
+    return false;
+  })
 });
