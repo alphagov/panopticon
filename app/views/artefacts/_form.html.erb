@@ -61,13 +61,14 @@
         <div class="related-artefact-group">
           <% if artefact.related_artefact_ids.length > 0 %>
             <% artefact.related_artefact_ids.each do |related_artefact_id| %>
-              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id } %>
+              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, is_template: false } %>
             <% end %>
           <% else %>
-            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil } %>
+            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: false } %>
           <% end %>
         </div>
 
+        <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: true } %>
         <button id="add-related" class="btn btn-success" type="button">Add another related item</button>
 
         <%= f.input :relatedness_done, :label => "Is relatedness done?", :as => :boolean %>

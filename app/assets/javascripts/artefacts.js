@@ -39,8 +39,10 @@ $(function() {
 
   $('#add-related').click(function () {
     $('.remove-related').show();
-    var new_select = $('.related-artefact').first().clone(true);
-    new_select.find('select option:selected').removeAttr('selected');
+    var new_select = $('.related-artefact-template').clone(true);
+    new_select.removeClass('hidden');
+    new_select.removeClass('related-artefact-template');
+    new_select.addClass('related-artefact');
     new_select.insertAfter('.related-artefact:last');
     return false;
   })
