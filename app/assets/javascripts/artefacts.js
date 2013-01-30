@@ -38,22 +38,16 @@ $(function() {
 
 
   $('#add-related').click(function () {
-    $('.remove-related').show();
     var new_select = $('.related-artefact-template').clone(true);
     new_select.removeClass('hidden');
     new_select.removeClass('related-artefact-template');
     new_select.addClass('related-artefact');
-    new_select.insertAfter('.related-artefact:last');
+    new_select.appendTo('.related-artefact-group');
     return false;
   })
 
   $('.remove-related').click(function () {
-    if ($('.related-artefact').size() >= 2) {
-      $(this).parent().remove();
-      if ($('.related-artefact').size() == 1) {
-        $('.remove-related').hide();
-      }
-    }
+    $(this).parent().remove();
     return false;
   })
 });
