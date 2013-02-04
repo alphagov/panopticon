@@ -17,10 +17,3 @@ Feature: Related items
     When I destroy their relationship
     Then I should be redirected to Publisher
       And the API should say that the artefacts are not related
-
-  Scenario: Assign additional related items
-    Given several non-publisher artefacts exist
-      And some of the artefacts are related
-    When I create more relationships between them
-      And I save
-    Then the API should say that more of the artefacts are related

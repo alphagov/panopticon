@@ -43,6 +43,9 @@ else
   gem 'gds-sso', '3.0.0'
 end
 
+gem 'jquery-rails', '2.0.2'
+gem 'jquery-ui-rails', '3.0.1'
+
 group :assets do
   gem "therubyracer", "~> 0.9.4"
   gem 'uglifier'

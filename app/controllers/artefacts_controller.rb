@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
+  helper_method :relatable_items
 
   respond_to :html, :json
 
@@ -109,6 +110,10 @@ class ArtefactsController < ApplicationController
       @tag_collection.each do |tag|
         tag.uniquely_named = title_counts[tag.title] < 2
       end
+    end
+
+    def relatable_items
+      @relatable_items ||= Artefact.relatable_items.to_a
     end
 
     def attempting_to_change_owning_app?(parameters_to_use)

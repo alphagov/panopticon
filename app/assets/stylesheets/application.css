@@ -37,6 +37,32 @@ table#artefact-list tr.archived {
 
 /* end of tablesorter styling */
 
+.related-artefact-group {
+  margin-bottom: 10px;
+}
+
+.related-artefact {
+  border: 1px solid #e5e5e5;
+  padding: 8px;
+  cursor: move;
+  margin-bottom: 2px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* For some reason it's getting a margin-left of 30px */
+.select2-container {
+  margin-left: 0;
+}
+
+.relatedness-force-clear {
+  clear: both;
+}
+
 .language_icon  {
   display: inline-block;
   text-indent: -9999px;

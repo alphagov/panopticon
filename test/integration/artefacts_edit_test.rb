@@ -85,7 +85,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     visit "/artefacts"
     click_on "Alpha"
 
-    assert page.has_selector?("#artefact_related_artefact_ids option[value='#{b.id}']")
-    assert ! page.has_selector?("#artefact_related_artefact_ids option[value='#{c.id}']")
+    assert page.has_selector?("#artefact_related_artefact_ids_ option[value='#{b.id}']")
+    assert ! page.has_selector?("#artefact_related_artefact_ids_ option[value='#{c.id}']")
   end
 end
