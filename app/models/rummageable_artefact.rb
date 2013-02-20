@@ -15,7 +15,7 @@ class RummageableArtefact
   end
 
   def submit
-    return if %w[ completed_transaction ].include?(@artefact.kind)
+    return if FORMATS_NOT_TO_INDEX.include?(@artefact.kind)
 
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
