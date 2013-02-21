@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ArtefactTest < ActiveSupport::TestCase
+class ArtefactSearchIndexingTest < ActiveSupport::TestCase
   def swallow_router_requests
     stub_request(:any, %r{http://router.cluster:8080/router/.*}).to_return(:status => 200, :body => "{}")
   end
