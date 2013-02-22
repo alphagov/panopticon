@@ -15,6 +15,19 @@ GIT
     formtastic (2.1.1)
       actionpack (~> 3.0)
 
+PATH
+  remote: ../govuk_content_models
+  specs:
+    govuk_content_models (4.8.0)
+      bson_ext
+      differ
+      gds-api-adapters
+      gds-sso (>= 3.0.0, < 4.0.0)
+      govspeak (>= 1.0.1, < 2.0.0)
+      mongoid (~> 2.4.10)
+      plek
+      state_machine
+
 GEM
   remote: http://rubygems.org/
   remote: https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/
@@ -122,15 +135,6 @@ GEM
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
       sanitize (= 2.0.3)
-    govuk_content_models (4.7.0)
-      bson_ext
-      differ
-      gds-api-adapters
-      gds-sso (>= 3.0.0, < 4.0.0)
-      govspeak (>= 1.0.1, < 2.0.0)
-      mongoid (~> 2.4.10)
-      plek
-      state_machine
     hashie (1.2.0)
     hike (1.2.1)
     htmlentities (4.3.1)
@@ -328,7 +332,7 @@ DEPENDENCIES
   gds-sso (= 3.0.0)
   gds-warmup-controller (= 0.1.0)
   gelf
-  govuk_content_models (= 4.7.0)
+  govuk_content_models!
   jquery-rails (= 2.0.2)
   jquery-ui-rails (= 3.0.1)
   launchy

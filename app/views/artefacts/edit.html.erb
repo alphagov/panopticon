@@ -12,7 +12,11 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="edit">
-      <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
+      <% if "whitehall" == @artefact.owning_app %>
+        <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
+      <% else %>
+        <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
+      <% end %>
     </div>
     <div class="tab-pane" id="history">
       <%= render 'history', actions: @actions %>
