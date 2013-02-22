@@ -132,4 +132,22 @@ class RummageableArtefactTest < ActiveSupport::TestCase
 
     refute RummageableArtefact.new(artefact).should_be_indexed?
   end
+
+  test "should not index Detailed Guidance content" do
+    artefact = Artefact.new do |artefact|
+      artefact.state = "live"
+      artefact.kind = "detailed_guidance"
+    end
+
+    refute RummageableArtefact.new(artefact).should_be_indexed?
+  end
+
+  test "should not index Inside Government content" do
+    artefact = Artefact.new do |artefact|
+      artefact.state = "live"
+      artefact.kind = "inside_government"
+    end
+
+    refute RummageableArtefact.new(artefact).should_be_indexed?
+  end
 end
