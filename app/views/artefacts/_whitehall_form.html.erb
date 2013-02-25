@@ -19,11 +19,12 @@
 <% else %>
   <div class="well">
     <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
+      <%= f.input :owning_app, :as => :hidden %>
       <%= f.input :state, :as => :hidden, :input_html => { :value => "live" } %>
       <%= f.inputs do %>
-        <%= f.input :name, :input_html => { :class => "span6" }, :hint => name_hint_for(f.object) %>
+        <%= f.input :name, :input_html => { :class => "span6" }, :hint => "A name/title for the item" %>
         <%= f.input :description, :input_html => { :class => "span6", :rows => 6 }, :as => :text %>
-        <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
+        <%= f.input :slug, :input_html => { :class => "span6" }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
         <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" unless f.object.new_record? %>
 
         <hr>
