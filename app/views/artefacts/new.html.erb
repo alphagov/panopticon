@@ -1,6 +1,6 @@
-<%= content_for :page_title, "New artefact" %>
+<%= content_for :page_title, "New #{@artefact.owning_app.nil? ? "" : @artefact.owning_app.capitalize} artefact" %>
 <div class="page-header">
-  <h1>Creating new artefact</h1>
+  <h1><%= yield :page_title %></h1>
 </div>
 <% if "whitehall" == @artefact.owning_app %>
   <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
