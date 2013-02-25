@@ -30,6 +30,17 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    context "POST create" do
+      context "publisher artefact" do
+        should "redirect to publisher" do
+          Artefact.any_instance.stubs(:id).returns("abc")
+          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+
+          assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
+        end
+      end
+    end
+
     context "PUT update" do
       context "invalid artefact" do
         should "be invalid with an empty title" do
@@ -37,6 +48,15 @@ class ArtefactsControllerTest < ActionController::TestCase
           artefact1.name = ""
           put :update, id: artefact1.id, artefact: { name: "" }
           assert_template :edit
+        end
+      end
+
+      context "publisher is owning_app" do
+        should "redirect to GET show (which then redirects to publisher)" do
+          artefact = FactoryGirl.create(:artefact)
+          put :update, :id => artefact.id, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+
+          assert_redirected_to "/artefacts/#{artefact.id}"
         end
       end
     end
