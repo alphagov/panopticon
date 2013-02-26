@@ -37,7 +37,7 @@
         <hr>
         <input type="hidden" name="artefact[sections][]" value="" />
         <% if artefact.new_record? %>
-          <%= f.input :kind, :collection => Artefact::FORMATS.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+          <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
         <% end %>
 
         <label for="artefact[sections][]">Sections</label>
