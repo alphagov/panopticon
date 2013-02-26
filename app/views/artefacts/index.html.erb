@@ -38,9 +38,8 @@
             <tr class="<%= artefact.state %>">
               <td><%= artefact.need_id %></td>
               <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
-              <td class="icon">
-                <%= image_tag "icon-#{artefact.kind.downcase}.png", :title => artefact.kind.humanize %>
-                <%= content_tag "span", artefact.language, :class => "language_icon lang_#{artefact.language}" %>
+              <td>
+                <small><%= artefact.kind.humanize %></small>
               </td>
               <td><%= artefact.primary_section %></td>
               <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
