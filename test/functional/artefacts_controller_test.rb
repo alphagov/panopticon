@@ -31,10 +31,23 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "GET new" do
+
+      should "render only the non-whitehall link as active" do
+        get :new
+        assert_select "li[class~=active] a[href=/artefacts/new]"
+        assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]", false
+      end
+
       context "whitehall is the owning_app" do
         should "render the whitehall variant of the form" do
           get :new, owning_app: "whitehall"
           assert_template :whitehall_form
+        end
+
+        should "display only the whitehall link as active" do
+          get :new, owning_app: "whitehall"
+          assert_select "li[class~=active] a[href=/artefacts/new]", false
+          assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]"
         end
       end
     end
