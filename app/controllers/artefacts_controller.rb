@@ -35,7 +35,11 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save_as action_user
-    location = admin_url_for_edition(@artefact, params.slice(:return_to))
+    if @artefact.owning_app == "publisher"
+      location = admin_url_for_edition(@artefact, params.slice(:return_to))
+    else
+      location = edit_artefact_path(@artefact.id)
+    end
     respond_with @artefact, location: location
   end
 
@@ -64,17 +68,21 @@ class ArtefactsController < ApplicationController
     saved = @artefact.update_attributes_as(action_user, parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
-    if saved && params[:commit] == 'Save and continue editing'
-      redirect_to edit_artefact_path(@artefact)
-    else
-      @actions = build_actions
-      respond_with @artefact, status: status_to_use do |format|
-        format.json do
-          if saved
-            render json: @artefact.to_json, status: status_to_use
-          else
-            render json: {"errors" => @artefact.errors.full_messages}, status: 422
-          end
+    @actions = build_actions
+    respond_with @artefact, status: status_to_use do |format|
+      format.html do
+        continue_editing = (params[:commit] == 'Save and continue editing')
+        if saved && (continue_editing || (@artefact.owning_app != "publisher"))
+          redirect_to edit_artefact_path(@artefact)
+        else
+          respond_with @artefact, status: status_to_use
+        end
+      end
+      format.json do
+        if saved
+          render json: @artefact.to_json, status: status_to_use
+        else
+          render json: {"errors" => @artefact.errors.full_messages}, status: 422
         end
       end
     end

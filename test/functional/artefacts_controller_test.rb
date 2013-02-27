@@ -30,6 +30,62 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    context "GET new" do
+
+      should "render only the non-whitehall link as active" do
+        get :new
+        assert_select "li[class~=active] a[href=/artefacts/new]"
+        assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]", false
+      end
+
+      context "whitehall is the owning_app" do
+        should "render the whitehall variant of the form" do
+          get :new, owning_app: "whitehall"
+          assert_template :whitehall_form
+        end
+
+        should "display only the whitehall link as active" do
+          get :new, owning_app: "whitehall"
+          assert_select "li[class~=active] a[href=/artefacts/new]", false
+          assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]"
+        end
+      end
+    end
+
+    context "POST create" do
+      context "invalid artefact" do
+        should "rerender the form" do
+          post :create, :slug => 'not/valid', :owning_app => 'smart-answers', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+        end
+      end
+
+      should "redirect to GET edit" do
+        Artefact.any_instance.stubs(:id).returns("abc")
+        post :create, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+
+        assert_redirected_to "/artefacts/abc/edit"
+      end
+
+      context "publisher artefact" do
+        should "redirect to publisher" do
+          Artefact.any_instance.stubs(:id).returns("abc")
+          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+
+          assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
+        end
+      end
+    end
+
+    context "GET edit" do
+      context "whitehall is the owning_app" do
+        should "render the whitehall variant of the form" do
+          artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
+          get :edit, id: artefact.id
+          assert_template :whitehall_form
+        end
+      end
+    end
+
     context "PUT update" do
       context "invalid artefact" do
         should "be invalid with an empty title" do
@@ -37,6 +93,22 @@ class ArtefactsControllerTest < ActionController::TestCase
           artefact1.name = ""
           put :update, id: artefact1.id, artefact: { name: "" }
           assert_template :edit
+        end
+      end
+
+      should "redirect to GET edit" do
+        artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers", kind: "smart-answer")
+        put :update, :id => artefact.id, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+
+        assert_redirected_to "/artefacts/#{artefact.id}/edit"
+      end
+
+      context "publisher is owning_app" do
+        should "redirect to GET show (which then redirects to publisher)" do
+          artefact = FactoryGirl.create(:artefact)
+          put :update, :id => artefact.id, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+
+          assert_redirected_to "/artefacts/#{artefact.id}"
         end
       end
     end
