@@ -40,6 +40,7 @@
               <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
               <td>
                 <small><%= artefact.kind.humanize %></small>
+                <%= content_tag "span", artefact.language, :class => "language_icon lang_#{artefact.language}" %>
               </td>
               <td><%= artefact.primary_section %></td>
               <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
