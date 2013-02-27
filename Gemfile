@@ -49,6 +49,10 @@ group :assets do
   gem 'uglifier'
 end
 
+group :development do
+  gem 'quiet_assets'
+end
+
 group :test do
   # Pretty printed test output
   gem 'turn', require: false
