@@ -103,7 +103,7 @@ class BrowseSectionsControllerTest < ActionController::TestCase
         @artefact = FactoryGirl.create(:artefact, name: "Relic", sections: [@section].map(&:tag_id))
       end
 
-      should_eventually "strip blank artefact_ids" do
+      should "strip blank artefact_ids" do
         put :update, id: @section.id, section: {}, curated_list: { artefact_ids: [@artefact.id, ""] }
         curated_list = CuratedList.where(slug: @section.tag_id.gsub(%r{/}, "-")).first
         refute_nil curated_list

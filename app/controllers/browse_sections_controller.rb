@@ -12,12 +12,12 @@ class BrowseSectionsController < ApplicationController
   end
 
   def update
-    clean_params = params[:section].delete_if { |k,v| k == "tag_id" }
     if params[:curated_list]
-      @curated_list.update_attributes(params[:curated_list])
+      clean_artefact_ids = params[:curated_list][:artefact_ids].delete_if { |v| v.blank? }
+      @curated_list.update_attributes(artefact_ids: clean_artefact_ids)
     end
-
-    if @section.update_attributes(clean_params)
+    clean_section_params = params[:section].delete_if { |k,v| k == "tag_id" }
+    if @section.update_attributes(clean_section_params)
       redirect_to browse_sections_path, notice: "Updated #{@section.title} browse section"
     else
       flash[:error] = "Failed to save"
