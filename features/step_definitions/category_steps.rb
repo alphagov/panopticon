@@ -10,15 +10,6 @@ Given /^my basic set of tags exist$/ do
     tag_type: 'section')
 end
 
-When /^I visit the curated list admin page$/ do
-  visit curated_list_path
-end
-
-When /^I upload my CSV file$/ do
-  attach_file "CSV of curated lists", csv_path_for_data("curated_list_dummy")
-  click_button "Upload CSV"
-end
-
 When /^I visit the categories page$/ do
   visit categories_path
 end
@@ -43,10 +34,4 @@ end
 
 Then /^I should see "(.*?)"$/ do |content|
   assert_match /#{content}/, page.body
-end
-
-Then /^the curated lists should exist$/ do
-  Tag.where(tag_type: 'section').each do |t|
-    assert CuratedList.any_in(tag_ids: [t.tag_id]).first, "List for #{t.tag_id} missing"
-  end
 end
