@@ -1,5 +1,6 @@
 Panopticon::Application.routes.draw do
   resources :artefacts, :constraints => { :id => /[^\.]+/ }
+  resources :browse_sections
   resources :tags
 
   match 'tags/:id' => 'tags#show', :id =>  /[^\.]+/, :defaults => {:format => 'json'}
