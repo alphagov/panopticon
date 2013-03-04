@@ -1,4 +1,7 @@
 <%= content_for :page_title, "List browse sections" %>
+<% if flash[:notice].present? %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% end %>
 
 <div class="row-fluid">
   <div class="page-header">
@@ -14,8 +17,12 @@
     <tbody>
       <% @sections.each do |section| %>
         <tr>
-          <td><%= section.title %></td>
-          <td><%= section.tag_id %></td>
+          <td>
+            <%= link_to section.title, edit_browse_section_path(section) %>
+          </td>
+          <td>
+            <%= link_to section.tag_id, Plek.current.website_root + "/#{section.tag_id}" %>
+          </td>
         </tr>
       <% end %>
     </tbody>
