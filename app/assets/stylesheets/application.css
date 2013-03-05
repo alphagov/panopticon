@@ -35,6 +35,11 @@ table#artefact-list tr.archived {
   opacity: 0.5;
 }
 
+
+tr.top-level-section {
+  font-weight: bold;
+}
+
 /* end of tablesorter styling */
 
 .related-artefact-group, .curated-artefact-group {

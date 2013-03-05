@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <% @sections.each do |section| %>
-        <tr>
+        <tr class="<%= section.has_parent? ? '' : 'top-level-section' %>">
           <td>
             <%= link_to section.title, edit_browse_section_path(section) %>
           </td>
