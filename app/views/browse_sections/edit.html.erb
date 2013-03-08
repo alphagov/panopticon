@@ -17,7 +17,10 @@
 
     <% if @section.has_parent? %>
       <%= f.inputs do %>
-        <label for="curated_list[artefact_ids][]">Curated Artefact List</label>
+        <h3>Curated Artefact List</h3>
+
+        <p>The artefacts you choose will appear at the top of the section’s browse page. Any other artefacts in the section will appear below them.</p>
+
         <p>Click and drag to reorder</p>
         <div class="curated-artefact-group">
           <% if @curated_list.artefacts.any? %>
