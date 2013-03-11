@@ -35,13 +35,18 @@ table#artefact-list tr.archived {
   opacity: 0.5;
 }
 
+
+tr.top-level-section {
+  font-weight: bold;
+}
+
 /* end of tablesorter styling */
 
-.related-artefact-group {
+.related-artefact-group, .curated-artefact-group {
   margin-bottom: 10px;
 }
 
-.related-artefact {
+.related-artefact, .curated-artefact {
   border: 1px solid #e5e5e5;
   padding: 8px;
   cursor: move;
