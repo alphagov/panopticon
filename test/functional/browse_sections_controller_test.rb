@@ -107,7 +107,7 @@ class BrowseSectionsControllerTest < ActionController::TestCase
         put :update, id: @section.id, section: {}, curated_list: { artefact_ids: [@artefact.id, ""] }
         curated_list = CuratedList.where(slug: @section.tag_id.gsub(%r{/}, "-")).first
         refute_nil curated_list
-        assert_equal [@artefact.id.to_s], curated_list.artefact_ids
+        assert_equal [@artefact.id], curated_list.artefact_ids
       end
 
       context "a curated_list already exists" do
@@ -129,7 +129,7 @@ class BrowseSectionsControllerTest < ActionController::TestCase
           put :update, id: @section.id, section: {}, curated_list: { artefact_ids: [@artefact.id] }
           curated_list = CuratedList.where(slug: @section.tag_id.gsub(%r{/}, "-")).first
           refute_nil curated_list
-          assert_equal [@artefact.id.to_s], curated_list.artefact_ids
+          assert_equal [@artefact.id], curated_list.artefact_ids
         end
       end
     end
