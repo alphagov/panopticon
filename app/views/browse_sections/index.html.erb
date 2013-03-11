@@ -21,7 +21,7 @@
             <%= link_to section.title, edit_browse_section_path(section) %>
           </td>
           <td>
-            <%= link_to section.tag_id, Plek.current.website_root + "/#{section.tag_id}" %>
+            <%= link_to section.tag_id, Plek.current.website_root + "/browse/#{section.tag_id}" %>
           </td>
         </tr>
       <% end %>
