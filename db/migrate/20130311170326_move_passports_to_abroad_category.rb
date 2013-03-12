@@ -9,7 +9,8 @@ class MovePassportsToAbroadCategory < Mongoid::Migration
 
     curated_list = CuratedList.any_in(tag_ids: ["citizenship/passports"]).first
     if curated_list
-      curated_list.tag_ids = [tag_id_as_curated_list_slug("abroad/passports")]
+      curated_list.slug = tag_id_as_curated_list_slug("abroad/passports")
+      curated_list.tag_ids = ["abroad/passports"]
       curated_list.save!
     end
 
