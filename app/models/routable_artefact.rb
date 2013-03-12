@@ -39,7 +39,7 @@ class RoutableArtefact
   end
 
   def delete
-    ([@artefact.slug] + @artefact.paths + @artefact.prefixes).each do |path|
+    ([@artefact.slug] + (@artefact.paths || []) + (@artefact.prefixes || [])).each do |path|
       router.delete_route(path)
     end
   end
