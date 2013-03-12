@@ -80,4 +80,31 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     Router.any_instance.stubs(:create_route)
     @routable.submit
   end
+
+  context "deleting routes for an artefact" do
+
+    should "delete the artefact slug from the router" do
+      Router.any_instance.expects(:delete_route).with(@artefact.slug)
+      @routable.delete
+    end
+
+    should "delete all paths and prefixes as well as the slug" do
+      @artefact.paths = ["foo", "bar"]
+      @artefact.prefixes = ["baz"]
+      Router.any_instance.expects(:delete_route).with(@artefact.slug)
+      Router.any_instance.expects(:delete_route).with("foo")
+      Router.any_instance.expects(:delete_route).with("bar")
+      Router.any_instance.expects(:delete_route).with("baz")
+      @routable.delete
+    end
+
+    should "cope with paths or prefixes being set to nil" do
+      @artefact.paths = nil
+      @artefact.prefixes = nil
+      Router.any_instance.expects(:delete_route).with(@artefact.slug)
+      assert_nothing_raised do
+        @routable.delete
+      end
+    end
+  end
 end
