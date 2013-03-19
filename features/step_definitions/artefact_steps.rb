@@ -3,13 +3,13 @@ Given /^two artefacts exist$/ do
 end
 
 Given /^the first artefact is in draft$/ do
-  Artefact.observers.disable :update_search_observer, :update_router_observer do
+  Artefact.observers.disable :update_search_observer do
     Artefact.first.update_attributes!('state' => 'draft')
   end
 end
 
 Given /^the first artefact is live$/ do
-  Artefact.observers.disable :update_search_observer, :update_router_observer do
+  Artefact.observers.disable :update_search_observer do
     Artefact.first.update_attributes!('state' => 'live')
   end
 end

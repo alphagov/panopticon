@@ -1,7 +1,6 @@
 module RegistrationInfo
 
   SEARCH_ROOT = "http://search.dev.gov.uk"
-  ROUTER_ROOT = "http://router.cluster:8080"
 
   def example_smart_answer
     {
@@ -42,7 +41,6 @@ module RegistrationInfo
   def prepare_registration_environment(artefact = example_smart_answer)
     setup_user
     stub_search
-    stub_router(artefact)
   end
 
   def setup_user
@@ -54,36 +52,10 @@ module RegistrationInfo
     @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
   end
 
-  def stub_router(artefact = nil)
-    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/applications/.*$}).
-        with(:body => { "backend_url" => %r{^.*\.dev\.gov\.uk$} }).
-        to_return(:status => 200, :body => "{}", :headers => {})
-
-    # catch-all
-    WebMock.stub_request(:put, %r{^#{ROUTER_ROOT}/router/routes/.*$}).
-          with(:body => {"application_id" => /.+/, "route_type" => "full"}).
-          to_return(:status => 200, :body => "{}", :headers => {})
-
-    # so that we can assert on them later
-    @fake_routers = [OpenStruct.new(artefact), @artefact, @related_artefact].reject(&:nil?).map do |artefact|
-      WebMock.stub_request(:put, "#{ROUTER_ROOT}/router/routes/#{artefact.slug}").
-            with(:body => { "application_id" => artefact.owning_app, "route_type" => "full"}).
-            to_return(:status => 200, :body => "{}", :headers => {})
-    end
-  end
-
   def stub_search_delete
     @fake_search_delete = WebMock.stub_request(:delete, artefact_search_url(@artefact)).to_return(status: 200)
     WebMock.stub_request(:post, "http://search.dev.gov.uk/commit")
            .to_return(:status => 200)
-  end
-
-  def stub_router_delete
-    # so that we can assert on them later
-    @fake_router_deletes = [@artefact].map do |artefact|
-      WebMock.stub_request(:delete, "#{ROUTER_ROOT}/router/routes/#{artefact.slug}").
-            to_return(:status => 200, :body => "{}", :headers => {})
-    end
   end
 
   def artefact_search_url(artefact)
@@ -93,7 +65,7 @@ module RegistrationInfo
   end
 
   def setup_existing_artefact
-    Artefact.observers.disable :update_search_observer, :update_router_observer do
+    Artefact.observers.disable :update_search_observer do
       @artefact = Artefact.create!(example_smart_answer)
     end
   end

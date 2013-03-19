@@ -2,10 +2,6 @@ Given /^I have stubbed search$/ do
   stub_search
 end
 
-Given /^I have stubbed the router$/ do
-  stub_router
-end
-
 When /^I put a new smart answer's details into panopticon$/ do
   prepare_registration_environment
 
@@ -51,7 +47,6 @@ When /^I delete an artefact$/ do
   prepare_registration_environment
   setup_existing_artefact
   stub_search_delete
-  stub_router_delete
 
   delete "/artefacts/#{@artefact.slug}.json"
 end
@@ -81,20 +76,6 @@ Then /^rummager should be notified$/ do
   assert_requested @fake_search, times: 1  # The default, but let's be explicit
 end
 
-Then /^the router should be notified$/ do
-  assert ! @fake_routers.blank?, "No router requests registered to assert on"
-  @fake_routers.each do |fake_router|
-    assert_requested fake_router, times: 1
-  end
-end
-
-Then /^the router should not be notified$/ do
-  assert ! @fake_routers.blank?, "No router requests registered to assert on"
-  @fake_routers.each do |fake_router|
-    assert_not_requested fake_router
-  end
-end
-
 Then /^rummager should be told to do a partial update$/ do
   amendments = {
     title: "Child Benefit rates",
@@ -115,11 +96,4 @@ end
 
 Then /^rummager should be notified of the delete$/ do
   assert_requested @fake_search_delete, times: 1  # The default, but let's be explicit
-end
-
-Then /^the router should be notified of the delete$/ do
-  assert ! @fake_router_deletes.blank?, "No router requests registered to assert on"
-  @fake_router_deletes.each do |fake_router_delete|
-    assert_requested fake_router_delete, times: 1
-  end
 end

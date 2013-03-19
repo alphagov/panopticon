@@ -1,12 +1,7 @@
 require 'test_helper'
 
 class ArtefactSearchIndexingTest < ActiveSupport::TestCase
-  def swallow_router_requests
-    stub_request(:any, %r{http://router.cluster:8080/router/.*}).to_return(:status => 200, :body => "{}")
-  end
-
   setup do
-    swallow_router_requests
     @artefact = FactoryGirl.create(:artefact)
   end
 

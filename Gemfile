@@ -11,7 +11,6 @@ gem 'null_logger'
 gem 'exception_notification'
 
 gem 'gds-api-adapters', "4.1.3"
-gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
 
