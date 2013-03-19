@@ -7,26 +7,22 @@ Feature: Registering resources
     When I put a new smart answer's details into panopticon
     Then a new artefact should be created
       And rummager should be notified
-      And the router should be notified
 
   Scenario: Updating a smart answer
     When I put updated smart answer details into panopticon
     Then the relevant artefact should be updated
       And the API should reflect the change
       And rummager should be notified
-      And the router should be notified
 
   Scenario: Creating a draft item
     When I put a draft smart answer's details into panopticon
     Then a new artefact should be created
       And rummager should not be notified
-      And the router should not be notified
 
   Scenario: Creating a completed transaction
     When I put a new completed transaction's details into panopticon
     Then a new artefact should be created
       And rummager should not be notified
-      And the router should be notified
 
   Scenario: Putting an item whose slug is owned by another app
     When I put a new item into panopticon whose slug is already taken
@@ -37,4 +33,3 @@ Feature: Registering resources
     When I delete an artefact
     Then the artefact state should be archived
      And rummager should be notified of the delete
-     And the router should be notified of the delete

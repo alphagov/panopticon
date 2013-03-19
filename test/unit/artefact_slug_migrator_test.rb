@@ -5,7 +5,6 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
 
   setup do
     # stub the observers for creating artefacts
-    UpdateRouterObserver.any_instance.stubs(:after_save)
     UpdateSearchObserver.any_instance.stubs(:after_save)
 
     @artefacts = [
