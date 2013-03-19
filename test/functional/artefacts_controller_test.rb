@@ -352,8 +352,6 @@ class ArtefactsControllerTest < ActionController::TestCase
 
     context "DELETE /artefacts/:id" do
       setup do
-        WebMock.stub_request(:delete, "http://router.cluster:8080/router/routes/whatever").
-            to_return(:status => 200)
         WebMock.stub_request(:delete, "http://search.dev.gov.uk/documents/%2Fwhatever").
             to_return(:status => 200)
         WebMock.stub_request(:post, "http://search.dev.gov.uk/commit").
