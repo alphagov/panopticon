@@ -17,6 +17,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
           'state' => 'draft',
+          'need_extended_font' => false
         }
 
         # Rack::Test put method calls to_json on whatever body you pass.
@@ -34,6 +35,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal 'publisher', artefact.owning_app
         assert_equal 'frontend', artefact.rendering_app
         assert_equal 'draft', artefact.state
+        assert_equal false, artefact.need_extended_font
       end
 
       should "return an error if creating an artefact fails" do
