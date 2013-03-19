@@ -15,7 +15,7 @@ gem 'router-client', "3.1.0"
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 gem 'unicorn', '4.3.1'
 gem 'less-rails-bootstrap'
 
@@ -67,7 +67,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'
-  gem 'mocha'
+  gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
 end
 
