@@ -13,35 +13,6 @@
  *= require formtastic-bootstrap
  */
 
-/* Styling for tablesorter plugin */
-table thead tr th {
-  cursor: pointer;
-}
-
-table thead tr th.header {
-  padding-right: 20px;
-  background: url(bg.gif) no-repeat right 75%;
-}
-
-table thead tr .header.headerSortUp {
-  background: url(asc.gif) no-repeat right 75%;
-}
-
-table thead tr .header.headerSortDown {
-  background: url(desc.gif) no-repeat right 75%;
-}
-
-table#artefact-list tr.archived {
-  opacity: 0.5;
-}
-
-
-tr.top-level-section {
-  font-weight: bold;
-}
-
-/* end of tablesorter styling */
-
 .related-artefact-group, .curated-artefact-group {
   margin-bottom: 10px;
 }
@@ -78,4 +49,19 @@ tr.top-level-section {
   width: 16px;
   height: 16px;
   background: url(language_cy.png) no-repeat center center;
+}
+
+
+/* Pagination tweaks copied from Migratorator */
+.pagination span.current, .pagination span.gap {
+  float: left;
+  padding: 0 14px;
+  line-height: 34px;
+  text-decoration: none;
+  border: 1px solid #DDD;
+  border-left-width: 0;
+}
+.pagination span.current { background: #eee; }
+.pagination span:first-child, .pagination span:first-child a {
+  border-left-width: 1px;
 }

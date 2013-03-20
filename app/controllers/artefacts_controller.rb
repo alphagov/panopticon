@@ -6,6 +6,8 @@ class ArtefactsController < ApplicationController
 
   respond_to :html, :json
 
+  ITEMS_PER_PAGE = 100
+
   def index
     @section = params[:section] || "all"
     if @section != "all"
@@ -16,6 +18,7 @@ class ArtefactsController < ApplicationController
     else
       @artefacts = Artefact.order_by([[:name, :asc]])
     end
+    @artefacts = @artefacts.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts, @tag_collection
   end
 
