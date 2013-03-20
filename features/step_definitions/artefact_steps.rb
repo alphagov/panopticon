@@ -18,10 +18,6 @@ Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
 
-When /^I mark relatedness as done$/ do
-  check :relatedness_done
-end
-
 When /^I change the title of the first artefact$/ do
   visit edit_artefact_path(@artefact)
   @new_name = "Some other new name"
