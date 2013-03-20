@@ -65,3 +65,23 @@
 .pagination span:first-child, .pagination span:first-child a {
   border-left-width: 1px;
 }
+
+th .asc {
+  background-image: url(/assets/asc.gif);
+  background-color: #eee;
+}
+
+th .desc {
+  background-image: url(/assets/desc.gif);
+  background-color: #eee;
+}
+
+th .current {
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+#current td {
+  background-color: #adf;
+}
