@@ -20,7 +20,9 @@
           </ul>
         </div>
         <%= form_tag "", method: :get do |f| %>
-          <%= hidden_field_tag :section, params[:section] %>
+          <% if params[:section].present? %>
+            <%= hidden_field_tag :section, params[:section] %>
+          <% end %>
           <label for="filter" class="visuallyhidden">Filter results</label>
           <%= text_field_tag "filter", params[:filter], class: "span12", type: "search" %>
           <input class="btn btn-primary" type="submit" value="Filter">
