@@ -12,7 +12,7 @@
     <%= f.inputs do %>
       <%= f.input :title, :input_html => { :class => "span6" } %>
       <%= f.input :description, :input_html => { :class => "span6" } %>
-      <%= f.input :tag_id, :input_html => { :class => "span6", :disabled => true } %>
+      <%= f.input :tag_id, label: "Slug", :input_html => { :class => "span6", :disabled => true } %>
     <% end %>
 
     <% if @section.has_parent? %>
