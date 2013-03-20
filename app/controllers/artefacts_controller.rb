@@ -10,7 +10,7 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @section = params[:section] || "all"
+    @section = params[:section].present? ? params[:section] : "all"
     if @section != "all"
       tags = Tag.where(tag_type: "section", parent_id: @section)
       tag_ids = tags.collect {|t| t.tag_id}

@@ -29,6 +29,14 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_select "tbody tr td", artefact1.name
       end
 
+      should "treat a blank section parameter as 'All'" do
+        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
+
+        get :index, filter: "cheese", section: ""
+        assert_select "tbody tr", count: 1
+        assert_select "tbody tr td", artefact1.name
+      end
+
       should "filter by 'filter' parameter" do
         artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
         artefact2 = FactoryGirl.create(:artefact, name: "Chalk")
