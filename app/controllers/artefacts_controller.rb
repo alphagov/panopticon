@@ -19,6 +19,10 @@ class ArtefactsController < ApplicationController
     else
       @artefacts = Artefact
     end
+    if params[:filter].present?
+      search = /#{Regexp.escape(params[:filter])}/i
+      @artefacts = @artefacts.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
+    end
     @artefacts = @artefacts.order_by([[sort_column, sort_direction]])
     @artefacts = @artefacts.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts, @tag_collection

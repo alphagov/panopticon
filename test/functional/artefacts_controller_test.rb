@@ -28,6 +28,15 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_select "tbody tr td", /crime/i
         assert_select "tbody tr td", artefact1.name
       end
+
+      should "filter by 'filter' parameter" do
+        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
+        artefact2 = FactoryGirl.create(:artefact, name: "Chalk")
+
+        get :index, filter: "cheese"
+        assert_select "tbody tr", count: 1
+        assert_select "tbody tr td", artefact1.name
+      end
     end
 
     context "GET new" do

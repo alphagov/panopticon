@@ -3,7 +3,12 @@
   <div class="span12">
 
     <div class="page-header">
-      <h1>Artefacts</h1>
+      <h1>
+        Artefacts
+        <% if params[:filter].present? %>
+          filtered for "<%= params[:filter] %>"
+        <% end %>
+      </h1>
     </div>
 
     <div class="row-fluid">
@@ -13,9 +18,13 @@
             <li class="nav-header">Filter by Section</li>
             <%= parent_section_tab_list(:current => @section) %>
           </ul>
-
         </div>
-
+        <%= form_tag "", method: :get do |f| %>
+          <%= hidden_field_tag :section, params[:section] %>
+          <label for="filter" class="visuallyhidden">Filter results</label>
+          <%= text_field_tag "filter", params[:filter], class: "span12", type: "search" %>
+          <input class="btn btn-primary" type="submit" value="Filter">
+        <% end %>
       </div>
 
       <div class="span10">
