@@ -47,6 +47,30 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    should "show links to filter by section" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index
+      assert_select "a[href=/artefacts?section=all]"
+      assert_select "a[href=/artefacts?section=crime]"
+    end
+
+    should "include the filter parameter in section links" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index, filter: "tax"
+      assert_select "a[href=/artefacts?filter=tax&amp;section=all]"
+      assert_select "a[href=/artefacts?filter=tax&amp;section=crime]"
+    end
+
+    should "not include empty filters in section links" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index, filter: ""
+      assert_select "a[href=/artefacts?section=all]"
+      assert_select "a[href=/artefacts?section=crime]"
+    end
+
     context "GET new" do
 
       should "render only the non-whitehall link as active" do
