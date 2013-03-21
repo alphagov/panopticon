@@ -4,6 +4,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "rails/test_unit/railtie"
 require "sprockets/railtie"
+require 'kaminari' # has to be loaded before the models, otherwise the methods aren't added
 require "govuk_content_models"
 
 if defined?(Bundler)

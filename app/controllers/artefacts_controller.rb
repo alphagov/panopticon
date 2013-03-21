@@ -3,19 +3,28 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   helper_method :relatable_items
+  helper_method :sort_column, :sort_direction
 
   respond_to :html, :json
 
+  ITEMS_PER_PAGE = 100
+
   def index
-    @section = params[:section] || "all"
+    @section = params[:section].present? ? params[:section] : "all"
     if @section != "all"
       tags = Tag.where(tag_type: "section", parent_id: @section)
       tag_ids = tags.collect {|t| t.tag_id}
       tag_ids << @section
-      @artefacts = Artefact.any_in(tag_ids: tag_ids).order_by([[:name, :asc]])
+      @artefacts = Artefact.any_in(tag_ids: tag_ids)
     else
-      @artefacts = Artefact.order_by([[:name, :asc]])
+      @artefacts = Artefact
     end
+    if params[:filter].present?
+      search = /#{Regexp.escape(params[:filter])}/i
+      @artefacts = @artefacts.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
+    end
+    @artefacts = @artefacts.order_by([[sort_column, sort_direction]])
+    @artefacts = @artefacts.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts, @tag_collection
   end
 
@@ -182,5 +191,13 @@ class ArtefactsController < ApplicationController
       (reverse_actions + [nil]).each_cons(2).map { |action, previous|
         DiffEnabledAction.new(action, previous)
       }
+    end
+
+    def sort_column
+      Artefact.fields.keys.include?(params[:sort]) ? params[:sort] : :name
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
     end
 end

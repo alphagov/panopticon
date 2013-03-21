@@ -55,7 +55,10 @@ module SectionsHelper
         css_class = "active"
       end
       content_tag(:li, :class => css_class) do
-        link_to(title, :section => tag_id)
+        link_params = { :section => tag_id, :filter => params[:filter] }
+        link_params.reject! { |key, value| value.blank? }
+
+        link_to(title, link_params)
       end
     end
     safe_join(output)
