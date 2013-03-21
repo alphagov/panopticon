@@ -28,6 +28,47 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_select "tbody tr td", /crime/i
         assert_select "tbody tr td", artefact1.name
       end
+
+      should "treat a blank section parameter as 'All'" do
+        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
+
+        get :index, filter: "cheese", section: ""
+        assert_select "tbody tr", count: 1
+        assert_select "tbody tr td", artefact1.name
+      end
+
+      should "filter by 'filter' parameter" do
+        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
+        artefact2 = FactoryGirl.create(:artefact, name: "Chalk")
+
+        get :index, filter: "cheese"
+        assert_select "tbody tr", count: 1
+        assert_select "tbody tr td", artefact1.name
+      end
+    end
+
+    should "show links to filter by section" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index
+      assert_select "a[href=/artefacts?section=all]"
+      assert_select "a[href=/artefacts?section=crime]"
+    end
+
+    should "include the filter parameter in section links" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index, filter: "tax"
+      assert_select "a[href=/artefacts?filter=tax&amp;section=all]"
+      assert_select "a[href=/artefacts?filter=tax&amp;section=crime]"
+    end
+
+    should "not include empty filters in section links" do
+      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+
+      get :index, filter: ""
+      assert_select "a[href=/artefacts?section=all]"
+      assert_select "a[href=/artefacts?section=crime]"
     end
 
     context "GET new" do
