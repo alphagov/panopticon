@@ -6,7 +6,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a href="#edit" data-toggle="tab">Edit</a></li>
     <li><a href="#history" data-toggle="tab">History</a></li>
-    <% if @artefact.state != "archived" %>
+    <% unless @artefact.archived? %>
       <li><a href="#archive" data-toggle="tab">Archive</a></li>
     <% end %>
   </ul>
@@ -21,7 +21,7 @@
     <div class="tab-pane" id="history">
       <%= render 'history', actions: @actions %>
     </div>
-    <% if @artefact.state != "archived" %>
+    <% unless @artefact.archived? %>
       <div class="tab-pane" id="archive">
         <%= render 'archive', artefact: @artefact %>
       </div>
