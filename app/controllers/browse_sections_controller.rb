@@ -38,7 +38,7 @@ class BrowseSectionsController < ApplicationController
         if existing_list.present?
           @curated_list = existing_list
         else
-          @curated_list = CuratedList.new(slug: tag_id_as_curated_list_slug)
+          @curated_list = CuratedList.new(slug: tag_id_as_curated_list_slug, sections: [@section.tag_id])
         end
       end
     end
