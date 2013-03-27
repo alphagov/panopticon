@@ -82,6 +82,10 @@ th .current {
   background-position: right center;
 }
 
+tr.top-level-section {
+  font-weight: bold;
+}
+
 #current td {
   background-color: #adf;
 }
