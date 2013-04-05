@@ -68,6 +68,20 @@ class BrowseSectionsControllerTest < ActionController::TestCase
           get :edit, id: @section.id
           assert_select "option[value=#{@artefact.id}][selected=selected]", "Relic"
         end
+
+        context "some items in the curated list are archived" do
+          setup do
+            stub_search_delete
+            @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
+            @curated_list.artefact_ids = @curated_list.artefact_ids + [@arch_artefact.id]
+            @curated_list.save!
+          end
+
+          should "render the non-archived items" do
+            get :edit, id: @section.id
+            assert_select ".curated-artefact select", count: 1
+          end
+        end
       end
 
       context "some artefacts in the section are archived" do
