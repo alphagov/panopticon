@@ -13,6 +13,10 @@ class BrowseSectionsControllerTest < ActionController::TestCase
     WebMock.stub_request(:any, %r{\Ahttp://search.dev.gov.uk}).to_return(status: 200)
   end
 
+  setup do
+    stub_search_delete # search deletes happen when creating an archived edition
+  end
+
   context "access control" do
     should "only grant access to users with permission" do
       login_as_stub_user
@@ -71,7 +75,6 @@ class BrowseSectionsControllerTest < ActionController::TestCase
 
         context "some items in the curated list are archived" do
           setup do
-            stub_search_delete
             @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
             @curated_list.artefact_ids = @curated_list.artefact_ids + [@arch_artefact.id]
             @curated_list.save!
@@ -87,7 +90,6 @@ class BrowseSectionsControllerTest < ActionController::TestCase
       context "some artefacts in the section are archived" do
         setup do
           @live_artefact = FactoryGirl.create(:artefact, name: "Relic", sections: [@section].map(&:tag_id))
-          stub_search_delete
           @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
         end
 
