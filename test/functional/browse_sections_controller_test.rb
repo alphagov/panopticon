@@ -9,6 +9,10 @@ class BrowseSectionsControllerTest < ActionController::TestCase
     login_as(u)
   end
 
+  def stub_search_delete
+    WebMock.stub_request(:any, %r{\Ahttp://search.dev.gov.uk}).to_return(status: 200)
+  end
+
   context "access control" do
     should "only grant access to users with permission" do
       login_as_stub_user
@@ -63,6 +67,20 @@ class BrowseSectionsControllerTest < ActionController::TestCase
         should "show the artefacts" do
           get :edit, id: @section.id
           assert_select "option[value=#{@artefact.id}][selected=selected]", "Relic"
+        end
+      end
+
+      context "some artefacts in the section are archived" do
+        setup do
+          @live_artefact = FactoryGirl.create(:artefact, name: "Relic", sections: [@section].map(&:tag_id))
+          stub_search_delete
+          @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
+        end
+
+        should "not include them in the dropdown list" do
+          get :edit, id: @section.id
+          assert_select "option[value=#{@live_artefact.id}]", text: "Relic"
+          assert_select "option[value=#{@arch_artefact.id}]", text: "Unwanted", count: 0
         end
       end
 
