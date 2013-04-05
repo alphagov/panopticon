@@ -67,7 +67,10 @@ class BrowseSectionsControllerTest < ActionController::TestCase
       end
 
       context "doesn't have a curated list (yet)" do
-        should "still work"
+        should "still work" do
+          get :edit, id: @section.id
+          assert_response 200
+        end
       end
     end
   end
