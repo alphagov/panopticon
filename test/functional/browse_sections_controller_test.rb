@@ -9,6 +9,14 @@ class BrowseSectionsControllerTest < ActionController::TestCase
     login_as(u)
   end
 
+  def stub_search_delete
+    WebMock.stub_request(:any, %r{\Ahttp://search.dev.gov.uk}).to_return(status: 200)
+  end
+
+  setup do
+    stub_search_delete # search deletes happen when creating an archived edition
+  end
+
   context "access control" do
     should "only grant access to users with permission" do
       login_as_stub_user
@@ -63,6 +71,32 @@ class BrowseSectionsControllerTest < ActionController::TestCase
         should "show the artefacts" do
           get :edit, id: @section.id
           assert_select "option[value=#{@artefact.id}][selected=selected]", "Relic"
+        end
+
+        context "some items in the curated list are archived" do
+          setup do
+            @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
+            @curated_list.artefact_ids = @curated_list.artefact_ids + [@arch_artefact.id]
+            @curated_list.save!
+          end
+
+          should "render the non-archived items" do
+            get :edit, id: @section.id
+            assert_select ".curated-artefact select", count: 1
+          end
+        end
+      end
+
+      context "some artefacts in the section are archived" do
+        setup do
+          @live_artefact = FactoryGirl.create(:artefact, name: "Relic", sections: [@section].map(&:tag_id))
+          @arch_artefact = FactoryGirl.create(:artefact, state: "archived", name: "Unwanted", sections: [@section].map(&:tag_id))
+        end
+
+        should "not include them in the dropdown list" do
+          get :edit, id: @section.id
+          assert_select "option[value=#{@live_artefact.id}]", text: "Relic"
+          assert_select "option[value=#{@arch_artefact.id}]", text: "Unwanted", count: 0
         end
       end
 

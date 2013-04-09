@@ -23,8 +23,8 @@
 
         <p>Click and drag to reorder</p>
         <div class="curated-artefact-group">
-          <% if @curated_list.artefacts.any? %>
-            <% @curated_list.artefacts.each do |artefact| %>
+          <% if @curated_list.usable_artefacts.any? %>
+            <% @curated_list.usable_artefacts.each do |artefact| %>
               <%= render :partial => 'artefact', :locals => { artefact_id: artefact.id, is_template: false } %>
             <% end %>
           <% else %>
