@@ -44,6 +44,6 @@ class BrowseSectionsController < ApplicationController
     end
 
     def artefacts_in_section
-      @artefacts ||= Artefact.any_in(:tag_ids => [@section.tag_id], :state => ["draft", "live"]).to_a
+      @artefacts ||= Artefact.any_in(:tag_ids => [@section.tag_id]).not_archived.to_a
     end
 end
