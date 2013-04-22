@@ -24,7 +24,7 @@
         <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text %>
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
         <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean %>
-        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => f.object.persisted? } %>
+        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
             <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
         <% end %>
