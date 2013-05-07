@@ -118,19 +118,6 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "GET edit" do
-      should "make need_id editable if it's blank" do
-        artefact = FactoryGirl.create(:artefact, need_id: "")
-        get :edit, id: artefact.id
-        assert_select "input#artefact_need_id[disabled]", count: 0
-        assert_select "input#artefact_need_id"
-      end
-
-      should "make need_id uneditable if set" do
-        artefact = FactoryGirl.create(:artefact, need_id: "B123")
-        get :edit, id: artefact.id
-        assert_select "input#artefact_need_id[disabled]", count: 1
-      end
-
       context "whitehall is the owning_app" do
         should "render the whitehall variant of the form" do
           artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
