@@ -15,6 +15,41 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     assert page.has_link?("View on site", :href => "http://www.dev.gov.uk/alpha")
   end
 
+  context "restricting editing of need_id" do
+    should "not allow editing with existing numeric value" do
+      artefact = FactoryGirl.create(:artefact, :need_id => "1234")
+      visit "/artefacts/#{artefact.id}/edit"
+      field = page.find_field("Need")
+      assert field[:disabled]
+    end
+
+    should "allow editing if blank" do
+      artefact = FactoryGirl.create(:artefact, :need_id => " ")
+      visit "/artefacts/#{artefact.id}/edit"
+      field = page.find_field("Need")
+      assert field[:disabled].nil?
+
+      fill_in "Need", :with => "2345"
+      click_on "Save and continue editing"
+
+      artefact.reload
+      assert_equal "2345", artefact.need_id
+    end
+
+    should "allow editing if non-numeric" do
+      artefact = FactoryGirl.create(:artefact, :need_id => "B241")
+      visit "/artefacts/#{artefact.id}/edit"
+      field = page.find_field("Need")
+      assert field[:disabled].nil?
+
+      fill_in "Need", :with => "2345"
+      click_on "Save and continue editing"
+
+      artefact.reload
+      assert_equal "2345", artefact.need_id
+    end
+  end
+
   context "editing legacy_sources" do
     setup do
       @bl   = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
