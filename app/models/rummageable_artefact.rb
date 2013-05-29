@@ -2,6 +2,20 @@ class RummageableArtefact
 
   FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction) + Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"]
 
+  EXCEPTIONAL_SLUGS = %W(
+    growthaccelerator
+    technology-strategy-board
+    enterprise-finance-guarantee
+    manufacturing-advisory-service-mas
+    research-development-tax-credit-smes
+    enterprise-investment-scheme
+    seed-enterprise-investment-scheme
+    designing-demand
+    business-mentoring-support
+    start-up-loans
+    new-enterprise-allowance
+  )
+
   def initialize(artefact)
     @artefact = artefact
   end
@@ -11,11 +25,19 @@ class RummageableArtefact
   end
 
   def should_be_indexed?
-    @artefact.live? && ! FORMATS_NOT_TO_INDEX.include?(@artefact.kind)
+    @artefact.live? && indexable_artefact?
+  end
+
+  def self.indexable_artefact?(kind, slug)
+    (FORMATS_NOT_TO_INDEX.exclude?(kind) || EXCEPTIONAL_SLUGS.include?(slug))
+  end
+
+  def indexable_artefact?
+    self.class.indexable_artefact?(@artefact.kind, @artefact.slug)
   end
 
   def submit
-    return if FORMATS_NOT_TO_INDEX.include?(@artefact.kind)
+    return unless indexable_artefact? 
 
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
