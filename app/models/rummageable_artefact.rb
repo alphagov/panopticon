@@ -14,6 +14,7 @@ class RummageableArtefact
     business-mentoring-support
     start-up-loans
     new-enterprise-allowance
+    helping-your-business-grow-internationally
   )
 
   def initialize(artefact)
