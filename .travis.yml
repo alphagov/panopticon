@@ -4,7 +4,7 @@ rvm:
 env:
   - DB=mysql GOVUK_APP_DOMAIN=test.gov.uk RUBYOPT="-rpsych"
 services:
-  - elasticsearch
+  - mongodb 
 script:
   - bundle exec rake db:drop db:create db:schema:load
   - bundle exec rake
