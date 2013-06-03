@@ -393,9 +393,9 @@ class ArtefactsControllerTest < ActionController::TestCase
 
     context "DELETE /artefacts/:id" do
       setup do
-        WebMock.stub_request(:delete, "http://search.dev.gov.uk/documents/%2Fwhatever").
+        WebMock.stub_request(:delete, "#{Plek.current.find('search')}/documents/%2Fwhatever").
             to_return(:status => 200)
-        WebMock.stub_request(:post, "http://search.dev.gov.uk/commit").
+        WebMock.stub_request(:post, "#{Plek.current.find('search')}/commit").
             to_return(:status => 200)
       end
 
