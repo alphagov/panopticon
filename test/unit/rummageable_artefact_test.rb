@@ -116,6 +116,24 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
+  test "should fake section information for travel advice format" do
+    artefact = Artefact.new do |artefact|
+      artefact.name = "My artefact"
+      artefact.slug = "my-artefact"
+      artefact.kind = "travel-advice"
+      artefact.indexable_content = "Blah blah blah index this"
+    end
+    expected = {
+      "link" => "/my-artefact",
+      "title" => "My artefact",
+      "format" => "travel-advice",
+      "section" => "foreign-travel-advice",
+      "subsection" => nil,
+      "indexable_content" => "Blah blah blah index this"
+    }
+    assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
+  end
+
   test "should consider live items should be indexed" do
     artefact = Artefact.new do |artefact|
       artefact.state = "live"

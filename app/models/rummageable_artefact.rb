@@ -72,7 +72,9 @@ class RummageableArtefact
     # refused, because we can't amend the link within Rummager
     rummageable_keys.delete "link" if should_amend
 
-    rummageable_keys.inject({}) do |hash, rummageable_key|
+    result = {}
+
+    rummageable_keys.each_with_object(result) do |rummageable_key, hash|
       strip_nils = ["indexable_content", "description"].include? rummageable_key
 
       # Use the relevant extraction method from this class if it exists
@@ -81,14 +83,20 @@ class RummageableArtefact
       elsif @artefact.respond_to? rummageable_key
         value = @artefact.__send__ rummageable_key
       else
-        return hash
+        next
       end
 
       unless (strip_nils && value.nil?)
         hash[rummageable_key] = value
       end
-      hash
     end
+    # travel advice fakes belonging to a section in frontend
+    # this code continues the fakery so it'll display in search results
+    # as belonging to the correct section
+    if @artefact.kind == "travel-advice"
+      result['section'] = 'foreign-travel-advice'
+    end
+    result
   end
 
   def artefact_section
