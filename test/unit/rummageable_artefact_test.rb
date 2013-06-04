@@ -151,6 +151,16 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     refute RummageableArtefact.new(artefact).should_be_indexed?
   end
 
+  test "should index business support content with an acceptable slug" do
+    artefact = Artefact.new do |artefact|
+      artefact.slug = "new-enterprise-allowance"
+      artefact.state = "live"
+      artefact.kind = "business_support"
+    end
+
+    assert RummageableArtefact.new(artefact).should_be_indexed?
+  end
+
   test "should not index content formats managed by Whitehall" do
     artefact = Artefact.new do |artefact|
       artefact.state = "live"
