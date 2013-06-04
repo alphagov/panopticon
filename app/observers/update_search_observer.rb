@@ -21,7 +21,7 @@ class UpdateSearchObserver < Mongoid::Observer
 
     not_a_new_record = ! old_kind.nil?
     not_a_new_record &&
-        (RummageableArtefact::FORMATS_NOT_TO_INDEX.exclude?(old_kind)) &&
-         RummageableArtefact::FORMATS_NOT_TO_INDEX.include?(new_kind)
+        (RummageableArtefact.indexable_artefact?(old_kind, artefact.slug)) &&
+         !RummageableArtefact.indexable_artefact?(new_kind, artefact.slug)
   end
 end
