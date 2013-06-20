@@ -1,6 +1,5 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
-  before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
@@ -35,14 +34,18 @@ class ArtefactsController < ApplicationController
   end
 
   def new
+    @artefact = Artefact.new
+    @artefact.external_links.build
     redirect_to_show_if_need_met
   end
 
   def edit
+    @artefact.external_links.build if @artefact.external_links.empty?
     @actions = build_actions
   end
 
   def create
+    @artefact = Artefact.new(extract_parameters(params))
     @artefact.save_as action_user
     if @artefact.owning_app == "publisher"
       location = admin_url_for_edition(@artefact, params.slice(:return_to))
@@ -148,11 +151,6 @@ class ArtefactsController < ApplicationController
 
     def find_artefact
       @artefact = Artefact.from_param(params[:id])
-    end
-
-    def build_artefact
-      @artefact = Artefact.new(extract_parameters(params))
-      @artefact.external_links.build
     end
 
     def extract_parameters(params)
