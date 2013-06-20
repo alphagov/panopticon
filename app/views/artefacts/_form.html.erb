@@ -18,7 +18,7 @@
     </div>
   <% else %>
   <div class="well">
-    <%= semantic_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
+    <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
       <%= f.inputs do %>
         <%= f.input :name, :input_html => { :class => "span6", :disabled => f.object.persisted?}, :hint => name_hint_for(f.object) %>
         <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text %>
@@ -75,18 +75,33 @@
 
       <hr>
 
-      <%= f.fields_for :external_links do |link| %>
-        <%= link.label :title, "Title" %>
-        <%= link.text_field :title %>
-        <%= link.label :url, "url" %>
-        <%= link.text_field :url %>
-        <%= link.actions %>
+      <%= f.inputs do %>
+        <div class="related-external-links">
+          <label>Related external links</label>
+          <%= f.fields_for :external_links do |link| %>
+            <div class="row">
+              <div class="span4">
+                <%= link.label :title, "Title" %>
+                <%= link.text_field :title %>
+              </div>
+              <div class="span4">
+                <%= link.label :url, "URL" %>
+                <%= link.text_field :url %>
+              </div>
+              <div class="span4">
+                <br>
+                <%= link.link_to_remove "Remove this URL", :class => "btn btn-danger" %>
+              </div>
+            </div>
+          <% end %>
+          <%= f.link_to_add "Add related external link", :external_links, :class => "btn btn-success" %>
+        </div>
       <% end %>
+
       <hr>
 
       <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
 
-      <hr>
 
       <%= f.inputs do %>
 

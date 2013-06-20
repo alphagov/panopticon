@@ -127,13 +127,16 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   context "related external links" do
     setup do
       @artefact = FactoryGirl.create(:artefact, :name => "Alpha", :slug => "alpha")
-      visit "/artefacts"
-      click_on "Alpha"
+      @artefact.external_links.build
     end
     should "be able to add related external links" do
-      click_on "Add related external link"
-      fill_in "artefact[external_links][][title]", :with => "BBC"
-      fill_in "artefact[external_links][][url]", :with => "http://bbc.co.uk"
+      visit "/artefacts"
+      click_on "Alpha"
+      within ".related-external-links .row:first-child" do
+        fill_in "Title", :with => "BBC"
+        fill_in "URL", :with => "http://bbc.co.uk"
+      end
+
       click_on "Save and continue editing"
       @artefact.reload
       assert_equal 1, @artefact.external_links.length

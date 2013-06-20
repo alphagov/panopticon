@@ -34,8 +34,7 @@ class ArtefactsController < ApplicationController
   end
 
   def new
-    @artefact = Artefact.new
-    @artefact.external_links.build
+    @artefact = Artefact.new(extract_parameters(params))
     redirect_to_show_if_need_met
   end
 
