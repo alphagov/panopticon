@@ -123,4 +123,21 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     assert page.has_selector?("#artefact_related_artefact_ids_ option[value='#{b.id}']")
     assert ! page.has_selector?("#artefact_related_artefact_ids_ option[value='#{c.id}']")
   end
+
+  context "related external links" do
+    setup do
+      @artefact = FactoryGirl.create(:artefact, :name => "Alpha", :slug => "alpha")
+      visit "/artefacts"
+      click_on "Alpha"
+    end
+    should "be able to add related external links" do
+      click_on "Add related external link"
+      fill_in "artefact[external_links][][title]", :with => "BBC"
+      fill_in "artefact[external_links][][url]", :with => "http://bbc.co.uk"
+      click_on "Save and continue editing"
+      @artefact.reload
+      assert_equal 1, @artefact.external_links.length
+      assert_equal "BBC", @artefact.external_links.first.title
+    end
+  end
 end

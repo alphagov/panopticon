@@ -152,6 +152,7 @@ class ArtefactsController < ApplicationController
 
     def build_artefact
       @artefact = Artefact.new(extract_parameters(params))
+      @artefact.external_links.build
     end
 
     def extract_parameters(params)

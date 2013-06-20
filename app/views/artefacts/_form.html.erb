@@ -75,6 +75,15 @@
 
       <hr>
 
+      <%= f.fields_for :external_links do |link| %>
+        <%= link.label :title, "Title" %>
+        <%= link.text_field :title %>
+        <%= link.label :url, "url" %>
+        <%= link.text_field :url %>
+        <%= link.actions %>
+      <% end %>
+      <hr>
+
       <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
 
       <hr>
