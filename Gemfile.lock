@@ -323,6 +323,7 @@ DEPENDENCIES
   aws-ses
   bson (= 1.6.2)
   bson_ext (= 1.6.2)
+  capybara (= 1.1.2)
   capybara-mechanize (~> 0.3.0.rc3)
   ci_reporter
   colorize (~> 0.5.8)
