@@ -4,6 +4,9 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 gem 'plek', '1.3.1'
 gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
+
+gem 'nested_form', '0.3.2'
+
 gem 'ansi'
 gem 'gelf'
 gem 'null_logger'
@@ -32,7 +35,7 @@ gem 'lograge', '~> 0.1.0'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "4.17.0"
+  gem "govuk_content_models", "5.5.0"
 end
 
 if ENV['BUNDLE_DEV']
@@ -65,10 +68,12 @@ group :test do
   gem "shoulda", "~> 2.11.3"
   gem 'factory_girl', "3.3.0"
   gem 'factory_girl_rails'
+  gem 'capybara', '1.1.2'
   gem 'capybara-mechanize', '~> 0.3.0.rc3'
   gem 'launchy'
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
+  gem 'poltergeist', '0.7.0'
 end
 
 group :import do

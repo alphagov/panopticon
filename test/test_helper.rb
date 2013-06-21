@@ -14,6 +14,8 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'mocha/setup'
 require 'webmock/minitest'
+# this is to allow Poltergeist JS tests to talk to the local server
+WebMock.disable_net_connect!(:allow_localhost => true)
 require 'govuk_content_models/test_helpers/factories'
 
 DatabaseCleaner.strategy = :truncation
