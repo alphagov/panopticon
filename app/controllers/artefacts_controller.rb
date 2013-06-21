@@ -39,7 +39,6 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
-    @artefact.external_links.build if @artefact.external_links.empty?
     @actions = build_actions
   end
 

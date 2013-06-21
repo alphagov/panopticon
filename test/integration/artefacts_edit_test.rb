@@ -126,12 +126,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "related external links" do
     setup do
+      Capybara.current_driver = Capybara.javascript_driver
       @artefact = FactoryGirl.create(:artefact, :name => "Alpha", :slug => "alpha")
-      @artefact.external_links.build
     end
+
     should "be able to add related external links" do
       visit "/artefacts"
       click_on "Alpha"
+      click_on "Add related external link"
       within ".related-external-links .row:first-child" do
         fill_in "Title", :with => "BBC"
         fill_in "URL", :with => "http://bbc.co.uk"
@@ -142,5 +144,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       assert_equal 1, @artefact.external_links.length
       assert_equal "BBC", @artefact.external_links.first.title
     end
+
   end
 end
