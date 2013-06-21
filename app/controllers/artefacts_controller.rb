@@ -108,10 +108,6 @@ class ArtefactsController < ApplicationController
 
   private
 
-  def build_artefact
-    @artefact = Artefact.new(extract_parameters(params))
-  end
-
     def admin_url_for_edition(artefact, options = {})
       [
         "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
@@ -152,6 +148,10 @@ class ArtefactsController < ApplicationController
 
     def find_artefact
       @artefact = Artefact.from_param(params[:id])
+    end
+
+    def build_artefact
+      @artefact = Artefact.new(extract_parameters(params))
     end
 
     def extract_parameters(params)
