@@ -14,6 +14,13 @@ GIT
       state_machine
 
 GIT
+  remote: git://github.com/theodi/odi_content_models.git
+  revision: a4ad4b9f11f87f9563b7f43b1b1242f7318d17ce
+  specs:
+    odi_content_models (0.0.1)
+      govuk_content_models
+
+GIT
   remote: https://github.com/cgunther/formtastic-bootstrap.git
   revision: 3428fef4f7870b01241d65893b882ad32cfc18d8
   branch: bootstrap-2
@@ -29,12 +36,6 @@ GIT
   specs:
     formtastic (2.1.1)
       actionpack (~> 3.0)
-
-PATH
-  remote: ../odi_content_models
-  specs:
-    odi_content_models (0.0.1)
-      govuk_content_models
 
 GEM
   remote: http://rubygems.org/
