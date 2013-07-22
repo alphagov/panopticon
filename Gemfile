@@ -35,7 +35,7 @@ gem "bson_ext", "1.6.2"
 gem "bson", "1.6.2"
 gem 'lograge', '~> 0.1.0'
 
-gem "govuk_content_models"
+gem "govuk_content_models", github: 'theodi/govuk_content_models', branch: 'feature-lambda-format-validator'
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'
 else

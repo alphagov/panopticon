@@ -1,9 +1,17 @@
 GIT
-  remote: git://github.com/theodi/odi_content_models.git
-  revision: a4ad4b9f11f87f9563b7f43b1b1242f7318d17ce
+  remote: git://github.com/theodi/govuk_content_models.git
+  revision: 77bbd75991f54dc304c0bd289c271785fc586fd9
+  branch: feature-lambda-format-validator
   specs:
-    odi_content_models (0.0.1)
-      govuk_content_models
+    govuk_content_models (5.10.0)
+      bson_ext
+      differ
+      gds-api-adapters
+      gds-sso (>= 3.0.0, < 4.0.0)
+      govspeak (>= 1.0.1, < 2.0.0)
+      mongoid (~> 2.4.10)
+      plek
+      state_machine
 
 GIT
   remote: https://github.com/cgunther/formtastic-bootstrap.git
@@ -21,6 +29,12 @@ GIT
   specs:
     formtastic (2.1.1)
       actionpack (~> 3.0)
+
+PATH
+  remote: ../odi_content_models
+  specs:
+    odi_content_models (0.0.1)
+      govuk_content_models
 
 GEM
   remote: http://rubygems.org/
@@ -130,15 +144,6 @@ GEM
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
       sanitize (= 2.0.3)
-    govuk_content_models (5.9.0)
-      bson_ext
-      differ
-      gds-api-adapters
-      gds-sso (>= 3.0.0, < 4.0.0)
-      govspeak (>= 1.0.1, < 2.0.0)
-      mongoid (~> 2.4.10)
-      plek
-      state_machine
     hashie (2.0.3)
     hike (1.2.2)
     htmlentities (4.3.1)
@@ -344,7 +349,7 @@ DEPENDENCIES
   gds-api-adapters (= 4.1.3)
   gds-sso (= 3.0.0)
   gelf
-  govuk_content_models
+  govuk_content_models!
   jquery-rails (= 2.0.2)
   jquery-ui-rails (= 3.0.1)
   kaminari (= 0.14.1)
