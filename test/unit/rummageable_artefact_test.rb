@@ -142,10 +142,10 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
-  test "should not index business support content" do
+  test "should not index person content" do
     artefact = Artefact.new do |artefact|
       artefact.state = "live"
-      artefact.kind = "business_support"
+      artefact.kind = "person"
     end
 
     refute RummageableArtefact.new(artefact).should_be_indexed?
