@@ -8,7 +8,7 @@ class ArtefactsControllerTest < ActionController::TestCase
   context "accept HTML" do
     context "GET show" do
       should "redirect to publisher when publisher is the owning app" do
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         get :show, id: artefact.to_param
 
         assert_redirected_to Plek.current.find('publisher') + "/admin/publications/#{artefact.id}"
@@ -96,13 +96,13 @@ class ArtefactsControllerTest < ActionController::TestCase
     context "POST create" do
       context "invalid artefact" do
         should "rerender the form" do
-          post :create, :slug => 'not/valid', :owning_app => 'smart-answers', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+          post :create, :slug => 'not/valid', :owning_app => 'smart-answers', :kind => 'course', :name => 'Whatever', :need_id => 1
         end
       end
 
       should "redirect to GET edit" do
         Artefact.any_instance.stubs(:id).returns("abc")
-        post :create, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+        post :create, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'course', :name => 'Whatever', :need_id => 1
 
         assert_redirected_to "/artefacts/abc/edit"
       end
@@ -110,7 +110,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       context "publisher artefact" do
         should "redirect to publisher" do
           Artefact.any_instance.stubs(:id).returns("abc")
-          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'course', :name => 'Whatever', :need_id => 1
 
           assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
         end
@@ -138,8 +138,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "redirect to GET edit" do
-        artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers", kind: "smart-answer")
-        put :update, :id => artefact.id, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_id => 1
+        artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers", kind: "course")
+        put :update, :id => artefact.id, :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'course', :name => 'Whatever', :need_id => 1
 
         assert_redirected_to "/artefacts/#{artefact.id}/edit"
       end
@@ -147,7 +147,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       context "publisher is owning_app" do
         should "redirect to GET show (which then redirects to publisher)" do
           artefact = FactoryGirl.create(:artefact)
-          put :update, :id => artefact.id, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
+          put :update, :id => artefact.id, :owning_app => 'publisher', :slug => 'whatever', :kind => 'course', :name => 'Whatever', :need_id => 1
 
           assert_redirected_to "/artefacts/#{artefact.id}"
         end
@@ -160,22 +160,22 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       should "create a new artefact" do
         assert_difference "Artefact.count" do
-          post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => "frontend", :name => 'Whatever', :need_id => 1
+          post :create, format: "json", :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :rendering_app => "frontend", :name => 'Whatever', :need_id => 1
         end
         artefact = Artefact.order_by([[:id, :desc]]).last
         assert_equal "whatever", artefact.slug
-        assert_equal "guide", artefact.kind
+        assert_equal "course", artefact.kind
         assert_equal "publisher", artefact.owning_app
         assert_equal "frontend", artefact.rendering_app
         assert_equal "Whatever", artefact.name
       end
 
       should "respond with JSON representing the new artefact" do
-        post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
+        post :create, format: "json", :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
         parsed = JSON.parse(response.body)
         assert_equal "publisher", parsed["owning_app"]
         assert_equal "frontend", parsed["rendering_app"]
-        assert_equal "guide", parsed["kind"]
+        assert_equal "course", parsed["kind"]
         assert_equal "whatever", parsed["slug"]
         assert_equal "Whatever", parsed["name"]
         assert parsed["id"].present?
@@ -186,7 +186,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           :create,
           format: "json",
           :slug => 'whatever',
-          :kind => 'guide',
+          :kind => 'course',
           :owning_app => 'publisher',
           :rendering_app => 'frontend',
           :name => 'Whatever',
@@ -200,13 +200,13 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal stub_user, artefact.actions.first.user
       end
 
-      should "create an artefact of kind 'video' for the current user" do
-        post :create, format: "json", slug: "welcome-to-the-world-of-tomorrow", kind: "video", owning_app: "publisher", rendering_app: "frontend", name: "Welcome to the world of Tomorrow!", need_id: 1352344
+      should "create an artefact of kind 'news' for the current user" do
+        post :create, format: "json", slug: "welcome-to-the-world-of-tomorrow", kind: "news", owning_app: "publisher", rendering_app: "frontend", name: "Welcome to the world of Tomorrow!", need_id: 1352344
 
         parsed = JSON.parse(response.body)
         assert_equal "publisher", parsed["owning_app"]
         assert_equal "frontend", parsed["rendering_app"]
-        assert_equal "video", parsed["kind"]
+        assert_equal "news", parsed["kind"]
         assert_equal "welcome-to-the-world-of-tomorrow", parsed["slug"]
         assert_equal "Welcome to the world of Tomorrow!", parsed["name"]
         assert_equal true, parsed["id"].present?
@@ -221,7 +221,7 @@ class ArtefactsControllerTest < ActionController::TestCase
 
     context "GET /artefacts/:id" do
       should "Output json" do
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         get :show, id: artefact.id, format: :json
         parsed = JSON.parse(response.body)
 
@@ -233,7 +233,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Output json for slug with slash in slug" do
-        artefact = Artefact.create! :slug => 'done/whatever', :kind => 'answer', :owning_app => 'publisher', :name => 'Done Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'done/whatever', :kind => 'course', :owning_app => 'publisher', :name => 'Done Whatever', :need_id => 1
         get :show, id: artefact.id, format: :json
         parsed = JSON.parse(response.body)
 
@@ -244,7 +244,7 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       should "Include section ID" do
         FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         artefact.sections = ['crime']
         artefact.save!
         get :show, id: artefact.id, format: :json
@@ -256,7 +256,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       should "Include tag_ids" do
         FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
         FactoryGirl.create(:tag, :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link')
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :name => 'Whatever', :need_id => 1
         artefact.sections = ['crime']
         artefact.legacy_sources = ['businesslink']
         artefact.save!
@@ -276,7 +276,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           # Create and update the artefact to set up some actions
           artefact = Artefact.create!(
             :slug => 'whatever',
-            :kind => 'guide',
+            :kind => 'course',
             :owning_app => 'publisher',
             :name => 'Whatever',
             :need_id => 1,
@@ -316,7 +316,7 @@ class ArtefactsControllerTest < ActionController::TestCase
     context "PUT /artefacts/:id" do
 
       should "Update existing artefact" do
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
+        artefact = Artefact.create! :slug => 'whatever', :kind => 'course', :owning_app => 'publisher', :rendering_app => 'frontend', :name => 'Whatever', :need_id => 1
 
         assert_difference "Artefact.count", 0 do
           put :update, id: artefact.id, format: :json, name: "Changed"
@@ -329,7 +329,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       should "Record the action and responsible user" do
         artefact = Artefact.create!(
           :slug => 'whatever',
-          :kind => 'guide',
+          :kind => 'course',
           :owning_app => 'publisher',
           :rendering_app => 'frontend',
           :name => 'Whatever',
@@ -347,7 +347,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         login_as GDS::SSO::ApiUser.new
         artefact = Artefact.create!(
           :slug => 'whatever',
-          :kind => 'guide',
+          :kind => 'course',
           :owning_app => 'publisher',
           :rendering_app => 'frontend',
           :name => 'Whatever',
@@ -366,7 +366,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
         tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
 
-        artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
+        artefact = Artefact.create!(:slug => 'whatever', :kind => 'course',
                                     :owning_app => 'publisher', :name => 'Whatever', :need_id => 1)
         artefact.sections = [tag1.tag_id]
         artefact.save!
@@ -380,7 +380,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       should "Reject JSON requests to update an artefact's owning app" do
         artefact = Artefact.create!(
           slug: "whatever",
-          kind: "guide",
+          kind: "course",
           owning_app: "publisher",
           name: "Whatever",
           need_id: 1
@@ -402,7 +402,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       should "mark an artefact as archived" do
         artefact = Artefact.create!(
           slug: "whatever",
-          kind: "guide",
+          kind: "course",
           owning_app: "publisher",
           name: "Whatever",
           need_id: 1
