@@ -161,12 +161,4 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
-  test "should not index content formats managed by Whitehall" do
-    artefact = Artefact.new do |artefact|
-      artefact.state = "live"
-      artefact.kind = Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].first
-    end
-
-    refute RummageableArtefact.new(artefact).should_be_indexed?
-  end
 end
