@@ -32,20 +32,20 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
 
   test "should delete live artefacts changing to an unindexed kind" do
     RummageableArtefact.any_instance.stubs(:submit)
-    @artefact = FactoryGirl.create(:artefact, kind: "answer", state: "live")
+    @artefact = FactoryGirl.create(:artefact, kind: "course", state: "live")
 
     RummageableArtefact.any_instance.expects(:delete)
-    @artefact.kind = "completed_transaction"
+    @artefact.kind = "person"
     @artefact.save!
   end
 
   test "should not delete an artefact with an excluded kind where the slug is indexable" do
     RummageableArtefact.any_instance.stubs(:submit)
-    @artefact = FactoryGirl.create(:artefact, kind: "answer", slug: "new-enterprise-allowance", state: "live")
+    @artefact = FactoryGirl.create(:artefact, kind: "course", slug: "new-enterprise-allowance", state: "live")
    
     RummageableArtefact.any_instance.expects(:submit)
     RummageableArtefact.any_instance.expects(:delete).never 
-    @artefact.kind = "business_support"
+    @artefact.kind = "course"
     @artefact.save!
   end
 
