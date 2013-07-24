@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 #ruby=ruby-1.9.3
-#ruby-gemset=quirkafleeg
+#ruby-gemset=quirkafleeg-panopticon
 
 gem 'plek', '1.4.0'
 gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
