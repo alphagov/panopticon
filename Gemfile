@@ -23,7 +23,8 @@ gem 'gds-api-adapters', "4.1.3"
 gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '3.2.13'
-gem 'unicorn', '4.3.1'
+gem 'foreman'
+gem 'thin'
 gem 'less-rails-bootstrap'
 
 gem 'colorize', '~> 0.5.8'
