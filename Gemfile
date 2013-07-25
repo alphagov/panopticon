@@ -10,6 +10,8 @@ gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstr
 
 gem 'nested_form', '0.3.2'
 
+gem 'dotenv-rails'
+
 gem 'ansi'
 gem 'gelf'
 gem 'null_logger'

@@ -112,6 +112,9 @@ GEM
     differ (0.1.2)
     domain_name (0.5.3)
       unf (~> 0.0.3)
+    dotenv (0.8.0)
+    dotenv-rails (0.8.0)
+      dotenv (= 0.8.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
     exception_notification (2.6.1)
@@ -342,6 +345,7 @@ DEPENDENCIES
   colorize (~> 0.5.8)
   cucumber-rails
   database_cleaner
+  dotenv-rails
   exception_notification
   factory_girl (= 3.3.0)
   factory_girl_rails
