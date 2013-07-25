@@ -10,6 +10,8 @@ gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstr
 
 gem 'nested_form', '0.3.2'
 
+gem 'dotenv-rails'
+
 gem 'ansi'
 gem 'gelf'
 gem 'null_logger'
@@ -21,7 +23,8 @@ gem 'gds-api-adapters', "4.1.3"
 gem 'aws-ses', require: 'aws/ses'
 
 gem 'rails', '3.2.13'
-gem 'unicorn', '4.3.1'
+gem 'foreman'
+gem 'thin'
 gem 'less-rails-bootstrap'
 
 gem 'colorize', '~> 0.5.8'
@@ -45,7 +48,7 @@ end
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '3.0.0'
+  gem 'gds-sso', '~> 3.0.5'
 end
 
 gem 'jquery-rails', '2.0.2'
