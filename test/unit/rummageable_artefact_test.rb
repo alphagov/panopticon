@@ -11,12 +11,12 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
     end
     # Note: the link is not present if we are amending
     expected = {
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "section" => nil,
       "subsection" => nil
     }
@@ -27,13 +27,13 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
       artefact.description = "Describe describey McDescribe"
     end
     # Note: the link is not present if we are amending
     expected = {
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "description" => "Describe describey McDescribe",
       "section" => nil,
       "subsection" => nil,
@@ -45,14 +45,14 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
     end
     # Note: the link is present if we are not amending
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "section" => nil,
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
@@ -64,14 +64,14 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = []
     end
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "section" => nil,
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
@@ -82,14 +82,14 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = ["crime"]
     end
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "section" => "crime",
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
@@ -101,14 +101,14 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
-      artefact.kind = "course"
+      artefact.kind = "guide"
       artefact.indexable_content = "Blah blah blah index this"
       artefact.sections = ["crime/batman"]
     end
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
-      "format" => "course",
+      "format" => "guide",
       "section" => "crime",
       "subsection" => "batman",
       "indexable_content" => "Blah blah blah index this"
@@ -142,10 +142,10 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
-  test "should not index person content" do
+  test "should not index business support content" do
     artefact = Artefact.new do |artefact|
       artefact.state = "live"
-      artefact.kind = "person"
+      artefact.kind = "business_support"
     end
 
     refute RummageableArtefact.new(artefact).should_be_indexed?

@@ -2,41 +2,41 @@ Given /^I have stubbed search$/ do
   stub_search
 end
 
-When /^I put a new news item's details into panopticon$/ do
+When /^I put a new smart answer's details into panopticon$/ do
   prepare_registration_environment
 
-  put "/artefacts/#{example_news_item['slug']}.json", artefact: example_news_item
+  put "/artefacts/#{example_smart_answer['slug']}.json", artefact: example_smart_answer
 end
 
-When /^I put an updated person's details into panopticon$/ do
+When /^I put updated smart answer details into panopticon$/ do
   prepare_registration_environment
   setup_existing_artefact
 
-  artefact_basics = example_person
+  artefact_basics = example_smart_answer
   artefact_basics['name'] = 'Something simpler'
   put "/artefacts/#{artefact_basics['slug']}.json",
     artefact: artefact_basics
 end
 
-When /^I put a draft news item's details into panopticon$/ do
+When /^I put a draft smart answer's details into panopticon$/ do
   prepare_registration_environment
 
-  details = example_news_item
+  details = example_smart_answer
   details['state'] = 'draft'
 
-  put "/artefacts/#{example_news_item['slug']}.json", artefact: details
+  put "/artefacts/#{example_smart_answer['slug']}.json", artefact: details
 end
 
-When /^I put a new person's details into panopticon$/ do
-  prepare_registration_environment(example_person)
+When /^I put a new completed transaction's details into panopticon$/ do
+  prepare_registration_environment(example_completed_transaction)
 
-  put "/artefacts/#{example_person['slug']}.json", artefact: example_person
+  put "/artefacts/#{example_completed_transaction['slug']}.json", artefact: example_completed_transaction
 end
 
 When /^I put a new item into panopticon whose slug is already taken$/ do
   prepare_registration_environment
   setup_existing_artefact
-  artefact_basics = example_person
+  artefact_basics = example_smart_answer
   artefact_basics['name'] = 'Something simpler'
   artefact_basics['owning_app'] = 'planner'
   put "/artefacts/#{artefact_basics['slug']}.json",

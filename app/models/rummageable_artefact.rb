@@ -1,6 +1,6 @@
 class RummageableArtefact
 
-  FORMATS_NOT_TO_INDEX = %W(person)
+  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction) + Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"]
 
   EXCEPTIONAL_SLUGS = %W(
     growthaccelerator

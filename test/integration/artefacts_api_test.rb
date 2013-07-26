@@ -12,7 +12,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         artefact_data = {
           'slug' => 'wibble',
           'name' => 'Wibble',
-          'kind' => 'course',
+          'kind' => 'answer',
           'description' => 'Wibble description',
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
@@ -30,7 +30,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert artefact
         assert_equal 'wibble', artefact.slug
         assert_equal 'Wibble', artefact.name
-        assert_equal 'course', artefact.kind
+        assert_equal 'answer', artefact.kind
         assert_equal 'Wibble description', artefact.description
         assert_equal 'publisher', artefact.owning_app
         assert_equal 'frontend', artefact.rendering_app
@@ -55,6 +55,24 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal({"errors" => ["Kind is not included in the list"]}, error_details)
       end
 
+      should "support travel-advice artefacts with a foreign-travel-advice/foo style slug" do
+        artefact_data = {
+          'slug' => 'foreign-travel-advice/aruba',
+          'name' => 'Aruba travel advice',
+          'kind' => 'travel-advice',
+          'description' => 'Travel advice for people travelling to Aruba',
+          'owning_app' => 'travel-advice-publisher',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+        }
+
+        put "/artefacts/foreign-travel-advice/aruba.json", artefact_data
+
+        assert_equal 201, last_response.status
+
+        artefact = Artefact.find_by_slug('foreign-travel-advice/aruba')
+        assert artefact
+      end
     end # for a new artefact
 
     context "for an existing artefact" do
@@ -66,7 +84,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         artefact_data = {
           'slug' => 'wibble',
           'name' => 'Wibble 2 - the return',
-          'kind' => 'course',
+          'kind' => 'answer',
           'description' => 'Wibble description',
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
@@ -80,7 +98,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         @artefact.reload
         assert_equal 'wibble', @artefact.slug
         assert_equal 'Wibble 2 - the return', @artefact.name
-        assert_equal 'course', @artefact.kind
+        assert_equal 'answer', @artefact.kind
         assert_equal 'Wibble description', @artefact.description
         assert_equal 'publisher', @artefact.owning_app
         assert_equal 'frontend', @artefact.rendering_app
