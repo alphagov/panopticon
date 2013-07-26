@@ -62,3 +62,9 @@ create_or_update_tag(
     tag_id: "people/operations-team",
     parent_id: "people",
     description: "People in the operations team")
+    
+create_or_update_tag(
+    tag_type: "section",
+    title: "News",
+    tag_id: "news",
+    description: "News")
