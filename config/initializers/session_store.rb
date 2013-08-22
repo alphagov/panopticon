@@ -2,7 +2,7 @@
 
 Panopticon::Application.config.session_store :cookie_store,
   key: '_panopticon_session',
-  secure: Rails.env.production?,
+  secure: (ENV['GOVUK_APP_DOMAIN'] != ENV['DEV_DOMAIN']),
   http_only: true
 
 # Use the database for sessions instead of the cookie-based default,
