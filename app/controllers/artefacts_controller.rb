@@ -44,10 +44,11 @@ class ArtefactsController < ApplicationController
 
   def create
     @artefact.save_as action_user
-    if @artefact.owning_app == "publisher"
-      location = admin_url_for_edition(@artefact, params.slice(:return_to))
-    else
+    continue_editing = (params[:commit] == 'Save and continue editing')
+    if continue_editing || @artefact.owning_app != "publisher"
       location = edit_artefact_path(@artefact.id)
+    else
+      location = admin_url_for_edition(@artefact, params.slice(:return_to))
     end
     respond_with @artefact, location: location
   end
