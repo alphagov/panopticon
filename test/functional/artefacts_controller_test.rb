@@ -92,6 +92,13 @@ class ArtefactsControllerTest < ActionController::TestCase
 
           assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
         end
+
+        should "redirect to edit page when requested" do
+          Artefact.any_instance.stubs(:id).returns("abc")
+          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1, :commit => "Save and continue editing"
+
+          assert_redirected_to "/artefacts/abc/edit"
+        end
       end
     end
 
