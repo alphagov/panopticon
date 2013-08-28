@@ -35,7 +35,7 @@ gem 'lograge', '~> 0.1.0'
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "5.10.1"
+  gem "govuk_content_models", "5.11.0"
 end
 
 if ENV['BUNDLE_DEV']
