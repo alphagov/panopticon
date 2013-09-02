@@ -1,6 +1,6 @@
 module RegistrationInfo
 
-  SEARCH_ROOT = "http://search.dev"
+  SEARCH_ROOT = "http://search.#{ENV['GOVUK_APP_DOMAIN']}"
 
   def example_smart_answer
     {

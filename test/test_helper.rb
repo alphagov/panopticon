@@ -54,3 +54,5 @@ class ActiveSupport::TestCase
     FactoryGirl.create(:user)
   end
 end
+
+SEARCH_ROOT = "http://search.#{ENV['GOVUK_APP_DOMAIN']}"
