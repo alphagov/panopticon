@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield :page_title %> | GOV.UK Panopticon</title>
+  <title><%= yield :page_title %> | ODI Panopticon</title>
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag 'application.css' %>
   <%= yield :extra_headers %>
@@ -16,7 +16,7 @@
   <header class="navbar navbar-fixed-top" role="banner">
     <div class="navbar-inner">
       <div class="container-fluid">
-        <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
+        <%= link_to 'Panopticon', root_path, :class => "brand" %>
         <% if user_signed_in? %>
 
         <nav role="navigation" class="nav-collapse">
