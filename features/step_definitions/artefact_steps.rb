@@ -10,7 +10,7 @@ end
 
 Given /^the first artefact is live$/ do
   Artefact.observers.disable :update_search_observer do
-    Artefact.first.update_attributes!('state' => 'live')
+    Artefact.last.update_attributes!('state' => 'live')
   end
 end
 
