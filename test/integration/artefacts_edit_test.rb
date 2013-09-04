@@ -12,7 +12,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     visit "/artefacts"
     click_on "Alpha"
 
-    assert page.has_link?("View on site", :href => "http://www.dev.gov.uk/alpha")
+    assert page.has_link?("View on site", :href => "http://www.#{ENV["GOVUK_APP_DOMAIN"]}/alpha")
   end
 
   context "restricting editing of need_id" do
