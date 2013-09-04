@@ -10,7 +10,7 @@ class BrowseSectionsControllerTest < ActionController::TestCase
   end
 
   def stub_search_delete
-    WebMock.stub_request(:any, %r{\Ahttp://search.dev.gov.uk}).to_return(status: 200)
+    WebMock.stub_request(:any, %r{\A#{SEARCH_ROOT}}).to_return(status: 200)
   end
 
   setup do
