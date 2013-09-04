@@ -25,6 +25,7 @@
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
         <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean %>
         <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } %>
+        <%= f.input :author, :collection => Artefact.where(:kind => "person").to_a.map {|p| [p.name, p.slug]}, :as => :select, :input_html => {:class => "span2"}, :include_blank => false %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
             <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
         <% end %>

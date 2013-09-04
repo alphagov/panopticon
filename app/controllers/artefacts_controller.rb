@@ -36,6 +36,9 @@ class ArtefactsController < ApplicationController
 
   def new
     redirect_to_show_if_need_met
+    # Set default author to current user
+    # We have to do it this way because https://github.com/justinfrench/formtastic/wiki/Deprecation-of-%3Aselected-option
+    @artefact.author = current_user.profile
   end
 
   def edit

@@ -71,28 +71,6 @@ class ArtefactsControllerTest < ActionController::TestCase
       assert_select "a[href=/artefacts?section=crime]"
     end
 
-    context "GET new" do
-
-      should "render only the non-whitehall link as active" do
-        get :new
-        assert_select "li[class~=active] a[href=/artefacts/new]"
-        assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]", false
-      end
-
-      context "whitehall is the owning_app" do
-        should "render the whitehall variant of the form" do
-          get :new, owning_app: "whitehall"
-          assert_template :whitehall_form
-        end
-
-        should "display only the whitehall link as active" do
-          get :new, owning_app: "whitehall"
-          assert_select "li[class~=active] a[href=/artefacts/new]", false
-          assert_select "li[class~=active] a[href=/artefacts/new?owning_app=whitehall]"
-        end
-      end
-    end
-
     context "POST create" do
       context "invalid artefact" do
         should "rerender the form" do
@@ -113,16 +91,6 @@ class ArtefactsControllerTest < ActionController::TestCase
           post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_id => 1
 
           assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
-        end
-      end
-    end
-
-    context "GET edit" do
-      context "whitehall is the owning_app" do
-        should "render the whitehall variant of the form" do
-          artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
-          get :edit, id: artefact.id
-          assert_template :whitehall_form
         end
       end
     end
@@ -162,7 +130,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_difference "Artefact.count" do
           post :create, format: "json", :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :rendering_app => "frontend", :name => 'Whatever', :need_id => 1
         end
-        artefact = Artefact.order_by([[:id, :desc]]).last
+        artefact = Artefact.all.last
         assert_equal "whatever", artefact.slug
         assert_equal "guide", artefact.kind
         assert_equal "publisher", artefact.owning_app

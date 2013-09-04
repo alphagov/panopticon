@@ -23,7 +23,6 @@
           <ul class="nav">
             <%= nav_link 'All artefacts', artefacts_path %>
             <%= nav_link 'Add artefact', new_artefact_path %>
-            <%= nav_link 'Add Whitehall artefact', new_artefact_path(owning_app: "whitehall") %>
             <% if current_user.has_permission?("Browse section admin") %>
               <%= nav_link 'Browse sections', browse_sections_path %>
             <% end %>
