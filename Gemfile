@@ -24,18 +24,16 @@ gem 'less-rails-bootstrap'
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
 
-gem "mongoid", "~> 2.4.2"
 gem "mongoid_rails_migrations", "1.0.0"
-gem "mongo", "1.6.2"
+gem "mongo", "1.7.1"
 gem "kaminari", "0.14.1"
-gem "bson_ext", "1.6.2"
-gem "bson", "1.6.2"
+gem "bson_ext", "1.7.1"
 gem 'lograge', '~> 0.1.0'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "5.11.0"
+  gem "govuk_content_models", "5.12.0"
 end
 
 if ENV['BUNDLE_DEV']
