@@ -38,7 +38,7 @@ class RummageableArtefact
   end
 
   def submit
-    return unless indexable_artefact? 
+    return unless indexable_artefact?
 
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests

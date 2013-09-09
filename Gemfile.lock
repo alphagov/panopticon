@@ -321,6 +321,7 @@ PLATFORMS
 DEPENDENCIES
   ansi
   aws-ses
+  bson (= 1.7.1)
   bson_ext (= 1.7.1)
   capybara (= 1.1.2)
   capybara-mechanize (~> 0.3.0.rc3)
@@ -346,6 +347,7 @@ DEPENDENCIES
   minitest
   mocha (= 0.13.3)
   mongo (= 1.7.1)
+  mongoid (~> 2.5)
   mongoid_rails_migrations (= 1.0.0)
   nested_form (= 0.3.2)
   nokogiri
