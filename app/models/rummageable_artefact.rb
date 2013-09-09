@@ -1,6 +1,6 @@
 class RummageableArtefact
 
-  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction) + Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"]
+  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction campaign) + Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"]
 
   EXCEPTIONAL_SLUGS = %W(
     growthaccelerator
@@ -38,7 +38,7 @@ class RummageableArtefact
   end
 
   def submit
-    return unless indexable_artefact? 
+    return unless indexable_artefact?
 
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
