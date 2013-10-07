@@ -1,4 +1,4 @@
 Given /^I am (?:a|an) (admin)$/ do |role|
-  user = FactoryGirl.create(:user, :name => "user")
+  user = FactoryGirl.create(:odi_user, :name => "user")
   login_as user
 end
