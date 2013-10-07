@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
+  before_filter :tags_by_kind, :except => [:show]
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 
@@ -129,6 +130,14 @@ class ArtefactsController < ApplicationController
 
       @tag_collection.each do |tag|
         tag.uniquely_named = title_counts[tag.title] < 2
+      end
+    end
+    
+    def tags_by_kind
+      @tags = {}
+      Artefact.category_tags.each do |tag|
+        tags = Tag.where(:tag_type => tag).to_a
+        @tags[tag] = tags
       end
     end
 
