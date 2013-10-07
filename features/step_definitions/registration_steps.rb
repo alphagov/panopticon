@@ -79,7 +79,7 @@ end
 Then /^rummager should be told to do a partial update$/ do
   amendments = {
     title: "Child Benefit rates",
-    format: "course",
+    format: "creative_work",
     section: @section.tag_id,
     subsection: ""
   }
