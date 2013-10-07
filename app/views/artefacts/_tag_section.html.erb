@@ -1,0 +1,3 @@
+<div class="row-fluid tag-section">
+  <%= select_tag("artefact[#{type}][]", options_from_collection_for_select(tag_collection, :tag_id, :unique_title, tag_id), {:prompt => "Select a section", :class => "span4"}) %>
+</div>
