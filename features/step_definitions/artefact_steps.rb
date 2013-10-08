@@ -151,3 +151,15 @@ end
 When /^I try to create a new artefact with the same need$/ do
   visit new_artefact_path(:artefact => {:need_id => @artefact.need_id})
 end
+
+Given /^I try to create a (.*) without specifying a tag$/ do |kind|
+  visit new_artefact_path
+  fill_in "Name", with: "My cool #{kind}"
+  fill_in "Slug", with: "my-cool-#{kind.parameterize}"
+  select kind, from: "Kind"
+  submit_artefact_form
+end
+
+Then /^I should see an error relating to (.*)$/ do |kind|
+  assert page.has_content? "#{kind} tag must be specified"
+end
