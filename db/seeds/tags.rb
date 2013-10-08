@@ -4,67 +4,98 @@ def create_or_update_tag(options)
   tag.update_attributes(options)
 end
 
-create_or_update_tag(
-   tag_type: "section",
-   title: "Global",
-   tag_id: "global",
-   description: "Generic content that should be pulled onto the global site")
+def delete_tags(tag_ids)
+  tag_ids.each do |tag_id|
+    tag = Tag.where(:tag_id => tag_id).first
+    tag.delete if tag
+  end
+end
 
-create_or_update_tag(
-   tag_type: "section",
-   title: "London",
-   tag_id: "london",
-   description: "Generic content that should be pulled onto the London site")
-
-create_or_update_tag(
-   tag_type: "section",
-   title: "Learning",
-   tag_id: "learning",
-   description: "Generic content that should be pulled onto the learning site")
-     
-create_or_update_tag(
-    tag_type: "section",
-    title: "People",
-    tag_id: "people",
-    description: "Generic content that should be pulled onto the people site")
-
-create_or_update_tag(
-    tag_type: "section",
-    title: "Tech Team",
-    tag_id: "people/tech-team",
-    parent_id: "people",
-    description: "People in the tech team")
-
-create_or_update_tag(
-    tag_type: "section",
-    title: "Commercial Team",
-    tag_id: "people/commercial-team",
-    parent_id: "people",
-    description: "People in the commercial team")
+delete_tags(['global', 
+            'london', 
+            'learning', 
+            'people', 
+            'people/tech-team', 
+            'people/commercial-team', 
+            'people/executive-team', 
+            'people/board',
+            'people/operations-team',
+            'news'])
     
 create_or_update_tag(
-    tag_type: "section",
-    title: "Executive Team",
-    tag_id: "people/executive-team",
-    parent_id: "people",
-    description: "People in the executive team")
+    title: "Staff",
+    tag_type: "person",
+    tag_id: "people/staff",
+    description: "Staff")
 
 create_or_update_tag(
-    tag_type: "section",
-    title: "Board",
-    tag_id: "people/board",
-    parent_id: "people",
-    description: "People on the board")
+    title: "Trainer",
+    tag_type: "person",
+    tag_id: "people/trainers",
+    description: "Trainer")
+
+create_or_update_tag(
+    title: "Member",
+    tag_type: "person",
+    tag_id: "people/members",
+    description: "Member")
+
+create_or_update_tag(
+    title: "Start Ups",
+    tag_type: "person",
+    tag_id: "people/start-ups",
+    description: "Start-up member")
+
+create_or_update_tag(
+    title: "Writer",
+    tag_type: "person",
+    tag_id: "people/writers",
+    description: "Writer")
+
+create_or_update_tag(
+    title: "Artist",
+    tag_type: "person",
+    tag_id: "people/artists",
+    description: "Artists")
     
 create_or_update_tag(
-    tag_type: "section",
-    title: "Operations Team",
-    tag_id: "people/operations-team",
-    parent_id: "people",
-    description: "People in the operations team")
-    
+    title: "Consultation Response",
+    tag_type: "timed_item",
+    tag_id: "consultation-response",
+    description: "Consultation Response")
+
 create_or_update_tag(
-    tag_type: "section",
-    title: "News",
+    title: "Procurement Item",
+    tag_type: "timed_item",
+    tag_id: "procurement",
+    description: "Procurement Item")
+                
+create_or_update_tag(
+    title: "News Item",
+    tag_type: "article",
     tag_id: "news",
-    description: "News")
+    description: "News Item")
+    
+create_or_update_tag(
+    title: "Blog Post",
+    tag_type: "article",
+    tag_id: "blog",
+    description: "Blog Post")
+
+create_or_update_tag(
+    title: "Media Release",
+    tag_type: "article",
+    tag_id: "media",
+    description: "Media Release")
+
+create_or_update_tag(
+    title: "Start Up",
+    tag_type: "organization",
+    tag_id: "start-up",
+    description: "Start Up")
+
+create_or_update_tag(
+    title: "Member",
+    tag_type: "organization",
+    tag_id: "member",
+    description: "Member")

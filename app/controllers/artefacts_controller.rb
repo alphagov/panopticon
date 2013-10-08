@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
+  before_filter :tags_by_kind, :except => [:show]
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 
@@ -131,6 +132,14 @@ class ArtefactsController < ApplicationController
         tag.uniquely_named = title_counts[tag.title] < 2
       end
     end
+    
+    def tags_by_kind
+      @tags = {}
+      Artefact.category_tags.each do |tag|
+        tags = Tag.where(:tag_type => tag).to_a
+        @tags[tag] = tags
+      end
+    end
 
     def relatable_items
       @relatable_items ||= Artefact.relatable_items.to_a
@@ -171,7 +180,7 @@ class ArtefactsController < ApplicationController
       end
 
       # Strip out the empty submit option for sections
-      ['sections', 'legacy_source_ids'].each do |param|
+      ['sections', 'legacy_source_ids', 'person', 'timed_item', 'asset', 'article', 'organization'].each do |param|
         param_value = parameters_to_use[param]
         param_value.reject!(&:blank?) if param_value
       end

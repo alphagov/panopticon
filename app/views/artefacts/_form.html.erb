@@ -41,6 +41,20 @@
         <% if artefact.new_record? %>
           <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
         <% end %>
+        
+        <% @tags.each do |type, tags| %>
+          <div class="tag <%= type.to_s %>-tags <%= "hidden" unless artefact.kind == type.to_s  %>">
+            <label for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
+            <% if artefact.send("#{type}_ids").length > 0 %>
+              <% artefact.send("#{type}_ids").each do |tag_id| %>
+                <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
+              <% end %>
+            <% else %>
+              <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
+            <% end %>
+            <hr>
+          </div>
+        <% end %>
 
         <label for="artefact[sections][]">Sections</label>
         <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>

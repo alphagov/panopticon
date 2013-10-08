@@ -50,4 +50,9 @@ $(function() {
     $(this).parent().remove();
     return false;
   })
+
+  $('#artefact_kind').change(function() {
+	$('.tag').addClass('hidden');
+	$('.' + this.value + '-tags').removeClass('hidden');
+  })
 });
