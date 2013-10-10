@@ -23,39 +23,39 @@ delete_tags(['global',
             'news'])
     
 create_or_update_tag(
-    title: "Staff",
+    title: "Team member",
     tag_type: "person",
-    tag_id: "people/staff",
-    description: "Staff")
+    tag_id: "team",
+    description: "Team member")
 
 create_or_update_tag(
     title: "Trainer",
     tag_type: "person",
-    tag_id: "people/trainers",
+    tag_id: "trainers",
     description: "Trainer")
 
 create_or_update_tag(
     title: "Member",
     tag_type: "person",
-    tag_id: "people/members",
+    tag_id: "members",
     description: "Member")
 
 create_or_update_tag(
     title: "Start Ups",
     tag_type: "person",
-    tag_id: "people/start-ups",
+    tag_id: "start-ups",
     description: "Start-up member")
 
 create_or_update_tag(
     title: "Writer",
     tag_type: "person",
-    tag_id: "people/writers",
+    tag_id: "writers",
     description: "Writer")
 
 create_or_update_tag(
     title: "Artist",
     tag_type: "person",
-    tag_id: "people/artists",
+    tag_id: "artists",
     description: "Artists")
     
 create_or_update_tag(
