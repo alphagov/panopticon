@@ -55,6 +55,11 @@
             <hr>
           </div>
         <% end %>
+        
+        <div class="tag team-tags <%= "hidden" unless artefact.kind == "person" %>">
+          <%= f.input :team, :collection => Tag.where(:tag_type => "team").collect{ |t| [t.title, t.tag_id] }, :as => :check_boxes %>
+          <hr>
+        </div>
 
         <label for="artefact[sections][]">Sections</label>
         <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
