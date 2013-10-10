@@ -55,4 +55,10 @@ $(function() {
 	$('.tag').addClass('hidden');
 	$('.' + this.value + '-tags').removeClass('hidden');
   })
+
+  $('#artefact_person_').change(function() {
+	if (this.value == "team") {
+	  $('.team-tags').removeClass('hidden');
+	}
+  })
 });

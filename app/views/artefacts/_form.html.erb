@@ -55,6 +55,20 @@
             <hr>
           </div>
         <% end %>
+        
+        <div class="tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
+          <div class="check_boxes control-group optional" id="artefact_team_input">
+            <label class=" control-label">Team</label>
+            <div class="choices controls">
+              <% Tag.where(:tag_type => "team").each do |tag| %>
+                <label>
+                  <%= check_box_tag "artefact[team][]", tag.tag_id, artefact.team_ids.include?(tag.tag_id) %>
+                  <%= tag.title %>
+                </label>
+              <% end %>
+            </div>
+          <hr>
+        </div>
 
         <label for="artefact[sections][]">Sections</label>
         <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>

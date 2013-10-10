@@ -20,43 +20,79 @@ delete_tags(['global',
             'people/executive-team', 
             'people/board',
             'people/operations-team',
+            'people/staff',
+            'people/trainers',
+            'people/members',
+            'people/start-ups',
+            'people/writers',
+            'people/artists',
             'news'])
     
 create_or_update_tag(
-    title: "Staff",
+    title: "Team member",
     tag_type: "person",
-    tag_id: "people/staff",
-    description: "Staff")
+    tag_id: "team",
+    description: "Team member")
 
 create_or_update_tag(
     title: "Trainer",
     tag_type: "person",
-    tag_id: "people/trainers",
+    tag_id: "trainers",
     description: "Trainer")
 
 create_or_update_tag(
     title: "Member",
     tag_type: "person",
-    tag_id: "people/members",
+    tag_id: "members",
     description: "Member")
 
 create_or_update_tag(
     title: "Start Ups",
     tag_type: "person",
-    tag_id: "people/start-ups",
+    tag_id: "start-ups",
     description: "Start-up member")
 
 create_or_update_tag(
     title: "Writer",
     tag_type: "person",
-    tag_id: "people/writers",
+    tag_id: "writers",
     description: "Writer")
 
 create_or_update_tag(
     title: "Artist",
     tag_type: "person",
-    tag_id: "people/artists",
+    tag_id: "artists",
     description: "Artists")
+    
+create_or_update_tag(
+    title: "Board",
+    tag_type: "team",
+    tag_id: "board",
+    description: "Board")      
+    
+create_or_update_tag(
+    title: "Executive Team",
+    tag_type: "team",
+    tag_id: "executive",
+    description: "Executive Team")
+
+create_or_update_tag(
+    title: "Commercial Team",
+    tag_type: "team",
+    tag_id: "commercial",
+    description: "Commercial Team")
+
+create_or_update_tag(
+    title: "Technical Team",
+    tag_type: "team",
+    tag_id: "technical",
+    description: "Technical Team")
+
+create_or_update_tag(
+    title: "Operations Team",
+    tag_type: "team",
+    tag_id: "operation",
+    description: "Operations Team")
     
 create_or_update_tag(
     title: "Consultation Response",
