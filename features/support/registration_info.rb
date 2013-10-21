@@ -44,7 +44,7 @@ module RegistrationInfo
   end
 
   def setup_user
-    Tag.create(title: "Staff", tag_type: "person", tag_id: "people/staff")
+    Tag.create(title: "Writer", tag_type: "person", tag_id: "writers")
     User.create!(name: "Test", email: "test@example.com", uid: 123)
   end
 
