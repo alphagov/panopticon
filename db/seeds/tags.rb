@@ -141,3 +141,15 @@ create_or_update_tag(
     tag_type: "event",
     tag_id: "lunchtime-lecture",
     description: "Lunchtime Lecture")
+    
+create_or_update_tag(
+    title: "Research Afternoon",
+    tag_type: "event",
+    tag_id: "research-afternoon",
+    description: "Research Afternoon")
+    
+create_or_update_tag(
+    title: "Open Data Challenge Series",
+    tag_type: "event",
+    tag_id: "open-data-challenge-series",
+    description: "Open Data Challenge Series")
