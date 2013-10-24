@@ -135,3 +135,9 @@ create_or_update_tag(
     tag_type: "organization",
     tag_id: "member",
     description: "Member")
+    
+create_or_update_tag(
+    title: "Lunchtime Lecture",
+    tag_type: "event",
+    tag_id: "lunchtime-lecture",
+    description: "Lunchtime Lecture")
