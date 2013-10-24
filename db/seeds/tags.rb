@@ -135,3 +135,51 @@ create_or_update_tag(
     tag_type: "organization",
     tag_id: "member",
     description: "Member")
+    
+create_or_update_tag(
+    title: "Lunchtime Lecture",
+    tag_type: "event",
+    tag_id: "lunchtime-lecture",
+    description: "Lunchtime Lecture")
+    
+create_or_update_tag(
+    title: "Meetup",
+    tag_type: "event",
+    tag_id: "meetup",
+    description: "Meetup")
+
+  create_or_update_tag(
+    title: "Research Afternoon",
+    tag_type: "event",
+    tag_id: "research-afternoon",
+    description: "Research Afternoon")
+    
+create_or_update_tag(
+    title: "Open Data Challenge Series",
+    tag_type: "event",
+    tag_id: "open-data-challenge-series",
+    description: "Open Data Challenge Series")
+    
+create_or_update_tag(
+    title: "Roundtable",
+    tag_type: "event",
+    tag_id: "roundtable",
+    description: "Roundtable")
+    
+create_or_update_tag(
+    title: "Workshops",
+    tag_type: "event",
+    tag_id: "workshop",
+    description: "Workshop")
+
+create_or_update_tag(
+    title: "Networking Event",
+    tag_type: "event",
+    tag_id: "networking-events",
+    description: "Networking Event")
+    
+create_or_update_tag(
+    title: "Panel Discussion",
+    tag_type: "event",
+    tag_id: "panel-discussions",
+    description: "Panel Discussion")
