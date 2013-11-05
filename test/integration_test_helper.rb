@@ -16,9 +16,5 @@ class ActionDispatch::IntegrationTest
     # This is different to the post method.  Go figure.
     put path, attrs, {"Content-Type" => "application/json"}.merge(headers)
   end
-
-  def stub_all_rummager_requests
-    WebMock.stub_request(:any, %r{\A#{Rummageable.rummager_host}})
-  end
 end
 

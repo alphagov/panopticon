@@ -9,12 +9,9 @@ class BrowseSectionsControllerTest < ActionController::TestCase
     login_as(u)
   end
 
-  def stub_search_delete
-    WebMock.stub_request(:any, %r{\Ahttp://search.dev.gov.uk}).to_return(status: 200)
-  end
-
   setup do
-    stub_search_delete # search deletes happen when creating an archived edition
+    stub_all_router_api_requests
+    stub_all_rummager_requests # search deletes happen when creating an archived edition
   end
 
   context "access control" do
