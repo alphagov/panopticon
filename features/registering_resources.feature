@@ -3,6 +3,10 @@ Feature: Registering resources
   I want to register artefacts in panopticon
   So that it can co-ordinate the system
 
+  Background:
+    # Router registration is tested in test/integration/artefact_router_registration_test.rb
+    Given I have stubbed the router
+
   Scenario: Creating a smart answer
     When I put a new smart answer's details into panopticon
     Then a new artefact should be created

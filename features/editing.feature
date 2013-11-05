@@ -4,6 +4,7 @@ Feature: Editing artefacts
 
   Background:
     Given I am an admin
+      And I have stubbed the router
       And I have stubbed search
 
   Scenario: Editing an artefact and changing the slug
