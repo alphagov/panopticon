@@ -47,6 +47,10 @@ module RegistrationInfo
     User.create!(name: "Test", email: "test@example.com", uid: 123)
   end
 
+  def stub_router
+    WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(:status => 200)
+  end
+
   def stub_search
     @fake_search = WebMock.stub_request(:post, "#{SEARCH_ROOT}/documents").to_return(status: 200)
     @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)

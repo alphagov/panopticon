@@ -1,3 +1,7 @@
+Given /^I have stubbed the router$/ do
+  stub_router
+end
+
 Given /^I have stubbed search$/ do
   stub_search
 end
