@@ -4,6 +4,7 @@ class ArtefactCreateTest < ActionDispatch::IntegrationTest
 
   setup do
     create_test_user
+    stub_all_router_api_requests
   end
 
   should "allow creation of help_page artefacts" do

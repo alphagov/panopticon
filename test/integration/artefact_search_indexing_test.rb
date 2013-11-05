@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ArtefactSearchIndexingTest < ActiveSupport::TestCase
   setup do
+    stub_all_router_api_requests
     @artefact = FactoryGirl.create(:artefact)
   end
 
