@@ -108,5 +108,24 @@ class RoutableArtefactTest < ActiveSupport::TestCase
         @routable.delete
       end
     end
+
+    context "when router-api returns 404 for a delete request" do
+      should "not blow up" do
+        GdsApi::Router.any_instance.stubs(:delete_route).raises(GdsApi::HTTPNotFound.new(404))
+
+        @artefact.prefixes = ["/foo"]
+        assert_nothing_raised do
+          @routable.delete
+        end
+      end
+
+      should "continue to delete other routes" do
+        GdsApi::Router.any_instance.stubs(:delete_route).with("/foo", "prefix", :skip_commit => true).raises(GdsApi::HTTPNotFound.new(404))
+        GdsApi::Router.any_instance.expects(:delete_route).with("/bar", "prefix", :skip_commit => true)
+
+        @artefact.prefixes = ["/foo", "/bar"]
+        @routable.delete
+      end
+    end
   end
 end
