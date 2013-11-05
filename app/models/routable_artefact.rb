@@ -35,12 +35,18 @@ class RoutableArtefact
 
   def delete
     prefixes.each do |path|
-      logger.debug "Removing route #{path} (prefix)"
-      router_api.delete_route(path, "prefix", :skip_commit => true)
+      begin
+        logger.debug "Removing route #{path} (prefix)"
+        router_api.delete_route(path, "prefix", :skip_commit => true)
+      rescue GdsApi::HTTPNotFound
+      end
     end
     paths.each do |path|
-      logger.debug "Removing route #{path} (exact)"
-      router_api.delete_route(path, "exact", :skip_commit => true)
+      begin
+        logger.debug "Removing route #{path} (exact)"
+        router_api.delete_route(path, "exact", :skip_commit => true)
+      rescue GdsApi::HTTPNotFound
+      end
     end
     router_api.commit_routes
   end

@@ -21,7 +21,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
     @route_commit_request = WebMock.stub_request(:post, "#{@router_api_base}/routes/commit").to_return(:status => 200)
     @backend_request = WebMock.stub_request(:put, "#{@router_api_base}/backends/a-backend").to_return(:status => 200)
     @route_add_request = WebMock.stub_request(:put, "#{@router_api_base}/routes").
-      with(:body => hash_including("incoming_path" => "/foo", "route_type" => "prefix")).
+      with(:body => {"route" => hash_including("incoming_path" => "/foo", "route_type" => "prefix")}).
       to_return(:status => 201)
   end
 
@@ -40,7 +40,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       assert_equal 201, response.code.to_i
 
       assert_requested @backend_request
-      assert_requested @route_create_request
+      assert_requested @route_add_request
       assert_requested @route_commit_request
     end
   end
@@ -70,10 +70,10 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
     should "register the correct prefix and exact paths with the router" do
       r2 = WebMock.stub_request(:put, "#{@router_api_base}/routes").
-        with(:body => hash_including("incoming_path" => "/bar", "route_type" => "prefix")).
+        with(:body => {"route" => hash_including("incoming_path" => "/bar", "route_type" => "prefix")}).
         to_return(:status => 201)
       r3 = WebMock.stub_request(:put, "#{@router_api_base}/routes").
-        with(:body => hash_including("incoming_path" => "/foo.json", "route_type" => "exact")).
+        with(:body => {"route" => hash_including("incoming_path" => "/foo.json", "route_type" => "exact")}).
         to_return(:status => 201)
 
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "live", :paths => ["/foo.json"], :prefixes => ["/foo", "/bar"])
@@ -107,9 +107,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "archived")
       assert_equal 200, response.code.to_i
 
-      assert_not_requested @backend_request
       assert_requested delete_request
-      assert_not_requested @route_commit_request
     end
   end
 end
