@@ -24,4 +24,10 @@ module ArtefactsHelper
 
     Plek.current.find(artefact.need_owning_service) + "/needs/#{artefact.need_id}"
   end
+
+  def link_to_view_need(artefact)
+    return unless artefact.need_owning_service
+
+    link_to("View in #{artefact.need_owning_service.titleize}", need_url(artefact), :rel => 'external', :class => "btn btn-primary")
+  end
 end
