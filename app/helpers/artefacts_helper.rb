@@ -1,8 +1,4 @@
 module ArtefactsHelper
-  def need_url(artefact)
-    Plek.current.find('needotron') + "/needs/#{artefact.need_id}"
-  end
-
   def published_url(artefact)
     Plek.current.website_root + "/#{artefact.slug}"
   end
@@ -21,5 +17,11 @@ module ArtefactsHelper
         result.concat(formats)
       end
     end
+  end
+
+  def need_url(artefact)
+    return unless artefact.need_owning_service
+
+    Plek.current.find(artefact.need_owning_service) + "/needs/#{artefact.need_id}"
   end
 end
