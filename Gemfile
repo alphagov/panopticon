@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'plek', '1.4.0'
+gem 'plek', '1.5.0'
 gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
@@ -13,7 +13,11 @@ gem 'null_logger'
 
 gem 'exception_notification'
 
-gem 'gds-api-adapters', "4.1.3"
+if ENV['API_DEV']
+  gem 'gds-api-adapters', :path => '../gds-api-adapters'
+else
+  gem 'gds-api-adapters', "7.18.0"
+end
 
 gem 'aws-ses', require: 'aws/ses'
 
