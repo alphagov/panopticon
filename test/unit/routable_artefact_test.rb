@@ -61,6 +61,14 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @routable.submit
     end
 
+    should "not commit when asked not to" do
+      @routable.router_api.expects(:commit_routes).never
+
+      @artefact.prefixes = ["/foo", "/bar", "/baz"]
+      @artefact.paths = ["/foo.json"]
+      @routable.submit(:skip_commit => true)
+    end
+
     should "not blow up if prefixes or paths is nil" do
       @artefact.prefixes = nil
       @artefact.paths = nil
@@ -100,6 +108,15 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @artefact.paths = ["/foo.json"]
       @routable.delete
     end
+
+    should "not commit when asked not to" do
+      @routable.router_api.expects(:commit_routes).never
+
+      @artefact.prefixes = ["/foo", "/bar", "/baz"]
+      @artefact.paths = ["/foo.json"]
+      @routable.delete(:skip_commit => true)
+    end
+
 
     should "not blow up if prefixes or paths is nil" do
       @artefact.prefixes = nil
