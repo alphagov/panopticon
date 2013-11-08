@@ -6,7 +6,9 @@ namespace :router do
     Artefact.where(:state => 'live').each do |artefact|
       puts "  #{artefact.slug}..."
       r = RoutableArtefact.new(artefact)
-      r.submit
+      r.submit(:skip_commit => true)
     end
+    puts "Committing routes"
+    RoutableArtefact.new(nil).commit
   end
 end
