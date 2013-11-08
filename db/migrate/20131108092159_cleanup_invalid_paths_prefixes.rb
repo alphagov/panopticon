@@ -1,6 +1,8 @@
 class CleanupInvalidPathsPrefixes < Mongoid::Migration
   def self.up
     Artefact.skip_callback(:update, :after, :update_editions)
+    Artefact.observers.disable(:update_router_observer)
+    Artefact.observers.disable(:update_search_observer)
     Artefact.all.each do |a|
       all_paths = (a.prefixes || []) + (a.paths || [])
       if all_paths.any? {|p| ! a.send(:valid_url_path?, p) }
