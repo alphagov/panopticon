@@ -72,4 +72,18 @@ class ArtefactTest < ActiveSupport::TestCase
     end
   end
 
+  context "need_id_numeric?" do
+    should "be true for a number" do
+      artefact = FactoryGirl.build(:artefact, need_id: "12345")
+
+      assert artefact.need_id_numeric?
+    end
+
+    should "not be true when not a number" do
+      artefact = FactoryGirl.build(:artefact, need_id: "NOT A NUMBER, HONEST")
+
+      refute artefact.need_id_numeric?
+    end
+  end
+
 end
