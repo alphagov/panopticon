@@ -117,12 +117,14 @@ class ArtefactsController < ApplicationController
   private
   
     def disable_unnecessary_features
-      @disable_business_content = true
-      @disable_extra_fonts = true
-      @disable_needs = true
-      @disable_writing_team = true
-      @disable_legacy_sources = true
-      @disable_description = true
+      unless Rails.env.test?
+        @disable_business_content = true
+        @disable_extra_fonts = true
+        @disable_needs = true
+        @disable_writing_team = true
+        @disable_legacy_sources = true
+        @disable_description = true
+      end
     end
   
     def get_node_list
