@@ -122,6 +122,7 @@ class ArtefactsController < ApplicationController
       @disable_needs = true
       @disable_writing_team = true
       @disable_legacy_sources = true
+      @disable_description = true
     end
   
     def get_node_list
