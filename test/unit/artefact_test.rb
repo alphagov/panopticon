@@ -34,4 +34,42 @@ class ArtefactTest < ActiveSupport::TestCase
     end
   end
 
+  context "need_id_editable?" do
+    should "return true for a new record" do
+      artefact = Artefact.new
+
+      assert artefact.need_id_editable?
+    end
+
+    should "return true when need_id is nil" do
+      artefact = FactoryGirl.create(:artefact, need_id: nil)
+
+      assert artefact.need_id_editable?
+    end
+
+    should "return true when need_id is blank" do
+      artefact = FactoryGirl.create(:artefact, need_id: "")
+
+      assert artefact.need_id_editable?
+    end
+
+    should "return true when need_id is not a number" do
+      artefact = FactoryGirl.create(:artefact, need_id: "B5253")
+
+      assert artefact.need_id_editable?
+    end
+
+    should "return false when need_id >= 100000" do
+      artefact = FactoryGirl.create(:artefact, need_id: "100000")
+
+      refute artefact.need_id_editable?
+    end
+
+    should "return true when need_id < 100000" do
+      artefact = FactoryGirl.create(:artefact, need_id: "99999")
+
+      assert artefact.need_id_editable?
+    end
+  end
+
 end

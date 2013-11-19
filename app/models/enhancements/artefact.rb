@@ -6,7 +6,7 @@ class Artefact
   attr_accessor :indexable_content
 
   def need_id_editable?
-    self.new_record? || self.need_id.blank? || self.need_id.strip !~ /\A\d+\z/
+    self.new_record? || self.need_id.blank? || self.need_id.strip !~ /\A\d+\z/ || self.need_id.to_i < 100000
   end
 
   def need_owning_service
