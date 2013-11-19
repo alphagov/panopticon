@@ -27,6 +27,7 @@
         <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } %>
         <%= f.input :author, :collection => @people, :as => :select, :input_html => {:class => "span2"}, :include_blank => false %>
         <%= f.input :node, :collection => @nodes, :as => :select, :input_html => {:class => "span2"}, :include_blank => true %>
+        <%= f.input :organization_name, :collection => @organizations, :as => :select, :input_html => {:class => "span2"}, :include_blank => true %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
             <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
         <% end %>
