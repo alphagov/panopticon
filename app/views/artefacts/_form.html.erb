@@ -21,13 +21,13 @@
     <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
       <%= f.inputs do %>
         <%= f.input :name, :input_html => { :class => "span6", :disabled => f.object.persisted?}, :hint => name_hint_for(f.object) %>
-        <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text %>
+        <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text unless @disable_description %>
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
-        <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean %>
-        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } %>
-        <%= f.input :author, :collection => @people, :as => :select, :input_html => {:class => "span2"}, :include_blank => false, :hint => 'Who should appear as the author? (not necessarily you!)' %>
-        <%= f.input :node, :collection => @nodes, :as => :select, :input_html => {:class => "span2"}, :include_blank => true, :hint => 'Is the content for a specific node?' %>
-        <%= f.input :organization_name, :collection => @organizations, :as => :select, :input_html => {:class => "span2"}, :include_blank => true, :hint => 'Should the content be assigned to a specific member or startup?' %>
+        <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean unless @disable_extra_fonts %>
+        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } unless @disable_needs %>
+        <%= f.input :author, :collection => @people, :as => :select, :input_html => {:class => "span2"}, :include_blank => false %>
+        <%= f.input :node, :collection => @nodes, :as => :select, :input_html => {:class => "span2"}, :include_blank => true %>
+        <%= f.input :organization_name, :collection => @organizations, :as => :select, :input_html => {:class => "span2"}, :include_blank => true %>
         <% if ! artefact.new_record? && ! artefact.business_proposition %>
             <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" %>
         <% end %>
@@ -36,7 +36,7 @@
         <hr>
 
         <%= f.input :language, :collection => {"English" => "en", "Welsh" => "cy"}, :as => :select, :input_html => { :class => "span2" }, :include_blank => false %>
-        <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
+        <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean unless @disable_business_content %>
 
         <hr>
         <input type="hidden" name="artefact[sections][]" value="" />
@@ -131,12 +131,12 @@
 
       <hr>
 
-      <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } %>
+      <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } unless @disable_legacy_sources %>
 
 
       <%= f.inputs do %>
 
-        <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
+        <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} unless @disable_writing_team %>
         <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
 
       <% end %>
