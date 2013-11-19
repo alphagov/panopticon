@@ -46,8 +46,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   end
 
   context "restricting editing of need_id" do
-    should "not allow editing with existing numeric value" do
-      artefact = FactoryGirl.create(:artefact, :need_id => "1234")
+    should "not allow editing if it looks like a Maslow need >= 100000" do
+      artefact = FactoryGirl.create(:artefact, :need_id => "100123")
       visit "/artefacts/#{artefact.id}/edit"
       field = page.find_field("Need")
       assert field[:disabled]
@@ -68,6 +68,19 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
     should "allow editing if non-numeric" do
       artefact = FactoryGirl.create(:artefact, :need_id => "B241")
+      visit "/artefacts/#{artefact.id}/edit"
+      field = page.find_field("Need")
+      assert field[:disabled].nil?
+
+      fill_in "Need", :with => "2345"
+      click_on "Save and continue editing"
+
+      artefact.reload
+      assert_equal "2345", artefact.need_id
+    end
+
+    should "allow editing if it looks like a Need-o-tron need < 100000" do
+      artefact = FactoryGirl.create(:artefact, :need_id => "99999")
       visit "/artefacts/#{artefact.id}/edit"
       field = page.find_field("Need")
       assert field[:disabled].nil?
