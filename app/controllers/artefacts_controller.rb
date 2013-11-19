@@ -6,6 +6,7 @@ class ArtefactsController < ApplicationController
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
+  before_filter :disable_unnecessary_features
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 
@@ -114,6 +115,14 @@ class ArtefactsController < ApplicationController
   end
 
   private
+  
+    def disable_unnecessary_features
+      @disable_business_content = true
+      @disable_extra_fonts = true
+      @disable_needs = true
+      @disable_writing_team = true
+      @disable_legacy_sources = true
+    end
   
     def get_node_list
       @nodes = Artefact.where(:kind => "node").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
