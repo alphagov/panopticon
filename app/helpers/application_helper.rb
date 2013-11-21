@@ -26,4 +26,9 @@ module ApplicationHelper
     direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
     link_to title, params.merge({:sort => column, :direction => direction}), {:class => css_class}
   end
+  
+  def language_options
+    LanguageList::COMMON_LANGUAGES.map{|x| [x.name, x.iso_639_1]}.sort_by{|x| x[0]}
+  end
+  
 end
