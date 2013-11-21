@@ -23,19 +23,17 @@
         <%= f.input :name, :input_html => { :class => "span6", :disabled => f.object.persisted?}, :hint => name_hint_for(f.object) %>
         <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text unless @disable_description %>
         <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
-        <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean unless @disable_extra_fonts %>
-        <%= f.input :need_id, :input_html => { :class => "span6", :disabled => !f.object.need_id_editable? } unless @disable_needs %>
 
-        <%= link_to_view_need(f.object) if ! artefact.new_record? && ! artefact.business_proposition unless @disable_needs %>
+        <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean unless @disable_extra_fonts %>
 
         <%= f.input :author, :collection => @people, :as => :select, :input_html => {:class => "span2"}, :include_blank => "Select an author", :hint => 'Who should appear as the author? (not necessarily you!)' %>
         <%= f.input :node, :collection => @nodes, :as => :select, :input_html => {:class => "span2"}, :hint => 'Is the content about specific node(s)?', :multiple => true, :size => 5 %>
         <%= f.input :organization_name, :collection => @organizations, :as => :select, :input_html => {:class => "span2"}, :hint => 'Is the content about specific member(s) or startup(s)?', :multiple => true, :size => 5 %>
-        <% if ! artefact.new_record? && ! artefact.business_proposition %>
-           <%= link_to "View in Need-O-Tron", need_url(f.object), :rel => 'external', :class => "btn btn-primary" unless @disable_needs %>
-        <% end %>
+
         <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" unless f.object.new_record? %>
 
+        <hr>
+        <%= render :partial => "need", :locals => { :f => f } unless @disable_needs %>
         <hr>
 
         <%= f.input :language, :collection => language_options, :as => :select, :input_html => { :class => "span2" }, :include_blank => false, :selected => 'en' %>
