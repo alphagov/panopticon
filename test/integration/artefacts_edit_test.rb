@@ -1,9 +1,20 @@
 require_relative '../integration_test_helper'
+require 'gds_api/test_helpers/need_api'
 
 class ArtefactsEditTest < ActionDispatch::IntegrationTest
+  include GdsApi::TestHelpers::NeedApi
 
   setup do
     create_test_user
+  end
+
+  def stub_basic_need_api_response(need_id = "100123")
+    need_api_has_need(
+      "id" => need_id,
+      "role" => "user",
+      "goal" => "do something",
+      "benefit" => "reason"
+    )
   end
 
   should "link to the live site from the edit form" do
@@ -15,81 +26,164 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     assert page.has_link?("View on site", :href => "http://www.dev.gov.uk/alpha")
   end
 
-  context "linking to needs" do
-    should "link to the Needotron given a need ID < 100000" do
-      artefact = FactoryGirl.create(:artefact, :name => "Need from Needotron", :slug => 'needotron', :need_id => "99999")
+  context "displaying need information" do
+    context "when a Maslow need ID present" do
+      setup do
+        @artefact = FactoryGirl.create(:artefact, :need_id => "100123")
+      end
 
-      visit "/artefacts"
-      click_on "Need from Needotron"
+      should "show basic information about a need from the API" do
+        need_api_has_need(
+          "id" => "100123",
+          "role" => "user",
+          "goal" => "buy bunting",
+          "benefit" => "bunting"
+        )
 
-      assert page.has_link?("View in Needotron", :href => "http://needotron.dev.gov.uk/needs/99999")
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        within "#user-need" do
+          within ".need-body" do
+            assert page.has_content?("As a user")
+            assert page.has_content?("I need to buy bunting")
+            assert page.has_content?("So that bunting")
+          end
+
+          assert page.has_link?("View in Maslow", href: "http://maslow.dev.gov.uk/needs/100123")
+        end
+      end
+
+      should "not display the need id field" do
+        stub_basic_need_api_response
+
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        within "#user-need" do
+          assert page.has_no_field?("Need ID")
+        end
+      end
+
+      should "show a disabled need_id field and a link to Maslow when the Need API request is unsuccessful" do
+        need_api_has_no_need("100123")
+
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        within "#user-need" do
+          assert page.has_no_selector?(".need-body")
+
+          field = page.find_field("Need ID")
+          assert field[:disabled]
+
+          assert page.has_link?("View in Maslow", href: "http://maslow.dev.gov.uk/needs/100123")
+        end
+      end
     end
 
-    should "link to Maslow given a need ID >= 100000" do
-      artefact = FactoryGirl.create(:artefact, :name => "Need from Maslow", :slug => 'maslow', :need_id => "100000")
+    context "when a Need-o-tron ID present" do
+      setup do
+        @artefact = FactoryGirl.create(:artefact, :need_id => "99999")
+      end
 
-      visit "/artefacts"
-      click_on "Need from Maslow"
+      should "not show additional need information" do
+        visit "/artefacts/#{@artefact.id}/edit"
 
-      assert page.has_link?("View in Maslow", :href => "http://maslow.dev.gov.uk/needs/100000")
+        within "#user-need" do
+          assert page.has_no_selector?(".need-body")
+        end
+      end
+
+      should "allow editing of the need ID" do
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        field = page.find_field("Need ID")
+        assert field[:disabled].nil?
+
+        fill_in "Need", :with => "2345"
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal "2345", @artefact.need_id
+      end
+
+      should "link to the Need-o-tron" do
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        within "#user-need" do
+          assert page.has_link?("View in Needotron", :href => "http://needotron.dev.gov.uk/needs/99999")
+        end
+      end
     end
 
-    should "not link to any need if the need ID is non-numeric" do
-      artefact = FactoryGirl.create(:artefact, :name => "Need from a spreadsheet", :slug => 'spreadsheet', :need_id => "B12345")
+    context "when a non-numeric need ID present" do
+      setup do
+        @artefact = FactoryGirl.create(:artefact, :need_id => "B241")
+      end
 
-      visit "/artefacts"
-      click_on "Need from a spreadsheet"
+      should "not show additional need information" do
+        visit "/artefacts/#{@artefact.id}/edit"
 
-      assert page.has_no_link?("View in Needotron")
-      assert page.has_no_link?("View in Maslow")
-    end
-  end
+        within "#user-need" do
+          assert page.has_no_selector?(".need-body")
+        end
+      end
 
-  context "restricting editing of need_id" do
-    should "not allow editing if it looks like a Maslow need >= 100000" do
-      artefact = FactoryGirl.create(:artefact, :need_id => "100123")
-      visit "/artefacts/#{artefact.id}/edit"
-      field = page.find_field("Need")
-      assert field[:disabled]
-    end
+      should "allow editing of the Need ID" do
+        visit "/artefacts/#{@artefact.id}/edit"
 
-    should "allow editing if blank" do
-      artefact = FactoryGirl.create(:artefact, :need_id => " ")
-      visit "/artefacts/#{artefact.id}/edit"
-      field = page.find_field("Need")
-      assert field[:disabled].nil?
+        field = page.find_field("Need ID")
+        assert field[:disabled].nil?
 
-      fill_in "Need", :with => "2345"
-      click_on "Save and continue editing"
+        fill_in "Need", :with => "2345"
+        click_on "Save and continue editing"
 
-      artefact.reload
-      assert_equal "2345", artefact.need_id
-    end
+        @artefact.reload
+        assert_equal "2345", @artefact.need_id
+      end
 
-    should "allow editing if non-numeric" do
-      artefact = FactoryGirl.create(:artefact, :need_id => "B241")
-      visit "/artefacts/#{artefact.id}/edit"
-      field = page.find_field("Need")
-      assert field[:disabled].nil?
+      should "not link to Maslow or the Need-o-tron" do
+        visit "/artefacts/#{@artefact.id}/edit"
 
-      fill_in "Need", :with => "2345"
-      click_on "Save and continue editing"
-
-      artefact.reload
-      assert_equal "2345", artefact.need_id
+        within "#user-need" do
+          assert page.has_no_link?("View in Needotron")
+          assert page.has_no_link?("View in Maslow")
+        end
+      end
     end
 
-    should "allow editing if it looks like a Need-o-tron need < 100000" do
-      artefact = FactoryGirl.create(:artefact, :need_id => "99999")
-      visit "/artefacts/#{artefact.id}/edit"
-      field = page.find_field("Need")
-      assert field[:disabled].nil?
+    context "when the need ID is blank" do
+      setup do
+        @artefact = FactoryGirl.create(:artefact, :need_id => "")
+      end
 
-      fill_in "Need", :with => "2345"
-      click_on "Save and continue editing"
+      should "not show additional need information" do
+        visit "/artefacts/#{@artefact.id}/edit"
 
-      artefact.reload
-      assert_equal "2345", artefact.need_id
+        within "#user-need" do
+          assert page.has_no_selector?(".need-body")
+        end
+      end
+
+      should "allow editing of the Need ID" do
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        field = page.find_field("Need ID")
+        assert field[:disabled].nil?
+
+        fill_in "Need", :with => "2345"
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal "2345", @artefact.need_id
+      end
+
+      should "not link to Maslow or the Need-o-tron" do
+        visit "/artefacts/#{@artefact.id}/edit"
+
+        within "#user-need" do
+          assert page.has_no_link?("View in Needotron")
+          assert page.has_no_link?("View in Maslow")
+        end
+      end
     end
   end
 

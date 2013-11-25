@@ -1,0 +1,16 @@
+<section id="user-need">
+  <h3>User need</h3>
+
+  <% if f.object.need %>
+    <p class="need-body">
+      As a <%= f.object.need.role %><br>
+      I need to <%= f.object.need.goal %><br>
+      So that <%= f.object.need.benefit %>
+    </p>
+    <p class="need-id">Maslow #<%= f.object.need.id %></p>
+  <% else %>
+    <%= f.input :need_id, :label => "Need ID", :input_html => { :class => "span3", :disabled => !f.object.need_id_editable? } %>
+  <% end %>
+
+  <p><%= link_to_view_need(f.object) if ! f.object.new_record? && ! f.object.business_proposition %></p>
+</section>
