@@ -24,6 +24,10 @@ DatabaseCleaner.clean
 
 class ActiveSupport::TestCase
   include Rack::Test::Methods
+  
+  def setup
+    load(Rails.root.join("db", "seeds.rb"))
+  end
 
   def clean_db
     DatabaseCleaner.clean
