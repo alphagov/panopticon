@@ -130,8 +130,8 @@ class ArtefactsController < ApplicationController
     
     def get_roles
       @roles = Tag.where(:tag_type => 'role')
-      params[:role] ||= "odi"
-      @artefact.roles = [params[:role]] if @artefact.roles.empty?
+      role = params[:role] || "odi"
+      @artefact.roles = [role] if @artefact.roles.empty?
     end
   
     def get_node_list
