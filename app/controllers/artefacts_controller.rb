@@ -202,7 +202,9 @@ class ArtefactsController < ApplicationController
 
     def extract_parameters(params)
       # Map the actual tag ids for roles, as the ID is submitted
-      params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil }.compact! unless params[:artefact].nil?
+      unless params[:artefact].nil?
+        map_tags!(params)
+      end
       
       fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
 
@@ -223,6 +225,11 @@ class ArtefactsController < ApplicationController
       end
       parameters_to_use
     end
+    
+    def map_tags!(params)
+      params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil } unless params[:artefact][:roles].nil?
+    end
+      
 
     def action_user
       # The user to associate with actions
