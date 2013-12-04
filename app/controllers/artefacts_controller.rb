@@ -3,7 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   before_filter :tags_by_kind, :except => [:show]
-  before_filter :get_roles, :except => [:show, :index]
+  before_filter :get_roles, :only => [:new, :edit]
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
