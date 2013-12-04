@@ -3,6 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   before_filter :tags_by_kind, :except => [:show]
+  before_filter :get_roles, :except => [:show, :index]
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
@@ -125,6 +126,11 @@ class ArtefactsController < ApplicationController
         @disable_legacy_sources = true
         @disable_description = true
       end
+    end
+    
+    def get_roles
+      @roles = Tag.where(:tag_type => 'role')
+      @artefact.roles = ['odi'] if @artefact.roles.empty?
     end
   
     def get_node_list
