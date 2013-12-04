@@ -21,7 +21,7 @@ end
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.16'
 gem 'unicorn', '4.3.1'
 gem 'less-rails-bootstrap'
 
