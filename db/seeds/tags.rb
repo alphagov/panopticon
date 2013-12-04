@@ -183,3 +183,15 @@ create_or_update_tag(
     tag_type: "event",
     tag_id: "panel-discussions",
     description: "Panel Discussion")
+    
+create_or_update_tag(
+    title: "DaPaas",
+    tag_type: "role",
+    tag_id: "dapaas",
+    description: "DaPaas")
+
+create_or_update_tag(
+    title: "ODI",
+    tag_type: "role",
+    tag_id: "odi",
+    description: "ODI")
