@@ -201,6 +201,9 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
+      # Map the actual tag ids for roles, as the ID is submitted
+      params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil }.compact! unless params[:artefact].nil?
+      
       fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
 
       # TODO: Remove this variance
