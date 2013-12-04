@@ -67,7 +67,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "Save and continue editing"
 
       @a.reload
-      assert_equal [@dvla, @bl], @a.legacy_sources
+      assert_equal 2, @a.legacy_sources.count
+      assert @a.legacy_sources.include?(@dvla)
+      assert @a.legacy_sources.include?(@bl)
     end
 
     should "allow removing legacy sources from artefacts" do
