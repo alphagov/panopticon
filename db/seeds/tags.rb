@@ -185,10 +185,10 @@ create_or_update_tag(
     description: "Panel Discussion")
     
 create_or_update_tag(
-    title: "DaPaas",
+    title: "DaPaaS",
     tag_type: "role",
     tag_id: "dapaas",
-    description: "DaPaas")
+    description: "DaPaaS")
 
 create_or_update_tag(
     title: "ODI",
