@@ -84,6 +84,7 @@ group :test do
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
   gem 'poltergeist', '0.7.0'
+  gem 'pry'
 end
 
 group :import do

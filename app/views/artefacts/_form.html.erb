@@ -37,7 +37,11 @@
 
         <%= f.input :language, :collection => language_options, :as => :select, :input_html => { :class => "span2" }, :include_blank => false, :selected => 'en' %>
         <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean unless @disable_business_content %>
-
+        
+        <hr>
+        
+        <%= f.input :roles, :collection => @roles, :as => :check_boxes, :hint => 'What project(s) is this content for?' %>
+        
         <hr>
         <input type="hidden" name="artefact[sections][]" value="" />
         <% if artefact.new_record? %>

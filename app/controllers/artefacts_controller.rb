@@ -3,6 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   before_filter :tags_by_kind, :except => [:show]
+  before_filter :get_roles, :only => [:new, :edit]
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
@@ -126,6 +127,12 @@ class ArtefactsController < ApplicationController
         @disable_description = true
       end
     end
+    
+    def get_roles
+      @roles = Tag.where(:tag_type => 'role')
+      role = params[:role] || "odi"
+      @artefact.roles = [role] if @artefact.roles.empty?
+    end
   
     def get_node_list
       @nodes = Artefact.where(:kind => "node").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
@@ -194,6 +201,11 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
+      # Map the actual tag ids for roles, as the ID is submitted
+      unless params[:artefact].nil?
+        map_tags!(params)
+      end
+      
       fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
 
       # TODO: Remove this variance
@@ -207,12 +219,17 @@ class ArtefactsController < ApplicationController
       end
 
       # Strip out the empty submit option for sections
-      ['sections', 'legacy_source_ids', 'person', 'timed_item', 'asset', 'article', 'organization', 'team', 'event'].each do |param|
+      ['sections', 'legacy_source_ids', 'person', 'timed_item', 'asset', 'article', 'organization', 'team', 'event', 'roles'].each do |param|
         param_value = parameters_to_use[param]
         param_value.reject!(&:blank?) if param_value
       end
       parameters_to_use
     end
+    
+    def map_tags!(params)
+      params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil } unless params[:artefact][:roles].nil?
+    end
+      
 
     def action_user
       # The user to associate with actions

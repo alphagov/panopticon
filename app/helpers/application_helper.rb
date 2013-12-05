@@ -1,7 +1,7 @@
 module ApplicationHelper
   # Set class on active navigation items
   def nav_link(text, link)
-    determinant_params = ["owning_app"]
+    determinant_params = ["owning_app", "role"]
     link_query = Rack::Utils.parse_nested_query(URI.parse(link).query)
     query_matches = determinant_params.all? { |p| params[p] == link_query[p] }
 
