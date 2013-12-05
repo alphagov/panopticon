@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/odi_content_models.git
-  revision: 2fe390c2d5fe5f96df96412ed5921e065717397a
+  revision: 393763504ce66f9b8353bbb1767f206eb767e0a7
   specs:
     odi_content_models (0.0.1)
       govuk_content_models
@@ -95,6 +95,7 @@ GEM
       ffi (~> 1.0, >= 1.0.6)
     ci_reporter (1.7.0)
       builder (>= 2.1.2)
+    coderay (1.1.0)
     colorize (0.5.8)
     commonjs (0.2.6)
     crack (0.3.1)
@@ -203,6 +204,7 @@ GEM
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (~> 0.0, >= 0.0.9)
     metaclass (0.0.1)
+    method_source (0.8.2)
     mime-types (1.22)
     minitest (3.3.0)
     mocha (0.13.3)
@@ -248,6 +250,10 @@ GEM
       http_parser.rb (~> 0.5.3)
       multi_json (~> 1.0)
     polyglot (0.3.3)
+    pry (0.9.12.4)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     quiet_assets (1.0.1)
       railties (~> 3.1)
     rack (1.4.5)
@@ -299,6 +305,7 @@ GEM
     simplecov-html (0.5.3)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
+    slop (3.4.7)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -379,6 +386,7 @@ DEPENDENCIES
   odi_content_models!
   plek (= 1.4.0)
   poltergeist (= 0.7.0)
+  pry
   quiet_assets
   rails (= 3.2.13)
   rummageable (~> 0.3.0)
