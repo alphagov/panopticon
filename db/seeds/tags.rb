@@ -131,6 +131,12 @@ create_or_update_tag(
     description: "Start Up")
 
 create_or_update_tag(
+    title: "Partner",
+    tag_type: "organization",
+    tag_id: "partner",
+    description: "Partner")
+
+create_or_update_tag(
     title: "Member",
     tag_type: "organization",
     tag_id: "member",
