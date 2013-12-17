@@ -7,19 +7,6 @@ class Artefact
 
   MASLOW_NEED_ID_LOWER_BOUND = 100000
 
-  def need_id_editable?
-    # allow the Need ID to be edited if:
-    # - it's a new record
-    # - the need ID is blank
-    # - the need ID is not a number
-    # - the need is a Need-o-tron need
-    #
-    self.new_record? ||
-      self.need_id.blank? ||
-      ! self.need_id_numeric? ||
-      self.need_owning_service == "needotron"
-  end
-
   def need_id_numeric?
     self.need_id.strip =~ /\A\d+\z/
   end

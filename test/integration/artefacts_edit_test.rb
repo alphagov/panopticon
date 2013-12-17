@@ -53,27 +53,30 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         end
       end
 
-      should "not display the need id field" do
+      should "allow editing of the need ID" do
         stub_basic_need_api_response
 
         visit "/artefacts/#{@artefact.id}/edit"
 
-        within "#user-need" do
-          assert page.has_no_field?("Need ID")
-        end
+        field = page.find_field("Need ID")
+        assert field[:disabled].nil?
+
+        fill_in "Need", :with => "100123"
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal "100123", @artefact.need_id
       end
 
-      should "show a disabled need_id field and a link to Maslow when the Need API request is unsuccessful" do
+      should "show a need edit field and link to Maslow when the Need API request is unsuccessful" do
         need_api_has_no_need("100123")
 
         visit "/artefacts/#{@artefact.id}/edit"
 
+        field = page.find_field("Need ID")
+        assert field[:disabled].nil?
+
         within "#user-need" do
-          assert page.has_no_selector?(".need-body")
-
-          field = page.find_field("Need ID")
-          assert field[:disabled]
-
           assert page.has_link?("View in Maslow", href: "http://maslow.dev.gov.uk/needs/100123")
         end
       end
