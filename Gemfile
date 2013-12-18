@@ -30,7 +30,7 @@ gem 'rummageable', "~> 0.3.0"
 
 gem "mongoid_rails_migrations", "1.0.0"
 gem "kaminari", "0.14.1"
-gem 'lograge', '~> 0.1.0'
+gem 'logstasher', '0.4.0'
 
 # TODO: Investigate whether there is a requirement to pin these
 # gems here, when they are dependencies of govuk_content_models

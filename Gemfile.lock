@@ -168,9 +168,9 @@ GEM
     libwebsocket (0.1.5)
       addressable
     link_header (0.0.7)
-    lograge (0.1.2)
-      actionpack
-      activesupport
+    logstash-event (1.1.5)
+    logstasher (0.4.0)
+      logstash-event (~> 1.1.0)
     lrucache (0.1.4)
       PriorityQueue (~> 0.1.2)
     mail (2.5.4)
@@ -345,7 +345,7 @@ DEPENDENCIES
   kaminari (= 0.14.1)
   launchy
   less-rails-bootstrap
-  lograge (~> 0.1.0)
+  logstasher (= 0.4.0)
   minitest
   mocha (= 0.13.3)
   mongo (= 1.7.1)
