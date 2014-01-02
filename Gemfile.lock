@@ -121,10 +121,10 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (1.2.3)
+    govspeak (1.2.5)
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
-      sanitize (= 2.0.3)
+      sanitize (~> 2.0.3)
     govuk_content_models (5.14.1)
       bson_ext
       differ
@@ -267,8 +267,8 @@ GEM
       json
       plek
       rest-client
-    sanitize (2.0.3)
-      nokogiri (>= 1.4.4, < 1.6)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     selenium-webdriver (2.25.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
