@@ -11,5 +11,6 @@ bundler_args: --without=development
 branches:
   except:
     - release
+    - master
 notifications:
   email: false
