@@ -139,7 +139,7 @@ class ArtefactsController < ApplicationController
     end
     
     def get_people_list
-      @people = Artefact.where(:kind => "person").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
+      @people = Artefact.where(:kind => "person", :state => "live").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
     end
 
     def get_organization_list
