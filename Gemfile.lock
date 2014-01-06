@@ -169,7 +169,7 @@ GEM
       addressable
     link_header (0.0.7)
     logstash-event (1.1.5)
-    logstasher (0.4.0)
+    logstasher (0.4.1)
       logstash-event (~> 1.1.0)
     lrucache (0.1.4)
       PriorityQueue (~> 0.1.2)
@@ -345,7 +345,7 @@ DEPENDENCIES
   kaminari (= 0.14.1)
   launchy
   less-rails-bootstrap
-  logstasher (= 0.4.0)
+  logstasher (= 0.4.1)
   minitest
   mocha (= 0.13.3)
   mongo (= 1.7.1)
