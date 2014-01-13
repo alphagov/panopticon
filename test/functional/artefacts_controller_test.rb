@@ -384,6 +384,29 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal [tag2.tag_id, tag1.tag_id], artefact.sections.map(&:tag_id)
       end
 
+      should "Update the industry sectors and ensure it persists into tags" do
+        tag1 = FactoryGirl.create(:tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "industry_sector")
+        tag2 = FactoryGirl.create(:tag, tag_id: "confectionery", title: "Confectionery", tag_type: "industry_sector")
+
+        artefact = Artefact.new(:slug => 'a-history-of-chocolate', :kind => 'guide',
+                                    :owning_app => 'publisher', :name => 'A history of chocolate', :need_id => 1)
+        artefact.industry_sectors = [tag1.tag_id]
+        artefact.save!
+
+        put :update, :id => artefact.id, :artefact => {:industry_sectors => [tag1.tag_id, tag2.tag_id]}
+
+        artefact.reload
+        assert_equal [tag1.tag_id, tag2.tag_id], artefact.industry_sectors.map(&:tag_id)
+        assert_equal [tag1.tag_id, tag2.tag_id], artefact.tags.map(&:tag_id)
+
+        # try the case when a request is made without the 'artefact' param
+        put :update, :id => artefact.id, :industry_sectors => [tag1.tag_id]
+
+        artefact.reload
+        assert_equal [tag1.tag_id], artefact.industry_sectors.map(&:tag_id)
+        assert_equal [tag1.tag_id], artefact.tags.map(&:tag_id)
+      end
+
       should "Reject JSON requests to update an artefact's owning app" do
         artefact = Artefact.create!(
           slug: "whatever",

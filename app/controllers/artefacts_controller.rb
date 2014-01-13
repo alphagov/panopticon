@@ -156,7 +156,7 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
-      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
+      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section', 'industry_sectors']
 
       # TODO: Remove this variance
       parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
