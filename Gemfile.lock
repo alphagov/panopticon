@@ -121,11 +121,11 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (1.2.3)
+    govspeak (1.2.5)
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
-      sanitize (= 2.0.3)
-    govuk_content_models (6.0.1)
+      sanitize (~> 2.0.3)
+    govuk_content_models (6.0.5)
       bson_ext
       differ
       gds-api-adapters
@@ -167,7 +167,7 @@ GEM
     libv8 (3.3.10.4)
     libwebsocket (0.1.5)
       addressable
-    link_header (0.0.7)
+    link_header (0.0.8)
     logstash-event (1.1.5)
     logstasher (0.4.1)
       logstash-event (~> 1.1.0)
@@ -267,8 +267,8 @@ GEM
       json
       plek
       rest-client
-    sanitize (2.0.3)
-      nokogiri (>= 1.4.4, < 1.6)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     selenium-webdriver (2.25.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
@@ -339,7 +339,7 @@ DEPENDENCIES
   gds-api-adapters (= 7.20.0)
   gds-sso (= 3.0.0)
   gelf
-  govuk_content_models (= 6.0.1)
+  govuk_content_models (= 6.0.5)
   jquery-rails (= 2.0.2)
   jquery-ui-rails (= 3.0.1)
   kaminari (= 0.14.1)
