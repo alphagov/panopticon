@@ -5,6 +5,8 @@ class Artefact
   # without persisting it
   attr_accessor :indexable_content
 
+  STATES = [ "live", "draft", "archived" ]
+
   MASLOW_NEED_ID_LOWER_BOUND = 100000
 
   def need_id_numeric?

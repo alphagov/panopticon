@@ -10,21 +10,11 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @section = params[:section].present? ? params[:section] : "all"
-    if @section != "all"
-      tags = Tag.where(tag_type: "section", parent_id: @section)
-      tag_ids = tags.collect {|t| t.tag_id}
-      tag_ids << @section
-      @artefacts = Artefact.any_in(tag_ids: tag_ids)
-    else
-      @artefacts = Artefact
-    end
-    if params[:filter].present?
-      search = /#{Regexp.escape(params[:filter])}/i
-      @artefacts = @artefacts.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
-    end
-    @artefacts = @artefacts.order_by([[sort_column, sort_direction]])
-    @artefacts = @artefacts.page(params[:page]).per(ITEMS_PER_PAGE)
+    @filters = params.slice(:section, :industry_sector, :kind, :state, :search)
+    @scope = apply_filters(Artefact, @filters)
+
+    @scope = @scope.order_by([[sort_column, sort_direction]])
+    @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts, @tag_collection
   end
 
@@ -114,6 +104,39 @@ class ArtefactsController < ApplicationController
         "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
         options.to_query
       ].reject(&:blank?).join("?")
+    end
+
+    def apply_filters(scope, filters)
+      if filters[:section].present?
+        tags = Tag.where(tag_type: "section", parent_id: filters[:section])
+        tag_ids = tags.collect {|t| t.tag_id}
+        tag_ids << filters[:section]
+
+        scope = scope.all_of(:tag_ids.in => tag_ids)
+      end
+
+      if filters[:industry_sector].present?
+        tags = Tag.where(tag_type: "industry_sector", parent_id: filters[:industry_sector])
+        tag_ids = tags.collect {|t| t.tag_id}
+        tag_ids << filters[:industry_sector]
+
+        scope = scope.all_of(:tag_ids.in => tag_ids)
+      end
+
+      if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
+        scope = scope.where(kind: filters[:kind])
+      end
+
+      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
+        scope = scope.where(state: filters[:state])
+      end
+
+      if filters[:search].present?
+        search = /#{Regexp.escape(filters[:search])}/i
+        scope = scope.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
+      end
+
+      scope
     end
 
     def tag_collection
