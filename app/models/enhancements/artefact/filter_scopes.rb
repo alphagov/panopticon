@@ -5,6 +5,9 @@ class Artefact
     included do
 
       scope :with_tags, proc {|tag_ids|
+        # the all_of method is used here so that, if this scope is called multiple
+        # times, the query will perform an intersection where artefacts match at least
+        # one tag in each list of IDs.
         all_of(:tag_ids.in => tag_ids)
       }
       scope :with_parent_tag, proc {|tag_type, parent_tag_id|
