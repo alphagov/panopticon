@@ -11,7 +11,7 @@ class ArtefactsController < ApplicationController
 
   def index
     @filters = params.slice(:section, :industry_sector, :kind, :state, :search)
-    @scope = apply_filters(Artefact, @filters)
+    @scope = apply_filters(artefact_scope, @filters)
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
     @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
@@ -106,34 +106,27 @@ class ArtefactsController < ApplicationController
       ].reject(&:blank?).join("?")
     end
 
-    def apply_filters(scope, filters)
-      if filters[:section].present?
-        tags = Tag.where(tag_type: "section", parent_id: filters[:section])
-        tag_ids = tags.collect {|t| t.tag_id}
-        tag_ids << filters[:section]
+    def artefact_scope
+      Artefact
+    end
 
-        scope = scope.all_of(:tag_ids.in => tag_ids)
+    def apply_filters(scope, filters)
+      [:section, :industry_sector].each do |tag_type|
+        if filters[tag_type].present?
+          scope = scope.with_parent_tag(tag_type, filters[tag_type])
+        end
       end
 
-      if filters[:industry_sector].present?
-        tags = Tag.where(tag_type: "industry_sector", parent_id: filters[:industry_sector])
-        tag_ids = tags.collect {|t| t.tag_id}
-        tag_ids << filters[:industry_sector]
-
-        scope = scope.all_of(:tag_ids.in => tag_ids)
+      if filters[:state].present?
+        scope = scope.in_state(filters[:state])
       end
 
       if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
-        scope = scope.where(kind: filters[:kind])
-      end
-
-      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
-        scope = scope.where(state: filters[:state])
+        scope = scope.of_kind(filters[:kind])
       end
 
       if filters[:search].present?
-        search = /#{Regexp.escape(filters[:search])}/i
-        scope = scope.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
+        scope = scope.matching_query(filters[:search])
       end
 
       scope
