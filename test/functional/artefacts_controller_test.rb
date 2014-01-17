@@ -16,59 +16,73 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "GET index" do
-      should "should filter by section" do
-        tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
-        tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
-
-        artefact1 = FactoryGirl.create(:artefact, sections: ["crime"])
-        artefact2 = FactoryGirl.create(:artefact, sections: ["education"])
-
-        get :index, section: "crime"
-        assert_select "tbody tr", count: 1
-        assert_select "tbody tr td", /crime/i
-        assert_select "tbody tr td", artefact1.name
+      setup do
+        FactoryGirl.create_list(:artefact, 10)
       end
 
-      should "treat a blank section parameter as 'All'" do
-        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
+      context "with filters" do
+        setup do
+          # these tests are only concerned with the controller's filtering behaviour:
+          # specifically this is testing that the correct scopes are called on the Artefact object
+          # which we're going to stub out here
+          @scope = stub("Scope")
+          @controller.expects(:artefact_scope).returns(@scope)
 
-        get :index, filter: "cheese", section: ""
-        assert_select "tbody tr", count: 1
-        assert_select "tbody tr td", artefact1.name
+          # stub out the extra calls which get made on the scope object
+          @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope)
+
+          # we aren't testing the template behaviour here, so don't try and render the template
+          @controller.stubs(:render)
+        end
+
+        should "apply the tag scope for section filters" do
+          @scope.expects(:with_parent_tag).with(:section, "driving").returns(@scope)
+
+          get :index, section: "driving"
+        end
+
+        should "apply the kind scope" do
+          @scope.expects(:of_kind).with("answer").returns(@scope)
+
+          get :index, kind: "answer"
+        end
+
+        should "apply the state scope" do
+          @scope.expects(:in_state).with("live").returns(@scope)
+
+          get :index, state: "live"
+        end
+
+        should "apply the search scope" do
+          @scope.expects(:matching_query).with("foo").returns(@scope)
+
+          get :index, search: "foo"
+        end
+
+        should "combine multiple scopes together" do
+          @scope.expects(:with_parent_tag).with(:section, "driving").returns(@scope)
+          @scope.expects(:of_kind).with("answer").returns(@scope)
+          @scope.expects(:in_state).with("live").returns(@scope)
+          @scope.expects(:matching_query).with("foo").returns(@scope)
+
+          get :index, section: "driving", kind: "answer", state: "live", search: "foo"
+        end
       end
 
-      should "filter by 'filter' parameter" do
-        artefact1 = FactoryGirl.create(:artefact, name: "Cheese")
-        artefact2 = FactoryGirl.create(:artefact, name: "Chalk")
+      should "fetch a collection of artefacts" do
+        get :index
 
-        get :index, filter: "cheese"
-        assert_select "tbody tr", count: 1
-        assert_select "tbody tr td", artefact1.name
+        assert_equal 10, assigns(:artefacts).size
+        assigns(:artefacts).each do |artefact|
+          assert artefact.is_a?(Artefact)
+        end
       end
-    end
 
-    should "show links to filter by section" do
-      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
+      should "render the index view template" do
+        get :index
 
-      get :index
-      assert_select "a[href=/artefacts?section=all]"
-      assert_select "a[href=/artefacts?section=crime]"
-    end
-
-    should "include the filter parameter in section links" do
-      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
-
-      get :index, filter: "tax"
-      assert_select "a[href=/artefacts?filter=tax&amp;section=all]"
-      assert_select "a[href=/artefacts?filter=tax&amp;section=crime]"
-    end
-
-    should "not include empty filters in section links" do
-      FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
-
-      get :index, filter: ""
-      assert_select "a[href=/artefacts?section=all]"
-      assert_select "a[href=/artefacts?section=crime]"
+        assert_template "index"
+      end
     end
 
     context "POST create" do
