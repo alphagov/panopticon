@@ -30,14 +30,14 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
     should "return artefacts matching both tags when called multiple times" do
       artefacts = Artefact.with_tags([@tag_one.tag_id]).with_tags([@tag_two.tag_id])
 
-      assert_equal [@artefact_three.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_three.slug], artefacts.map(&:slug)
     end
 
     should "return artefacts that have at least one tag from each collection when called multiple times" do
       artefacts = Artefact.with_tags([@tag_one.tag_id, @tag_three.tag_id])
                             .with_tags([@tag_two.tag_id, @tag_four.tag_id])
 
-      assert_equal [@artefact_three.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_three.slug], artefacts.map(&:slug)
     end
 
     should "return no artefacts if the tag doesn't exist" do
@@ -70,7 +70,7 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
     should "return artefacts tagged with at least one child of the tag when called multiple times" do
       artefacts = Artefact.with_parent_tag(@tag_one.tag_type, @tag_one.tag_id).with_parent_tag(@tag_four.tag_type, @tag_four.tag_id)
 
-      assert_equal [@artefact_four.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_four.slug], artefacts.map(&:slug)
     end
   end
 
@@ -115,13 +115,13 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
     should "return artefacts matching the slug" do
       artefacts = Artefact.matching_query("sherlock-holmes")
 
-      assert_equal [@artefact_one.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_one.slug], artefacts.map(&:slug)
     end
 
     should "return artefacts matching the name" do
       artefacts = Artefact.matching_query("John Watson")
 
-      assert_equal [@artefact_two.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_two.slug], artefacts.map(&:slug)
     end
 
     should "return artefacts matching the description" do
@@ -133,7 +133,7 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
     should "return artefacts matching the kind" do
       artefacts = Artefact.matching_query("answer")
 
-      assert_equal [@artefact_three.slug].sort, artefacts.map(&:slug).sort
+      assert_equal [@artefact_three.slug], artefacts.map(&:slug)
     end
   end
 
