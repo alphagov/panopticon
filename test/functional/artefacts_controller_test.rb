@@ -53,10 +53,22 @@ class ArtefactsControllerTest < ActionController::TestCase
           get :index, kind: "answer"
         end
 
+        should "not apply the kind scope when it's not a valid kind" do
+          @scope.expects(:of_kind).never
+
+          get :index, kind: "superfluous-campaign"
+        end
+
         should "apply the state scope" do
           @scope.expects(:in_state).with("live").returns(@scope)
 
           get :index, state: "live"
+        end
+
+        should "not apply the state scope when it's not a valid state" do
+          @scope.expects(:in_state).never
+
+          get :index, state: "something"
         end
 
         should "apply the search scope" do

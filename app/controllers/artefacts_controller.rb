@@ -119,7 +119,7 @@ class ArtefactsController < ApplicationController
         end
       end
 
-      if filters[:state].present?
+      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
         scope = scope.in_state(filters[:state])
       end
 
