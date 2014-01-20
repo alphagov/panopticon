@@ -145,6 +145,8 @@ class ArtefactsController < ApplicationController
     end
 
     def artefact_scope
+      # This is here so that we can stub this out a bit more easily in the
+      # functional tests.
       Artefact
     end
 
