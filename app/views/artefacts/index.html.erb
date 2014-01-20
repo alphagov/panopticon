@@ -5,8 +5,7 @@
     <div class="row-fluid">
       <div class="span2">
         <div class="artefact-count">
-          <span class="big-number"><%= @artefacts.count %></span>
-          <span class="big-number-detail"><%= "artefact".pluralize(@artefacts.count) %></span>
+          <em><%= @artefacts.count %></em> <%= "artefact".pluralize(@artefacts.count) %>
         </div>
 
         <%= render :partial => "filters" %>

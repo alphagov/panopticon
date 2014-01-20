@@ -19,25 +19,22 @@
 
 
 .artefact-count {
-  padding-bottom: 10px;
   border-bottom: 1px solid #e5e5e5;
-}
-
-.big-number {
-  font-size: 60px;
-  font-weight: bold;
-  line-height: 68px;
-  margin-bottom: 10px;
-}
-
-.big-number-detail {
-  font-size: 19px;
-  line-height: 1.25;
-  font-weight: normal;
-  padding-left: 3px;
   color: #000;
-}
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 1.25;
+  padding-bottom: 10px;
 
+  em {
+    font-style: normal;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 68px;
+    margin-bottom: 10px;
+    padding-right: 3px;
+  }
+}
 
 #filters {
   margin-top: 15px;
