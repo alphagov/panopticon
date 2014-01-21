@@ -10,21 +10,11 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @section = params[:section].present? ? params[:section] : "all"
-    if @section != "all"
-      tags = Tag.where(tag_type: "section", parent_id: @section)
-      tag_ids = tags.collect {|t| t.tag_id}
-      tag_ids << @section
-      @artefacts = Artefact.any_in(tag_ids: tag_ids)
-    else
-      @artefacts = Artefact
-    end
-    if params[:filter].present?
-      search = /#{Regexp.escape(params[:filter])}/i
-      @artefacts = @artefacts.any_of({name: search}, {description: search}, {slug: search}, {kind: search}, {owning_app: search})
-    end
-    @artefacts = @artefacts.order_by([[sort_column, sort_direction]])
-    @artefacts = @artefacts.page(params[:page]).per(ITEMS_PER_PAGE)
+    @filters = params.slice(:section, :industry_sector, :kind, :state, :search)
+    @scope = apply_filters(artefact_scope, @filters)
+
+    @scope = @scope.order_by([[sort_column, sort_direction]])
+    @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts, @tag_collection
   end
 
@@ -114,6 +104,34 @@ class ArtefactsController < ApplicationController
         "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
         options.to_query
       ].reject(&:blank?).join("?")
+    end
+
+    def artefact_scope
+      # This is here so that we can stub this out a bit more easily in the
+      # functional tests.
+      Artefact
+    end
+
+    def apply_filters(scope, filters)
+      [:section, :industry_sector].each do |tag_type|
+        if filters[tag_type].present?
+          scope = scope.with_parent_tag(tag_type, filters[tag_type])
+        end
+      end
+
+      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
+        scope = scope.in_state(filters[:state])
+      end
+
+      if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
+        scope = scope.of_kind(filters[:kind])
+      end
+
+      if filters[:search].present?
+        scope = scope.matching_query(filters[:search])
+      end
+
+      scope
     end
 
     def tag_collection

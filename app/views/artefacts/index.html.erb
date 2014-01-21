@@ -1,32 +1,14 @@
 <%= content_for :page_title, "List artefacts" %>
-<div class="row-fluid">
+<div class="row-fluid artefacts-container">
   <div class="span12">
-
-    <div class="page-header">
-      <h1>
-        Artefacts
-        <% if params[:filter].present? %>
-          filtered for "<%= params[:filter] %>"
-        <% end %>
-      </h1>
-    </div>
 
     <div class="row-fluid">
       <div class="span2">
-        <div class="well sidebar-nav">
-          <ul class="nav nav-list">
-            <li class="nav-header">Filter by Section</li>
-            <%= parent_section_tab_list(:current => @section) %>
-          </ul>
+        <div class="artefact-count">
+          <em><%= @artefacts.count %></em> <%= "artefact".pluralize(@artefacts.count) %>
         </div>
-        <%= form_tag "", method: :get do |f| %>
-          <% if params[:section].present? %>
-            <%= hidden_field_tag :section, params[:section] %>
-          <% end %>
-          <label for="filter" class="visuallyhidden">Filter results</label>
-          <%= text_field_tag "filter", params[:filter], class: "span12", type: "search" %>
-          <input class="btn btn-primary" type="submit" value="Filter">
-        <% end %>
+
+        <%= render :partial => "filters" %>
       </div>
 
       <div class="span10">
