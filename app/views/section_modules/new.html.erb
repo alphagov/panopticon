@@ -1,0 +1,15 @@
+<%= content_for :page_title, "New module" %>
+
+<% if flash[:error].present? %>
+  <div class="alert alert-error"><%= flash[:error] %></div>
+<% end %>
+
+<div class="page-header">
+  <h1><%= yield :page_title %></h1>
+</div>
+
+<div>
+  <%= semantic_form_for(@section_module, as: :section_module, url: section_modules_path) do |f| %>
+    <%= render 'form', form: f, section_module: @section_module %>
+  <% end %>
+</div>

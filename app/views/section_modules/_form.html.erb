@@ -1,0 +1,78 @@
+<%= form.inputs do %>
+  <%= form.input :title %>
+  <%= form.input :type, :as => :select, :collection => ['Image', 'Frame', 'Text'] %>
+  
+  <div class="types image text hidden">
+    <%= form.input :link %>
+  </div>
+  
+  <div class="types frame <% unless section_module.type == "Frame" %>hidden<% end %>">
+    <%= form.input :frame, :collection => {
+                                          'Blog'    => 'blog',
+                                          'Courses' => 'courses',
+                                          'Events'  => 'events',
+                                          'News'    => 'news'
+                                        } %>
+  </div>
+  
+  <div class="types image <% unless section_module.type == "Image" %>hidden<% end %>">
+
+    <%= form.inputs "Image file" do %>
+    
+      <fieldset class='form-horizontal'>
+
+        <% if section_module.image %>
+          <div class='control-group'>
+            <%= form.label "Current image", class: 'control-label' %>
+            <div class='controls'>
+              <%= link_to section_module.image.name, section_module.image.file_url %>
+            </div>
+          </div>
+
+          <div class='control-group'>
+            <%= form.label "Remove image?", class: 'control-label' %>
+            <div class='controls'>
+              <%= check_box_tag "section_module[remove_image]", "1" %>
+            </div>
+          </div>
+
+        <% end %>
+
+        <p><%= form.input :image, :as => :file, :label => section_module.image ? "Replace image" : "Upload a new image" %></p>
+
+      </fieldset>
+    
+    <% end %>
+    
+  </div>
+  
+  <div class="types text <% unless section_module.type == "Text" %>hidden<% end %>">
+    <%= form.input :text %>
+    <%= form.input :colour, :as => :select, :collection =>  {
+                                            'Red'          => 1,
+                                            'Orange'       => 2,
+                                            'Yellow'       => 3,
+                                            'Light Green'  => 4,
+                                            'Medium Green' => 5,
+                                            'Turquoise'    => 6,
+                                            'Dark Blue'    => 7,
+                                            'Medium Blue'  => 8,
+                                            'Light Blue'   => 9,
+                                            'Pink'         => 10,
+                                            'Magenta'      => 11,
+                                            'Purple'       => 12
+                                          }
+    %>
+  </div>
+  
+  <%= form.submit :value => "Save", :class => "btn btn-success" %>
+<% end %>
+
+<%= content_for :extra_javascript do %>
+  <script type="text/javascript">
+    $("#section_module_type").change(function() {
+      $('.types').addClass('hidden');
+      $('.' + this.value.toLowerCase()).removeClass('hidden');
+    })
+  </script>
+<% end %>

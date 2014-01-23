@@ -1,0 +1,65 @@
+<%= form.inputs do %>
+  <%= form.input :title %>
+  
+  <%= form.input :link %>
+  
+  <%= form.input :description %>
+  
+  <%= form.input :tag_id, :label => "Section ID", :hint => "All lowercase, no spaces" %>
+  
+  <%= form.inputs "Hero Image" do %>
+  
+    <fieldset class='form-horizontal'>
+
+      <% if section.hero_image %>
+        <div class='control-group'>
+          <%= form.label "Current image", class: 'control-label' %>
+          <div class='controls'>
+            <%= link_to section.hero_image.name, section.hero_image.file_url %>
+          </div>
+        </div>
+
+        <div class='control-group'>
+          <%= form.label "Remove image?", class: 'control-label' %>
+          <div class='controls'>
+            <%= check_box_tag "section[remove_image]", "1" %>
+          </div>
+        </div>
+
+      <% end %>
+
+      <p><%= form.input :hero_image, :as => :file, :label => section.hero_image ? "Replace image" : "Upload a new image" %></p>
+
+    </fieldset>
+    
+    <% end %>
+    
+    <fieldset class='form-horizontal'>
+    
+      <legend>Modules</legend>
+      
+      <%= form.inputs do %>
+        <p>Click and drag to reorder</p>
+        <div class="modules-group">
+          <% if section.modules.length > 0 %>
+            <% section.modules.each do |m| %>
+              <%= render :partial => 'section_module', :locals => { module_id: m, is_template: false } %>
+            <% end %>
+          <% else %>
+            <%= render :partial => 'section_module', :locals => { module_id: nil, is_template: false } %>
+          <% end %>
+        </div>
+
+        <%= render :partial => 'section_module', :locals => { module_id: nil, is_template: true } %>
+        
+        <p class="well">
+          <button id="add-module" class="btn btn-success" type="button">Add another module</button>
+          <%= link_to "Create a new module", new_section_module_path, :class => "btn btn-danger", :target => "_blank" %>
+        </p>
+      <% end %>
+      
+    </fieldset>
+    
+    <p class="well"><%= form.submit :value => "Save", :class => "btn btn-success" %></p>
+  
+<% end %>

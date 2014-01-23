@@ -1,6 +1,18 @@
 GIT
+  remote: git://github.com/theodi/gds-api-adapters.git
+  revision: cae3a08d8e6932f5f37fe889aadd78be897778fc
+  specs:
+    gds-api-adapters (7.5.0)
+      activesupport
+      link_header
+      lrucache (~> 0.1.1)
+      null_logger
+      plek
+      rest-client (~> 1.6.3)
+
+GIT
   remote: git://github.com/theodi/govuk_content_models.git
-  revision: 77bbd75991f54dc304c0bd289c271785fc586fd9
+  revision: d2c8536da24a9ef003e1eb40f5bac2074dfa478b
   branch: feature-lambda-format-validator
   specs:
     govuk_content_models (5.10.0)
@@ -15,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/odi_content_models.git
-  revision: 393763504ce66f9b8353bbb1767f206eb767e0a7
+  revision: 57042671a011b12e4fa7795a90c4ef1c5946c2c0
   specs:
     odi_content_models (0.0.1)
       govuk_content_models
@@ -136,10 +148,6 @@ GEM
     foreman (0.63.0)
       dotenv (>= 0.7)
       thor (>= 0.13.6)
-    gds-api-adapters (4.1.3)
-      lrucache (~> 0.1.1)
-      null_logger
-      plek
     gds-sso (3.0.5)
       omniauth-gds (~> 0.0.3)
       rack-accept (~> 0.4.4)
@@ -149,10 +157,10 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (1.2.3)
+    govspeak (1.2.5)
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
-      sanitize (= 2.0.3)
+      sanitize (~> 2.0.3)
     hashie (2.0.3)
     hike (1.2.2)
     htmlentities (4.3.1)
@@ -186,6 +194,7 @@ GEM
     libv8 (3.16.14.3)
     libwebsocket (0.1.5)
       addressable
+    link_header (0.0.8)
     lograge (0.1.2)
       actionpack
       activesupport
@@ -291,8 +300,8 @@ GEM
       json
       plek
       rest-client
-    sanitize (2.0.3)
-      nokogiri (>= 1.4.4, < 1.6)
+    sanitize (2.0.6)
+      nokogiri (>= 1.4.4)
     selenium-webdriver (2.25.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
@@ -364,7 +373,7 @@ DEPENDENCIES
   foreman
   formtastic!
   formtastic-bootstrap!
-  gds-api-adapters (= 4.1.3)
+  gds-api-adapters!
   gds-sso (~> 3.0.5)
   gelf
   govuk_content_models!
