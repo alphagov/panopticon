@@ -225,6 +225,54 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
+
+  context "editing industry_sectors" do
+    setup do
+      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
+      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'charities', title: 'Charities')
+      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
+
+      @artefact = FactoryGirl.create(:artefact, :name => "VAT")
+    end
+
+    should "allow adding industry sectors to artefacts" do
+      visit "/artefacts"
+      click_on "VAT"
+
+      within "select#artefact_industry_sector_ids" do
+        assert page.has_selector?("optgroup[label='Oil and gas']")
+        assert page.has_selector?("optgroup[label='Charities']")
+
+        within "optgroup[label='Oil and gas']" do
+          assert page.has_selector?("option", text: "Fields and wells")
+        end
+      end
+
+      select "Oil and gas: Fields and wells", :from => "Industry sectors"
+      select "Charities: Starting a charity", :from => "Industry sectors"
+
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"], @artefact.industry_sector_ids
+    end
+
+    should "allow removing industry sectors from artefacts" do
+      @artefact.industry_sector_ids = ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"]
+      @artefact.save!
+
+      visit "/artefacts"
+      click_on "VAT"
+
+      unselect "Oil and gas: Fields and wells", :from => "Industry sectors"
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal ["charities/starting-a-charity"], @artefact.industry_sector_ids
+    end
+  end
+
   context "editing language" do
     setup do
       @artefact = FactoryGirl.create(:artefact, :name => "Bank holidays", :language => nil)
