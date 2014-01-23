@@ -245,7 +245,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         assert page.has_selector?("optgroup[label='Charities']")
 
         within "optgroup[label='Oil and gas']" do
-          assert page.has_selector?("option", text: "Fields and wells")
+          assert page.has_selector?("option", text: "Oil and gas")
+          assert page.has_selector?("option", text: "Oil and gas: Fields and wells")
         end
       end
 
@@ -255,7 +256,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "Save and continue editing"
 
       @artefact.reload
-      assert_equal ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"], @artefact.industry_sector_ids
+      assert_equal ["charities/starting-a-charity", "oil-and-gas/fields-and-wells"], @artefact.industry_sector_ids.sort
     end
 
     should "allow removing industry sectors from artefacts" do
