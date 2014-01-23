@@ -9,11 +9,14 @@ class TagsHelperTest < ActiveSupport::TestCase
       Tag.create!(tag_type: "section", tag_id: "driving", title: "Driving")
       Tag.create!(tag_type: "section", tag_id: "driving/car-tax", title: "Car tax", parent_id: "driving")
       Tag.create!(tag_type: "section", tag_id: "driving/mot", title: "MOT", parent_id: "driving")
+
+      Tag.create!(tag_type: "legacy_source", tag_id: "directgov", title: "Directgov")
     end
 
     should "return a hierarchy of parent tags and their children" do
       expected = [
-        [ "Driving", [ ["Driving: Car tax", "driving/car-tax"], ["Driving: MOT", "driving/mot"] ]]
+        [ "Driving", [ ["Driving", "driving"], ["Driving: Car tax", "driving/car-tax"], ["Driving: MOT", "driving/mot"] ]],
+        [ "Tax", [["Tax", "tax"]] ]
       ]
 
       assert_equal expected, grouped_options_for_tags_of_type("section")
