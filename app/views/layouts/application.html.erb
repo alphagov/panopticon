@@ -27,6 +27,10 @@
             <% if current_user.has_permission?("Browse section admin") %>
               <%= nav_link 'Browse sections', browse_sections_path %>
             <% end %>
+            <% if current_user.has_permission?("Manage sections") %>
+              <%= nav_link 'Section homepages', sections_path %>
+              <%= nav_link 'Section modules', section_modules_path %>
+            <% end %>
           </ul>
           <ul class="nav pull-right">
             <li class="dropdown">
