@@ -13,11 +13,11 @@
  *= require formtastic-bootstrap
  */
 
-.related-artefact-group, .curated-artefact-group {
+.related-artefact-group, .curated-artefact-group, .modules-group {
   margin-bottom: 10px;
 }
 
-.related-artefact, .curated-artefact {
+.related-artefact, .curated-artefact, .module {
   border: 1px solid #e5e5e5;
   padding: 8px;
   cursor: move;

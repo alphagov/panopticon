@@ -1,0 +1,15 @@
+<%= content_for :page_title, "Edit section" %>
+
+<% if flash[:error].present? %>
+  <div class="alert alert-error"><%= flash[:error] %></div>
+<% end %>
+
+<div class="page-header">
+  <h1><%= yield :page_title %></h1>
+</div>
+
+<div>
+  <%= semantic_form_for(@section, as: :section, url: section_path(@section), html: { class: 'form-horizontal' }) do |f| %>
+    <%= render 'form', form: f, section: @section %>
+  <% end %>
+</div>

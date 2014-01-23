@@ -1,0 +1,4 @@
+<div class="row-fluid <%= is_template ? "hidden module-template" : "module" %>">
+  <%= select_tag("section[modules][]", options_from_collection_for_select(SectionModule.all, :id, :title, module_id), { prompt: "Select a module", :class => "span4" }) %>
+  <button class="btn btn-danger remove-module offset1" type="button">Remove module</button>
+</div>
