@@ -129,3 +129,17 @@ label.section-label {
     margin-bottom: 10px;
   }
 }
+
+#archive {
+  em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  .modal-footer form {
+    display: inline;
+
+    > div {
+      display: inline;
+    }
+  }
+}

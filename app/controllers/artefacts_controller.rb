@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit]
+  before_filter :find_artefact, :only => [:show, :edit, :history]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   before_filter :tags_by_kind, :except => [:show]
@@ -30,6 +30,10 @@ class ArtefactsController < ApplicationController
     end
   end
 
+  def history
+    @actions = build_actions
+  end
+
   def new
     redirect_to_show_if_need_met
     # Set default author to current user
@@ -38,7 +42,6 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
-    @actions = build_actions
   end
 
   def create

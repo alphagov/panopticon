@@ -1,0 +1,36 @@
+<div class="artefact-header">
+  <div class="artefact-title">
+    <h1><%= @artefact.name %></h1>
+    <h2>
+      <%= link_to "/#{@artefact.slug}", published_url(@artefact) %>
+      <span class="state state-<%= @artefact.state %>"><%= @artefact.state %></span>
+    </h2>
+  </div>
+  <div class="artefact-actions">
+    <% if local_assigns[:actions].include?(:edit) %>
+      <%= link_to edit_artefact_path(@artefact), class: 'btn' do %>
+        <i class="icon-edit"></i> Edit
+      <% end %>
+    <% end %>
+
+    <% if local_assigns[:actions].include?(:history) %>
+      <%= link_to history_artefact_path(@artefact), class: 'btn' do %>
+        <i class="icon-time"></i> See history
+      <% end %>
+    <% end %>
+
+    <% unless @artefact.archived? %>
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        More
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#archive" role="button" data-toggle="modal">Archive</a>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</div>
+
+<%= render partial: "archive" %>
