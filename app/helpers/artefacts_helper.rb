@@ -32,6 +32,6 @@ module ArtefactsHelper
   def link_to_view_need(artefact)
     return unless artefact.need_owning_service
 
-    link_to("View in #{artefact.need_owning_service.titleize}", need_url(artefact), :rel => 'external', :class => "btn btn-primary")
+    link_to("View in #{artefact.need_owning_service.titleize}", need_url(artefact), :rel => 'external', :class => "btn")
   end
 end

@@ -52,7 +52,6 @@
 }
 
 form.artefact {
-
   legend {
     border: none;
     margin-bottom: 8px;
@@ -128,6 +127,11 @@ label.section-label {
   .fields:last-of-type {
     margin-bottom: 10px;
   }
+}
+
+.owning-app p {
+  font-size: 18px;
+  line-height: 26px;
 }
 
 #archive {
