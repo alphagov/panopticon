@@ -22,7 +22,9 @@ $(function() {
     $('.remove-section').show();
     var new_select = $('.artefact-section').first().clone(true);
     new_select.find('select option:selected').removeAttr('selected');
-    new_select.insertBefore(this);
+
+    var final_section = $('.artefact-section').last();
+    new_select.insertAfter(final_section);
     return false;
   })
 

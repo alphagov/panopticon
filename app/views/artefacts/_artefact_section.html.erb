@@ -1,4 +1,4 @@
-<div class="row-fluid artefact-section">
+<div class="row-fluid nested-item artefact-section">
   <%= select_tag("artefact[sections][]", options_from_collection_for_select(tag_collection, :tag_id, :unique_title, section_id), {:prompt => "Select a section", :class => "span4"}) %>
-  <button class="btn btn-danger remove-section offset1" type="button">Remove this section</button>
+  <button class="remove-row remove-section" type="button">Remove this section</button>
 </div>
