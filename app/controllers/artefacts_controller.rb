@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit]
+  before_filter :find_artefact, :only => [:show, :edit, :history]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   helper_method :relatable_items
@@ -24,12 +24,15 @@ class ArtefactsController < ApplicationController
     end
   end
 
+  def history
+    @actions = build_actions
+  end
+
   def new
     redirect_to_show_if_need_met
   end
 
   def edit
-    @actions = build_actions
   end
 
   def create
