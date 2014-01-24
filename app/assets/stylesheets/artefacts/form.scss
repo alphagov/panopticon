@@ -24,6 +24,28 @@
   }
 }
 
+.state {
+  color: #fff;
+  padding: 3px 10px;
+  display: inline-block;
+  font-size: 18px;
+  line-height: 28px;
+  vertical-align: top;
+  margin-left: 8px;
+
+  &.state-draft {
+    background: #d53880;
+  }
+
+  &.state-live {
+    background: #85994b;
+  }
+
+  &.state-archived {
+    background: #6F777B;
+  }
+}
+
 .artefact-actions {
   @extend .btn-group;
   float: right;
