@@ -28,3 +28,82 @@
   @extend .btn-group;
   float: right;
 }
+
+form.artefact {
+
+  legend {
+    border: none;
+    margin-bottom: 8px;
+
+    line-height: 24px;
+    font-size: 22px;
+  }
+}
+
+.fieldset-section {
+  padding: 18px 0;
+  border-bottom: 1px solid #ccc;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+label.section-label {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 15px;
+
+  .hint {
+    display: inline;
+    color: #444;
+    font-size: 14px;
+    font-weight: normal;
+    vertical-align: top;
+  }
+}
+
+.nested-item-group, .curated-artefact-group, .modules-group {
+  margin-bottom: 10px;
+}
+
+.nested-item, .curated-artefact, .module {
+  @include box-sizing(border-box);
+
+  background: #fbfbfb;
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-bottom: 3px;
+
+  &.sortable {
+    cursor: move;
+  }
+
+  .icon-align-justify {
+    opacity: 0.3; /* makes the button look greyer */
+    vertical-align: middle;
+    margin: 0 5px 0 2px;
+  }
+
+  select {
+    @extend .span8;
+  }
+
+  .remove-row {
+    @extend .btn;
+    @extend .btn-danger;
+
+    float: right;
+  }
+}
+
+.related-external-links {
+  input[type=text] {
+    margin-bottom: 0px;
+  }
+
+  .fields:last-of-type {
+    margin-bottom: 10px;
+  }
+}
