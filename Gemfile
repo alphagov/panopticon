@@ -55,6 +55,7 @@ gem 'bootstrap-sass', '2.3.2.2'
 
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails', '3.0.1'
+gem 'chosen-rails', '1.0.2'
 
 group :assets do
   gem "therubyracer", "0.12.0"
