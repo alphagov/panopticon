@@ -31,3 +31,12 @@ select#artefact_sections_, select#artefact_related_artefact_ids_, select#curated
   display: inline-block;
   margin-bottom: 0;
 }
+
+/*
+  Make wells look less rubbish.
+*/
+.well {
+  @include border-radius(0px);
+  @include box-shadow(none);
+  border-color: #ccc;
+}
