@@ -8,10 +8,18 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require chosen
+ *= require_self
  *= require formtastic-bootstrap
+ *= require chosen
  */
+
+@import "bootstrap/variables";
+
+@import "bootstrap";
+@import "bootstrap-responsive";
+@import "bootstrap-overrides";
+
+@import "artefacts";
 
 .related-artefact-group, .curated-artefact-group, .modules-group {
   margin-bottom: 10px;

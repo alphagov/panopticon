@@ -7,8 +7,6 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 gem 'dotenv-rails'
 
 gem 'plek', '1.5.0'
-gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
-gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
 gem 'nested_form', '0.3.2'
 
@@ -27,7 +25,6 @@ gem 'aws-ses', require: 'aws/ses'
 gem 'rails', '3.2.16'
 gem 'foreman'
 gem 'thin'
-gem 'less-rails-bootstrap'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "~> 0.3.0"
@@ -55,6 +52,11 @@ if ENV['BUNDLE_DEV']
 else
   gem 'gds-sso', '9.2.2'
 end
+
+gem 'formtastic', '2.2.1'
+gem 'formtastic-bootstrap', '2.1.3'
+
+gem 'bootstrap-sass', '2.3.2.2'
 
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails', '3.0.1'
