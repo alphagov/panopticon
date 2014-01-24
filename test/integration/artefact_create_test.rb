@@ -20,14 +20,11 @@ class ArtefactCreateTest < ActionDispatch::IntegrationTest
 
       artefact = Artefact.where(:slug => 'government/world/organisations/british-embassy-legoland').last
 
-      assert_equal "/artefacts/#{artefact.to_param}/edit", current_path 
+      assert_equal "/artefacts/#{artefact.to_param}/edit", current_path
     end
 
-    assert page.has_link?("View on site")
-    within(".alert.alert-error") do 
-      assert page.has_no_css?("li"), "No form errors were expected"
-    end
-
+    assert page.has_link?("/government/world/organisations/british-embassy-legoland")
+    assert page.has_no_css?(".alert.alert-error"), "No form errors were expected"
   end
 
   should "not allow the use of invalid slugs when creating a whitehall artefact" do

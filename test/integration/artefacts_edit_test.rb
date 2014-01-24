@@ -23,7 +23,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     visit "/artefacts"
     click_on "Alpha"
 
-    assert page.has_link?("View on site", :href => "http://www.dev.gov.uk/alpha")
+    assert page.has_link?("/alpha", :href => "http://www.dev.gov.uk/alpha")
   end
 
   context "displaying need information" do

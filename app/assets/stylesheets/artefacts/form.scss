@@ -1,0 +1,30 @@
+.artefact-header {
+  @extend .page-header;
+  position: relative;
+  overflow: auto;
+  margin-top: 15px;
+}
+
+.artefact-title {
+  float: left;
+  margin-right: 180px;
+  display: inline-block;
+
+  h1 {
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 42px;
+    margin: 5px 0;
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 34px;
+    margin: 5px 0;
+  }
+}
+
+.artefact-actions {
+  @extend .btn-group;
+  float: right;
+}
