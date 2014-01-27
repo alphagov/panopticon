@@ -15,12 +15,20 @@
     font-size: 36px;
     line-height: 42px;
     margin: 5px 0;
+
+    display: inline-block;
+    vertical-align: middle;
   }
+
   h2 {
     font-weight: normal;
     font-size: 22px;
     line-height: 34px;
-    margin: 5px 0;
+    margin: 0;
+
+    a {
+      vertical-align: middle;
+    }
   }
 }
 
@@ -30,7 +38,7 @@
   display: inline-block;
   font-size: 18px;
   line-height: 28px;
-  vertical-align: top;
+  vertical-align: middle;
   margin-left: 8px;
 
   &.state-draft {
@@ -48,7 +56,8 @@
 
 .artefact-actions {
   @extend .btn-group;
-  float: right;
+  vertical-align: baseline;
+  margin-left: 10px;
 }
 
 form.artefact {
@@ -59,6 +68,15 @@ form.artefact {
 
     line-height: 24px;
     font-size: 22px;
+  }
+
+  .row-fluid div.span4 {
+    /*
+      Bodge Bootstrap so that there isn't a massive
+      gap between the two columns.
+    */
+    width: 32.6239%;
+    margin-left: 1.4%;
   }
 }
 
@@ -75,7 +93,7 @@ label.section-label {
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 
   .hint {
     display: inline;
@@ -87,14 +105,14 @@ label.section-label {
 }
 
 .nested-item-group, .curated-artefact-group, .modules-group {
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .nested-item, .curated-artefact, .module {
   @include box-sizing(border-box);
+  @include box-shadow(#bbb 0px 1px 2px);
 
-  background: #fbfbfb;
-  border: 1px solid #ccc;
+  background: #fff;
   padding: 8px;
   margin-bottom: 3px;
 
