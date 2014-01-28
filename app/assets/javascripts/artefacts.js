@@ -54,6 +54,11 @@ $(function() {
   $('#artefact_kind').change(function() {
 	$('.tag').addClass('hidden');
 	$('.' + this.value + '-tags').removeClass('hidden');
+	if (this.value == "event" || this.value == "course_instance") {
+		$('#featured').removeClass('hidden');
+	} else {
+		$('#featured').addClass('hidden');
+	}
   })
 
   $('#artefact_person_').change(function() {

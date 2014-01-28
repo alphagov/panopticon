@@ -61,6 +61,9 @@
             <hr>
           </div>
         <% end %>
+        <div class="<%= "hidden" unless ["event", "course_instance"].include?(artefact.kind)  %>" id="featured">
+            <%= f.input :featured, :label => "", :collection => Tag.where(:tag_id => 'featured').map { |t| [t.title, t.tag_id]}, :as => :check_boxes, :input_html => { :checked => !artefact.featured.blank? } %>
+        </div>
         
         <div class="tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
           <div class="check_boxes control-group optional" id="artefact_team_input">
