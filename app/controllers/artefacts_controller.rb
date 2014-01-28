@@ -219,6 +219,13 @@ class ArtefactsController < ApplicationController
         end
       end
 
+      # Convert nil tag fields to empty arrays if they're present
+      Artefact.tag_types.each do |tag_type|
+        if parameters_to_use.has_key?(tag_type)
+          parameters_to_use[tag_type] ||= []
+        end
+      end
+
       # Strip out the empty submit option for sections
       ['sections', 'legacy_source_ids', 'person', 'timed_item', 'asset', 'article', 'organization', 'team', 'event', 'roles', 'featured'].each do |param|
         param_value = parameters_to_use[param]
