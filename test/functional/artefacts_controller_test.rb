@@ -452,6 +452,34 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal 409, response.status
         assert response.body.include? "publisher"
       end
+
+      should "convert nil values for tag attributes to an empty array" do
+        artefact = FactoryGirl.create(:artefact)
+
+        stub_action_user = stub("User")
+        @controller.expects(:action_user).returns(stub_action_user)
+
+        Artefact.any_instance.expects(:update_attributes_as)
+                              .with(stub_action_user, has_entry("industry_sectors", []))
+                              .returns(true)
+
+        put :update, id: artefact.id, format: :json, industry_sectors: nil
+        assert response.ok?
+      end
+
+      should "not populate empty arrays for tag types which haven't been provided" do
+        artefact = FactoryGirl.create(:artefact)
+
+        stub_action_user = stub("User")
+        @controller.expects(:action_user).returns(stub_action_user)
+
+        Artefact.any_instance.expects(:update_attributes_as)
+                              .with(stub_action_user, Not(has_key("industry_sectors")))
+                              .returns(true)
+
+        put :update, id: artefact.id, format: :json # not providing 'industry_sectors' here
+        assert response.ok?
+      end
     end
 
     context "DELETE /artefacts/:id" do
