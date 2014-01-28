@@ -27,6 +27,12 @@ delete_tags(['global',
             'people/writers',
             'people/artists',
             'news'])
+            
+create_or_update_tag(
+    title: "Featured item?",
+    tag_type: "featured",
+    tag_id: "featured",
+    description: "Featured item?")
     
 create_or_update_tag(
     title: "Team member",
