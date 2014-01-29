@@ -41,7 +41,7 @@ gem 'lograge', '~> 0.1.0'
 
 gem 'language_list'
 
-gem 'govuk_content_models', '6.0.6'
+gem "govuk_content_models", "6.1.0"
 
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'
@@ -52,7 +52,7 @@ end
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '~> 3.0.5'
+  gem 'gds-sso', '9.2.0'
 end
 
 gem 'jquery-rails', '2.0.2'
