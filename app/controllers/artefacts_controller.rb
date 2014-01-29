@@ -33,7 +33,7 @@ class ArtefactsController < ApplicationController
   end
 
   def create
-    @artefact.save_as action_user
+    @artefact.save_as current_user
     continue_editing = (params[:commit] == 'Save and continue editing')
     if continue_editing || @artefact.owning_app != "publisher"
       location = edit_artefact_path(@artefact.id)
@@ -65,7 +65,7 @@ class ArtefactsController < ApplicationController
       return
     end
 
-    saved = @artefact.update_attributes_as(action_user, parameters_to_use)
+    saved = @artefact.update_attributes_as(current_user, parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
     @actions = build_actions
@@ -90,7 +90,7 @@ class ArtefactsController < ApplicationController
 
   def destroy
     @artefact = Artefact.from_param(params[:id])
-    @artefact.update_attributes_as(action_user, state: "archived")
+    @artefact.update_attributes_as(current_user, state: "archived")
     respond_with(@artefact) do |format|
       format.json { head 200 }
       format.html { redirect_to artefacts_path }
@@ -199,13 +199,6 @@ class ArtefactsController < ApplicationController
         param_value.reject!(&:blank?) if param_value
       end
       parameters_to_use
-    end
-
-    def action_user
-      # The user to associate with actions
-      # Currently this returns nil for the API user: this should go away once
-      # we have real user authentication for API requests
-      current_user.is_a?(User) ? current_user : nil
     end
 
     def build_actions
