@@ -33,6 +33,12 @@ create_or_update_tag(
     tag_type: "featured",
     tag_id: "featured",
     description: "Featured item?")
+
+create_or_update_tag(
+    title: "DaPaaS Partner",
+    tag_type: "person",
+    tag_id: "partner-biography",
+    description: "DaPaaS Partner")
     
 create_or_update_tag(
     title: "Team member",
