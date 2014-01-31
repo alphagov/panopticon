@@ -6,6 +6,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   setup do
     create_test_user
+    stub_all_router_api_requests
+    stub_all_rummager_requests
   end
 
   def stub_basic_need_api_response(need_id = "100123")
@@ -17,13 +19,43 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     )
   end
 
-  should "link to the live site from the edit form" do
-    artefact = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
+  context "editing a publisher artefact" do
+    setup do
+      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
+      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
+      FactoryGirl.create(:tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
 
-    visit "/artefacts"
-    click_on "Alpha"
+      @artefact = FactoryGirl.create(:artefact,
+                                     name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
+                                     owning_app: "publisher", language: "en", business_proposition: true,
+                                     section_ids: ["business/employing-people"], legacy_source_ids: ["businesslink"])
+    end
 
-    assert page.has_link?("/alpha", :href => "http://www.#{ENV["GOVUK_APP_DOMAIN"]}/alpha")
+    should "display the artefact form" do
+      visit "/artefacts/#{@artefact.id}/edit"
+
+      within "header.artefact-header" do
+        assert page.has_selector? "h1", text: "VAT Rates"
+        assert page.has_link? "/vat-rates", href: "http://www.dev.gov.uk/vat-rates"
+        assert page.has_selector? ".state", text: "live"
+      end
+
+      within ".artefact-actions" do
+        assert page.has_selector? "li.active", text: "Edit"
+        assert page.has_selector? "li:not(.active)", text: "History"
+        assert page.has_selector? "li:not(.active)", text: "Archive"
+      end
+
+      within ".owning-app" do
+        assert page.has_content? "This content is managed in Publisher"
+        assert page.has_link? "Edit in Publisher"
+      end
+
+      within ".form-actions" do
+        assert page.has_button? "Save and continue editing"
+        assert page.has_button? "Save and go to item"
+      end
+    end
   end
 
   # skip all these tests, odi does not make use of needs
