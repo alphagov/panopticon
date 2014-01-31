@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit, :history]
+  before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
   before_filter :tags_by_kind, :except => [:show]
@@ -32,6 +32,10 @@ class ArtefactsController < ApplicationController
 
   def history
     @actions = build_actions
+  end
+
+  def archive
+
   end
 
   def new
