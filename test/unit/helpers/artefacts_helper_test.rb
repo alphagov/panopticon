@@ -24,7 +24,7 @@ class ArtefactsHelperTest < ActionView::TestCase
       artefact = OpenStruct.new(need_owning_service: "needorama")
       expects(:need_url).with(artefact).returns("http://needorama.dev.gov.uk/a-need")
 
-      expected = "<a href=\"http://needorama.dev.gov.uk/a-need\" class=\"btn btn-primary\" rel=\"external\">View in Needorama</a>"
+      expected = "<a href=\"http://needorama.dev.gov.uk/a-need\" class=\"btn\" rel=\"external\">View in Needorama</a>"
       assert_equal expected, link_to_view_need(artefact)
     end
 
