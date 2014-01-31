@@ -69,7 +69,7 @@ form.artefact {
     font-size: 22px;
   }
 
-  .row-fluid div.span4 {
+  > .row-fluid > div.span4 {
     /*
       Bodge Bootstrap so that there isn't a massive
       gap between the two columns.
