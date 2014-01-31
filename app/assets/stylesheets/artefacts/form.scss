@@ -28,6 +28,16 @@
 
     a {
       vertical-align: middle;
+
+      &:after {
+        content: "\A0\A0\A0";
+        background: url("external-link.png") no-repeat right top;
+        display: inline-block;
+        line-height: 12px;
+      }
+      &:hover:after {
+        background-position: right -388px;
+      }
     }
   }
 }
