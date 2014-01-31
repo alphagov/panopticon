@@ -1,12 +1,10 @@
 .artefact-header {
   @extend .page-header;
-  position: relative;
-  overflow: auto;
-  margin-top: 15px;
+  padding: 0;
+  border: none;
 }
 
 .artefact-title {
-  float: left;
   margin-right: 180px;
   display: inline-block;
 
@@ -65,9 +63,8 @@
 }
 
 .artefact-actions {
-  @extend .btn-group;
-  vertical-align: baseline;
-  margin-left: 10px;
+  @extend .nav;
+  @extend .nav-tabs;
 }
 
 form.artefact {
@@ -103,7 +100,7 @@ label.section-label {
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-  margin-bottom: 0;
+  margin-bottom: 8px;
 
   .hint {
     display: inline;

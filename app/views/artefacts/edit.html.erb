@@ -1,5 +1,5 @@
-<%= content_for :page_title, "Editing artefact #{@artefact.name}" %>
-<%= render partial: "artefact_header", locals: { actions: [:history] } %>
+<%= content_for :page_title, "Edit - #{@artefact.name}" %>
+<%= render partial: "artefact_header" %>
 
 <% if "whitehall" == @artefact.owning_app %>
   <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
