@@ -43,13 +43,13 @@ gem "bson", "1.7.1"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "6.0.5"
+  gem "govuk_content_models", "6.1.0"
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '3.0.0'
+  gem 'gds-sso', '9.2.0'
 end
 
 gem 'jquery-rails', '2.0.2'
