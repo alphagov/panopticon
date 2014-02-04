@@ -12,6 +12,7 @@ gem 'gelf'
 gem 'null_logger'
 
 gem 'exception_notification'
+gem 'airbrake', '3.1.15'
 
 if ENV['API_DEV']
   gem 'gds-api-adapters', :path => '../gds-api-adapters'
