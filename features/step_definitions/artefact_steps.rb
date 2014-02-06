@@ -18,10 +18,10 @@ Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
 
-When /^I change the title of the first artefact$/ do
+When /^I change the need ID of the first artefact$/ do
   visit edit_artefact_path(@artefact)
-  @new_name = "Some other new name"
-  fill_in "Name", :with => @new_name
+  @new_need_id = "B1234"
+  fill_in "Need ID", :with => @new_need_id
 end
 
 When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
