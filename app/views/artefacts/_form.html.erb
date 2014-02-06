@@ -21,7 +21,7 @@
 
     <div class="row-fluid">
       <div class="span8">
-        <% if f.object.new_record? %>
+        <% if f.object.new_record? || f.object.state == "draft" %>
           <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
 
