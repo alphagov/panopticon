@@ -11,7 +11,6 @@ gem 'ansi'
 gem 'gelf'
 gem 'null_logger'
 
-gem 'exception_notification'
 gem 'airbrake', '3.1.15'
 
 if ENV['API_DEV']
