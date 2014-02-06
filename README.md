@@ -20,5 +20,5 @@ Panopticon provides:
 * an admin UI where items can be created and their metadata
   edited. This is authenticated in conjunction with sign-on-o-tron.
 * a writeable API where applications can register the content
-  they provide. This is authenticated using HTTP Basic.
+  they provide. This is authenticated using OAuth2.
 * a read API for retrieving metadata about a given item
