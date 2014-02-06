@@ -128,6 +128,27 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
     end
 
+    context "GET history" do
+      should "Include history" do
+        # Create and update the artefact to set up some actions
+        artefact = Artefact.create!(
+          :slug => 'whatever',
+          :kind => 'guide',
+          :owning_app => 'publisher',
+          :name => 'Whatever',
+          :need_id => 1,
+        )
+        artefact.update_attributes_as stub_user, name: "Changed"
+
+        get :history, id: artefact.id, format: :html
+
+        # Check the actions: note reverse order
+        actions = assigns["actions"]
+        assert_equal ["update", "create"], actions.map(&:action_type)
+        assert_equal [false, true], actions.map(&:initial?)
+      end
+    end
+
     context "PUT update" do
       context "invalid artefact" do
         should "be invalid with an empty title" do
@@ -271,41 +292,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         get :show, id: 'bad-slug', format: :json
         assert_equal 404, response.code.to_i
       end
-
-      context "GET /artefacts/:id/edit" do
-        should "Include history" do
-          # Create and update the artefact to set up some actions
-          artefact = Artefact.create!(
-            :slug => 'whatever',
-            :kind => 'guide',
-            :owning_app => 'publisher',
-            :name => 'Whatever',
-            :need_id => 1,
-          )
-          artefact.update_attributes_as stub_user, name: "Changed"
-
-          get :edit, id: artefact.id, format: :html
-
-          # Check the actions: note reverse order
-          actions = assigns["actions"]
-          assert_equal ["update", "create"], actions.map(&:action_type)
-          assert_equal [false, true], actions.map(&:initial?)
-        end
-
-        should "assign list of sections" do
-          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
-          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
-          FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
-          FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
-
-          artefact = FactoryGirl.create(:artefact)
-
-          get :edit, id: artefact.id, format: :html
-
-          assert_equal ['fooey', 'gooey', 'kablooey'], assigns["tag_collection"].map(&:tag_id)
-        end
-      end
-
     end
 
     context "PUT /artefacts/:id" do
