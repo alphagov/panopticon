@@ -1,5 +1,4 @@
 source 'http://rubygems.org'
-source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 gem 'plek', '1.5.0'
 gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
@@ -11,7 +10,6 @@ gem 'ansi'
 gem 'gelf'
 gem 'null_logger'
 
-gem 'exception_notification'
 gem 'airbrake', '3.1.15'
 
 if ENV['API_DEV']

@@ -17,7 +17,6 @@ GIT
 
 GEM
   remote: http://rubygems.org/
-  remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
   specs:
     PriorityQueue (0.1.2)
     actionmailer (3.2.16)
@@ -95,8 +94,6 @@ GEM
       unf (~> 0.0.3)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    exception_notification (2.6.1)
-      actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (3.3.0)
@@ -342,7 +339,6 @@ DEPENDENCIES
   colorize (~> 0.5.8)
   cucumber-rails
   database_cleaner
-  exception_notification
   factory_girl (= 3.3.0)
   factory_girl_rails
   formtastic!
