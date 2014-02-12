@@ -11,6 +11,10 @@ module ArtefactsHelper
     artefact.persisted? ? "This should be edited in #{artefact.owning_app}" : "A name/title for the item"
   end
 
+  def admin_url_for_edition(artefact, options = {})
+    "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}"
+  end
+
   def non_whitehall_formats
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP.each_with_object([]) do |(owning_app, formats), result|
       if owning_app != "whitehall"
@@ -28,6 +32,6 @@ module ArtefactsHelper
   def link_to_view_need(artefact)
     return unless artefact.need_owning_service
 
-    link_to("View in #{artefact.need_owning_service.titleize}", need_url(artefact), :rel => 'external', :class => "btn btn-primary")
+    link_to("View in #{artefact.need_owning_service.titleize}", need_url(artefact), :rel => 'external', :class => "btn")
   end
 end

@@ -8,27 +8,22 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require chosen
+ *= require_self
  *= require formtastic-bootstrap
+ *= require chosen
  */
 
-.related-artefact-group, .curated-artefact-group {
-  margin-bottom: 10px;
-}
+@import "bootstrap/variables";
+@import "theme";
 
-.related-artefact, .curated-artefact {
-  border: 1px solid #e5e5e5;
-  padding: 8px;
-  cursor: move;
-  margin-bottom: 2px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
+@import "bootstrap";
+@import "bootstrap-responsive";
+@import "bootstrap-overrides";
+
+@import "artefacts";
+@import "artefacts/form";
+
+
 
 /* For some reason it's getting a margin-left of 30px */
 .select2-container {

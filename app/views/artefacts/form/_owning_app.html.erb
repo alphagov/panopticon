@@ -1,0 +1,6 @@
+<div class="well owning-app">
+  <p>This content is managed in <strong><%= f.object.owning_app.humanize %></strong>.</p>
+  <% if f.object.owning_app == "publisher" %>
+    <%= link_to "Edit in Publisher", admin_url_for_edition(f.object), :class => "btn" %>
+  <% end %>
+</div>

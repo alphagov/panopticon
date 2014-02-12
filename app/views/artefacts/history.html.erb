@@ -1,6 +1,11 @@
+<%= content_for :page_title, "History - #{@artefact.name}" %>
+<%= render partial: "artefact_header" %>
+
+<h3>History</h3>
+
 <div class="well">
   <dl class="dl-horizontal">
-  <% actions.each do |action| %>
+  <% @actions.each do |action| %>
     <dt><%= human_timestamp(action.created_at) %></dt>
     <dd>
       <p>

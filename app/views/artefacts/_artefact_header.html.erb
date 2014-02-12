@@ -1,0 +1,21 @@
+<header class="artefact-header">
+  <div class="artefact-title">
+    <h1><%= @artefact.name %></h1>
+    <h2>
+      <%= link_to "/#{@artefact.slug}", published_url(@artefact) %>
+      <span class="state state-<%= @artefact.state %>"><%= @artefact.state %></span>
+    </h2>
+  </div>
+</header>
+
+<ul class="artefact-actions">
+  <li class="<%= "active" if controller.action_name == "edit" %>">
+    <%= link_to "Edit", edit_artefact_path(@artefact) %>
+  </li>
+  <li class="<%= "active" if controller.action_name == "history" %>">
+    <%= link_to "History", history_artefact_path(@artefact) %>
+  </li>
+  <li class="<%= "active" if controller.action_name == "archive" %>">
+    <%= link_to "Archive", archive_artefact_path(@artefact) %>
+  </li>
+</ul>
