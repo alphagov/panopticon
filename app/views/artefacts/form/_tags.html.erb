@@ -26,12 +26,12 @@
                   :input_html => { :multiple => true, :class => "span12 chzn-select" } %>
     </div>
 
-    <div class="industry-sector-tags fieldset-section">
-      <label for="artefact_industry_sector_ids" class="section-label">Industry sectors</label>
+    <div class="specialist-sector-tags fieldset-section">
+      <label for="artefact_specialist_sector_ids" class="section-label">Specialist sectors</label>
 
-      <%= f.input :industry_sector_ids,
+      <%= f.input :specialist_sector_ids,
                   :label => false,
-                  :collection => grouped_options_for_tags_of_type('industry_sector'),
+                  :collection => grouped_options_for_tags_of_type('specialist_sector'),
                   :input_html => { :multiple => true, :class => "span12 chzn-select" } %>
     </div>
   <% end %>

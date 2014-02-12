@@ -10,7 +10,7 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @filters = params.slice(:section, :industry_sector, :kind, :state, :search)
+    @filters = params.slice(:section, :specialist_sector, :kind, :state, :search)
     @scope = apply_filters(artefact_scope, @filters)
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
@@ -120,7 +120,7 @@ class ArtefactsController < ApplicationController
     end
 
     def apply_filters(scope, filters)
-      [:section, :industry_sector].each do |tag_type|
+      [:section, :specialist_sector].each do |tag_type|
         if filters[tag_type].present?
           scope = scope.with_parent_tag(tag_type, filters[tag_type])
         end
@@ -181,7 +181,7 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
-      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section', 'industry_sectors']
+      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section', 'specialist_sectors']
 
       # TODO: Remove this variance
       parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
@@ -201,7 +201,7 @@ class ArtefactsController < ApplicationController
       end
 
       # Strip out the empty submit option for sections
-      ['sections', 'legacy_source_ids', 'industry_sector_ids'].each do |param|
+      ['sections', 'legacy_source_ids', 'specialist_sector_ids'].each do |param|
         param_value = parameters_to_use[param]
         param_value.reject!(&:blank?) if param_value
       end
