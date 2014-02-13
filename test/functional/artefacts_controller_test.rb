@@ -41,10 +41,10 @@ class ArtefactsControllerTest < ActionController::TestCase
           get :index, section: "driving"
         end
 
-        should "apply the tag scope for industry sector filters" do
-          @scope.expects(:with_parent_tag).with(:industry_sector, "oil-and-gas").returns(@scope)
+        should "apply the tag scope for specialist sector filters" do
+          @scope.expects(:with_parent_tag).with(:specialist_sector, "oil-and-gas").returns(@scope)
 
-          get :index, industry_sector: "oil-and-gas"
+          get :index, specialist_sector: "oil-and-gas"
         end
 
         should "apply the kind scope" do
@@ -79,12 +79,12 @@ class ArtefactsControllerTest < ActionController::TestCase
 
         should "combine multiple scopes together" do
           @scope.expects(:with_parent_tag).with(:section, "driving").returns(@scope)
-          @scope.expects(:with_parent_tag).with(:industry_sector, "oil-and-gas").returns(@scope)
+          @scope.expects(:with_parent_tag).with(:specialist_sector, "oil-and-gas").returns(@scope)
           @scope.expects(:of_kind).with("answer").returns(@scope)
           @scope.expects(:in_state).with("live").returns(@scope)
           @scope.expects(:matching_query).with("foo").returns(@scope)
 
-          get :index, section: "driving", industry_sector: "oil-and-gas", kind: "answer", state: "live", search: "foo"
+          get :index, section: "driving", specialist_sector: "oil-and-gas", kind: "answer", state: "live", search: "foo"
         end
       end
 
@@ -391,26 +391,26 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal [tag2.tag_id, tag1.tag_id], artefact.sections.map(&:tag_id)
       end
 
-      should "Update the industry sectors and ensure it persists into tags" do
-        tag1 = FactoryGirl.create(:tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "industry_sector")
-        tag2 = FactoryGirl.create(:tag, tag_id: "confectionery", title: "Confectionery", tag_type: "industry_sector")
+      should "Update the specialist sectors and ensure it persists into tags" do
+        tag1 = FactoryGirl.create(:tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "specialist_sector")
+        tag2 = FactoryGirl.create(:tag, tag_id: "confectionery", title: "Confectionery", tag_type: "specialist_sector")
 
         artefact = Artefact.new(:slug => 'a-history-of-chocolate', :kind => 'guide',
                                     :owning_app => 'publisher', :name => 'A history of chocolate', :need_id => 1)
-        artefact.industry_sectors = [tag1.tag_id]
+        artefact.specialist_sectors = [tag1.tag_id]
         artefact.save!
 
-        put :update, :id => artefact.id, :artefact => {:industry_sectors => [tag1.tag_id, tag2.tag_id]}
+        put :update, :id => artefact.id, :artefact => {:specialist_sectors => [tag1.tag_id, tag2.tag_id]}
 
         artefact.reload
-        assert_equal [tag1.tag_id, tag2.tag_id], artefact.industry_sectors.map(&:tag_id)
+        assert_equal [tag1.tag_id, tag2.tag_id], artefact.specialist_sectors.map(&:tag_id)
         assert_equal [tag1.tag_id, tag2.tag_id], artefact.tags.map(&:tag_id)
 
         # try the case when a request is made without the 'artefact' param
-        put :update, :id => artefact.id, :industry_sectors => [tag1.tag_id]
+        put :update, :id => artefact.id, :specialist_sectors => [tag1.tag_id]
 
         artefact.reload
-        assert_equal [tag1.tag_id], artefact.industry_sectors.map(&:tag_id)
+        assert_equal [tag1.tag_id], artefact.specialist_sectors.map(&:tag_id)
         assert_equal [tag1.tag_id], artefact.tags.map(&:tag_id)
       end
 
@@ -434,10 +434,10 @@ class ArtefactsControllerTest < ActionController::TestCase
         @controller.stubs(:current_user).returns(stub_current_user)
 
         Artefact.any_instance.expects(:update_attributes_as)
-                              .with(stub_current_user, has_entry("industry_sectors", []))
+                              .with(stub_current_user, has_entry("specialist_sectors", []))
                               .returns(true)
 
-        put :update, id: artefact.id, format: :json, industry_sectors: nil
+        put :update, id: artefact.id, format: :json, specialist_sectors: nil
         assert response.ok?
       end
 
@@ -448,10 +448,10 @@ class ArtefactsControllerTest < ActionController::TestCase
         @controller.stubs(:current_user).returns(stub_current_user)
 
         Artefact.any_instance.expects(:update_attributes_as)
-                              .with(stub_current_user, Not(has_key("industry_sectors")))
+                              .with(stub_current_user, Not(has_key("specialist_sectors")))
                               .returns(true)
 
-        put :update, id: artefact.id, format: :json # not providing 'industry_sectors' here
+        put :update, id: artefact.id, format: :json # not providing 'specialist_sectors' here
         assert response.ok?
       end
     end

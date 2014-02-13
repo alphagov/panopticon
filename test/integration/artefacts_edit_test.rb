@@ -291,21 +291,21 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   end
 
 
-  context "editing industry_sectors" do
+  context "editing specialist_sectors" do
     setup do
-      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
-      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'charities', title: 'Charities')
-      FactoryGirl.create(:tag, tag_type: 'industry_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
+      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
+      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
+      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
       @artefact = FactoryGirl.create(:artefact, :name => "VAT")
     end
 
-    should "allow adding industry sectors to artefacts" do
+    should "allow adding specialist sectors to artefacts" do
       visit "/artefacts"
       click_on "VAT"
 
-      within "select#artefact_industry_sector_ids" do
+      within "select#artefact_specialist_sector_ids" do
         assert page.has_selector?("optgroup[label='Oil and gas']")
         assert page.has_selector?("optgroup[label='Charities']")
 
@@ -315,27 +315,27 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         end
       end
 
-      select "Oil and gas: Fields and wells", :from => "Industry sectors"
-      select "Charities: Starting a charity", :from => "Industry sectors"
+      select "Oil and gas: Fields and wells", :from => "Specialist sectors"
+      select "Charities: Starting a charity", :from => "Specialist sectors"
 
       click_on "Save and continue editing"
 
       @artefact.reload
-      assert_equal ["charities/starting-a-charity", "oil-and-gas/fields-and-wells"], @artefact.industry_sector_ids.sort
+      assert_equal ["charities/starting-a-charity", "oil-and-gas/fields-and-wells"], @artefact.specialist_sector_ids.sort
     end
 
-    should "allow removing industry sectors from artefacts" do
-      @artefact.industry_sector_ids = ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"]
+    should "allow removing specialist sectors from artefacts" do
+      @artefact.specialist_sector_ids = ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"]
       @artefact.save!
 
       visit "/artefacts"
       click_on "VAT"
 
-      unselect "Oil and gas: Fields and wells", :from => "Industry sectors"
+      unselect "Oil and gas: Fields and wells", :from => "Specialist sectors"
       click_on "Save and continue editing"
 
       @artefact.reload
-      assert_equal ["charities/starting-a-charity"], @artefact.industry_sector_ids
+      assert_equal ["charities/starting-a-charity"], @artefact.specialist_sector_ids
     end
   end
 
