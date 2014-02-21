@@ -180,4 +180,15 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       refute RummageableArtefact.new(artefact).should_be_indexed?
     end
   end
+
+  test "should not index content formats managed by Finder api" do
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"].each do |kind|
+      artefact = Artefact.new do |artefact|
+        artefact.state = "live"
+        artefact.kind = kind
+      end
+
+      refute RummageableArtefact.new(artefact).should_be_indexed?
+    end
+  end
 end
