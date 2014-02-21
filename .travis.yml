@@ -1,16 +1,54 @@
 language: ruby
 rvm:
-  - 1.9.3-p392
-env:
-  - DB=mysql GOVUK_APP_DOMAIN=test.gov.uk RUBYOPT="-rpsych"
-services:
-  - elasticsearch
-script:
-  - bundle exec rake db:drop db:create db:schema:load
-  - bundle exec rake
-bundler_args: --without=development
+- 1.9.3
+after_success:
+- ! '[ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
+  curl -v -X DELETE -u $GITHUB_USER:$GITHUB_PASSWORD "https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs/tags/CURRENT"'
+- ! '[ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
+  curl -v -X POST -d ''{"ref":"refs/tags/CURRENT","sha":"''$TRAVIS_COMMIT''"}''  --header
+  "Content-Type:application/json" -u $GITHUB_USER:$GITHUB_PASSWORD "https://api.github.com/repos/$TRAVIS_REPO_SLUG/git/refs"'
 branches:
   except:
-    - release
+  - CURRENT
+services:
+  - mongodb
 notifications:
-  email: false
+  irc:
+    channels:
+    - irc.freenode.net#theodi
+    template:
+    - ! '%{repository} %{branch} - %{message} %{build_url}'
+    on_success: change
+    on_failure: always
+env:
+  global:
+  - secure: AdqIWvhRlR6S3M4ufV/RQ2nTN7WVXVka0hKRAWALFE+9+ZwxHr55Ovz3fwUtJMHC0VobeUD9ETPOzCXrQJGD+HQGqr5jPqJCkW3jcXfhn8R9ALv81SStRzTy0wy5NOx8DAtU/vkrb3CwxsUSc0H+mZH6VjfmW9h8yCtt4kml0Tk=
+  - secure: bmoMkYQ0QhQfYgkAdqq8eJQTitQ2yuufNnA8vFxh3ziFiZC6cKP7fzgU3FPcBEAJZQfI5FZRGxHETNB5tQlUCGfnIJBmQjhnCSqdrjKfHqfwYbFBs8xKm9nXsEMvvA3nknOPEb7veviGXX0yoXHlh3ibNftjNXXdjcKYUe0ePpQ=
+  - secure: UqoJb91XBpT8IKMnaEelurWpvE2iIpT7JjGGlWrdXWNtbaBRVK2ZqO9zgo5FvYrr63RLUvr/IEIbWNuRdLgW7av1RfkbBN5t0BVclBSi2TIrFkSsQQvTATQdmEO/hvwqfIf+dV6+2GggWzpKarp78hNjaDv3kjv3PFylM7mw1ug=
+  - secure: j/PC/IDvn/lf4eeIGJw2Sd+A8srv7mR0XqQPq6+gyo80tbkyHpU/8oM40WLtDW3/nrCXzQsy0J7r1g+QIQzfdb/ail13NjefgDQzQHNeh7HnvAwHlM4ESUOpKzI6dWr9al5SNpWw5o6P/XIKCzSzwL+qupaCx+s1/QCw8wjguSg=
+  - secure: Oj3NO0aVlx3fZLLl90B6C8pu6MHAqooAmfkaBG7l9KW4t8AP/R0zTouSJS2Viux94gb5wQWE44FntXLMH3M40o9mJ75trt5y6v/o1c+7hBBxf8R03l2sb5B/ZM09M0SIlku6hGp73NwvwQi8P4SHOH4OkWidreiCHxjE0sV+umg=
+  - secure: WEMQ0VTJMvsJEfNaP6QpqbOunt43/TZ5b3q9EYrAwm5Ro5Eyfvjfhw/+nbHxT/S8DPz4vfzA71Bb0TWLmeCdxsRrSnA5t8JDNzda30vEL5zQh3v8I8IvbQwJpD8x3EVg7kYkcUSF1MGMF6qjcgTF/Ykf3fhM8A8a4S4K2uraPh8=
+  - secure: cWGdJ9eX9CvmA+40l7hjV1hwwZHbzLbYABNeERVHjBDNCWbuBuBWls1NQqO9P/W3w35k+r+Do5V07Wl3HO1+Aa+0xeRinTRQiRJIWk3vIwQYsjlMiWLcQC+H3FlhonULI+MKyl9f3s0xInnamOE9qXT4LvAAUL7yNQupvegp4Q4=
+  - secure: LEm13zCtVf0KWFkqf/eDFhsC3qvYIpuVPZEEdfUmbJ1i6ZT5IhS+UfndwLfKxAjtSdsDbESo3/RMXIL+dlxGNzz/mjlWKO6PS1WV2A/+KofW4sQVpcptBNKJY1o41+VZxfBifOHQCCmaSqlieCnRKjGKItE94xsAv5NRHt8ae/I=
+  - secure: Xmuc9W4BCNKs1k2fk5dofpRzqLgOPv5tuI9OH7AfxH26pY8v0ftEsb+P3mQ9qovL8C3eilaFPy6ucjPL73GCcgS8Y2s7ViG9s5vNmjgt2oAQf7Xo0g0wMZtF2EYApFroDClDgyOoRkJ4PqAOD9yQ8z+WAmhctvgvIKvt2Tdvs1c=
+  - secure: VZQ+MKUiOUsRZssL4szdoIVmmyKihjwr5xzykzAxwf4SaPxqrzhCEeqe/GCRs9fTKcoYoe+M0kLXliUPpbVPZBDbsJP95uQnq8sZW/dFkTr4Bf0YlC1hem0ZSJhHkZ/kUCUgrKtrUl1sCIpbOjq4lJ/yAKqdT/loULXKBGFRunA=
+  - secure: dbPdArzs0VvJzlPUUY7KS9evnTNTOFrGDmJK9Rg+c6caL0yHi45wBf/QiZnQPbSNHIpX8eAij4wlLu0iOfF3mE/yANAG3aQSfR6x7omO6q0Txc02o6uuWg4DoiJFMHsUrQLLsEoes8lR06zRUKqpfEM/tvQ+YQiMqEQ5J49lers=
+  - secure: KlH933L0WS81dN8Trjv76ZX36rf2EbO/LWkykdfnmaFvgeU+RAyo8kNEasgPcIo56hE6wVLVgzYUjvn0Qp7uhbm0EyuyzhNIh/gK5dV6HWF+kqa6aDGMlxVnSEcJZRQJM+su2pxMge5d5sCDgoaDVAjdIn0VwevAP0ajqb51HFA=
+  - secure: hoQGTh2YWmlLLUFYxZ+SzYCzoA5lZg8YRlOPx3xRGMdbfNw721vzyXKFPhuiBDTqIfCEUxNkB/DZQ67wdlSPJO5Ptr2vYo+rwUKNmzdcbnhRexT8SR3n5ZQF9ME9I2M8f9rpJtd7BNr426JJ8JAynBBX0d7u8CQK8p/i8finK6Q=
+  - secure: BoiWR6R3UeGhfQ9/+GlhyAF0uPd0QzqjHzqGXXoaXMDHQh9z/RIbuDG9/03SbeF9EQT6t43JDA/oUNL3VEkf8o/SHra8Nb7uWhxMdevcdK7qrh5alrCON2bTVuSfg/VRJWfG6EafBv1QN+bH8sasRgyU0/QGJmPZZ/pQD+hPQow=
+  - secure: U2B+zcW6NSWLlT9hhovZOsLCslScwGGAwubW8un/3ZdOEcFm7Jm90BIfmfBSbw7czYU+bYhanm1YGNoe6x2a9aYCKPjugazkJ19vZlaozYpzK9hsj35oUJS4Pm6ZP/B7mH7WkMAnhJrHJ/GBw36J3lZsidfFXGO0roaNUKF1Lj8=
+  - secure: PfFPTD/PC5yuyYU33vafLgsV50zn3ng/64O5iyEwicyvKsygI+3zYh7809ZppYBZF77v5FiJ17VE1wRESfPCRullCOjb9sehAnCu9O+sZVUcc3g4s/URS9L60/OqK3AjgrS+Z/w1RGqAzYzc8IBaQxqNESgS0iBjirm47SsFxeY=
+  - secure: gZXCJk5bh33m7Br1VD0thv3H2NhAV5bQRGlb6uzzZ11W40rjPWatkbHezMR0e6iz9VdNFsric2YGkW6ColA732v2AHzv/gPIoMzjGkMbVx86K2YWvYTppkLxenfIwZ5tF2LLldfBP1m2pblIVlFAGDaWRmrNyKZ4MghKQSiWMjE=
+  - secure: JV11spGYNcUsVZTw7vhzeBaU1nGD34yvHu0X+iZ0gdC63CU4OFkayC12ucRj0x9d+LerlwQmbmP7j6Y2kDu4cRHNztzACJZvV3bnUSrclRvck5Pg7hU454gce4+m1Yur6CK5ZH+oATtnRhoZO77biuSIpuFVtmIFIU202NgOCPw=
+  - secure: ROdahhZ8dXAbObOsvTQV31HdU8kf4xoPf2MpfrkqaF3hVYmh9mkD4h4XmyrHGI4une2CIw5lXLfdWLuDOcPT1UvimwQ9dW53r5SjNSvZap2NMA/YhhG8vFxU0uTi4LQMwJ15gRRNaYHxsAI3gWaDbe/WyVdi+XN9CcUxW/9LrVo=
+  - secure: C1HwC0U2BPYqklH2FMBDXWhPrfnAeM/QivFh/as1yQQoOLoqp+dXOyFp2FsOKzbYg01eRffAzM5dcK/xAcG1Tc2/tWxm4ut4VMupTkluX0CWjoTLxGxR00fvnRwRylSt6KM6NcwiS82zNHhUC+tcbjxMNdhwYnejA1sLQjB+kS4=
+  - secure: GWABskWxXs/QzK8OreoV5SgpzEeoMef878JTBFGIOoziP+ZLzuauFntGqqsWSzr2XGt0NzCPU+TdI6TyOCEpstkKxI6H86LTK6uuZ1LkBP4tOauMhmAGC+y0oXziPBTneiTmVFyMBSzIKtJm5ex2ZiKatDqvcaxCfvQT/zOv+vg=
+  - secure: BTSXH0WJUOpfCxAh0d+SZR57vLSGuOJd0t7B3TQCoDg+kV6sxvm2I+flz4XVHrx7OAflqGpzlvihgpflKtSAOqtlMXVtCDEHmquw6oyiWIp4h0XSDEOq6VbZQ5svcIYYeMIaXgo1GR+pP3GjRyGYJuevdD4xMm8dZUMM+UBVFEo=
+  - secure: QM6P28xvaAI4piwOvA0NniZqhY3nb18sblLj6zIH9Hnt2AU5bbayGNjugrfFVjLkISB+S1bqzsA1o2kUF/oUHU7Nw9vAM+Z7eFdwjOwdIMywUXVUamqrGEmCb8g1qpDGwo2evJb0TwtxIoOu5EBT9HXwygIiBU4qp2Kh3YW39SA=
+  - secure: DMFSG2bXIQsRtHQdln8jlQwM0WX8vKmC/uYye13Pogtpf0DzRAQS23Psin7k/ZY6Z5ZBvlBTMSoDJCaVjzcPfmZOf/8ElRTvvACM28bgfW1kNmMXnH97WWIiYT4UDqTR60SPB1HEIfZAYH9Lq7F/QHFEVMM83cIOIMmlaX70xGA=
+  - secure: SbGMRYM4okp8O3fnWMd8NgY+tKLeIq2rWi8EwW5ap/+S4YN66qAuoRX9A9R1RPIRkWwfY3ygLpQcyqA/grG/Fx2eUvFoL9GSV+U0FB/g+1MgC1MgjH3VVrOim3JdEOCqtlgGSQh3ataFPVRIDDCXZS4Z5rsLr+s+VzL35JQZ6W8=
+  - secure: aqn2pLuaeftWLYqQ5OBa7tWzgUFcsGE2UBeaSFuYDYx9TfNNP7f7xX7Zly6PycSWwGjNrc1WkJ0DEzcPG/BpRaFEnBrYUhy6vzu6osdcu0KoqrcwtzUhowfghSFgPtMdsLdoA3D79b7dFU4jmd+jCVQ4jJaYaClNSuLlPsEL5bs=
+  - secure: PAgdIXbSZuPrC+vje4MeMsP6XrnIeAP3QpuL7iGSg4qNmHlWteT/OSzPVxatT5kEjKtYvc89A1d0wXGPlh+0Qx5IMO9QUayxETEBfYbR0XncgrNU92aWDXB2cm9tQl87FDUOshpv76f5exV4IjNfuqYbMu1USws68BIX+unA3V4=
+  - secure: O36XYj3AEANUdabO8GuK3qoPI0dJVtV+SmNrLdc/ESETyrdaWEDwFsP1JD3RQj57EFK5o08kGxlmbkp4w5A2EMGEIj4qcBvGsScyY/knBpUnvE7X5X5CwtpuAq6hLntC/orKyxFI2sCFdn6Be92/ckCRsK3gILRMOvduwSNri6A=
+  - secure: KJCwzjeMLxEPgfeyBIIyUbAm1aJ4Mg5J/gvLNsL2G4NGP/rQuxppOtgH5QtHv4k96p0695vBhQlHuW8snj8QeJMdYg+u3eEfEWpbgkxPuZabbWdCRn262BUjbbUMA1Xllz5NPe5Ff6IGtrEM09Kh9IUh5Kf0tfI1rGSf5ITStpU=
+  - secure: Hv6wV2VAGvyt9QiG4uh636VKuTPm5Mj2Z54Vuqza1J4/mohwczaICQo4OAZw48qIaxd/w9SMX88JWCj3dxVsHjUr6UYEKXza7ZkT0q8aRN+PLhvt2epaKpaudtuwlGJ66lK65VH77xn6TQD3FOJqJR65uqZQMLcXYG+lPR00M58=
