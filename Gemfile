@@ -18,7 +18,7 @@ end
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.16'
+gem 'rails', '3.2.17'
 gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
