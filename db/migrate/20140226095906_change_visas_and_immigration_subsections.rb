@@ -39,7 +39,7 @@ class ChangeVisasAndImmigrationSubsections < Mongoid::Migration
     end
 
     # Delete section
-    deleted_tag_id = "#{self.parent_id}/joining-family-visas"
+    deleted_tag_id = "#{self.parent_id}/family-visas"
     tag_to_delete = Tag.where(tag_id: deleted_tag_id, tag_type: 'section').first
 
     if tag_to_delete.present?
@@ -81,8 +81,13 @@ class ChangeVisasAndImmigrationSubsections < Mongoid::Migration
     end
 
     # Re-create deleted tag
-    Tag.create!(tag_id: "#{self.parent_id}/joining-family-visas", tag_type: 'section', title: "Joining family visas", parent_id: self.parent_id)
-    puts "Re-created #{self.parent_id}/joining-family-visas"
+    tag_to_recreate = "#{self.parent_id}/family-visas"
+    unless Tag.where(tag_id: tag_to_recreate, tag_type: 'section').any?
+      Tag.create!(tag_id: tag_to_recreate, tag_type: 'section', title: "Joining family visas", parent_id: self.parent_id)
+      puts "Re-created #{tag_to_recreate}"
+    else
+      "Skipping re-create: #{tag_to_recreate} already exists"
+    end
   end
 
   private
