@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'plek', '1.5.0'
+gem 'plek', '1.7.0'
 
 gem 'nested_form', '0.3.2'
 
