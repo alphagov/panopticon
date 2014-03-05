@@ -353,9 +353,10 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "VAT"
 
       within "select#artefact_organisation_ids" do
-        assert page.has_selector?("option", text: "HM Revenue and Customs")
-        assert page.has_selector?("option", text: "Driver and Vehicle Licensing Agency")
-        assert page.has_selector?("option", text: "Cabinet Office")
+        # Assert that organisations are returned in alphabetical order
+        assert page.has_selector?("option:nth-of-type(1)", text: "Cabinet Office")
+        assert page.has_selector?("option:nth-of-type(2)", text: "Driver and Vehicle Licensing Agency")
+        assert page.has_selector?("option:nth-of-type(3)", text: "HM Revenue and Customs")
       end
 
       select "HM Revenue and Customs", :from => "Organisations"
