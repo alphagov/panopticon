@@ -56,6 +56,8 @@ gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails', '3.0.1'
 gem 'chosen-rails', '1.0.2'
 
+gem 'whenever', '0.9.2', require: false
+
 group :assets do
   gem "therubyracer", "0.12.0"
   gem 'sass-rails', '3.2.6'
