@@ -26,7 +26,8 @@ class OrganisationImporter
         if existing_tag.update_attributes(title: organisation.title)
           logger.info "Found existing tag: #{tag_id}; updated title to '#{existing_tag.title}'"
         else
-          logger.info "Found existing tag: #{tag_id}; could not update title: #{existing_tag.errors.full_messages.join(', ')}"
+          log_error_and_notify_airbrake(organisation,
+                                        "Found existing tag: #{tag_id}; could not update title: #{existing_tag.errors.full_messages}")
         end
       else
         logger.info "Found existing tag: #{tag_id}"
@@ -39,7 +40,8 @@ class OrganisationImporter
       if new_tag.save
         logger.info "Created organisation tag: #{tag_id}"
       else
-        logger.info "Could not create organisation tag: #{tag_id} - #{new_tag.errors.full_messages.join(', ')}"
+        log_error_and_notify_airbrake(organisation,
+                                      "Could not create organisation tag: #{tag_id} - #{new_tag.errors.full_messages}")
       end
     end
   end
@@ -72,5 +74,14 @@ class OrganisationImporter
 
   def organisations_api
     @api_client ||= GdsApi::Organisations.new(Plek.current.find('whitehall-admin'))
+  end
+
+  def log_error_and_notify_airbrake(organisation, message)
+    logger.warn message
+
+    Airbrake.notify_or_ignore(
+      StandardError.new(message),
+      :parameters => { :organisation => organisation }
+    )
   end
 end

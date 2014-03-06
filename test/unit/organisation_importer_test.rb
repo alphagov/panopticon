@@ -60,4 +60,33 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     OrganisationImporter.new.run
   end
 
+  should "notify Airbrake if creating an organisation fails" do
+    organisations_api_has_organisations(["cabinet-office"])
+
+    Tag.any_instance.expects(:save).returns(false)
+
+    Airbrake.expects(:notify_or_ignore).with {|exception, options|
+      options.has_key?(:parameters) &&
+        options[:parameters].has_key?(:organisation) &&
+        options[:parameters][:organisation].title == "Cabinet Office"
+    }
+
+    OrganisationImporter.new.run
+  end
+
+  should "notify Airbrake if updating an organisation fails" do
+    Tag.create!(tag_type: "organisation", tag_id: "cabinet-office", title: "Something else")
+    organisations_api_has_organisations(["cabinet-office"])
+
+    Tag.any_instance.expects(:update_attributes).returns(false)
+
+    Airbrake.expects(:notify_or_ignore).with {|exception, options|
+      options.has_key?(:parameters) &&
+        options[:parameters].has_key?(:organisation) &&
+        options[:parameters][:organisation].title == "Cabinet Office"
+    }
+
+    OrganisationImporter.new.run
+  end
+
 end
