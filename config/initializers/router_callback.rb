@@ -1,10 +1,8 @@
 # In development environments we don't want to depend on Router unless
 # explicitly told to do so
-if Rails.env.development?
-  update_router = ENV['UPDATE_ROUTER'].present?
-else
-  update_router = true
-end
+# ODI don't need the router just yet so let's straight up disable it.
+
+update_router = ENV['QUIRKAFLEEG_ACTIVATE_AN_ROUTER'].present?
 
 if update_router
   Rails.logger.info "Registering router observer for artefacts"
@@ -14,5 +12,5 @@ if update_router
     Panopticon::Application.config.mongoid.observers << :update_router_observer
   end
 else
-  Rails.logger.info "In development/test mode: not registering router observer"
+  Rails.logger.info "Inactive mode: not registering router observer"
 end
