@@ -41,7 +41,7 @@ gem 'lograge', '~> 0.1.0'
 
 gem 'language_list'
 
-gem 'govuk_content_models', '6.0.6'
+gem 'govuk_content_models', '5.12.0'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'
