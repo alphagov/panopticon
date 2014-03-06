@@ -5,6 +5,7 @@ class ArtefactsHelperTest < ActionView::TestCase
 
   context "need_url" do
     should "build a url from the need_owning_service" do
+      skip("we do not care about needs. Form is disabled.")
       artefact = OpenStruct.new(need_owning_service: "needorama", need_id: "123456")
 
       assert_equal "http://needorama.dev.gov.uk/needs/123456", need_url(artefact)
@@ -19,6 +20,7 @@ class ArtefactsHelperTest < ActionView::TestCase
 
   context "link_to_view_need" do
     should "render a link to the need" do
+      skip("we do not care about needs. Form is disabled.")
       artefact = OpenStruct.new(need_owning_service: "needorama")
       expects(:need_url).with(artefact).returns("http://needorama.dev.gov.uk/a-need")
 
