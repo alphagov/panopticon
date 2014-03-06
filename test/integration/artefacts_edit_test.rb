@@ -15,8 +15,78 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     assert page.has_link?("View on site", :href => "http://www.#{ENV["GOVUK_APP_DOMAIN"]}/alpha")
   end
 
+  # skip all these tests, odi does not make use of needs
+  context "linking to needs" do
+    should "link to the Needotron given a need ID < 100000" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from Needotron", :slug => 'needotron', :need_id => "99999")
+
+      visit "/artefacts"
+      click_on "Need from Needotron"
+
+      assert page.has_link?("View in Needotron", :href => "http://needotron.dev.gov.uk/needs/99999")
+    end
+
+    should "link to Maslow given a need ID >= 100000" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from Maslow", :slug => 'maslow', :need_id => "100000")
+
+      visit "/artefacts"
+      click_on "Need from Maslow"
+
+      assert page.has_link?("View in Maslow", :href => "http://maslow.dev.gov.uk/needs/100000")
+    end
+
+    should "not link to any need if the need ID is non-numeric" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from a spreadsheet", :slug => 'spreadsheet', :need_id => "B12345")
+
+      visit "/artefacts"
+      click_on "Need from a spreadsheet"
+
+      assert page.has_no_link?("View in Needotron")
+      assert page.has_no_link?("View in Maslow")
+    end
+  end
+
+  # skipping all these tests, odi does not make use of needs
+  context "linking to needs" do
+    should "link to the Needotron given a need ID < 100000" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from Needotron", :slug => 'needotron', :need_id => "99999")
+
+      visit "/artefacts"
+      click_on "Need from Needotron"
+
+      assert page.has_link?("View in Needotron", :href => "http://needotron.dev.gov.uk/needs/99999")
+    end
+
+    should "link to Maslow given a need ID >= 100000" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from Maslow", :slug => 'maslow', :need_id => "100000")
+
+      visit "/artefacts"
+      click_on "Need from Maslow"
+
+      assert page.has_link?("View in Maslow", :href => "http://maslow.dev.gov.uk/needs/100000")
+    end
+
+    should "not link to any need if the need ID is non-numeric" do
+      skip("we do not care about needs. Form is disabled.")
+      artefact = FactoryGirl.create(:artefact, :name => "Need from a spreadsheet", :slug => 'spreadsheet', :need_id => "B12345")
+
+      visit "/artefacts"
+      click_on "Need from a spreadsheet"
+
+      assert page.has_no_link?("View in Needotron")
+      assert page.has_no_link?("View in Maslow")
+    end
+  end
+
+  # skipping all these tests, odi does not make use of needs
   context "restricting editing of need_id" do
     should "not allow editing with existing numeric value" do
+      skip("we do not care about needs. Form is disabled.")
       artefact = FactoryGirl.create(:artefact, :need_id => "1234")
       visit "/artefacts/#{artefact.id}/edit"
       field = page.find_field("Need")
@@ -24,6 +94,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow editing if blank" do
+      skip("we do not care about needs. Form is disabled.")
       artefact = FactoryGirl.create(:artefact, :need_id => " ")
       visit "/artefacts/#{artefact.id}/edit"
       field = page.find_field("Need")
@@ -37,6 +108,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow editing if non-numeric" do
+      skip("we do not care about needs. Form is disabled.")
       artefact = FactoryGirl.create(:artefact, :need_id => "B241")
       visit "/artefacts/#{artefact.id}/edit"
       field = page.find_field("Need")

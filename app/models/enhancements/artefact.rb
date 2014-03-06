@@ -8,4 +8,9 @@ class Artefact
   def need_id_editable?
     self.new_record? || self.need_id.blank? || self.need_id.strip !~ /\A\d+\z/
   end
+
+  def need_owning_service
+    return nil unless self.need_id.present? and self.need_id.match(/\A[0-9]+\Z/)
+    self.need_id.to_i < 100000 ? "needotron" : "maslow"
+  end
 end
