@@ -1,8 +1,11 @@
-# In development environments we don't want to depend on Router unless
-# explicitly told to do so
-# ODI don't need the router just yet so let's straight up disable it.
+# ODI don't need the router just yet so let's straight up disable it unless
+# we are running tests, they need the router observers to be active
 
-update_router = ENV['QUIRKAFLEEG_ACTIVATE_AN_ROUTER'].present?
+if Rails.env.test?
+  update_router = true
+else
+  update_router = ENV['QUIRKAFLEEG_ACTIVATE_AN_ROUTER'].present?
+end
 
 if update_router
   Rails.logger.info "Registering router observer for artefacts"
