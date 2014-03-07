@@ -1,6 +1,6 @@
 module TagsHelper
   def options_for_tags_of_type(tag_type)
-    Tag.where(:tag_type => tag_type).order(:title).map {|t| [t.title, t.tag_id]}
+    Tag.where(:tag_type => tag_type).order_by(:title, :asc).map {|t| [t.title, t.tag_id]}
   end
 
   def grouped_options_for_tags_of_type(tag_type)

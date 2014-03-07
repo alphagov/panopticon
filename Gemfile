@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'plek', '1.5.0'
+gem 'plek', '1.7.0'
 
 gem 'nested_form', '0.3.2'
 
@@ -38,7 +38,7 @@ gem "bson", "1.7.1"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "7.2.1"
+  gem "govuk_content_models", "8.1.0"
 end
 
 if ENV['BUNDLE_DEV']
@@ -55,6 +55,8 @@ gem 'bootstrap-sass', '2.3.2.2'
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails', '3.0.1'
 gem 'chosen-rails', '1.0.2'
+
+gem 'whenever', '0.9.2', require: false
 
 group :assets do
   gem "therubyracer", "0.12.0"

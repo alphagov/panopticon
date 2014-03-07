@@ -1,5 +1,4 @@
-Welcome to Panopticon
-=====================
+# Panopticon
 
 The GOV.UK content platform has been built with a focus on tools over content.
 That is manifest in the existence of numerous small applications that provide
@@ -12,8 +11,7 @@ to attach consistent metadata to the pieces, connect them together as 'related
 items' and generally have a complete overview of all the solutions/artefacts in
 the system. That's this app: Panopticon.
 
-Interfaces
-----------
+# Interfaces
 
 Panopticon provides:
 
@@ -22,3 +20,12 @@ Panopticon provides:
 * a writeable API where applications can register the content
   they provide. This is authenticated using OAuth2.
 * a read API for retrieving metadata about a given item
+
+## Importing organisation tags
+
+Panopticon includes a Rake task to create tags for each organisation from the
+[Whitehall app](https://github.com/alphagov/whitehall). To run this in the
+development environment, the production data source can be used, so that there
+is no need to have an up-to-date Whitehall database.
+
+    PLEK_SERVICE_WHITEHALL_ADMIN_URI=https://www.gov.uk/ bundle exec rake organisations:import

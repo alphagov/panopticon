@@ -339,6 +339,50 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
+  context "editing organisations" do
+    setup do
+      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'hm-revenue-customs', title: 'HM Revenue and Customs')
+      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
+      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
+
+      @artefact = FactoryGirl.create(:artefact, :name => "VAT")
+    end
+
+    should "allow adding organisation tags to artefacts" do
+      visit "/artefacts"
+      click_on "VAT"
+
+      within "select#artefact_organisation_ids" do
+        # Assert that organisations are returned in alphabetical order
+        assert page.has_selector?("option:nth-of-type(1)", text: "Cabinet Office")
+        assert page.has_selector?("option:nth-of-type(2)", text: "Driver and Vehicle Licensing Agency")
+        assert page.has_selector?("option:nth-of-type(3)", text: "HM Revenue and Customs")
+      end
+
+      select "HM Revenue and Customs", :from => "Organisations"
+      select "Cabinet Office", :from => "Organisations"
+
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal ["cabinet-office", "hm-revenue-customs"], @artefact.organisation_ids.sort
+    end
+
+    should "allow removing organisation tags from artefacts" do
+      @artefact.organisation_ids = ["cabinet-office", "hm-revenue-customs"]
+      @artefact.save!
+
+      visit "/artefacts"
+      click_on "VAT"
+
+      unselect "Cabinet Office", :from => "Organisations"
+      click_on "Save and continue editing"
+
+      @artefact.reload
+      assert_equal ["hm-revenue-customs"], @artefact.organisation_ids
+    end
+  end
+
   context "editing language" do
     setup do
       @artefact = FactoryGirl.create(:artefact, :name => "Bank holidays", :language => nil)
