@@ -6,7 +6,7 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 gem 'dotenv-rails'
 
-gem 'plek', '1.4.0'
+gem 'plek', '1.5.0'
 gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
 gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
@@ -41,7 +41,7 @@ gem 'lograge', '~> 0.1.0'
 
 gem 'language_list'
 
-gem 'govuk_content_models', '5.12.0'
+gem 'govuk_content_models', '5.13.0'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'

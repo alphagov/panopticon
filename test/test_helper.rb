@@ -57,6 +57,14 @@ class ActiveSupport::TestCase
   def create_test_user
     FactoryGirl.create(:odi_user)
   end
+
+  def stub_all_router_api_requests
+    WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(:status => 200)
+  end
+
+  def stub_all_rummager_requests
+    WebMock.stub_request(:any, %r{\A#{Rummageable.rummager_host}})
+  end
 end
 
 SEARCH_ROOT = "http://search.#{ENV['GOVUK_APP_DOMAIN']}"
