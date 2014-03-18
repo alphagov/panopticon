@@ -29,3 +29,12 @@ development environment, the production data source can be used, so that there
 is no need to have an up-to-date Whitehall database.
 
     PLEK_SERVICE_WHITEHALL_ADMIN_URI=https://www.gov.uk/ bundle exec rake organisations:import
+
+## Indexing artefacts in search
+
+Panopticon includes observers which will index, update or delete records in the
+search index when an artefact is updated. It expects an instance of
+[Rummager](https://github.com/alphagov/rummager) to be present.
+
+Indexing is disabled by default in the development environment. To turn indexing
+on, set the `UPDATE_SEARCH` environment variable when starting Panopticon.
