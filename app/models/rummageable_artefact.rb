@@ -70,6 +70,9 @@ class RummageableArtefact
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
     rummageable_keys = Rummageable::VALID_KEYS.map {|full_key| full_key[0]}.uniq
+    rummageable_keys += [
+      "organisations"
+    ]
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager
@@ -120,6 +123,10 @@ class RummageableArtefact
 
   def artefact_link
     "/#{@artefact.slug}"
+  end
+
+  def artefact_organisations
+    @artefact.organisation_ids
   end
 
 private
