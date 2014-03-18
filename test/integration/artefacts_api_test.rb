@@ -73,6 +73,30 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         artefact = Artefact.find_by_slug('foreign-travel-advice/aruba')
         assert artefact
       end
+
+      [
+        'fr',
+        'zh-hk',
+        'es-419',
+      ].each do |locale|
+        should "support whitehall artefact slugs ending with a locale '.#{locale}'" do
+          slug = "government/world-location-news/221033.#{locale}"
+          artefact_data = {
+            'slug' => slug,
+            'name' => "News article in locale #{locale}",
+            'kind' => 'world_location_news_article',
+            'description' => "Interesting news article",
+            'owning_app' => 'whitehall',
+            'rendering_app' => 'whitehall-frontend',
+          }
+
+          put "/artefacts/#{slug}.json", artefact_data
+          assert_equal 201, last_response.status
+
+          artefact = Artefact.find_by_slug(slug)
+          assert artefact
+        end
+      end
     end # for a new artefact
 
     context "for an existing artefact" do
