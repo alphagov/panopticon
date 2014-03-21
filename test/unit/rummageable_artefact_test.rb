@@ -224,4 +224,40 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       refute RummageableArtefact.new(artefact).should_be_indexed?
     end
   end
+
+  test "adds a rummageable artefact with indexable content to the search index" do
+    artefact = build(:artefact, indexable_content: "blah")
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:add).with(rummageable_artefact.artefact_hash)
+    rummageable_artefact.submit
+  end
+
+  test "amends a rummageable artefact without indexable content" do
+    artefact = build(:artefact, indexable_content: nil)
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:amend).with(rummageable_artefact.artefact_link,
+                                           rummageable_artefact.artefact_hash)
+    rummageable_artefact.submit
+  end
+
+  test "deletes a rummageable artefact" do
+    artefact = build(:artefact)
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:delete).with(rummageable_artefact.artefact_link)
+    stub_search_index.expects(:commit)
+
+    rummageable_artefact.delete
+  end
 end
