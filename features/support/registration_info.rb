@@ -1,6 +1,6 @@
 module RegistrationInfo
 
-  SEARCH_ROOT = "http://search.dev.gov.uk"
+  SEARCH_ROOT = "http://search.dev.gov.uk/mainstream"
 
   def example_smart_answer
     {
