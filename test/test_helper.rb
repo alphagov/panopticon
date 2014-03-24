@@ -24,6 +24,7 @@ DatabaseCleaner.clean
 
 class ActiveSupport::TestCase
   include Rack::Test::Methods
+  include FactoryGirl::Syntax::Methods
 
   def clean_db
     DatabaseCleaner.clean
@@ -59,6 +60,6 @@ class ActiveSupport::TestCase
   end
 
   def stub_all_rummager_requests
-    WebMock.stub_request(:any, %r{\A#{Rummageable.rummager_host}})
+    WebMock.stub_request(:any, %r{\A#{SearchIndex.rummager_host}})
   end
 end
