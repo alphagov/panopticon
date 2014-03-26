@@ -6,6 +6,24 @@ class ArtefactsAPITest < ActiveSupport::TestCase
     create_test_user
   end
 
+  context "show artefact" do
+    should "return the JSON representation of the artefact" do
+      artefact = FactoryGirl.create(:artefact, :slug => 'wibble', :name => "Wibble", :need_ids => ["100001", "100002"])
+
+      get "/artefacts/wibble.json"
+
+      assert_equal 200, last_response.status
+      response = JSON.parse last_response.body
+
+      assert_equal 'wibble', artefact["slug"]
+      assert_equal 'Wibble', artefact["name"]
+      assert_equal 'answer', artefact["kind"]
+      assert_equal 'publisher', artefact["owning_app"]
+      assert_equal 'draft', artefact["state"]
+      assert_equal ['100001', '100002'], artefact["need_ids"]
+    end
+  end
+
   context "registering an artefact in panopticon" do
     context "for a new artefact" do
       should "create a new artefact" do
