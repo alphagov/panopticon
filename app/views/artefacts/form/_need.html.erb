@@ -9,8 +9,9 @@
       <p class="need-id">Maslow #<%= f.object.need.id %></p>
     <% end %>
 
-    <%= f.input :need_id, :label => "Need ID", :input_html => { :class => "span6" } %>
-
-    <p><%= link_to_view_need(f.object) if ! f.object.new_record? && ! f.object.business_proposition %></p>
+    <!-- we send an array of need ids on submit, so using a select -->
+    <%= f.input :need_ids, as: :select, label: "Need IDs", collection: f.object.need_ids,
+                  input_html: { multiple: true, class: "js-artefact-need-ids" } %>
+    <%= link_to "Add", "javascript:void(0)", class: "btn btn-primary js-add-artefact-need-id" %>
   <% end %>
 </div>
