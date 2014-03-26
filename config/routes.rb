@@ -18,6 +18,7 @@ Panopticon::Application.routes.draw do
     end
   end
   resources :browse_sections
+  resources :tags
 
   root :to => redirect("/artefacts")
 end
