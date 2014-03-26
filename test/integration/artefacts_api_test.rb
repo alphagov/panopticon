@@ -8,7 +8,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
   context "registering an artefact in panopticon" do
     context "for a new artefact" do
-      should "create a new artefact, and return its details" do
+      should "create a new artefact" do
         artefact_data = {
           'slug' => 'wibble',
           'name' => 'Wibble',
