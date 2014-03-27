@@ -69,4 +69,66 @@ class TagsControllerTest < ActionController::TestCase
     end
   end
 
+  context "GET edit" do
+    setup do
+      @tag = create(:tag)
+    end
+
+    should "render the edit form given an existing tag" do
+      get :edit, id: @tag.id
+
+      assert response.ok?
+      assert_template :edit
+    end
+
+    should "assign the tag to the template given an existing tag" do
+      get :edit, id: @tag.id
+
+      assert_equal @tag, assigns(:tag)
+    end
+
+    should "return a not found error if a tag doesn't exist" do
+      get :edit, id: "foo"
+
+      assert response.not_found?
+    end
+  end
+
+  context "PUT update" do
+    setup do
+      @tag = create(:tag)
+      @stub_atts = {'description' => 'Foo'}
+    end
+
+    should "update an existing tag" do
+      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts
+    end
+
+    should "return a not found error if a tag doesn't exist" do
+      put :update, id: "foo", tag: @stub_atts
+
+      assert response.not_found?
+    end
+
+    should "redirect to the tags list on a successful update" do
+      Tag.any_instance.expects(:update_attributes).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts
+
+      assert_match /updated/, @controller.flash[:notice]
+      assert_redirected_to tags_path
+    end
+
+    should "render the form when the update fails" do
+      Tag.any_instance.expects(:update_attributes).returns(false)
+
+      put :update, id: @tag.id, tag: @stub_atts
+
+      assert response.ok?
+      assert_template :edit
+    end
+  end
+
 end

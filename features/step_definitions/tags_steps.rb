@@ -1,10 +1,25 @@
+Given /^a tag exists$/ do
+  @tag = create(:tag)
+end
+
 When /^I create a new tag$/ do
   visit new_tag_path
   fill_in_tag_attributes_in_form
   click_on "Create Tag"
 end
 
+When /^I edit the tag$/ do
+  visit edit_tag_path(@tag)
+  fill_in_updated_tag_attributes_in_form
+  click_on "Update Tag"
+end
+
 Then /^the tag should appear in the list$/ do
   visit tags_path
   assert_tag_present_in_list
+end
+
+Then /^the updated tag should appear in the list$/ do
+  visit tags_path
+  assert_updated_tag_present_in_list
 end

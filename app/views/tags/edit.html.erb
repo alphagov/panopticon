@@ -1,0 +1,22 @@
+<%= content_for :page_title, "Editing #{@tag.tag_type.humanize}: #{@tag.tag_id}" %>
+<header class="artefact-header">
+  <div class="artefact-title">
+    <h1><%= @tag.tag_type.humanize %>: <%= @tag.title %></h1>
+    <h2>
+      <%= link_to public_tag_path(@tag), public_tag_url(@tag) %>
+    </h2>
+  </div>
+</header>
+
+<%= semantic_form_for @tag do |f| %>
+  <%= f.input :title, input_html: { class: "span5" } %>
+
+  <%= f.input :description, as: :text,
+                            input_html: {
+                              rows: 4,
+                              class: "span8"
+                            }
+                            %>
+
+  <%= f.actions %>
+<% end %>
