@@ -1,4 +1,4 @@
-<p><%= link_to "Add a new tag", new_tag_path %></p>
+<p><%= link_to "Add a new tag", new_tag_path, class: 'btn' %></p>
 
 <table class="table table-striped table-bordered table-condensed" id="tags-list" summary="List of tags">
   <thead>
@@ -9,12 +9,21 @@
     </tr>
   </thead>
   <tbody>
-  <% @tags.each do |tag| %>
-    <tr>
-      <td><%= tag.title %></td>
-      <td><%= tag.tag_id %></td>
-      <td><%= tag.tag_type %></td>
+  <% @parents.each do |parent, children| %>
+    <tr class="parent">
+      <td><%= parent.title %></td>
+      <td><%= link_to parent.tag_id, public_tag_url(parent) %></td>
+      <td><%= parent.tag_type.humanize.downcase %></td>
+      <td><%= link_to 'edit', edit_tag_path(parent) %> <%= link_to "add child", "#" %></td>
     </tr>
+    <% children.each do |tag| %>
+      <tr>
+        <td><%= tag.title %></td>
+        <td><%= link_to tag.tag_id, public_tag_url(tag) %></td>
+        <td><%= tag.tag_type.humanize.downcase %></td>
+        <td><%= link_to 'edit', edit_tag_path(tag) %></td>
+      </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>

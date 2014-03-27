@@ -14,12 +14,24 @@ class TagsControllerTest < ActionController::TestCase
       assert_template :index
     end
 
-    should "assign tags to the template" do
-      create(:tag)
+    should "group tags by their parents" do
+      parent_1 = create(:tag, title: 'A')
+      parent_2 = create(:tag, title: 'B')
+      parent_3 = create(:tag, title: 'C')
+
+      children_1 = create_list(:tag, 5, parent_id: parent_1.tag_id)
+      children_2 = create_list(:tag, 5, parent_id: parent_2.tag_id)
+
       get :index
 
-      assert_equal 1, assigns(:tags).count
-      assert assigns(:tags).first.is_a?(Tag)
+      groups = assigns(:parents)
+
+      assert_equal 3, groups.size
+      assert_equal [parent_1, parent_2, parent_3], groups.map {|parent, children| parent }
+
+      assert_equal children_1.sort, groups[0].last.sort
+      assert_equal children_2.sort, groups[1].last.sort
+      assert_equal [], groups[2].last
     end
   end
 
@@ -56,7 +68,7 @@ class TagsControllerTest < ActionController::TestCase
       Tag.any_instance.expects(:save).returns(true)
       post :create, tag: @stub_atts
 
-      assert_match /created/, @controller.flash[:notice] 
+      assert_match /created/, @controller.flash[:notice]
       assert_redirected_to tags_path
     end
 
