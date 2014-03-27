@@ -10,6 +10,15 @@ class TagsController < ApplicationController
 
   def new
     @tag = Tag.new
+
+    if params[:type].present?
+      @tag.tag_type = params[:type]
+
+      if params[:parent_id].present?
+        @tag.parent_id = params[:parent_id]
+        @tag.tag_id = "#{params[:parent_id]}/"
+      end
+    end
   end
 
   def create

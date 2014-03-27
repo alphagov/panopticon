@@ -14,7 +14,7 @@
       <td><%= parent.title %></td>
       <td><%= link_to parent.tag_id, public_tag_url(parent) %></td>
       <td><%= parent.tag_type.humanize.downcase %></td>
-      <td><%= link_to 'edit', edit_tag_path(parent) %> <%= link_to "add child", "#" %></td>
+      <td><%= link_to 'edit', edit_tag_path(parent) %> <%= link_to "add child", new_tag_path(type: parent.tag_type, parent_id: parent.tag_id) %></td>
     </tr>
     <% children.each do |tag| %>
       <tr>

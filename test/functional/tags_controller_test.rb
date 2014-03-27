@@ -49,6 +49,20 @@ class TagsControllerTest < ActionController::TestCase
       assert assigns(:tag).is_a?(Tag)
       assert assigns(:tag).new_record?
     end
+
+    should "set the tag type when provided in the url" do
+      get :new, type: "section"
+
+      assert_equal "section", assigns(:tag).tag_type
+    end
+
+    should "set the tag type and parent id when provided in the url" do
+      get :new, type: "section", parent_id: "business"
+
+      assert_equal "section", assigns(:tag).tag_type
+      assert_equal "business", assigns(:tag).parent_id
+      assert_equal "business/", assigns(:tag).tag_id
+    end
   end
 
   context "POST create" do
