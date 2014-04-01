@@ -18,7 +18,7 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
 
       assert page.has_no_field?('Parent')
 
-      assert page.has_button?('Create Tag')
+      assert page.has_button?('Create tag')
     end
   end
 

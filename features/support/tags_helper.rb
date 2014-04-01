@@ -11,18 +11,14 @@ module TagsHelper
   end
 
   def assert_tag_present_in_list
-    within "table tbody tr:first" do
-      assert page.has_content?("Citizenship")
-      assert page.has_content?("citizenship")
-      assert page.has_content?("section")
+    within ".tags-list li:first" do
+      assert page.has_content?("Section: Citizenship")
     end
   end
 
   def assert_updated_tag_present_in_list
-    within "table tbody tr:first" do
-      assert page.has_content? "Driving"
-      assert page.has_content? @tag.tag_id
-      assert page.has_content? @tag.tag_type
+    within ".tags-list li:first" do
+      assert page.has_content? "Section: Driving"
     end
   end
 end

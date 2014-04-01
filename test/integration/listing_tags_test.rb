@@ -16,37 +16,33 @@ class ListingTagsTest < ActionDispatch::IntegrationTest
 
     visit tags_path
 
-    within "table#tags-list tbody" do
-      within "tr.parent:nth-of-type(1)" do
-        assert page.has_content?('Business')
-        assert page.has_link?('business', href: "http://www.dev.gov.uk/browse/business")
-        assert page.has_content?('section')
+    within "ul.tags-list" do
+      within "li.parent-tag:nth-of-type(1)" do
+        assert page.has_content?('Section: Business')
 
-        assert page.has_link?('edit', href: edit_tag_path(business))
+        assert page.has_link?('Edit tag', href: edit_tag_path(business))
+        assert page.has_link?('Add child tag', href: new_tag_path(type: 'section', parent_id: 'business'))
+
+        within ".children li:nth-of-type(1)" do
+          assert page.has_content?('Manufacturing')
+          assert page.has_link?('business/manufacturing', href: "http://www.dev.gov.uk/browse/business/manufacturing")
+
+          assert page.has_link?('Edit tag', href: edit_tag_path(children[1]))
+        end
+
+        within ".children li:nth-of-type(2)" do
+          assert page.has_content?('Setting up')
+          assert page.has_link?('business/setting-up', href: "http://www.dev.gov.uk/browse/business/setting-up")
+
+          assert page.has_link?('Edit tag', href: edit_tag_path(children[0]))
+        end
       end
 
-      within "tr:nth-of-type(2)" do
-        assert page.has_content?('Manufacturing')
-        assert page.has_link?('business/manufacturing', href: "http://www.dev.gov.uk/browse/business/manufacturing")
-        assert page.has_content?('section')
+      within "li.parent-tag:nth-of-type(2)" do
+        assert page.has_content?('Section: Driving')
 
-        assert page.has_link?('edit', href: edit_tag_path(children[1]))
-      end
-
-      within "tr:nth-of-type(3)" do
-        assert page.has_content?('Setting up')
-        assert page.has_link?('business/setting-up', href: "http://www.dev.gov.uk/browse/business/setting-up")
-        assert page.has_content?('section')
-
-        assert page.has_link?('edit', href: edit_tag_path(children[0]))
-      end
-
-      within "tr.parent:nth-of-type(4)" do
-        assert page.has_content?('Driving')
-        assert page.has_link?('driving', href: "http://www.dev.gov.uk/browse/driving")
-        assert page.has_content?('section')
-
-        assert page.has_link?('edit', href: edit_tag_path(driving))
+        assert page.has_link?('Edit tag', href: edit_tag_path(driving))
+        assert page.has_link?('Add child tag', href: new_tag_path(type: 'section', parent_id: 'driving'))
       end
     end
   end

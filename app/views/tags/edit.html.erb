@@ -9,14 +9,25 @@
 </header>
 
 <%= semantic_form_for @tag do |f| %>
-  <%= f.input :title, input_html: { class: "span5" } %>
+  <div class="row-fluid">
+    <div class="span10">
 
-  <%= f.input :description, as: :text,
-                            input_html: {
-                              rows: 4,
-                              class: "span8"
-                            }
-                            %>
+      <div class="well">
+        <%= f.input :title, input_html: { class: "span5" } %>
 
-  <%= f.actions %>
+        <%= f.input :description, as: :text,
+                                  input_html: {
+                                    rows: 4,
+                                    class: "span8"
+                                  }
+                                  %>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">Take care! All changes to tags appear immediately to users. If you're not sure what you're doing, please ask a developer.</div>
+
+  <div class="form-actions">
+    <%= f.submit :value => "Save this #{@tag.tag_type.humanize.downcase}", :class => "btn btn-primary" %>
+  </div>
 <% end %>
