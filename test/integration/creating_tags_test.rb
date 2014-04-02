@@ -3,7 +3,7 @@ require_relative '../integration_test_helper'
 class CreatingTagsTest < ActionDispatch::IntegrationTest
 
   setup do
-    create_test_user
+    login_as_user_with_permission('manage_tags')
   end
 
   should 'display the form' do

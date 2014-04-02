@@ -3,7 +3,7 @@ require_relative '../integration_test_helper'
 class EditingTagsTest < ActionDispatch::IntegrationTest
 
   setup do
-    create_test_user
+    login_as_user_with_permission('manage_tags')
 
     # stub the router + rummager requests so that artefact creation doesn't
     # fire off a bunch of web requests

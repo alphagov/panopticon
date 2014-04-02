@@ -2,8 +2,20 @@ require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
 
+  def login_as_user_with_permission
+    user = create(:user, permissions: ['signin', 'manage_tags'])
+    login_as(user)
+  end
+
   setup do
+    login_as_user_with_permission
+  end
+
+  should "only grant access to users with permission" do
     login_as_stub_user
+    get :index
+
+    assert_response 403
   end
 
   context "GET index" do

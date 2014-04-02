@@ -16,5 +16,13 @@ class ActionDispatch::IntegrationTest
     # This is different to the post method.  Go figure.
     put path, attrs, {"Content-Type" => "application/json"}.merge(headers)
   end
-end
 
+  def login_as(user)
+    GDS::SSO.test_user = user
+  end
+
+  def login_as_user_with_permission(permission)
+    user = create(:user, permissions: ['signin', permission])
+    login_as(user)
+  end
+end

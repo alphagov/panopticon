@@ -2,6 +2,7 @@ class TagsController < ApplicationController
 
   TAG_TYPES = ['section', 'specialist_sector']
 
+  before_filter :require_tags_permission
   before_filter :find_tag, only: [:edit, :update]
   helper_method :artefacts_in_section
 
@@ -50,6 +51,10 @@ class TagsController < ApplicationController
   end
 
   private
+  def require_tags_permission
+    authorise_user!("manage_tags")
+  end
+
   def find_tag
     @tag = Tag.find(params[:id])
 
