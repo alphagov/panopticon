@@ -40,17 +40,17 @@
 
         <%= f.input :language, :collection => language_options, :as => :select, :input_html => { :class => "span2" }, :include_blank => false, :selected => 'en' %>
         <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean unless @disable_business_content %>
-        
+
         <hr>
-        
+
         <%= f.input :roles, :collection => @roles, :as => :check_boxes, :hint => 'What project(s) is this content for?' %>
-        
+
         <hr>
         <input type="hidden" name="artefact[sections][]" value="" />
         <% if artefact.new_record? %>
           <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
         <% end %>
-        
+
         <% @tags.each do |type, tags| %>
           <div class="tag <%= type.to_s %>-tags <%= "hidden" unless artefact.kind == type.to_s  %>">
             <label for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
@@ -67,7 +67,7 @@
         <div class="<%= "hidden" unless ["event", "course_instance"].include?(artefact.kind)  %>" id="featured">
             <%= f.input :featured, :label => "", :collection => Tag.where(:tag_id => 'featured').map { |t| [t.title, t.tag_id]}, :as => :check_boxes, :input_html => { :checked => !artefact.featured.blank? } %>
         </div>
-        
+
         <div class="tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
           <div class="check_boxes control-group optional" id="artefact_team_input">
             <label class=" control-label">Team</label>
@@ -93,6 +93,35 @@
         <% end %>
 
         <button id="add-section" class="btn btn-success" type="button">Add another section</button>
+      <% end %>
+
+      <hr>
+
+      <%= f.inputs "Module image" do %>
+
+        <fieldset class='form-horizontal'>
+
+          <% if artefact.module_image %>
+            <div class='control-group'>
+              <%= f.label "Current image", class: 'control-label' %>
+              <div class='controls'>
+                <%= link_to artefact.module_image.name, artefact.module_image.file_url %>
+              </div>
+            </div>
+
+            <div class='control-group'>
+              <%= f.label "Remove image?", class: 'control-label' %>
+              <div class='controls'>
+                <%= check_box_tag "artefact[remove_module_image]", "1" %>
+              </div>
+            </div>
+
+          <% end %>
+
+          <p><%= f.input :module_image, :as => :file, :label => artefact.module_image ? "Replace image" : "Upload a new image" %></p>
+
+        </fieldset>
+
       <% end %>
 
       <hr>
