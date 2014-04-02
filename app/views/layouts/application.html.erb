@@ -57,6 +57,12 @@
   </header>
 
   <section class="container-fluid" role="main">
+    <% flash.each do |key,message| %>
+      <div class="alert alert-<%= key %>">
+        <%= message %>
+      </div>
+    <% end %>
+
     <%= yield %>
     <hr>
     <footer>

@@ -9,6 +9,16 @@
 </header>
 
 <%= semantic_form_for @tag do |f| %>
+  <% if f.object.errors.count > 0 %>
+    <div class="form-errors">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="row-fluid">
     <div class="span10">
 

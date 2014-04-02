@@ -39,4 +39,24 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
     assert_equal 'disabled', parent_field[:disabled]
   end
 
+  should 'display errors when a tag cannot be saved' do
+    visit new_tag_path
+
+    click_on 'Create tag'
+
+    assert page.has_content? "Title can't be blank"
+  end
+
+  should 'display a notice when the tag is saved' do
+    visit new_tag_path
+
+    select 'Section', from: 'Type'
+    fill_in 'Title', with: "Driving"
+    fill_in 'Slug', with: 'driving'
+
+    click_on 'Create tag'
+
+    assert page.has_content? 'Tag has been created'
+  end
+
 end

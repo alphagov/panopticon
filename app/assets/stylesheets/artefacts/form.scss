@@ -172,3 +172,12 @@ label.section-label {
     }
   }
 }
+
+.form-errors {
+  @extend .alert;
+  @extend .alert-error;
+
+  ul {
+    margin: 0 0 0 25px;
+  }
+}
