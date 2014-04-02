@@ -1,4 +1,4 @@
-<%= content_for :page_title, "Editing #{@tag.tag_type.humanize}: #{@tag.tag_id}" %>
+<%= content_for :page_title, "Editing #{@tag.tag_type.humanize.downcase}: #{@tag.title}" %>
 <header class="artefact-header">
   <div class="artefact-title">
     <h1><%= @tag.tag_type.humanize %>: <%= @tag.title %></h1>
