@@ -3,6 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :find_tag, only: [:edit, :update]
+  helper_method :artefacts_in_section
 
   def index
     @parents = tags_grouped_by_parents
@@ -36,6 +37,10 @@ class TagsController < ApplicationController
   end
 
   def update
+    if tag_can_have_curated_list?(@tag) && params[:curated_list]
+      update_curated_list
+    end
+
     if @tag.update_attributes(params[:tag])
       flash[:notice] = "Tag has been updated"
       redirect_to tags_path
@@ -47,6 +52,8 @@ class TagsController < ApplicationController
   private
   def find_tag
     @tag = Tag.find(params[:id])
+
+    find_or_initialize_curated_list if tag_can_have_curated_list?(@tag)
   end
 
   def tags_grouped_by_parents
@@ -72,4 +79,31 @@ class TagsController < ApplicationController
     }
   end
 
+  # TODO: Improve curated list implementation. This was copied en-masse from the
+  # existing 'browse sections' UI. We might be able to add a Mongoid has_one
+  # relation between a tag and a curated list, and then use nested attributes so
+  # that the code here becomes a lot cleaner
+  def find_or_initialize_curated_list
+    tag_id_as_curated_list_slug = @tag.tag_id.gsub(%r{/}, "-")
+    existing_list = CuratedList.where(slug: tag_id_as_curated_list_slug).first
+
+    if existing_list.present?
+      @curated_list = existing_list
+    else
+      @curated_list = CuratedList.new(slug: tag_id_as_curated_list_slug, sections: [@tag.tag_id])
+    end
+  end
+
+  def update_curated_list
+    clean_artefact_ids = params[:curated_list][:artefact_ids].reject(&:blank?)
+    @curated_list.update_attributes(artefact_ids: clean_artefact_ids)
+  end
+
+  def artefacts_in_section
+    @artefacts ||= Artefact.any_in(:tag_ids => [@tag.tag_id]).not_archived.to_a
+  end
+
+  def tag_can_have_curated_list?(tag)
+    tag.tag_type == 'section' && tag.has_parent?
+  end
 end
