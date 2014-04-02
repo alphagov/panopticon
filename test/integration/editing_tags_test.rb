@@ -5,6 +5,11 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
   setup do
     create_test_user
 
+    # stub the router + rummager requests so that artefact creation doesn't
+    # fire off a bunch of web requests
+    stub_all_router_api_requests
+    stub_all_rummager_requests
+
     @tag = create(:tag, tag_type: 'section',
                         tag_id: 'driving',
                         title: 'Driving',
@@ -45,6 +50,35 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
     click_on 'Save this section'
 
     assert page.has_content? 'Tag has been updated'
+  end
+
+  should 'show the curated list for a tag' do
+    child_tag = create(:tag, title: 'MOT',
+                             tag_id: 'driving/mot',
+                             tag_type: 'section',
+                             parent_id: 'driving')
+    artefacts = create_list(:live_artefact, 5, kind: 'answer',
+                                               section_ids: [child_tag.tag_id])
+    curated_list = create(:curated_list, slug: child_tag.tag_id.gsub('/','-'),
+                                         tag_ids: [child_tag.tag_id],
+                                         artefact_ids: artefacts.map(&:id))
+
+    visit edit_tag_path(child_tag)
+
+    within ".curated-artefact-group" do
+      assert page.has_selector?('.curated-artefact', count: 5)
+
+      artefacts.each_with_index do |artefact, i|
+        selector = ".curated-artefact:nth-of-type(#{i+1})"
+
+        within(selector) do
+          assert page.has_select?('curated_list[artefact_ids][]', selected: artefact.name)
+          assert page.has_button?('Remove curated item')
+        end
+      end
+    end
+
+    assert page.has_button?('Add another artefact')
   end
 
 end
