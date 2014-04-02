@@ -1,4 +1,0 @@
-<div class="row-fluid <%= is_template ? "hidden curated-artefact-template" : "curated-artefact" %>">
-  <%= select_tag("curated_list[artefact_ids][]", options_from_collection_for_select(artefacts_in_section, :id, :name, artefact_id), { prompt: "Select an artefact", :class => "span4" }) %>
-  <button class="btn btn-danger remove-curated-artefact offset1" type="button">Remove artefact</button>
-</div>
