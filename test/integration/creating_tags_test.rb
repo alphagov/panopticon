@@ -32,7 +32,11 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
     visit new_tag_path(type: 'section', parent_id: 'business')
 
     assert page.has_select?('Type', selected: 'Section')
-    assert page.has_field?('Slug', with: 'business/')
+
+    within ".child_tag_id" do
+      assert page.has_content?('business/')
+      assert page.has_field?('Slug', with: nil)
+    end
 
     parent_field = find_field("Parent")
     assert_equal 'business', parent_field[:value]

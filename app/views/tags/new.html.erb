@@ -37,13 +37,20 @@
                                     disabled: "disabled"
                                   } %>
           <%= f.input :parent_id, as: :hidden %>
-        <% end %>
 
-        <%= f.input :tag_id, label: "Slug",
-                             required: true,
-                             input_html: {
-                               class: "span5"
-                             } %>
+          <%= f.input :tag_id, as: :child_tag_id,
+                               label: "Slug",
+                               required: true,
+                               input_html: {
+                                 class: "span3"
+                               } %>
+        <% else %>
+          <%= f.input :tag_id, label: "Slug",
+                               required: true,
+                               input_html: {
+                                 class: "span5"
+                               } %>
+        <% end %>
 
         <%= f.input :title, input_html: { class: "span5" } %>
 

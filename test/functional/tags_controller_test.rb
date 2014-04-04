@@ -73,7 +73,6 @@ class TagsControllerTest < ActionController::TestCase
 
       assert_equal "section", assigns(:tag).tag_type
       assert_equal "business", assigns(:tag).parent_id
-      assert_equal "business/", assigns(:tag).tag_id
     end
   end
 
@@ -83,7 +82,7 @@ class TagsControllerTest < ActionController::TestCase
     end
 
     should "build and save a new tag" do
-      stub_tag = stub("Tag")
+      stub_tag = stub("Tag", parent_id: nil)
       Tag.expects(:new).with(@stub_atts).returns(stub_tag)
       stub_tag.expects(:save).returns(true)
 
@@ -104,6 +103,15 @@ class TagsControllerTest < ActionController::TestCase
 
       assert response.ok?
       assert_template :new
+    end
+
+    should "prepend the parent to a tag id when a parent is present" do
+      Tag.any_instance.expects(:save).returns(true)
+
+      post :create, tag: @stub_atts.merge('tag_id' => 'families',
+                                          'parent_id' => 'benefits')
+
+      assert_equal 'benefits/families', assigns(:tag).tag_id
     end
   end
 

@@ -18,13 +18,16 @@ class TagsController < ApplicationController
 
       if params[:parent_id].present?
         @tag.parent_id = params[:parent_id]
-        @tag.tag_id = "#{params[:parent_id]}/"
       end
     end
   end
 
   def create
     @tag = Tag.new(params[:tag])
+
+    if @tag.parent_id.present?
+      @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
+    end
 
     if @tag.save
       flash[:notice] = "Tag has been created"
