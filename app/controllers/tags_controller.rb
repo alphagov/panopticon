@@ -42,7 +42,9 @@ class TagsController < ApplicationController
       update_curated_list
     end
 
-    if @tag.update_attributes(params[:tag])
+    valid_tag_params = params[:tag].except(:parent_id, :tag_id)
+
+    if @tag.update_attributes(valid_tag_params)
       flash[:notice] = "Tag has been updated"
       redirect_to tags_path
     else

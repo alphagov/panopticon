@@ -173,6 +173,18 @@ class TagsControllerTest < ActionController::TestCase
       put :update, id: @tag.id, tag: @stub_atts
     end
 
+    should "discard the tag_id parameter" do
+      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts.merge('tag_id' => 'something-else')
+    end
+
+    should "discard the parent_id parameter" do
+      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => 'something-else')
+    end
+
     should "return a not found error if a tag doesn't exist" do
       put :update, id: "foo", tag: @stub_atts
 
