@@ -17,8 +17,7 @@ Panopticon::Application.routes.draw do
       get :archive
     end
   end
-  resources :browse_sections
+  resources :tags
 
-  match 'google_insight' => 'seo#show'
   root :to => redirect("/artefacts")
 end

@@ -24,4 +24,17 @@ module TagsHelper
       }]
     }
   end
+
+  def public_tag_path(tag)
+    path = case tag.tag_type
+           when 'section' then '/browse'
+           when 'specialist_sector' then ''
+           end
+
+    "#{path}/#{tag.tag_id}"
+  end
+
+  def public_tag_url(tag)
+    Plek.current.website_root + public_tag_path(tag)
+  end
 end
