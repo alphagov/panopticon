@@ -1,17 +1,8 @@
 <div class="well">
   <%= f.inputs "User need", :id => "user-need" do %>
-    <% if f.object.need %>
-      <p class="need-body">
-        As a <%= f.object.need.role %><br>
-        I need to <%= f.object.need.goal %><br>
-        So that <%= f.object.need.benefit %>
-      </p>
-      <p class="need-id">Maslow #<%= f.object.need.id %></p>
-    <% end %>
-
     <!-- we send an array of need ids on submit, so using a select -->
     <%= f.input :need_ids, as: :select, label: "Need IDs", collection: f.object.need_ids,
                   input_html: { multiple: true, class: "js-artefact-need-ids" } %>
-    <%= link_to "Add", "javascript:void(0)", class: "btn btn-primary js-add-artefact-need-id" %>
+    <%= link_to "Add Maslow need ID", "javascript:void(0)", class: "btn btn-primary js-add-artefact-need-id" %>
   <% end %>
 </div>

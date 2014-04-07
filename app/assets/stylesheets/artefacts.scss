@@ -9,7 +9,7 @@ p.need-id {
 }
 
 span.need-id.label {
-  line-height: 10px;
+  line-height: 12px;
 }
 
 .need-body {
@@ -59,3 +59,21 @@ span.need-id.label {
   }
 }
 
+#artefact_need_ids_input {
+  .bootstrap-tagsinput {
+    display: block;
+    padding: 12px;
+
+    span.tag {
+      display: block;
+      width: 72px;
+      line-height: 18px;
+      margin: 3px 0 6px 0;
+      cursor: pointer;
+
+      [data-role="remove"] {
+        margin-left: 25px;
+      }
+    }
+  }
+}

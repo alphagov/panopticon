@@ -1,22 +1,10 @@
 require_relative '../integration_test_helper'
-require 'gds_api/test_helpers/need_api'
 
 class ArtefactsEditTest < ActionDispatch::IntegrationTest
-  include GdsApi::TestHelpers::NeedApi
-
   setup do
     create_test_user
     stub_all_router_api_requests
     stub_all_rummager_requests
-  end
-
-  def stub_basic_need_api_response(need_id = "100123")
-    need_api_has_need(
-      "id" => need_id,
-      "role" => "user",
-      "goal" => "do something",
-      "benefit" => "reason"
-    )
   end
 
   context "editing a publisher artefact" do
@@ -119,8 +107,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       end
 
       should "allow editing of the need ID" do
-        stub_basic_need_api_response
-
         visit "/artefacts/#{@artefact.id}/edit"
 
         field = page.find_field("Need ID")
