@@ -6,3 +6,5 @@ tmp/
 .sass-cache/
 .DS_Store
 /script/*_dump/
+.ruby-version
+
