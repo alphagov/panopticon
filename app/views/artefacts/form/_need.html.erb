@@ -1,4 +1,6 @@
 <div class="well">
+  <%= content_tag "div", Plek.current.find('maslow') + "/needs/", id: "js-maslow-needs-url", class: "hide" %>
+  <%= content_tag "div", Plek.current.find('needotron') + "/needs/", id: "js-needotron-needs-url", class: "hide" %>
   <%= f.inputs "User need", :id => "user-need" do %>
     <!-- we send an array of need ids on submit, so using a select -->
     <%= f.input :need_ids, as: :select, label: "Need IDs", collection: f.object.need_ids,
