@@ -55,3 +55,12 @@ end
 #     DatabaseCleaner.strategy = :transaction
 #   end
 #
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
+
+Before('@javascript') do
+  Capybara.current_driver = Capybara.javascript_driver
+end
+
+require 'artefact_need_ids_helper'
+World(ArtefactNeedIdsHelper)

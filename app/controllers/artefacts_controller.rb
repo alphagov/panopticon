@@ -167,7 +167,7 @@ class ArtefactsController < ApplicationController
 
     def redirect_to_show_if_need_met
       if params[:artefact] && params[:artefact][:need_id]
-        artefact = Artefact.where(need_id: params[:artefact][:need_id]).first
+        artefact = Artefact.any_in(need_ids: [params[:artefact][:need_id]]).first
         redirect_to artefact if artefact
       end
     end

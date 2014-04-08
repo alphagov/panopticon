@@ -5,6 +5,7 @@ Feature: Creating artefacts
   Background:
     Given I am an admin
 
+  @javascript
   Scenario: Creating artefacts directly in panopticon
     When I visit the homepage
     Then I should see a link to create an item
