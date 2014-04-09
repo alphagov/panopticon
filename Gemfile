@@ -78,12 +78,13 @@ group :test do
   gem "shoulda", "~> 2.11.3"
   gem 'factory_girl', "3.3.0"
   gem 'factory_girl_rails'
-  gem 'capybara', '1.1.2'
-  gem 'capybara-mechanize', '~> 0.3.0.rc3'
+  gem 'capybara', '~> 2.1.0'
+  gem 'capybara-mechanize', '~> 1.1.0'
+  gem 'mechanize', '~> 2.7.2'
   gem 'launchy'
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
-  gem 'poltergeist', '0.7.0'
+  gem 'poltergeist', '~> 1.5.0'
 end
 
 group :import do
