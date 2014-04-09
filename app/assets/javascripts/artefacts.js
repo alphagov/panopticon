@@ -41,6 +41,7 @@ $(function() {
 
   $('#add-related').click(function () {
     var new_select = $('.related-artefact-template').clone(true);
+    new_select.attr('id', '');
     new_select.removeClass('hidden');
     new_select.removeClass('related-artefact-template');
     new_select.addClass('related-artefact');
