@@ -16,8 +16,6 @@ else
   gem 'gds-api-adapters', "7.20.0"
 end
 
-gem 'aws-ses', require: 'aws/ses'
-
 gem 'rails', '3.2.17'
 gem 'unicorn', '4.3.1'
 
