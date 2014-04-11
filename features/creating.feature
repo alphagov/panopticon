@@ -5,7 +5,6 @@ Feature: Creating artefacts
   Background:
     Given I am an admin
 
-  @javascript
   Scenario: Creating artefacts directly in panopticon
     When I visit the homepage
     Then I should see a link to create an item
@@ -13,8 +12,8 @@ Feature: Creating artefacts
     When I follow the link link to create an item
     Then I should see the artefact form
 
-    When I fill in the form for a business need
-      And I save, indicating that I want to go to the item
+    When I fill in the form without a need
+     And I save, indicating that I want to go to the item
 
     Then I should be redirected to Publisher
 

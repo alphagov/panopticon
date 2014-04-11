@@ -148,6 +148,12 @@ When /^I fill in the form for a business need$/ do
   select "Answer", from: "Kind"
 end
 
+When /^I fill in the form without a need$/ do
+  fill_in "Name", with: "A key business need"
+  fill_in "Slug", with: "key-business-need"
+  select "Answer", from: "Kind"
+end
+
 When /^I try to create a new artefact with the same need$/ do
   visit new_artefact_path(:artefact => {:need_id => @artefact.need_ids.first})
 end
