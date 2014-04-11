@@ -26,11 +26,7 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
 
     within 'form' do
       assert page.has_field?('Title', with: @tag.title)
-
-      # Include a trailing newline in the assertion, as Rails inserts this into
-      # text area tags before the value
-      assert page.has_field?('Description', with: "\n#{@tag.description}")
-
+      assert page.has_field?('Description', with: @tag.description)
       assert page.has_button?('Save this section')
     end
   end

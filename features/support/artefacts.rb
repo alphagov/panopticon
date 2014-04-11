@@ -33,14 +33,14 @@ def add_related_artefacts(artefact, related_artefacts)
 end
 
 def select_related_artefact(artefact)
-  select artefact.name, :from => "artefact_related_artefact_ids_"
+  first(:select, "artefact[related_artefact_ids][]").first(:option, artefact.name).select_option
 end
 
 def unselect_related_artefact(artefact)
   within(:xpath, "//option[@value='#{artefact.id}'][@selected='selected']/../..") do
     # Can't rely on the Remove button here, as JavaScript may not have loaded
     # and the buttons aren't full of progressive enhancement goodness
-    select "Select a related item", from: "artefact_related_artefact_ids_"
+    select "Select a related item", from: "artefact[related_artefact_ids][]"
   end
 end
 

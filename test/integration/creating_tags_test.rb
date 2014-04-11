@@ -10,11 +10,11 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
     visit new_tag_path
 
     within 'form' do
-      assert page.has_select?('Type', with_options: ['', 'Section', 'Specialist sector'], selected: nil)
+      assert page.has_select?('Type', with_options: ['', 'Section', 'Specialist sector'], selected: [])
 
       assert page.has_field?('Title', with: nil)
       assert page.has_field?('Slug', with: nil)
-      assert page.has_field?('Description', with: nil)
+      assert page.has_field?('Description', with: '')
 
       assert page.has_no_field?('Parent')
 
@@ -25,22 +25,20 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
   should 'pre-select a tag type specified in the url' do
     visit new_tag_path(type: "section")
 
-    assert page.has_select?('Type', selected: 'Section')
+    assert_equal "section", page.field_labeled('Type', disabled: true).value
   end
 
   should 'prepare fields given a parent id and tag type in the url' do
     visit new_tag_path(type: 'section', parent_id: 'business')
 
-    assert page.has_select?('Type', selected: 'Section')
+    assert_equal "section", page.field_labeled('Type', disabled: true).value
 
     within ".child_tag_id" do
       assert page.has_content?('business/')
       assert page.has_field?('Slug', with: nil)
     end
 
-    parent_field = find_field("Parent")
-    assert_equal 'business', parent_field[:value]
-    assert_equal 'disabled', parent_field[:disabled]
+    assert field_labeled("Parent", disabled: true, with: 'business').present?
   end
 
   should 'display errors when a tag cannot be saved' do
