@@ -58,3 +58,17 @@ span.need-id.label {
     }
   }
 }
+
+#artefact_need_ids_input {
+  #artefact_need_ids {
+    margin: 0 10px 5px 0;
+  }
+  #add-artefact-need-id {
+    margin-bottom: 6px;
+  }
+  .tm-tag {
+    span {
+      cursor: pointer;
+    }
+  }
+}

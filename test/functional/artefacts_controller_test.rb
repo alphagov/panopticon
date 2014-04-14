@@ -455,6 +455,15 @@ class ArtefactsControllerTest < ActionController::TestCase
         put :update, id: artefact.id, format: :json # not providing 'specialist_sectors' here
         assert response.ok?
       end
+
+      should "split need_ids if they come in as comma-separated values" do
+        artefact = FactoryGirl.create(:artefact)
+
+        put :update, id: artefact.id, artefact: { need_ids: "331312,333123" }
+
+        assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
+      end
+
     end
 
     context "DELETE /artefacts/:id" do

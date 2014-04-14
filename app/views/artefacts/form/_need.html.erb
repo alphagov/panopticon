@@ -1,10 +1,10 @@
 <div class="well">
-  <%= content_tag "div", Plek.current.find('maslow') + "/needs/", id: "js-maslow-needs-url", class: "hide" %>
-  <%= content_tag "div", Plek.current.find('needotron') + "/needs/", id: "js-needotron-needs-url", class: "hide" %>
   <%= f.inputs "User need", :id => "user-need" do %>
-    <!-- we send an array of need ids on submit, so using a select -->
-    <%= f.input :need_ids, as: :select, label: "Need IDs", collection: f.object.need_ids,
-                  input_html: { multiple: true, class: "js-artefact-need-ids" } %>
-    <%= link_to "Add Maslow need ID", "javascript:void(0)", class: "btn btn-primary js-add-artefact-need-id" %>
+    <%= f.input :need_ids,
+                label: raw('Need IDs <span class="non-js-hint">(add a comma-separated list of related need ids)</span>'),
+                input_html: { class: "js-artefact-need-ids",
+                              value: f.object.need_ids.present? ? f.object.need_ids.reject(&:blank?).join(",") : nil,
+                              data: { 'maslow-needs-url' => Plek.current.find('maslow') + "/needs/",
+                                      'needotron-needs-url' => Plek.current.find('needotron') + "/needs/" }} %>
   <% end %>
 </div>

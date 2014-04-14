@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
+  before_filter :prepare_need_ids, :only => [:create, :update], :if => -> { request.format.html? }
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 
@@ -225,5 +226,11 @@ class ArtefactsController < ApplicationController
 
     def sort_direction
       %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
+    end
+
+    # users will enter need_ids as comma-separated list in a text field
+    def prepare_need_ids
+      return if params[:artefact].blank? || params[:artefact][:need_ids].blank?
+      params[:artefact][:need_ids] = params[:artefact][:need_ids].split(",").map(&:strip).reject(&:blank?)
     end
 end

@@ -1,34 +1,48 @@
-$(function() {
-  $(document).ready(function() {
-    var $needIdsSelect = $(".js-artefact-need-ids"),
-        maslowNeedsUrl = $("#js-maslow-needs-url").text(),
-        needotronNeedsUrl = $("#js-needotron-needs-url").text();
+$(document).ready(function() {
+  var $needIdsFieldWrapper = $("#artefact_need_ids_input"),
+      $needIdsField = $(".js-artefact-need-ids"),
+      maslowNeedsUrl = $needIdsField.data("maslow-needs-url"),
+      needotronNeedsUrl = $needIdsField.data("needotron-needs-url");
 
-    $needIdsSelect.tagsinput();
+  var existingNeedIds = $needIdsField.attr("value") !== undefined ?
+                        $needIdsField.attr("value").split(",") :
+                        [];
 
-    // need the id for easier javascript integration tests
-    var tagsInputTextbox = $needIdsSelect.tagsinput("input");
-    $(tagsInputTextbox)
-      .attr("id", "tagsinput-text-box")
-      .attr("size", "6");
-
-    var $needIdTagInputField = $("div.bootstrap-tagsinput input[type=text]");
-    $needIdTagInputField.mask("999999");
-
-    $(".js-add-artefact-need-id").live("click", function() {
-      $needIdsSelect.tagsinput("add", $needIdTagInputField.val());
-      $needIdTagInputField.val("").focus();
-    });
-
-    $("#artefact_need_ids_input .tag").live("click", function(e) {
-      var needId = $(this).text(),
-          sixDigitIntegerMatcherRegex = /^\d{6}$/;
-
-      if(sixDigitIntegerMatcherRegex.test(needId)) {
-        window.open(maslowNeedsUrl + needId);
-      } else {
-        window.open(needotronNeedsUrl + needId);
-      }
-    });
+  $needIdsField.tagsManager({
+    prefilled: existingNeedIds,
+    hiddenTagListName: $needIdsField.attr("name"),
+    delimiters: [],
   });
+  $needIdsField
+    .val("")
+    .attr("name", "")
+    .attr("style", "width:50px")
+    .mask("999999");
+
+  $addNeedIdLink = $("<a>")
+                    .text("Add Maslow Need ID")
+                    .attr("href", "#")
+                    .attr("id", "add-artefact-need-id")
+                    .addClass("btn btn-primary js-add-artefact-need-id")
+                    .click(function(e) {
+                      e.preventDefault();
+                      $needIdsField.tagsManager("pushTag", $needIdsField.val());
+                      $needIdsField.val("").focus();
+                    })
+                    .insertAfter($needIdsField);
+
+  $needIdsFieldWrapper.on("click", ".tm-tag span", function(e) {
+    e.preventDefault();
+
+    var needId = $(this).text(),
+        sixDigitIntegerMatcherRegex = /^\d{6}$/;
+
+    if(sixDigitIntegerMatcherRegex.test(needId)) {
+      window.open(maslowNeedsUrl + needId);
+    } else {
+      window.open(needotronNeedsUrl + needId);
+    }
+  });
+
+  $needIdsFieldWrapper.find("label span.non-js-hint").hide();
 });
