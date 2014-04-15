@@ -52,7 +52,7 @@ class ArtefactsController < ApplicationController
   end
 
   def create
-    @artefact.save_as action_user
+    @artefact.save_as current_user
     continue_editing = (params[:commit] == 'Save and continue editing')
     if continue_editing || @artefact.owning_app != "publisher"
       location = edit_artefact_path(@artefact.id)
@@ -84,7 +84,7 @@ class ArtefactsController < ApplicationController
       return
     end
 
-    saved = @artefact.update_attributes_as(action_user, parameters_to_use)
+    saved = @artefact.update_attributes_as(current_user, parameters_to_use)
     flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
 
     @actions = build_actions
@@ -109,7 +109,7 @@ class ArtefactsController < ApplicationController
 
   def destroy
     @artefact = Artefact.from_param(params[:id])
-    @artefact.update_attributes_as(action_user, state: "archived")
+    @artefact.update_attributes_as(current_user, state: "archived")
     respond_with(@artefact) do |format|
       format.json { head 200 }
       format.html { redirect_to artefacts_path }
@@ -219,6 +219,13 @@ class ArtefactsController < ApplicationController
         end
       end
 
+      # Convert nil tag fields to empty arrays if they're present
+      Artefact.tag_types.each do |tag_type|
+        if parameters_to_use.has_key?(tag_type)
+          parameters_to_use[tag_type] ||= []
+        end
+      end
+
       # Strip out the empty submit option for sections
       ['sections', 'legacy_source_ids', 'person', 'timed_item', 'asset', 'article', 'organization', 'team', 'event', 'roles', 'featured'].each do |param|
         param_value = parameters_to_use[param]
@@ -231,13 +238,6 @@ class ArtefactsController < ApplicationController
       params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil } unless params[:artefact][:roles].nil?
     end
       
-
-    def action_user
-      # The user to associate with actions
-      # Currently this returns nil for the API user: this should go away once
-      # we have real user authentication for API requests
-      current_user.is_a?(User) ? current_user : nil
-    end
 
     def build_actions
       # Construct a list of actions, with embedded diffs

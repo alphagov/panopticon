@@ -318,25 +318,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal stub_user, artefact.actions.last.user
       end
 
-      should "Not record the user for API requests" do
-        login_as GDS::SSO::ApiUser.new
-        artefact = Artefact.create!(
-          :slug => 'whatever',
-          :kind => 'guide',
-          :owning_app => 'publisher',
-          :rendering_app => 'frontend',
-          :name => 'Whatever',
-          :need_id => 1
-        )
-
-        put :update, id: artefact.id, format: :json, name: "Changed"
-        assert_response :success
-
-        artefact.reload
-        assert_equal nil, artefact.actions.last.user
-      end
-
-
       should "Update our primary section and ensure it persists into sections" do
         tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
         tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
@@ -363,6 +344,35 @@ class ArtefactsControllerTest < ActionController::TestCase
         put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smart-answers'
         assert_equal 409, response.status
         assert response.body.include? "publisher"
+      end
+
+      should "convert nil values for tag attributes to an empty array" do
+        skip('ODI does not have industry_sectors')
+        artefact = FactoryGirl.create(:artefact)
+
+        stub_current_user = stub("User", has_permission?: true)
+        @controller.stubs(:current_user).returns(stub_current_user)
+
+        Artefact.any_instance.expects(:update_attributes_as)
+                              .with(stub_current_user, has_entry("industry_sectors", []))
+                              .returns(true)
+
+        put :update, id: artefact.id, format: :json, industry_sectors: nil
+        assert response.ok?
+      end
+
+      should "not populate empty arrays for tag types which haven't been provided" do
+        artefact = FactoryGirl.create(:artefact)
+
+        stub_current_user = stub("User", has_permission?: true)
+        @controller.stubs(:current_user).returns(stub_current_user)
+
+        Artefact.any_instance.expects(:update_attributes_as)
+                              .with(stub_current_user, Not(has_key("industry_sectors")))
+                              .returns(true)
+
+        put :update, id: artefact.id, format: :json # not providing 'industry_sectors' here
+        assert response.ok?
       end
     end
 
