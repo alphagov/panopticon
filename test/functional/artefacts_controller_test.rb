@@ -366,6 +366,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "convert nil values for tag attributes to an empty array" do
+        skip('ODI does not have industry_sectors')
         artefact = FactoryGirl.create(:artefact)
 
         stub_action_user = stub("User")
