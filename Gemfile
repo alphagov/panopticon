@@ -23,7 +23,7 @@ gem 'gds-api-adapters', :github => 'theodi/gds-api-adapters'
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.16'
 gem 'foreman'
 gem 'thin'
 gem 'less-rails-bootstrap'
