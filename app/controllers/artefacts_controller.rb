@@ -16,7 +16,7 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @filters = params.slice(:section, :industry_sector, :kind, :state, :search)
+    @filters = params.slice(:section, :kind, :state, :search)
     @scope = apply_filters(Artefact, @filters)
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
@@ -149,14 +149,6 @@ class ArtefactsController < ApplicationController
         tags = Tag.where(tag_type: "section", parent_id: filters[:section])
         tag_ids = tags.collect {|t| t.tag_id}
         tag_ids << filters[:section]
-
-        scope = scope.all_of(:tag_ids.in => tag_ids)
-      end
-
-      if filters[:industry_sector].present?
-        tags = Tag.where(tag_type: "industry_sector", parent_id: filters[:industry_sector])
-        tag_ids = tags.collect {|t| t.tag_id}
-        tag_ids << filters[:industry_sector]
 
         scope = scope.all_of(:tag_ids.in => tag_ids)
       end
