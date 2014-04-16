@@ -1,0 +1,56 @@
+#user-need h3 {
+  margin-bottom: 10px;
+}
+
+.need-id {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.need-body {
+  font-size: 16px;
+  line-height: 1.31579;
+}
+
+.artefacts-container {
+  padding-top: 20px;
+}
+
+
+.artefact-count {
+  border-bottom: 1px solid #e5e5e5;
+  color: #000;
+  font-size: 19px;
+  font-weight: normal;
+  line-height: 1.25;
+  padding-bottom: 10px;
+
+  em {
+    font-style: normal;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 68px;
+    margin-bottom: 10px;
+    padding-right: 3px;
+  }
+}
+
+#filters {
+  margin-top: 15px;
+
+  h3 {
+    margin-bottom: 0px;
+  }
+
+  form {
+    div {
+      margin: 15px 0;
+    }
+
+    input.btn {
+      vertical-align: baseline;
+      height: 28px;
+    }
+  }
+}

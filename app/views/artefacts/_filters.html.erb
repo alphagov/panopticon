@@ -1,0 +1,34 @@
+<div id="filters">
+  <h3>Filters</h3>
+
+  <%= form_tag "", method: :get do |f| %>
+    <div>
+      <label for="section">Section</label>
+      <%= select_tag :section, options_from_tags_for_select("section", @filters[:section]), class: "span12" %>
+    </div>
+
+    <div>
+      <label for="kind">Format</label>
+      <%= select_tag :kind, options_from_formats_for_select(@filters[:kind]), class: "span12" %>
+    </div>
+
+    <div>
+      <label for="state">State</label>
+      <%= select_tag :state, options_from_states_for_select(@filters[:state]), class: "span12" %>
+    </div>
+
+    <div>
+      <label for="search">Contains</label>
+      <%= text_field_tag "search", @filters[:search], class: "span12", type: "search" %>
+    </div>
+
+    <div>
+      <p><%= submit_tag "Update results", name: nil, class: "btn btn-primary" %></p>
+
+      <% if @filters.values.reject(&:blank?).any? %>
+        <p><%= link_to "Clear filters", artefacts_path, class: "btn btn-danger" %></p>
+      <% end %>
+    </div>
+
+  <% end %>
+</div>
