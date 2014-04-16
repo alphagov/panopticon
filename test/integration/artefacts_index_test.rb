@@ -77,7 +77,6 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
 
           within "form" do
             assert page.has_select?("Section", selected: "All")
-            assert page.has_select?("Industry sector", selected: "All")
             assert page.has_select?("Format", selected: "All")
             assert page.has_select?("State", selected: "All")
             assert page.has_field?("Contains", with: nil)
@@ -129,39 +128,6 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
 
       within "#filters" do
         assert page.has_select?("Section", selected: "Driving")
-      end
-    end
-
-    should "filter by industry_sector tag" do
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas', tag_type: 'industry_sector', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas/wells', tag_type: 'industry_sector', title: 'Wells', parent_id: 'oil-and-gas')
-
-      FactoryGirl.create(:artefact, name: 'Something else', slug: 'something-else', industry_sector_ids: [])
-      FactoryGirl.create(:artefact, name: 'Oil and gas licensing', slug: 'oil-and-gas-licensing', industry_sector_ids: ['oil-and-gas'])
-      FactoryGirl.create(:artefact, name: 'Digging a well', slug: 'digging-wells', industry_sector_ids: ['oil-and-gas/wells'])
-
-      visit '/artefacts'
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "Something else")
-        assert page.has_selector?("tr", text: "Oil and gas licensing")
-        assert page.has_selector?("tr", text: "Digging a well")
-      end
-
-      within "#filters" do
-        select "Oil and gas", from: "Industry sector"
-        click_on "Update results"
-      end
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "Oil and gas licensing")
-        assert page.has_selector?("tr", text: "Digging a well")
-
-        assert page.has_no_selector?("tr", text: "Something else")
-      end
-
-      within "#filters" do
-        assert page.has_select?("Industry sector", selected: "Oil and gas")
       end
     end
 
@@ -288,48 +254,6 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
       within "#filters" do
         assert page.has_select?("Format", selected: "Answer")
         assert page.has_select?("State", selected: "Live")
-      end
-    end
-
-    should "filter by multiple tag criteria" do
-      FactoryGirl.create(:tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
-      FactoryGirl.create(:tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
-
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas', tag_type: 'industry_sector', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas/wells', tag_type: 'industry_sector', title: 'Wells', parent_id: 'oil-and-gas')
-
-      FactoryGirl.create(:artefact, name: 'Motor incidents involving wells', industry_sector_ids: ["oil-and-gas/wells"], section_ids: ["driving/learning-to-drive"])
-      FactoryGirl.create(:artefact, name: 'Driving forward the oil and gas industry', industry_sector_ids: ["oil-and-gas"], section_ids: ["driving"])
-      FactoryGirl.create(:artefact, name: 'An illustrated history of wells', industry_sector_ids: ["oil-and-gas/wells"], section_ids: [])
-      FactoryGirl.create(:artefact, name: 'Getting your provisional licence', industry_sector_ids: [], section_ids: ["driving/learning-to-drive"])
-
-      visit '/artefacts'
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "Motor incidents involving wells")
-        assert page.has_selector?("tr", text: "Driving forward the oil and gas industry")
-        assert page.has_selector?("tr", text: "An illustrated history of wells")
-        assert page.has_selector?("tr", text: "Getting your provisional licence")
-      end
-
-      within "#filters" do
-        select "Driving", from: "Section"
-        select "Oil and gas", from: "Industry sector"
-
-        click_on "Update results"
-      end
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "Motor incidents involving wells")
-        assert page.has_selector?("tr", text: "Driving forward the oil and gas industry")
-
-        assert page.has_no_selector?("tr", text: "An illustrated history of wells")
-        assert page.has_no_selector?("tr", text: "Getting your provisional licence")
-      end
-
-      within "#filters" do
-        assert page.has_select?("Section", selected: "Driving")
-        assert page.has_select?("Industry sector", selected: "Oil and gas")
       end
     end
   end
