@@ -48,7 +48,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
         visit "/artefacts"
 
         within ".artefact-count" do
-          assert page.has_content?("10 artefacts")
+          assert page.has_content?("11 artefacts")
         end
       end
 
@@ -56,7 +56,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
         visit "/artefacts"
 
         within "table#artefact-list tbody" do
-          assert page.has_selector?("tr", count: 10)
+          assert page.has_selector?("tr", count: 11)
 
           @artefacts.sort_by(&:name).each_with_index do |artefact, i|
             within "tr:nth-of-type(#{i+1})" do
