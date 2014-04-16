@@ -72,7 +72,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       should "fetch a collection of artefacts" do
         get :index
 
-        assert_equal 10, assigns(:artefacts).size
+        assert_equal 11, assigns(:artefacts).size
         assigns(:artefacts).each do |artefact|
           assert artefact.is_a?(Artefact)
         end
