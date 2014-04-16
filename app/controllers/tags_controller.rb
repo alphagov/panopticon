@@ -23,7 +23,7 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = Tag.new(params[:tag])
+    @tag = form_object.new(params[:tag])
 
     if @tag.parent_id.present?
       @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
@@ -115,5 +115,18 @@ class TagsController < ApplicationController
 
   def tag_can_have_curated_list?(tag)
     tag.tag_type == 'section' && tag.has_parent?
+  end
+
+  def form_object
+    case tag_type
+    when 'specialist_sector'
+      SpecialistSectorTagForm
+    else
+      Tag
+    end
+  end
+
+  def tag_type
+    params[:tag] && params[:tag][:tag_type] || params[:type]
   end
 end
