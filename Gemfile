@@ -53,7 +53,7 @@ end
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '9.2.0'
+  gem 'gds-sso', '9.2.2'
 end
 
 gem 'jquery-rails', '2.0.2'
