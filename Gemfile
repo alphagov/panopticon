@@ -65,6 +65,7 @@ gem 'chosen-rails', '1.0.2'
 group :assets do
   gem "therubyracer", "~> 0.12.0"
   gem 'sass-rails', '3.2.6'
+  gem 'compass-rails', '1.1.2'
   gem 'uglifier'
 end
 
