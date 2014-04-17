@@ -109,6 +109,18 @@
             <% end %>
           <% end %>
 
+          <div class="fieldset-section tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
+            <label class="section-label control-label" for="">Team</label>
+            <div class="check_boxes control-group optional" id="artefact_team_input">
+              <% Tag.where(:tag_type => "team").each do |tag| %>
+                <label>
+                  <%= check_box_tag "artefact[team][]", tag.tag_id, artefact.team_ids.include?(tag.tag_id) %>
+                  <%= tag.title %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
         </div>
       </div>
 
