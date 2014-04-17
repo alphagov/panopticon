@@ -56,6 +56,32 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         assert page.has_button? "Save and go to item"
       end
     end
+
+    should "not show name or kind fields for an existing artefact" do
+      visit "/artefacts/#{@artefact.id}/edit"
+
+      assert page.has_no_field? "Name"
+      assert page.has_no_field? "Kind"
+    end
+
+    should "not show slug field for a live artefact" do
+      visit "/artefacts/#{@artefact.id}/edit"
+
+      assert page.has_no_field? "Slug"
+    end
+
+    should "permit changes to the slug for a draft artefact" do
+      draft_artefact = FactoryGirl.create(:artefact, state: "draft", slug: "a-pretty-slug")
+      visit "/artefacts/#{draft_artefact.id}/edit"
+
+      assert page.has_field? "Slug", with: "a-pretty-slug"
+      fill_in "Slug", with: "another-slug"
+      click_on "Save and continue editing"
+
+      assert page.has_content? "Panopticon item updated"
+      assert page.has_field? "Slug", with: "another-slug"
+    end
+
   end
 
   # skip all these tests, odi does not make use of needs

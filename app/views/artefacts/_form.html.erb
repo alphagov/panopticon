@@ -21,12 +21,18 @@
 
     <div class="row-fluid">
       <div class="span8">
-        <% if artefact.new_record? %>
+        <% if artefact.new_record? || f.object.state == "draft" %>
         <div class="well">
-          <%= f.input :name %>
+          <% if f.object.new_record? %>
+            <%= f.input :name %>
+          <% end %>
+
           <%= f.input :slug %>
 
-          <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+          <% if f.object.new_record? %>
+            <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+          <% end %>
+
           <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
         </div>
         <% end %>
