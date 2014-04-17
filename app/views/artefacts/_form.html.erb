@@ -87,21 +87,19 @@
           <%= f.inputs "Tags" do %>
             <% @tags.each do |type, tags| %>
               <div class="fieldset-section tag <%= type.to_s %>-tags <%= "hidden" unless artefact.kind == type.to_s  %>">
+                <label class="section-label" for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
                 <div class="nested-item-group">
                   <div class="row-fluid nested-item">
-
-                <label class="section-label" for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
-                <% if artefact.send("#{type}_ids").length > 0 %>
-                  <% artefact.send("#{type}_ids").each do |tag_id| %>
-                    <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
-                  <% end %>
-                <% else %>
-                  <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
-                <% end %>
-                
+                    <% if artefact.send("#{type}_ids").length > 0 %>
+                      <% artefact.send("#{type}_ids").each do |tag_id| %>
+                        <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
+                      <% end %>
+                    <% else %>
+                      <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
+                    <% end %>
+                  </div>
+                </div>
               </div>
-                        </div>
-          </div>
             <% end %>
           <% end %>
 
