@@ -36,7 +36,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       within "header.artefact-header" do
         assert page.has_selector? "h1", text: "VAT Rates"
-        assert page.has_link? "/vat-rates", href: "http://www.dev.gov.uk/vat-rates"
+        assert page.has_link? "/vat-rates", href: "http://www.#{ENV["GOVUK_APP_DOMAIN"]}/vat-rates"
         assert page.has_selector? ".state", text: "live"
       end
 
