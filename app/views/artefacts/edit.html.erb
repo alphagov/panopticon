@@ -1,30 +1,30 @@
 <%= content_for :page_title, "Editing artefact #{@artefact.name}" %>
-<div class="page-header">
-  <h1>Editing <%= @artefact.name %></h1>
-</div>
-<div class="tabbable">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#edit" data-toggle="tab">Edit</a></li>
-    <li><a href="#history" data-toggle="tab">History</a></li>
-    <% unless @artefact.archived? %>
-      <li><a href="#archive" data-toggle="tab">Archive</a></li>
+<div class="artefact-header">
+  <div class="artefact-title">
+    <h1><%= @artefact.name %></h1>
+    <h2><%= link_to "/#{@artefact.slug}", published_url(@artefact) %></h2>
+  </div>
+  <div class="artefact-actions">
+    <%= link_to "", class: 'btn' do %>
+      <i class="icon-time"></i> See history
     <% end %>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="edit">
-      <% if "whitehall" == @artefact.owning_app %>
-        <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
-      <% else %>
-        <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="history">
-      <%= render 'history', actions: @actions %>
-    </div>
+
     <% unless @artefact.archived? %>
-      <div class="tab-pane" id="archive">
-        <%= render 'archive', artefact: @artefact %>
-      </div>
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+        More
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="#archive" role="button" data-toggle="modal">Archive</a>
+        </li>
+      </ul>
     <% end %>
   </div>
 </div>
+
+<% if "whitehall" == @artefact.owning_app %>
+  <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
+<% else %>
+  <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
+<% end %>

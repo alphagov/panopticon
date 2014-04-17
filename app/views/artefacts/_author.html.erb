@@ -1,0 +1,5 @@
+<%= f.inputs "Author", :id => "author" do %>
+  <%= f.input :author, :collection => @people, :as => :select, 
+    :input_html => {:class => "span8"}, :include_blank => "Select an author", 
+    :hint => 'Who should appear as the author? (not necessarily you!)' %>
+<% end %>

@@ -2,8 +2,5 @@
 <div class="page-header">
   <h1><%= yield :page_title %></h1>
 </div>
-<% if "whitehall" == @artefact.owning_app %>
-  <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
-<% else %>
-  <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
-<% end %>
+
+<%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>

@@ -120,7 +120,7 @@ class ArtefactsController < ApplicationController
     end
     
     def get_roles
-      @roles = Tag.where(:tag_type => 'role')
+      @roles = Tag.where(:tag_type => 'role').order_by([:title, :desc])
       role = params[:role] || "odi"
       @artefact.roles = [role] if @artefact.roles.empty?
     end

@@ -304,12 +304,6 @@ class ArtefactsControllerTest < ActionController::TestCase
 
           assert_equal ['fooey', 'gooey', 'kablooey'], assigns["tag_collection"].map(&:tag_id)
         end
-
-        should "disable the name field as it's managed by the owning app" do
-          artefact = FactoryGirl.create(:artefact)
-          get :edit, id: artefact.id, format: :html
-          assert_select 'input[id=artefact_name][disabled=disabled]'
-        end
       end
 
     end
