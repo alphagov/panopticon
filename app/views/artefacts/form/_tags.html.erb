@@ -1,0 +1,34 @@
+<div class="well">
+  <input type="hidden" name="artefact[sections][]" value="" />
+  <%= f.inputs "Tags" do %>
+    <% @tags.each do |type, tags| %>
+      <div class="fieldset-section tag <%= type.to_s %>-tags <%= "hidden" unless f.object.kind == type.to_s  %>">
+        <label class="section-label" for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
+        <div class="nested-item-group">
+          <div class="row-fluid nested-item">
+            <% if f.object.send("#{type}_ids").length > 0 %>
+              <% f.object.send("#{type}_ids").each do |tag_id| %>
+                <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
+              <% end %>
+            <% else %>
+              <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="fieldset-section tag team-tags <%= "hidden" unless f.object.kind == "person" && f.object.person_ids.include?("team") %>">
+    <label class="section-label control-label" for="">Team</label>
+    <div class="check_boxes control-group optional" id="artefact_team_input">
+      <% Tag.where(:tag_type => "team").each do |tag| %>
+        <label>
+          <%= check_box_tag "artefact[team][]", tag.tag_id, f.object.team_ids.include?(tag.tag_id) %>
+          <%= tag.title %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,7 @@
+<div class="well <%= "hidden" unless ["event", "course_instance"].include?(f.object.kind)  %>">
+  <%= f.inputs "Featured" do %>
+    <%= f.input :featured, :label => "Does this content want to be featured?", :collection => Tag.where(:tag_id => 'featured').map { |t| [t.title, t.tag_id]}, 
+      :as => :check_boxes, 
+      :input_html => {:checked => !f.object.featured.blank? } %>
+  <% end %>
+</div>

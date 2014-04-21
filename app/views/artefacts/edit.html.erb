@@ -1,8 +1,3 @@
 <%= content_for :page_title, "Edit - #{@artefact.name}" %>
 <%= render partial: "artefact_header" %>
-
-<% if "whitehall" == @artefact.owning_app %>
-  <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
-<% else %>
-  <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
-<% end %>
+<%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>

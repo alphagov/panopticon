@@ -1,0 +1,10 @@
+<div class="well">
+  <%= f.input :name %>
+  <%= f.input :slug %>
+
+  <% if f.object.new_record? %>
+    <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+  <% end %>
+
+  <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
+</div>

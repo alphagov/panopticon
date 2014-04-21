@@ -21,24 +21,13 @@
 
     <div class="row-fluid">
       <div class="span8">
-        <% if artefact.new_record? || f.object.state == "draft" %>
-        <div class="well">
-          <% if f.object.new_record? %>
-            <%= f.input :name %>
-          <% end %>
 
-          <%= f.input :slug %>
-
-          <% if f.object.new_record? %>
-            <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
-          <% end %>
-
-          <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
-        </div>
+        <% if f.object.new_record? || f.object.state == "draft" %>
+          <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
 
         <div class="well">
-          <%= render :partial => 'module_image', :locals => { :f => f, :artefact => artefact } %>
+          <%= render :partial => "artefacts/form/module_image", :locals => { :f => f, :artefact => artefact } %>
         </div>
 
         <div class="well">
@@ -47,92 +36,14 @@
           <% end %>
         </div>
 
-        <div class="well">
-          <%= f.inputs "Related content" do %>
-            <div class="related-artefacts fieldset-section">
-              <label class="section-label">Related artefacts <span class="hint">(click and drag to reorder)</span></label>
+        <%= render partial: "artefacts/form/related_content", locals: { f: f } %>
+        <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
 
-              <div class="nested-item-group related-artefact-group">
-                <% if artefact.related_artefact_ids.length > 0 %>
-                  <% artefact.related_artefact_ids.each do |related_artefact_id| %>
-                    <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, is_template: false } %>
-                  <% end %>
-                <% else %>
-                  <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: false } %>
-                <% end %>
-              </div>
-
-              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: true } %>
-              <button id="add-related" class="btn btn-success" type="button">Add another related item</button>
-            </div>
-            <div class="related-external-links fieldset-section">
-              <label class="section-label">Related external links</label>
-              <%= f.fields_for :external_links do |link| %>
-                <div class="row-fluid nested-item">
-                  <div class="span4">
-                    <%= link.label :title, "Title" %>
-                    <%= link.text_field :title, :class => "span12" %>
-                  </div>
-                  <div class="span5">
-                    <%= link.label :url, "URL" %>
-                    <%= link.text_field :url, :class => "span12" %>
-                  </div>
-                  <div class="span3">
-                    <br>
-                    <%= link.link_to_remove "Remove this URL", :class => "remove-row" %>
-                  </div>
-                </div>
-              <% end %>
-              <%= f.link_to_add "Add related external link", :external_links, :class => "btn btn-success" %>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="well">
-          <input type="hidden" name="artefact[sections][]" value="" />
-          <%= f.inputs "Tags" do %>
-            <% @tags.each do |type, tags| %>
-              <div class="fieldset-section tag <%= type.to_s %>-tags <%= "hidden" unless artefact.kind == type.to_s  %>">
-                <label class="section-label" for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
-                <div class="nested-item-group">
-                  <div class="row-fluid nested-item">
-                    <% if artefact.send("#{type}_ids").length > 0 %>
-                      <% artefact.send("#{type}_ids").each do |tag_id| %>
-                        <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
-                      <% end %>
-                    <% else %>
-                      <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-
-          <div class="fieldset-section tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
-            <label class="section-label control-label" for="">Team</label>
-            <div class="check_boxes control-group optional" id="artefact_team_input">
-              <% Tag.where(:tag_type => "team").each do |tag| %>
-                <label>
-                  <%= check_box_tag "artefact[team][]", tag.tag_id, artefact.team_ids.include?(tag.tag_id) %>
-                  <%= tag.title %>
-                </label>
-              <% end %>
-            </div>
-          </div>
-
-        </div>
       </div>
 
       <div class="span4">
 
-        <div class="well <%= "hidden" unless ["event", "course_instance"].include?(artefact.kind)  %>">
-          <%= f.inputs "Featured" do %>
-            <%= f.input :featured, :label => "Does this content want to be featured?", :collection => Tag.where(:tag_id => 'featured').map { |t| [t.title, t.tag_id]}, 
-              :as => :check_boxes, 
-              :input_html => {:checked => !artefact.featured.blank? } %>
-          <% end %>
-        </div>
+        <%= render partial: "artefacts/form/featured", locals: { f: f } %>
 
         <div class="well">
           <%= f.inputs "Role" do %>
@@ -141,7 +52,7 @@
         </div>
 
         <div class="well">
-          <%= render :partial => "author", :locals => { :f => f } %>
+          <%= render :partial => "artefacts/form/author", :locals => { :f => f } %>
         </div>
 
         <div class="well">
@@ -152,8 +63,6 @@
 
         <div class="well">
           <%= f.input :language, :collection => {"English" => "en", "Welsh" => "cy"}, :as => :select, :input_html => { :class => "span8" }, :include_blank => false %>
-          <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean unless @disable_business_content %>
-          <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean unless @disable_extra_fonts %>
         </div>
 
         <% if @artefact.persisted? && @artefact.owning_app.present? %>
