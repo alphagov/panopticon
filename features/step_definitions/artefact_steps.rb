@@ -141,10 +141,9 @@ Then /^I should see the artefact form$/ do
   assert page.has_css?('form.artefact')
 end
 
-When /^I fill in the form for a business need$/ do
-  fill_in "Name", with: "A key business need"
-  fill_in "Slug", with: "key-business-need"
-  fill_in "Need", with: "Biz001"
+When /^I fill in the form for a course need$/ do
+  fill_in "Name", with: "A key course need"
+  fill_in "Slug", with: "key-course-need"
   select "Course", from: "Kind"
 end
 
