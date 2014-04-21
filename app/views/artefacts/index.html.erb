@@ -18,6 +18,7 @@
               <th scope="col"><%= sortable "name", "Title" %></th>
               <th scope="col"><%= sortable "slug", "Slug" %></th>
               <th scope="col"><%= sortable "kind", "Format" %></th>
+              <th scope="col"><%= sortable "state", "State" %></th>
               <th scope="col">Related items</th>
             </tr>
           </thead>
@@ -31,6 +32,7 @@
                 <small><%= artefact.kind.humanize %></small>
                 <%= content_tag "span", artefact.language, :class => "language_icon lang_#{artefact.language}" %>
               </td>
+              <td><%= artefact.state %></td>
               <td><%= artefact.related_artefact_ids.count %></td>
             </tr>
           <% end %>
