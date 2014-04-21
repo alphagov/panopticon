@@ -3,11 +3,6 @@
 
   <%= form_tag "", method: :get do |f| %>
     <div>
-      <label for="section">Section</label>
-      <%= select_tag :section, options_from_tags_for_select("section", @filters[:section]), class: "span12" %>
-    </div>
-
-    <div>
       <label for="kind">Format</label>
       <%= select_tag :kind, options_from_formats_for_select(@filters[:kind]), class: "span12" %>
     </div>
