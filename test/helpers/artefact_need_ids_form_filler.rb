@@ -1,4 +1,4 @@
-module ArtefactNeedIdsHelper
+module ArtefactNeedIdsFormFiller
   def add_need_id(need_id)
     # needs ids are entered in an input field
     # which has a mask. hence, this is needed.

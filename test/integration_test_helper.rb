@@ -1,13 +1,13 @@
 require_relative 'test_helper'
+require_relative 'helpers/artefact_need_ids_form_filler'
 require 'capybara/rails'
 require 'capybara/poltergeist'
-require 'artefact_need_ids_helper'
 
 Capybara.javascript_driver = :poltergeist
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
-  include ArtefactNeedIdsHelper
+  include ArtefactNeedIdsFormFiller
 
   teardown do
     Capybara.use_default_driver
