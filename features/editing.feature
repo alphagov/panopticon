@@ -14,6 +14,7 @@ Feature: Editing artefacts
     Then I should see the edit form again
       And I should see an indication that the save worked
 
+  @javascript
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
     When I change the need ID of the first artefact
@@ -42,6 +43,7 @@ Feature: Editing artefacts
       And the API should say that the artefact has the first section
       And the API should say that the artefact does not have the second section
 
+  @javascript
   Scenario: Editing an item that's draft
     Given two artefacts exist
       And the first artefact is in draft

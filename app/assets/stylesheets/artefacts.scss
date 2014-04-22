@@ -2,10 +2,14 @@
   margin-bottom: 10px;
 }
 
-.need-id {
+p.need-id {
   font-size: 16px;
   color: #888;
   margin-bottom: 20px;
+}
+
+span.need-id.label {
+  line-height: 12px;
 }
 
 .need-body {
@@ -55,3 +59,16 @@
   }
 }
 
+#artefact_need_ids_input {
+  #artefact_need_ids {
+    margin: 0 10px 5px 0;
+  }
+  #add-artefact-need-id {
+    margin-bottom: 6px;
+  }
+  .tm-tag {
+    span {
+      cursor: pointer;
+    }
+  }
+}

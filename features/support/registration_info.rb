@@ -4,7 +4,7 @@ module RegistrationInfo
 
   def example_smart_answer
     {
-      "need_id"           => 2012,
+      "need_ids"           => ["102012"],
       "slug"              => "calculate-married-couples-allowance",
       "name"              => "Calculate your Married Couple's Allowance",
       "description"       => "Work out whether you can claim Married Couple's Allowance (MCA) and find out how much you could get taken off your tax bill.",
@@ -20,7 +20,7 @@ module RegistrationInfo
 
   def example_completed_transaction
     {
-      "need_id"           => 2013,
+      "need_ids"          => ["102013"],
       "slug"              => "done/example-transaction",
       "name"              => "Example Transaction Complete",
       "description"       => "This transaction is complete.",

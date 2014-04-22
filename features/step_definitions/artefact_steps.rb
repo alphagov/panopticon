@@ -20,8 +20,8 @@ end
 
 When /^I change the need ID of the first artefact$/ do
   visit edit_artefact_path(@artefact)
-  @new_need_id = "B1234"
-  fill_in "Need ID", :with => @new_need_id
+  @new_need_id = "100001"
+  add_need_id @new_need_id
 end
 
 When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
@@ -34,7 +34,7 @@ When /^I save$/ do
 end
 
 Then /^I should be redirected back to the edit page$/ do
-  assert_equal edit_artefact_url(@artefact), page.current_url
+  assert_include page.current_url, edit_artefact_path(@artefact)
 end
 
 Then /^I should see an indication that the save failed$/ do
@@ -144,10 +144,16 @@ end
 When /^I fill in the form for a business need$/ do
   fill_in "Name", with: "A key business need"
   fill_in "Slug", with: "key-business-need"
-  fill_in "Need", with: "Biz001"
+  add_need_id "100001"
+  select "Answer", from: "Kind"
+end
+
+When /^I fill in the form without a need$/ do
+  fill_in "Name", with: "A key business need"
+  fill_in "Slug", with: "key-business-need"
   select "Answer", from: "Kind"
 end
 
 When /^I try to create a new artefact with the same need$/ do
-  visit new_artefact_path(:artefact => {:need_id => @artefact.need_id})
+  visit new_artefact_path(:artefact => {:need_id => @artefact.need_ids.first})
 end
