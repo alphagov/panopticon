@@ -4,9 +4,11 @@ Feature: Related items
 
   Background:
     Given I am an admin
+    And I have stubbed the router
+    And I have stubbed search
 
   Scenario: Assign a related item
-    Given two non-publisher artefacts exist
+    Given two course artefacts exist
     When I create a relationship between them
       And I save
     Then the API should say that the artefacts are related

@@ -2,6 +2,10 @@ Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
 end
 
+Given /^two course artefacts exist$/ do
+  @artefact, @related_artefact = create_two_course_artefacts
+end
+
 Given /^the first artefact is in draft$/ do
   Artefact.observers.disable :update_search_observer do
     Artefact.first.update_attributes!('state' => 'draft')

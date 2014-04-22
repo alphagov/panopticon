@@ -4,6 +4,17 @@ def create_artefact
   FactoryGirl.create :artefact, :name => 'Child Benefit rates', :need_id => 1
 end
 
+def create_two_course_artefacts
+  f = FactoryGirl.create(:artefact, :name => "An course", :slug => 'an-course', :owning_app => "publisher", :kind => "course", :state => "live")
+  f2 =FactoryGirl.create(:artefact, :name => "An other course", :slug => "an-other-course", :owning_app => "publisher", :kind => "course", :state => "live")
+  course = CourseEdition.create(:title => "Course Edition",
+                              :panopticon_id => f2.id,
+                              :length => "5 Days",
+                              :description => "This is an awesome course",
+                              :state => "published")
+  [f, f2]
+end
+
 def create_two_artefacts(owning_app="publisher")
   [
     'Probation',
