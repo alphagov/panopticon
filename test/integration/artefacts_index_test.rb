@@ -74,9 +74,8 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
           assert page.has_selector?("h3", text: "Filters")
 
           within "form" do
-            assert page.has_select?("Section", selected: "All")
             assert page.has_select?("Format", selected: "All")
-            assert page.has_select?("State", selected: "All")
+            assert page.has_select?("State", selected: "Live")
             assert page.has_field?("Contains", with: nil)
           end
 
@@ -87,7 +86,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "not show a button to clear filters if none are applied" do
-      visit '/artefacts'
+      visit '/artefacts?kind=&state=&search='
 
       within "#filters" do
         click_on "Update results"
@@ -96,69 +95,33 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
       assert page.has_no_content?("Clear filters")
     end
 
-    should "filter by section tag" do
-      FactoryGirl.create(:tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
-      FactoryGirl.create(:tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
-
-      FactoryGirl.create(:artefact, name: 'VAT rates', slug: 'vat-rates', section_ids: [])
-      FactoryGirl.create(:artefact, name: 'Guide to driving', slug: 'guide-to-driving', section_ids: ['driving'])
-      FactoryGirl.create(:artefact, name: 'Book driving test', slug: 'book-driving-test', section_ids: ['driving/learning-to-drive'])
-
-      visit '/artefacts'
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "VAT rates")
-        assert page.has_selector?("tr", text: "Guide to driving")
-        assert page.has_selector?("tr", text: "Book driving test")
-      end
-
-      within "#filters" do
-        select "Driving", from: "Section"
-        click_on "Update results"
-      end
-
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "Guide to driving")
-        assert page.has_selector?("tr", text: "Book driving test")
-
-        assert page.has_no_selector?("tr", text: "VAT rates")
-      end
-
-      within "#filters" do
-        assert page.has_select?("Section", selected: "Driving")
-      end
-    end
-
     should "filter by kind" do
-      FactoryGirl.create(:artefact, name: 'An answer', kind: "answer")
-      FactoryGirl.create(:artefact, name: 'Another answer', kind: "answer")
-      FactoryGirl.create(:artefact, name: 'A guide', kind: "guide")
-      FactoryGirl.create(:artefact, name: 'A transaction', kind: "transaction")
+      FactoryGirl.create(:artefact, name: 'An report', kind: "report", state: "live")
+      FactoryGirl.create(:artefact, name: 'An course', kind: "course", state: "live")
+      FactoryGirl.create(:artefact, name: 'An job', kind: "job", state: "live")
 
       visit '/artefacts'
 
       within "#artefact-list" do
-        assert page.has_selector?("tr", text: "An answer")
-        assert page.has_selector?("tr", text: "Another answer")
-        assert page.has_selector?("tr", text: "A guide")
-        assert page.has_selector?("tr", text: "A transaction")
+        assert page.has_selector?("tr", text: "An report")
+        assert page.has_selector?("tr", text: "An course")
+        assert page.has_selector?("tr", text: "An job")
       end
 
       within "#filters" do
-        select "Answer", from: "Format"
+        select "Course", from: "Format"
         click_on "Update results"
       end
 
       within "#artefact-list" do
-        assert page.has_selector?("tr", text: "An answer")
-        assert page.has_selector?("tr", text: "Another answer")
+        assert page.has_selector?("tr", text: "An course")
 
-        assert page.has_no_selector?("tr", text: "A guide")
-        assert page.has_no_selector?("tr", text: "A transaction")
+        assert page.has_no_selector?("tr", text: "An report")
+        assert page.has_no_selector?("tr", text: "An job")
       end
 
       within "#filters" do
-        assert page.has_select?("Format", selected: "Answer")
+        assert page.has_select?("Format", selected: "Course")
       end
     end
 
@@ -193,9 +156,9 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "filter by matching search query" do
-      FactoryGirl.create(:artefact, name: 'VAT rates', slug: "vat-rates", description: "VAT rates")
-      FactoryGirl.create(:artefact, name: 'Minimum wage rates', slug: "minimum-wage-rates", description: "VAT rates")
-      FactoryGirl.create(:artefact, name: 'Bank holidays', slug: "bank-holidays", description: "The next bank holiday")
+      FactoryGirl.create(:artefact, name: 'VAT rates', slug: "vat-rates", description: "VAT rates", state: "live")
+      FactoryGirl.create(:artefact, name: 'Minimum wage rates', slug: "minimum-wage-rates", description: "VAT rates", kind: "course", state: "live")
+      FactoryGirl.create(:artefact, name: 'Bank holidays', slug: "bank-holidays", description: "The next bank holiday", kind: "course", state: "live")
 
       visit '/artefacts'
 
@@ -223,20 +186,14 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "filter by multiple criteria" do
-      FactoryGirl.create(:artefact, name: 'VAT rates', slug: "vat-rates", state: "live", kind: "answer")
-      FactoryGirl.create(:artefact, name: 'Minimum wage rates', slug: "minimum-wage-rates", state: "live", kind: "guide")
-      FactoryGirl.create(:artefact, name: 'Bank holidays', slug: "bank-holidays", state: "draft", kind: "custom-application")
+      FactoryGirl.create(:artefact, name: 'VAT rates', slug: "vat-rates", state: "live", kind: "case_study")
+      FactoryGirl.create(:artefact, name: 'Minimum wage rates', slug: "minimum-wage-rates", state: "draft", kind: "case_study")
+      FactoryGirl.create(:artefact, name: 'Bank holidays', slug: "bank-holidays", state: "draft", kind: "course")
 
       visit '/artefacts'
 
-      within "#artefact-list" do
-        assert page.has_selector?("tr", text: "VAT rates")
-        assert page.has_selector?("tr", text: "Minimum wage rates")
-        assert page.has_selector?("tr", text: "Bank holidays")
-      end
-
       within "#filters" do
-        select "Answer", from: "Format"
+        select "Case study", from: "Format"
         select "Live", from: "State"
 
         click_on "Update results"
@@ -250,7 +207,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
       end
 
       within "#filters" do
-        assert page.has_select?("Format", selected: "Answer")
+        assert page.has_select?("Format", selected: "Case study")
         assert page.has_select?("State", selected: "Live")
       end
     end

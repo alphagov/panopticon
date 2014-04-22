@@ -9,7 +9,7 @@ module FilterHelper
   end
 
   def options_from_formats_for_select(selected_value=nil)
-    formats_with_labels = Artefact::FORMATS.sort.map {|format|
+    formats_with_labels = Artefact::ODI_FORMATS.sort.map {|format|
       [ format.underscore.humanize, format ]
     }
     options = [["All", ""]] + formats_with_labels
@@ -22,6 +22,10 @@ module FilterHelper
       [ state.humanize, state ]
     }
     options = [["All", ""]] + states_with_labels
+
+    if selected_value.nil?
+      selected_value = "live"
+    end
 
     options_for_select(options, selected_value || "")
   end
