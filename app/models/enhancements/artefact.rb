@@ -10,6 +10,4 @@ class Artefact
 
   STATES = [ "live", "draft", "archived" ]
 
-  MASLOW_NEED_ID_LOWER_BOUND = 100000
-
 end
