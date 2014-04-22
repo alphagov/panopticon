@@ -4,6 +4,6 @@ class SearchIndex
   end
 
   def self.rummager_host
-    Plek.current.find('search')
+    ENV["RUMMAGER_HOST"] || Plek.current.find('search')
   end
 end
