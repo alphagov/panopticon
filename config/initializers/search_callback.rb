@@ -6,6 +6,8 @@ else
   update_search = ENV['UPDATE_SEARCH'].present?
 end
 
+update_search = true
+
 if update_search
   Rails.logger.info "Registering search observer for artefacts"
   # Use to_prepare so this gets reloaded with the app when in development
