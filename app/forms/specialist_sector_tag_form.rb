@@ -7,6 +7,16 @@ class SpecialistSectorTagForm < BasicObject
     tag.valid? && artefact.valid?
   end
 
+  def errors
+    tag.errors.tap do |tag_errors|
+      if tag_errors[:tag_id].empty? && artefact.errors[:slug].any?
+        artefact.errors[:slug].each do |slug_error|
+          tag_errors.add(:tag_id, slug_error)
+        end
+      end
+    end
+  end
+
   def save
     valid? && tag.save && artefact.save
   end

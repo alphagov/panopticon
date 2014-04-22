@@ -24,6 +24,11 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       should 'be false' do
         refute subject.valid?
       end
+
+      should 'include a validation error for tag_id' do
+        subject.valid?
+        assert subject.errors[:tag_id].include?('is already taken')
+      end
     end
 
     context 'with a two-part slug' do
