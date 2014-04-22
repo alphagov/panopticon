@@ -29,6 +29,8 @@ class ActiveSupport::TestCase
     load(Rails.root.join("db", "seeds.rb"))
   end
 
+  include FactoryGirl::Syntax::Methods
+
   def clean_db
     DatabaseCleaner.clean
   end
