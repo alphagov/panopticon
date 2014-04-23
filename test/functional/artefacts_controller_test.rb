@@ -407,7 +407,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         stub_all_router_api_requests
         WebMock.stub_request(:delete, "http://search.dev/mainstream/documents/%2Fwhatever").
             to_return(:status => 200)
-        WebMock.stub_request(:post, "http://search.dev/commit").
+        WebMock.stub_request(:post, "http://search.dev/mainstream/commit").
             to_return(:status => 200)
       end
 
