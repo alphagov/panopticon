@@ -1,7 +1,8 @@
 # In development environments we don't want to depend on Rummager unless
 # explicitly told to do so
 unless Rails.env.development?
-  update_search = true
+#  update_search = true
+  update_search = false
 else
   update_search = ENV['UPDATE_SEARCH'].present?
 end
