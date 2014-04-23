@@ -59,5 +59,9 @@ module Panopticon
     # Upon archiving an artefact we want this observer to run to remove
     # any related items that also point to that artefact.
     config.mongoid.observers << :remove_related_artefacts_observer
+
+    # When saving a specialist sector tag we want to update the title of the
+    # associated artefact
+    config.mongoid.observers << :update_specialist_sector_tag_artefact_observer
   end
 end
