@@ -139,6 +139,10 @@ class ArtefactsController < ApplicationController
         scope = scope.matching_query(filters[:search])
       end
 
+      # Exclude all panopticon-owned artefacts from the index
+      # because they have their own specialised interfaces.
+      scope = scope.where(:owning_app.ne => 'panopticon')
+
       scope
     end
 
