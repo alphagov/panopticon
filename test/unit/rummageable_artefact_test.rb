@@ -162,6 +162,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should not index content formats managed by Whitehall" do
+    skip("We don't use Whitehall")
     artefact = Artefact.new do |artefact|
       artefact.state = "live"
       artefact.kind = Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].first
@@ -171,6 +172,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should not index content formats managed by Specialist publisher" do
+    skip("We don't use specialist publisher")
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"].each do |kind|
       artefact = Artefact.new do |artefact|
         artefact.state = "live"
@@ -182,6 +184,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should not index content formats managed by Finder api" do
+    skip("We don't use the finder API")
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"].each do |kind|
       artefact = Artefact.new do |artefact|
         artefact.state = "live"

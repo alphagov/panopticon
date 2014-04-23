@@ -4,7 +4,7 @@ class SearchIndexTest < ActiveSupport::TestCase
 
   test "builds a Rummageable::Index instance" do
     Rummageable::Index.expects(:new)
-                        .with('http://search.dev.gov.uk', '/mainstream', has_key(:logger))
+                        .with('http://search.dev', '/mainstream', has_key(:logger))
                         .returns('search client')
 
     client = SearchIndex.instance
