@@ -9,7 +9,8 @@ module FilterHelper
   end
 
   def options_from_formats_for_select(selected_value=nil)
-    formats_with_labels = Artefact::FORMATS.sort.map {|format|
+    non_panopticon_formats = Artefact::FORMATS_BY_DEFAULT_OWNING_APP.except('panopticon').values.flatten
+    formats_with_labels = non_panopticon_formats.sort.map {|format|
       [ format.underscore.humanize, format ]
     }
     options = [["All", ""]] + formats_with_labels

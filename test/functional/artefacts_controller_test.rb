@@ -29,7 +29,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           @controller.expects(:artefact_scope).returns(@scope)
 
           # stub out the extra calls which get made on the scope object
-          @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope)
+          @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope, :where => @scope)
 
           # we aren't testing the template behaviour here, so don't try and render the template
           @controller.stubs(:render)
@@ -94,6 +94,18 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal 10, assigns(:artefacts).size
         assigns(:artefacts).each do |artefact|
           assert artefact.is_a?(Artefact)
+        end
+      end
+
+      should "exclude artefacts owned by Panopticon" do
+        panopticon_artefact = FactoryGirl.create(:artefact, owning_app: 'panopticon')
+
+        get :index
+
+        assert_equal [panopticon_artefact], Artefact.all.to_a - assigns(:artefacts)
+
+        assigns(:artefacts).each do |artefact|
+          assert_not_equal 'panopticon', artefact.owning_app
         end
       end
 

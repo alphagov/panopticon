@@ -15,11 +15,7 @@ module ArtefactsHelper
     "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}"
   end
 
-  def non_whitehall_formats
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP.each_with_object([]) do |(owning_app, formats), result|
-      if owning_app != "whitehall"
-        result.concat(formats)
-      end
-    end
+  def manageable_formats
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP.except('whitehall', 'panopticon').values.flatten
   end
 end

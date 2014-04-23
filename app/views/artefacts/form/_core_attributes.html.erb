@@ -6,7 +6,7 @@
   <%= f.input :slug, :input_html => { :class => "span6" } %>
 
   <% if f.object.new_record? %>
-    <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :prompt => "Select a kind", :input_html => { :class => "span4" } %>
+    <%= f.input :kind, :collection => manageable_formats.map { |s| [s.humanize, s]}, :as => :select, :prompt => "Select a kind", :input_html => { :class => "span4" } %>
     <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
   <% end %>
 </div>
