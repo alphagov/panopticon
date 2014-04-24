@@ -1,6 +1,6 @@
 module RegistrationInfo
 
-  SEARCH_ROOT = "http://search.#{ENV['GOVUK_APP_DOMAIN']}/mainstream"
+  SEARCH_ROOT = /http:\/\/search.#{ENV['GOVUK_APP_DOMAIN']}\/(mainstream|dapaas)/
 
   def example_smart_answer
     {
@@ -53,8 +53,8 @@ module RegistrationInfo
   end
 
   def stub_search
-    @fake_search = WebMock.stub_request(:post, "#{SEARCH_ROOT}/documents").to_return(status: 200)
-    @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
+    @fake_search = WebMock.stub_request(:post, %r{^#{SEARCH_ROOT}/documents}).to_return(status: 200)
+    @fake_search_amend = WebMock.stub_request(:post, %r{^#{SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
   end
 
   def stub_search_delete
@@ -66,7 +66,7 @@ module RegistrationInfo
   def artefact_search_url(artefact)
     # The search URL to which amendment requests should be POSTed
     link = "/#{artefact.slug}"
-    "#{SEARCH_ROOT}/documents/#{CGI.escape link}"
+    %r{^#{SEARCH_ROOT}/documents/#{CGI.escape link}}
   end
 
   def setup_existing_artefact
