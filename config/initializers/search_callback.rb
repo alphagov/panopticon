@@ -1,9 +1,12 @@
 # In development environments we don't want to depend on Rummager unless
 # explicitly told to do so
-unless Rails.env.development?
-  update_search = ENV['QUIRKAFLEEG_SEARCH_DISABLE'].nil?
-else
+
+if Rails.env.development?
   update_search = ENV['UPDATE_SEARCH'].present?
+elsif Rails.env.test?
+  update_search = true
+else
+  update_search = false
 end
 
 if update_search
