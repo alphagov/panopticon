@@ -1,8 +1,7 @@
 require 'govuk_content_models/test_helpers/factories'
 
 def create_section
-  FactoryGirl.create(
-    :tag,
+  FactoryGirl.create(:tag,
     tag_id: "crime",
     tag_type: "section",
     title: "Crime"
@@ -10,14 +9,14 @@ def create_section
 end
 
 def create_sections
-  create_section
-  FactoryGirl.create(
-    :tag,
+  section = create_section
+  subsection = FactoryGirl.create(:tag,
     tag_id: "crime/batman",
     tag_type: "section",
-    title: "Batman"
+    title: "Batman",
+    parent_id: section.id
   )
-  return ["crime", "crime/batman"].map { |tag_id| Tag.where(tag_id: tag_id, tag_type: 'section').first }
+  return [section, subsection]
 end
 
 def select_section(section)
