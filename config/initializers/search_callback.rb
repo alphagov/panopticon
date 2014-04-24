@@ -1,6 +1,6 @@
 # In development environments we don't want to depend on Rummager unless
 # explicitly told to do so
-unless Rails.env.development?
+unless Rails.env.development? || Rails.env.test?
 #  update_search = true
   update_search = false
 else
