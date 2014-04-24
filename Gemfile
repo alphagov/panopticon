@@ -13,7 +13,7 @@ gem 'airbrake', '3.1.15'
 if ENV['API_DEV']
   gem 'gds-api-adapters', :path => '../gds-api-adapters'
 else
-  gem 'gds-api-adapters', "7.20.0"
+  gem 'gds-api-adapters', "10.10.0"
 end
 
 gem 'rails', '3.2.17'
@@ -36,7 +36,7 @@ gem "bson", "1.7.1"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "10.3.0"
+  gem "govuk_content_models", "10.4.1"
 end
 
 if ENV['BUNDLE_DEV']
