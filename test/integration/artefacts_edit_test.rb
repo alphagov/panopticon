@@ -290,7 +290,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   end
 
   should "not include completed transactions in related item lists" do
-    skip "Editing related artefacts is currently disabled"
     a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
     b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
     c = FactoryGirl.create(:artefact, :name => "Done", :slug => 'done/completed-example', :kind => 'completed_transaction')

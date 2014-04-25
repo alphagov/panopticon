@@ -1,5 +1,3 @@
-# Editing related artefacts is currently disabled
-@wip
 Feature: Related items
   In order to help visitors find their way on GovUK
   I want to assign related items to artefacts
