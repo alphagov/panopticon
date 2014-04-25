@@ -1,8 +1,8 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
+  before_filter :prepare_need_ids, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
-  before_filter :prepare_need_ids, :only => [:create, :update], :if => -> { request.format.html? }
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 

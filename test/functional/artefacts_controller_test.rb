@@ -154,18 +154,34 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       context "publisher artefact" do
-        should "redirect to publisher" do
+        setup do
           Artefact.any_instance.stubs(:id).returns("abc")
-          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_ids => ['100001']
+        end
+
+        def valid_artefact_params
+          { :owning_app => 'publisher',
+            :slug => 'whatever',
+            :kind => 'guide',
+            :name => 'Whatever',
+            :need_ids => ['100001'] }
+        end
+
+        should "redirect to publisher" do
+          post :create, valid_artefact_params
 
           assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
         end
 
         should "redirect to edit page when requested" do
-          Artefact.any_instance.stubs(:id).returns("abc")
-          post :create, :owning_app => 'publisher', :slug => 'whatever', :kind => 'guide', :name => 'Whatever', :need_ids => ['100001'], :commit => "Save and continue editing"
+          post :create, valid_artefact_params.merge(:commit => "Save and continue editing")
 
           assert_redirected_to "/artefacts/abc/edit"
+        end
+
+        should "split need_ids if they come in as comma-separated values" do
+          post :create, valid_artefact_params.merge(artefact: { need_ids: "331312,333123" })
+
+          assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
         end
       end
     end
