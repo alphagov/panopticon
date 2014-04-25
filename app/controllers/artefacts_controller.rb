@@ -232,7 +232,6 @@ class ArtefactsController < ApplicationController
       %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
     end
 
-    # users will enter need_ids as comma-separated list in a text field
     def prepare_need_ids
       return if params[:artefact].blank? || params[:artefact][:need_ids].blank?
       params[:artefact][:need_ids] = params[:artefact][:need_ids].split(",").map(&:strip).reject(&:blank?)
