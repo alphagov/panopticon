@@ -177,12 +177,18 @@ class ArtefactsControllerTest < ActionController::TestCase
 
           assert_redirected_to "/artefacts/abc/edit"
         end
+      end
 
-        should "split need_ids if they come in as comma-separated values" do
-          post :create, artefact: valid_artefact_params.merge(need_ids: "331312,333123")
+      should "split need_ids if they come in as comma-separated values" do
+        post :create, artefact: valid_artefact_params.merge(need_ids: "331312,333123")
 
-          assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
-        end
+        assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
+      end
+
+      should "split related_artefact_slugs as they come in as comma-separated values" do
+        post :create, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
+
+        assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
       end
     end
 
@@ -490,6 +496,14 @@ class ArtefactsControllerTest < ActionController::TestCase
         put :update, id: artefact.id, artefact: { need_ids: "331312,333123" }
 
         assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
+      end
+
+      should "split related_artefact_slugs as they come in as comma-separated values" do
+        artefact = FactoryGirl.create(:artefact)
+
+        put :update, id: artefact.id, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
+
+        assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
       end
 
     end

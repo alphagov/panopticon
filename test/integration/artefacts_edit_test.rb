@@ -289,16 +289,37 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should "not include completed transactions in related item lists" do
-    a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
-    b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
-    c = FactoryGirl.create(:artefact, :name => "Done", :slug => 'done/completed-example', :kind => 'completed_transaction')
+  context "relating artefacts" do
+    context "using javascript" do
+      should "not include completed transactions in related item lists" do
 
-    visit "/artefacts"
-    click_on "Alpha"
+        a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
+        b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
+        c = FactoryGirl.create(:artefact, :name => "Done", :slug => 'done/completed-example', :kind => 'completed_transaction')
 
-    assert page.has_selector?("#artefact_related_artefact_ids_ option[value='#{b.id}']")
-    assert ! page.has_selector?("#artefact_related_artefact_ids_ option[value='#{c.id}']")
+        visit "/artefacts"
+        click_on "Alpha"
+
+        assert page.has_selector?("#artefact_related_artefact_ids_ option[value='#{b.id}']")
+        assert ! page.has_selector?("#artefact_related_artefact_ids_ option[value='#{c.id}']")
+      end
+    end
+
+    context "without javascript" do
+      setup do
+        @artefact = FactoryGirl.create(:artefact)
+        @artefacts_to_relate = *FactoryGirl.create_list(:artefact, 2)
+      end
+
+      should "be done by entering slugs of artefacts to relate" do
+        visit edit_artefact_path(@artefact)
+
+        fill_in "Related artefact slugs", with: @artefacts_to_relate.map(&:slug).join(", ")
+        click_on "Save and continue editing"
+
+        assert_equal @artefacts_to_relate.map(&:slug).join(", "), find_field("Related artefact slugs").value
+      end
+    end
   end
 
   context "related external links" do
