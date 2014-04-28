@@ -1,13 +1,12 @@
 <div class="well">
   <%= f.inputs "Related content" do %>
     <div class="related-artefacts fieldset-section">
-      <div class="nested-item-group related-artefact-group">
-        <%= f.label :related_artefact_slugs, class: "section-label" %>
-        <%= f.text_area :related_artefact_slugs, size: "75x3",
-              placeholder: "Fill-in slugs of arefacts to relate, " +
-                "separated by a comma. for example: benefits-calculators, child-tax-credit",
-              value: f.object.related_artefact_slugs.present? ? f.object.related_artefact_slugs.join(", ") : "" %>
-      </div>
+      <%= f.label :related_artefact_slugs, class: "section-label" %>
+      <%= f.text_area :related_artefact_slugs, size: "75x3",
+            placeholder: "Fill-in slugs of arefacts to relate, " +
+              "separated by a comma. for example: benefits-calculators, child-tax-credit",
+            value: f.object.related_artefact_slugs.present? ? f.object.related_artefact_slugs.join(", ") : "",
+            data: { related_artefacts: related_artefacts_json(f.object.related_artefacts) } %>
     </div>
 
     <div class="related-external-links fieldset-section">

@@ -182,6 +182,22 @@ label.section-label {
   }
 }
 
-#artefact_related_artefact_slugs {
-  width: auto;
+.related-artefacts {
+  #artefact_related_artefact_slugs {
+    width: auto;
+  }
+
+  /* reformat select2 rendered li elements to
+     show just one per line, otherwise short
+     names get inlined.
+  */
+  .select2-container-multi .select2-choices .select2-search-choice {
+    float: none;
+    line-height: 16px;
+    margin-right: 3px;
+
+    &:hover {
+      cursor: move;
+    }
+  }
 }
