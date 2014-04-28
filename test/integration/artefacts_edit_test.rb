@@ -292,6 +292,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   context "relating artefacts" do
     context "using javascript" do
       should "not include completed transactions in related item lists" do
+        pending "will re-use this test when implementing relating artefacts using javascript"
 
         a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
         b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')

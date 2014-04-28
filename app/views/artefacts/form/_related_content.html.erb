@@ -1,25 +1,13 @@
 <div class="well">
   <%= f.inputs "Related content" do %>
     <div class="related-artefacts fieldset-section">
-      <label class="section-label">Related artefacts <span class="hint">(click and drag to reorder)</span></label>
-
       <div class="nested-item-group related-artefact-group">
-        <% if f.object.related_artefact_ids.length > 0 %>
-          <% f.object.related_artefact_ids.each do |related_artefact_id| %>
-            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, is_template: false } %>
-          <% end %>
-        <% else %>
-          <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: false } %>
-        <% end %>
         <%= f.label :related_artefact_slugs, class: "section-label" %>
         <%= f.text_area :related_artefact_slugs, size: "75x3",
               placeholder: "Fill-in slugs of arefacts to relate, " +
                 "separated by a comma. for example: benefits-calculators, child-tax-credit",
               value: f.object.related_artefact_slugs.present? ? f.object.related_artefact_slugs.join(", ") : "" %>
       </div>
-
-      <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: true } %>
-      <button id="add-related" class="btn btn-success" type="button">Add another related item</button>
     </div>
 
     <div class="related-external-links fieldset-section">

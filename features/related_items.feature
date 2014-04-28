@@ -1,3 +1,5 @@
+# while the javascript version of this feature is in development
+@wip
 Feature: Related items
   In order to help visitors find their way on GovUK
   I want to assign related items to artefacts
