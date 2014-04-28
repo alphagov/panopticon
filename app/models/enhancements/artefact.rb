@@ -10,4 +10,13 @@ class Artefact
 
   STATES = [ "live", "draft", "archived" ]
 
+  def related_artefact_slugs=(slugs)
+    related_artefacts = Artefact.relatable_items.where(:slug.in => slugs).only(:_id)
+    self.related_artefact_ids = related_artefacts.map(&:_id).to_a
+  end
+
+  def related_artefact_slugs
+    self.related_artefacts.only(&:slug).map(&:slug)
+  end
+
 end
