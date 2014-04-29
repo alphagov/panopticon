@@ -10,6 +10,11 @@ class Artefact
 
   STATES = [ "live", "draft", "archived" ]
 
+  scope :relatable_items_like, proc { |title_substring|
+    relatable_items
+      .any_of(:name => /#{Regexp.escape(title_substring)}/i)
+  }
+
   def related_artefact_slugs=(slugs)
     related_artefacts = Artefact.relatable_items.where(:slug.in => slugs).only(:_id)
     self.related_artefact_ids = related_artefacts.map(&:_id).to_a

@@ -16,6 +16,9 @@ Panopticon::Application.routes.draw do
       get :history
       get :archive
     end
+    collection do
+      get :search_relatable_items, constraints: { format: :json }
+    end
   end
   resources :tags
 

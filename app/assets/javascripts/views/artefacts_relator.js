@@ -2,7 +2,8 @@ $(document).ready(function() {
   "use strict";
 
   var $relatedArtefactsWrapper = $(".related-artefacts"),
-      $relatedArtefactsTextField = $("#artefact_related_artefact_slugs");
+      $relatedArtefactsTextArea = $("#artefact_related_artefact_slugs"),
+      prefillRelatedArtefacts = $relatedArtefactsTextArea.data("related-artefacts");
 
   $relatedArtefactsWrapper
     .children("label")
@@ -23,7 +24,7 @@ $(document).ready(function() {
     placeholder: "Search for an artefact to relate",
     minimumInputLength: 3,
     initSelection: function(element, callback) {
-      callback($relatedArtefactsTextField.data("related-artefacts"));
+      callback(prefillRelatedArtefacts);
     },
     formatSelection: function(object) {
       return $("<a>")
@@ -49,4 +50,14 @@ $(document).ready(function() {
     e.preventDefault();
     window.open($(this).attr("href"));
   });
+
+  // drag and drop to change order of related artefacts
+  $relatedArtefactsWrapper
+    .select2("container")
+    .find("ul.select2-choices")
+    .sortable({
+      containment: 'parent',
+      start: function() { $relatedArtefactsHiddenInput.select2("onSortStart"); },
+      update: function() { $relatedArtefactsHiddenInput.select2("onSortEnd"); }
+    });
 });

@@ -5,6 +5,19 @@ class ArtefactsControllerTest < ActionController::TestCase
     login_as_stub_user
   end
 
+  context "GET search_relatable_items" do
+    should "return relatable item names in json format" do
+      relatable_artefacts = [FactoryGirl.create(:artefact, name: "Benefits calculator", slug: "benefits-calc"),
+                              FactoryGirl.create(:artefact, name: "Child tax benefits", slug: "child-tax")]
+
+      get :search_relatable_items, title_substring: "bene", format: :json
+
+      expected_response = { artefacts: [{ "benefits-calc" => "Benefits calculator" },
+                                        { "child-tax" => "Child tax benefits" }], total: 2 }
+      assert_equal expected_response.to_json, response.body
+    end
+  end
+
   context "accept HTML" do
     context "GET show" do
       should "redirect to publisher when publisher is the owning app" do

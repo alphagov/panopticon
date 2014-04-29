@@ -36,4 +36,18 @@ class ArtefactTest < ActiveSupport::TestCase
     end
   end
 
+  context ".relatable_items_like" do
+    should "should return relatable artefacts that match the title substring" do
+      relatable_artefact_one = FactoryGirl.create(:artefact, name: "Benefits calculator")
+      relatable_artefact_two = FactoryGirl.create(:artefact, name: "Child tax benefits")
+
+      # archived artefact not relatable
+      FactoryGirl.create(:artefact, name: "Benefit for all").set(:state, "archived")
+      # relatable artefact not matching
+      FactoryGirl.create(:artefact, name: "Tax credits")
+
+      assert_equal [relatable_artefact_one, relatable_artefact_two], Artefact.relatable_items_like("benefit")
+    end
+  end
+
 end

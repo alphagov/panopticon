@@ -22,6 +22,6 @@ module ArtefactsHelper
   def related_artefacts_json(related_artefacts)
     # not using to_json as it is adding extra attributes which are not needed
     # select2 needs a JSON object with id and text attributes
-    related_artefacts.map {|a| { id: a.slug, text: a.name } }.to_json
+    related_artefacts.map {|a| { id: a.slug, text: a.name_with_owner_prefix } }
   end
 end
