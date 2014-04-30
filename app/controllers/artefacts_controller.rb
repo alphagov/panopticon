@@ -1,9 +1,8 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
-  before_filter :prepare_need_ids, :only => [:create, :update], :if => -> { request.format.html? }
+  before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :tag_collection, :except => [:show]
-  helper_method :relatable_items
   helper_method :sort_column, :sort_direction
 
   respond_to :html, :json
@@ -160,10 +159,6 @@ class ArtefactsController < ApplicationController
       end
     end
 
-    def relatable_items
-      @relatable_items ||= Artefact.relatable_items.to_a
-    end
-
     def attempting_to_change_owning_app?(parameters_to_use)
       @artefact.persisted? &&
         parameters_to_use.include?('owning_app') &&
@@ -232,8 +227,12 @@ class ArtefactsController < ApplicationController
       %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
     end
 
-    def prepare_need_ids
-      return if params[:artefact].blank? || params[:artefact][:need_ids].blank?
-      params[:artefact][:need_ids] = params[:artefact][:need_ids].split(",").map(&:strip).reject(&:blank?)
+    def convert_comma_separated_string_to_array_attribute
+      return if (artefact_params = params[:artefact]).blank?
+
+      [:need_ids, :related_artefact_slugs].each do |attribute|
+        next if artefact_params[attribute].nil?
+        artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
+      end
     end
 end

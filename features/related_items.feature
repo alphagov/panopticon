@@ -1,4 +1,4 @@
-# Editing related artefacts is currently disabled
+# while the javascript version of this feature is in development
 @wip
 Feature: Related items
   In order to help visitors find their way on GovUK
