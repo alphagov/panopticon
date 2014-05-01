@@ -21,7 +21,7 @@ $(document).ready(function() {
   $relatedArtefactsHiddenInput.select2({
     width: "75%",
     multiple: true,
-    placeholder: "Search for an artefact to relate",
+    placeholder: "Enter first few characters of the artefact name",
     minimumInputLength: 3,
     initSelection: function(element, callback) {
       callback(prefillRelatedArtefacts);

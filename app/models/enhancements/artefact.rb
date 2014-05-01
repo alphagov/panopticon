@@ -12,7 +12,7 @@ class Artefact
 
   scope :relatable_items_like, proc { |title_substring|
     relatable_items
-      .any_of(:name => /#{Regexp.escape(title_substring)}/i)
+      .any_of(:name => /\A#{Regexp.escape(title_substring)}/i)
   }
 
   def related_artefact_slugs=(slugs)

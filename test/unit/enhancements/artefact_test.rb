@@ -44,7 +44,7 @@ class ArtefactTest < ActiveSupport::TestCase
   end
 
   context ".relatable_items_like" do
-    should "should return relatable artefacts that match the title substring" do
+    should "should return relatable artefacts that begin with the title substring" do
       relatable_artefact_one = FactoryGirl.create(:artefact, name: "Benefits calculator")
       relatable_artefact_two = FactoryGirl.create(:artefact, name: "Child tax benefits")
 
@@ -53,7 +53,7 @@ class ArtefactTest < ActiveSupport::TestCase
       # relatable artefact not matching
       FactoryGirl.create(:artefact, name: "Tax credits")
 
-      assert_equal [relatable_artefact_one, relatable_artefact_two], Artefact.relatable_items_like("benefit")
+      assert_equal [relatable_artefact_one], Artefact.relatable_items_like("benefit")
     end
   end
 
