@@ -25,4 +25,8 @@ class Artefact
     ordered_related_artefacts(related_artefacts.only(&:slug)).map(&:slug)
   end
 
+  def name_with_owner_prefix
+    (owning_app == "whitehall" ? "[Whitehall] " : "[Mainstream] ") + name
+  end
+
 end
