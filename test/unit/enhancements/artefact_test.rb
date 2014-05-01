@@ -8,11 +8,11 @@ class ArtefactTest < ActiveSupport::TestCase
       @artefacts_to_relate = *FactoryGirl.create_list(:artefact, 2)
     end
 
-    should "assign related artefacts based on their slugs" do
+    should "assign related_artefact_ids based on their slugs" do
       @artefact.related_artefact_slugs = @artefacts_to_relate.map(&:slug)
       @artefact.save!
 
-      assert_equal @artefacts_to_relate, @artefact.reload.related_artefacts
+      assert_equal @artefacts_to_relate.map(&:_id), @artefact.reload.related_artefact_ids
     end
 
     should "ignore slugs of artefacts that are not relatable" do
@@ -21,7 +21,14 @@ class ArtefactTest < ActiveSupport::TestCase
       @artefact.related_artefact_slugs = @artefacts_to_relate.map(&:slug) + [archived_artefact_not_relatable.slug]
       @artefact.save!
 
-      assert_equal @artefacts_to_relate, @artefact.reload.related_artefacts
+      assert_equal @artefacts_to_relate.map(&:_id), @artefact.reload.related_artefact_ids
+    end
+
+    should "keep order of related_artefact_ids same as related_artefact_slugs" do
+      @artefact.related_artefact_slugs = @artefacts_to_relate.reverse.map(&:slug)
+      @artefact.save!
+
+      assert_equal @artefacts_to_relate.reverse.map(&:_id), @artefact.reload.related_artefact_ids
     end
   end
 

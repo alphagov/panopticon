@@ -6,7 +6,7 @@
             placeholder: "Fill-in slugs of arefacts to relate, " +
               "separated by a comma. for example: benefits-calculators, child-tax-credit",
             value: f.object.related_artefact_slugs.present? ? f.object.related_artefact_slugs.join(", ") : "",
-            data: { related_artefacts: related_artefacts_json(f.object.related_artefacts) } %>
+            data: { related_artefacts: related_artefacts_json(f.object.ordered_related_artefacts) } %>
     </div>
 
     <div class="related-external-links fieldset-section">
