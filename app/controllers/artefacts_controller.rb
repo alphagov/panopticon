@@ -18,6 +18,12 @@ class ArtefactsController < ApplicationController
     respond_with @artefacts, @tag_collection
   end
 
+  def search_relatable_items
+    artefacts = Artefact.relatable_items_like(params[:title_substring]).page(params[:page]).per(15)
+    artefacts_map = { artefacts: artefacts.map {|a| { id: a.slug, text: a.name_with_owner_prefix } } }
+    respond_with artefacts_map.merge(total: artefacts.total_count).to_json
+  end
+
   def show
     respond_with @artefact do |format|
       format.html { redirect_to admin_url_for_edition(@artefact) }
@@ -235,4 +241,5 @@ class ArtefactsController < ApplicationController
         artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
       end
     end
+
 end

@@ -290,22 +290,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   end
 
   context "relating artefacts" do
-    context "using javascript" do
-      should "not include completed transactions in related item lists" do
-        pending "will re-use this test when implementing relating artefacts using javascript"
-
-        a = FactoryGirl.create(:artefact, :name => "Alpha", :slug => 'alpha')
-        b = FactoryGirl.create(:artefact, :name => "Beta", :slug => 'beta')
-        c = FactoryGirl.create(:artefact, :name => "Done", :slug => 'done/completed-example', :kind => 'completed_transaction')
-
-        visit "/artefacts"
-        click_on "Alpha"
-
-        assert page.has_selector?("#artefact_related_artefact_ids_ option[value='#{b.id}']")
-        assert ! page.has_selector?("#artefact_related_artefact_ids_ option[value='#{c.id}']")
-      end
-    end
-
     context "without javascript" do
       setup do
         @artefact = FactoryGirl.create(:artefact)

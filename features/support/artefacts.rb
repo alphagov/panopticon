@@ -33,15 +33,12 @@ def add_related_artefacts(artefact, related_artefacts)
 end
 
 def select_related_artefact(artefact)
-  first(:select, "artefact[related_artefact_ids][]").first(:option, artefact.name).select_option
+  fill_in "s2id_autogen2", with: artefact.name
+  find(".select2-result-label", match: :first).click
 end
 
 def unselect_related_artefact(artefact)
-  within(:xpath, "//option[@value='#{artefact.id}'][@selected='selected']/../..") do
-    # Can't rely on the Remove button here, as JavaScript may not have loaded
-    # and the buttons aren't full of progressive enhancement goodness
-    select "Select a related item", from: "artefact[related_artefact_ids][]"
-  end
+  page.execute_script(%Q<$("li:contains('#{artefact.name}') .select2-search-choice-close").click();>)
 end
 
 def select_related_artefacts(artefacts)

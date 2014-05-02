@@ -1,5 +1,3 @@
-# while the javascript version of this feature is in development
-@wip
 Feature: Related items
   In order to help visitors find their way on GovUK
   I want to assign related items to artefacts
@@ -7,15 +5,16 @@ Feature: Related items
   Background:
     Given I am an admin
 
+  @javascript
   Scenario: Assign a related item
     Given two non-publisher artefacts exist
-    When I create a relationship between them
+     When I create a relationship between them
       And I save
-    Then the API should say that the artefacts are related
+     Then the API should say that the artefacts are related
 
+  @javascript
   Scenario: Unassign a related item
     Given two artefacts exist
       And the artefacts are related
-    When I destroy their relationship
-    Then I should be redirected to Publisher
+     When I destroy their relationship
       And the API should say that the artefacts are not related

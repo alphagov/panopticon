@@ -18,4 +18,10 @@ module ArtefactsHelper
   def manageable_formats
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP.except('whitehall', 'panopticon').values.flatten
   end
+
+  def related_artefacts_json(related_artefacts)
+    # not using to_json as it is adding extra attributes which are not needed
+    # select2 needs a JSON object with id and text attributes
+    related_artefacts.map {|a| { id: a.slug, text: a.name_with_owner_prefix } }.to_json
+  end
 end

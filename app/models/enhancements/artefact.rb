@@ -10,13 +10,23 @@ class Artefact
 
   STATES = [ "live", "draft", "archived" ]
 
+  scope :relatable_items_like, proc { |title_substring|
+    relatable_items
+      .any_of(:name => /\A#{Regexp.escape(title_substring)}/i)
+  }
+
   def related_artefact_slugs=(slugs)
-    related_artefacts = Artefact.relatable_items.where(:slug.in => slugs).only(:_id)
-    self.related_artefact_ids = related_artefacts.map(&:_id).to_a
+    related_artefacts = Artefact.relatable_items.where(:slug.in => slugs).only(:_id, :slug).to_a
+    # mongo doesn't guarantee the order of elements returned in response to `$in` query
+    self.related_artefact_ids = related_artefacts.sort_by { |a| slugs.index(a.slug) }.map(&:_id)
   end
 
   def related_artefact_slugs
-    self.related_artefacts.only(&:slug).map(&:slug)
+    ordered_related_artefacts(related_artefacts.only(&:slug)).map(&:slug)
+  end
+
+  def name_with_owner_prefix
+    (owning_app == "whitehall" ? "[Whitehall] " : "[Mainstream] ") + name
   end
 
 end
