@@ -18,7 +18,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -36,7 +35,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "format" => "guide",
       "description" => "Describe describey McDescribe",
       "section" => nil,
-      "subsection" => nil,
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -54,7 +52,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
@@ -73,7 +70,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
   end
@@ -91,26 +87,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => "crime",
-      "subsection" => nil,
-      "indexable_content" => "Blah blah blah index this"
-    }
-    assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
-  end
-
-  test "should include subsection information" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.sections = ["crime/batman"]
-    end
-    expected = {
-      "link" => "/my-artefact",
-      "title" => "My artefact",
-      "format" => "guide",
-      "section" => "crime",
-      "subsection" => "batman",
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
@@ -128,7 +104,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "travel-advice",
       "section" => "foreign-travel-advice",
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash

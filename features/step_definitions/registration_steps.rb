@@ -85,7 +85,6 @@ Then /^rummager should be told to do a partial update$/ do
     title: "Child Benefit rates",
     format: "creative_work",
     section: @section.tag_id,
-    subsection: ""
   }
   assert_requested :post, artefact_search_url(@artefact), body: amendments
 end
