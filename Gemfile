@@ -16,7 +16,7 @@ else
   gem 'gds-api-adapters', "10.10.0"
 end
 
-gem 'rails', '3.2.17'
+gem 'rails', '3.2.18'
 gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
