@@ -29,8 +29,10 @@
           <% @artefacts.each do |artefact| %>
             <tr class="<%= artefact.state %>">
               <td>
-                <% artefact.need_ids.each do |need_id| %>
-                  <%= content_tag "span", need_id, :class => "label need-id" %>
+                <% if artefact.need_ids %>
+                  <% artefact.need_ids.each do |need_id| %>
+                    <%= content_tag "span", need_id, :class => "label need-id" %>
+                  <% end %>
                 <% end %>
               </td>
               <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
