@@ -9,30 +9,39 @@ module Importers
       logger.info "Starting #{self.class.name}"
 
       artefacts_with_needs.each do |artefact|
-        logger.info "  #{artefact.slug}:"
-        logger.info "    -> need IDs: #{artefact.need_ids.join(', ')}"
-
-        needs = maslow_need_ids(artefact).map {|need_id|
-          @need_api.need(need_id)
-        }.compact
-        logger.info "    -> Maslow needs found: #{needs.size}"
-
-        organisation_ids_to_add = needs.map {|need|
-          need['organisation_ids']
-        }.flatten
-
-        organisation_ids = (artefact.organisation_ids + organisation_ids_to_add).uniq
-
-        artefact.organisation_ids = organisation_ids
-        artefact.save
-
-        logger.info "    -> organisation_ids = #{organisation_ids}"
+        begin
+          import_organisations_for_artefact(artefact)
+        rescue GdsApi::TimedOutException
+          logger.info "    Timed out, retrying"
+          redo
+        end
       end
 
       logger.info "Import completed"
     end
 
   private
+
+    def import_organisations_for_artefact(artefact)
+      logger.info "  #{artefact.slug}:"
+      logger.info "    -> need IDs: #{artefact.need_ids.join(', ')}"
+
+      needs = maslow_need_ids(artefact).map {|need_id|
+        @need_api.need(need_id)
+      }.compact
+      logger.info "    -> Maslow needs found: #{needs.size}"
+
+      organisation_ids_to_add = needs.map {|need|
+        need['organisation_ids']
+      }.flatten
+
+      organisation_ids = (artefact.organisation_ids + organisation_ids_to_add).uniq
+
+      artefact.organisation_ids = organisation_ids
+      artefact.save
+
+      logger.info "    -> organisation_ids = #{organisation_ids}"
+    end
 
     def mainstream_owning_apps
       [

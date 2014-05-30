@@ -141,5 +141,22 @@ module Importers
 
       assert_equal ['home-office', 'environment-agency'], artefact.organisation_ids
     end
+
+    should 'retry if fetching a need times out' do
+      artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: ['100001'])
+      create(:tag, tag_type: 'organisation', tag_id: "hm-treasury")
+
+      stub_need = {
+        "organisation_ids" => ["hm-treasury"]
+      }
+      @need_api.stubs(:need).with(artefact.need_ids.first)
+                            .raises(GdsApi::TimedOutException)
+                            .then.returns(stub_need)
+
+      @importer.run
+
+      artefact.reload
+      assert_equal ['hm-treasury'], artefact.organisation_ids
+    end
   end
 end
