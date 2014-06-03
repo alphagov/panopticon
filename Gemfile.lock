@@ -123,7 +123,7 @@ GEM
       htmlentities (~> 4)
       kramdown (~> 0.13.3)
       sanitize (~> 2.0.3)
-    govuk_content_models (10.5.0)
+    govuk_content_models (11.2.0)
       bson_ext
       differ
       gds-api-adapters (>= 10.9.0)
@@ -134,7 +134,7 @@ GEM
       state_machine
     hashie (2.0.5)
     hike (1.2.3)
-    htmlentities (4.3.1)
+    htmlentities (4.3.2)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.6.9)
@@ -338,7 +338,7 @@ DEPENDENCIES
   gds-api-adapters (= 10.10.0)
   gds-sso (= 9.2.2)
   gelf
-  govuk_content_models (= 10.5.0)
+  govuk_content_models (= 11.2.0)
   jquery-rails (= 2.0.2)
   jquery-ui-rails (= 3.0.1)
   kaminari (= 0.14.1)
