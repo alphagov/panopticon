@@ -10,7 +10,7 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @filters = params.slice(:section, :specialist_sector, :kind, :state, :search)
+    @filters = params.slice(:section, :specialist_sector, :kind, :state, :search, :owned_by)
     @scope = apply_filters(artefact_scope, @filters)
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
@@ -144,9 +144,13 @@ class ArtefactsController < ApplicationController
         scope = scope.matching_query(filters[:search])
       end
 
-      # Exclude all panopticon-owned artefacts from the index
-      # because they have their own specialised interfaces.
-      scope = scope.where(:owning_app.ne => 'panopticon')
+      if filters[:owned_by].present?
+        scope = scope.owned_by(filters[:owned_by])
+      else
+        # Exclude all panopticon-owned artefacts from the index
+        # because they have their own specialised interfaces.
+        scope = scope.not_owned_by('panopticon')
+      end
 
       scope
     end

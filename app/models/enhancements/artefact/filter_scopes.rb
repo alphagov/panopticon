@@ -17,6 +17,8 @@ class Artefact
 
       scope :of_kind, proc {|kind| where(kind: kind) }
       scope :in_state, proc {|state| where(state: state) }
+      scope :owned_by, proc {|owning_app| where(owning_app: owning_app) }
+      scope :not_owned_by, proc {|owning_app| where(:owning_app.ne => owning_app) }
 
       scope :matching_query, proc {|query|
         search = /#{Regexp.escape(query)}/i

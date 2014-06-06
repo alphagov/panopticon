@@ -26,4 +26,16 @@ module FilterHelper
 
     options_for_select(options, selected_value || "")
   end
+
+  def options_from_owning_apps_for_select(selected_value=nil)
+    owning_apps = Artefact.all.distinct(:owning_app)
+    owning_apps.delete("panopticon")
+
+    owning_apps_with_labels = owning_apps.sort.map {|owning_app|
+      [ owning_app.humanize, owning_app ]
+    }
+    options = [["All", ""]] + owning_apps_with_labels
+
+    options_for_select(options, selected_value || "")
+  end
 end

@@ -18,6 +18,11 @@
     </div>
 
     <div>
+      <label for="owned_by">Application</label>
+      <%= select_tag :owned_by, options_from_owning_apps_for_select(@filters[:owned_by]), class: "span12" %>
+    </div>
+
+    <div>
       <label for="state">State</label>
       <%= select_tag :state, options_from_states_for_select(@filters[:state]), class: "span12" %>
     </div>
