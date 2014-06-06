@@ -63,7 +63,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
               assert page.has_content?(artefact.name)
               assert page.has_content?(artefact.slug)
               assert page.has_content?(artefact.kind.humanize)
-              assert page.has_content?(artefact.owning_app)
+              assert page.has_content?(artefact.owning_app.underscore.humanize)
             end
           end
         end

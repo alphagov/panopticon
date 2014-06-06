@@ -32,7 +32,7 @@ module FilterHelper
     owning_apps.delete("panopticon")
 
     owning_apps_with_labels = owning_apps.sort.map {|owning_app|
-      [ owning_app.humanize, owning_app ]
+      [ owning_app.underscore.humanize, owning_app ]
     }
     options = [["All", ""]] + owning_apps_with_labels
 

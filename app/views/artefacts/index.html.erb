@@ -43,7 +43,7 @@
               <td><%= artefact.primary_section %></td>
               <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
               <td><%= artefact.related_artefact_ids.count %></td>
-              <td><%= artefact.owning_app %></td>
+              <td><%= artefact.owning_app.underscore.humanize %></td>
               <td><%= link_to artefact.slug, published_url(artefact) %></td>
             </tr>
           <% end %>
