@@ -1,5 +1,5 @@
 class RemoveRpaSpecialistSectors < Mongoid::Migration
-  TAG_TYPE = "specialist-sector"
+  TAG_TYPE = "specialist_sector"
 
   def self.up
     tags_to_remove.each do |tag_id, _, _|
@@ -33,7 +33,7 @@ class RemoveRpaSpecialistSectors < Mongoid::Migration
 private
   def self.tags_to_remove
     [
-      ["working-at-sea/fishing", "Fishing", "working-at-sea"],
+      ["working-sea/fishing", "Fishing", "working-sea"],
       ["producing-distributing-food/inspections", "Inspections", "producing-distributing-food"],
       ["keeping-farmed-animals/inspections", "Inspections", "keeping-farmed-animals"],
     ]
