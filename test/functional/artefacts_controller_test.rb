@@ -45,6 +45,7 @@ class ArtefactsControllerTest < ActionController::TestCase
 
           # stub out the extra calls which get made on the scope object
           @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope, :where => @scope)
+          @scope.stubs(:not_owned_by).with('panopticon').returns(@scope)
 
           # we aren't testing the template behaviour here, so don't try and render the template
           @controller.stubs(:render)
@@ -66,6 +67,30 @@ class ArtefactsControllerTest < ActionController::TestCase
           @scope.expects(:of_kind).with("answer").returns(@scope)
 
           get :index, kind: "answer"
+        end
+
+        should "apply the owned_by scope" do
+          @scope.expects(:owned_by).with("calculators").returns(@scope)
+
+          get :index, owned_by: "calculators"
+        end
+
+        should "restricted owned_by to not include panopticon" do
+          @scope.expects(:not_owned_by).with("panopticon").returns(@scope)
+
+          get :index
+        end
+
+        should "allow owned_by to include panopticon if explicit" do
+          # Most tests in this context expect :not_owned_by to be called, so we
+          # stub this method in the setup block. Here we need to explicitly
+          # unstub it for the .never expectation to work (thanks mocha!)
+          @scope.unstub(:not_owned_by)
+
+          @scope.expects(:owned_by).with("panopticon").returns(@scope)
+          @scope.expects(:not_owned_by).never
+
+          get :index, owned_by: 'panopticon'
         end
 
         should "not apply the kind scope when it's not a valid kind" do
@@ -109,18 +134,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal 10, assigns(:artefacts).size
         assigns(:artefacts).each do |artefact|
           assert artefact.is_a?(Artefact)
-        end
-      end
-
-      should "exclude artefacts owned by Panopticon" do
-        panopticon_artefact = FactoryGirl.create(:artefact, owning_app: 'panopticon')
-
-        get :index
-
-        assert_equal [panopticon_artefact], Artefact.all.to_a - assigns(:artefacts)
-
-        assigns(:artefacts).each do |artefact|
-          assert_not_equal 'panopticon', artefact.owning_app
         end
       end
 

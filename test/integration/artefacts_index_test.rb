@@ -63,7 +63,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
               assert page.has_content?(artefact.name)
               assert page.has_content?(artefact.slug)
               assert page.has_content?(artefact.kind.humanize)
-              assert page.has_content?(artefact.owning_app)
+              assert page.has_content?(artefact.owning_app.underscore.humanize)
             end
           end
         end
@@ -79,6 +79,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
             assert page.has_select?("Section", selected: "All")
             assert page.has_select?("Specialist sector", selected: "All")
             assert page.has_select?("Format", selected: "All")
+            assert page.has_select?("Application", selected: "All")
             assert page.has_select?("State", selected: "All")
             assert page.has_field?("Contains", with: nil)
           end
@@ -195,6 +196,42 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
 
       within "#filters" do
         assert page.has_select?("Format", selected: "Answer")
+      end
+    end
+
+    should "filter by owning_app" do
+      FactoryGirl.create(:artefact, name: 'A calculator', owning_app: "calculators")
+      FactoryGirl.create(:artefact, name: 'A guide', owning_app: "publisher")
+      FactoryGirl.create(:artefact, name: 'A browse page', owning_app: "panopticon")
+
+      visit '/artefacts'
+
+      within "#artefact-list" do
+        assert page.has_selector?("tr", text: "A calculator")
+        assert page.has_selector?("tr", text: "A guide")
+        assert page.has_no_selector?("tr", text: "A browse page")
+      end
+
+      within "#filters" do
+
+        within "#owned_by" do
+          assert page.has_no_selector?("option", text: "Panopticon"),
+                 "Panopticon should not appear in owned_by dropdown"
+        end
+
+        select "Calculators", from: "Application"
+        click_on "Update results"
+      end
+
+      within "#artefact-list" do
+        assert page.has_selector?("tr", text: "A calculator")
+
+        assert page.has_no_selector?("tr", text: "A guide")
+        assert page.has_no_selector?("tr", text: "A browse page")
+      end
+
+      within "#filters" do
+        assert page.has_select?("Application", selected: "Calculators")
       end
     end
 
