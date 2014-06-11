@@ -1,4 +1,4 @@
-class RemoveRpaSpecialistSectors < Mongoid::Migration
+class RemoveRpaSpecialistSectorsFixed < Mongoid::Migration
   TAG_TYPE = "specialist_sector"
 
   def self.up
