@@ -43,11 +43,42 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
   test "should not delete an artefact with an excluded kind where the slug is indexable" do
     RummageableArtefact.any_instance.stubs(:submit)
     @artefact = FactoryGirl.create(:artefact, kind: "answer", slug: "new-enterprise-allowance", state: "live")
-   
+
     RummageableArtefact.any_instance.expects(:submit)
     RummageableArtefact.any_instance.expects(:delete).never 
     @artefact.kind = "business_support"
     @artefact.save!
   end
 
+  test "should request an amend to the search index, with a slug and an hash of the artefact attributes to be indexed" do
+    FactoryGirl.create(:tag, tag_type: "section", tag_id: "a-section", title: "A Section")
+    FactoryGirl.create(:tag, tag_type: "section", tag_id: "a-section/subsection", title: "A Subsection", parent_id: "a-section")
+    FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
+
+    new_artefact = FactoryGirl.build(
+      :artefact,
+      name: "My artefact",
+      sections: ["a-section/subsection"],
+      slug: "my-artefact",
+      kind: "guide", state: "live",
+      organisations: ["cabinet-office"],
+      specialist_sectors: ["working-sea"]
+    )
+
+    expected_hash_of_attributes_to_index = {
+      "title" => "My artefact",
+      "format" => "guide",
+      "section" => "a-section",
+      "subsection" => "subsection",
+      "organisations" => ["cabinet-office"],
+      "specialist_sectors" => ["working-sea"],
+    }
+
+    mock_search_index = mock()
+    SearchIndex.stubs(:instance).returns(mock_search_index)
+    mock_search_index.expects(:amend).with("/#{new_artefact['slug']}", expected_hash_of_attributes_to_index)
+
+    new_artefact.save!
+  end
 end
