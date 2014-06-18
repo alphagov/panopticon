@@ -8,6 +8,14 @@ class RummageableArtefactTest < ActiveSupport::TestCase
 
     FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
     FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "department-for-transport", title: "Department for Transport")
+
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "oil-and-gas", title: "Oil and Gas")
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "oil-and-gas/licensing", title: "Licensing",
+                       parent_id: "oil-and-gas")
+
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea/health-safety", title: "Health and safety",
+                       parent_id: "working-sea")
   end
 
   test "should extract artefact attributes" do
@@ -23,6 +31,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "section" => nil,
       "subsection" => nil,
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -42,6 +51,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "section" => nil,
       "subsection" => nil,
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -62,6 +72,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -101,6 +112,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -121,6 +133,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "subsection" => "batman",
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -140,6 +153,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "subsection" => nil,
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
+      "specialist_sectors" => [],
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -161,6 +175,35 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "organisations" => [
         "cabinet-office",
         "department-for-transport"
+      ],
+      "specialist_sectors" => [],
+      "indexable_content" => "Blah blah blah index this"
+    }
+    assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
+  end
+
+  test "should include specialist sectors" do
+    artefact = Artefact.new do |artefact|
+      artefact.name = "My artefact"
+      artefact.slug = "my-artefact"
+      artefact.kind = "guide"
+      artefact.indexable_content = "Blah blah blah index this"
+      artefact.organisation_ids = []
+      artefact.specialist_sectors = [
+        'oil-and-gas/licensing',
+        'working-sea/health-safety'
+      ]
+    end
+    expected = {
+      "link" => "/my-artefact",
+      "title" => "My artefact",
+      "format" => "guide",
+      "subsection" => nil,
+      "section" => nil,
+      "organisations" => [],
+      "specialist_sectors" => [
+        'oil-and-gas/licensing',
+        'working-sea/health-safety'
       ],
       "indexable_content" => "Blah blah blah index this"
     }

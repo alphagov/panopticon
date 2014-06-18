@@ -75,7 +75,8 @@ class RummageableArtefact
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
     rummageable_keys = %w{title description format section subsection
-      indexable_content boost_phrases organisations additional_links}
+      indexable_content boost_phrases organisations additional_links
+      specialist_sectors}
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager
@@ -130,6 +131,10 @@ class RummageableArtefact
 
   def artefact_organisations
     @artefact.organisation_ids
+  end
+
+  def artefact_specialist_sectors
+    @artefact.specialist_sectors.map(&:tag_id)
   end
 
 private
