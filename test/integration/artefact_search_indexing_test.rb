@@ -55,6 +55,8 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
     FactoryGirl.create(:tag, tag_type: "section", tag_id: "a-section/subsection", title: "A Subsection", parent_id: "a-section")
     FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
     FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
+    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea/health-safety", title: "Health and safety",
+                       parent_id: "working-sea")
 
     new_artefact = FactoryGirl.build(
       :artefact,
@@ -63,7 +65,7 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
       slug: "my-artefact",
       kind: "guide", state: "live",
       organisations: ["cabinet-office"],
-      specialist_sectors: ["working-sea"]
+      specialist_sectors: ["working-sea/health-safety"]
     )
 
     expected_hash_of_attributes_to_index = {
@@ -72,7 +74,7 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
       "section" => "a-section",
       "subsection" => "subsection",
       "organisations" => ["cabinet-office"],
-      "specialist_sectors" => ["working-sea"],
+      "specialist_sectors" => ["working-sea/health-safety"],
     }
 
     mock_search_index = mock()
