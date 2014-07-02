@@ -3,8 +3,7 @@ class RummageableArtefact
   FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction campaign) +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"] +
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"] +
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["panopticon"]
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"]
 
   EXCEPTIONAL_SLUGS = %W(
     growthaccelerator
