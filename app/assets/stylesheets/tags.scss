@@ -107,3 +107,8 @@ ul.tags-list {
   padding-right: 4px;
   font-family: monospace;
 }
+
+.take-care {
+  @extend .alert;
+  @extend .alert-info;
+}

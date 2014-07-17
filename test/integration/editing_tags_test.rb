@@ -33,6 +33,8 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
         assert page.has_field?('Description', with: @tag.description)
         assert page.has_button?('Save this section')
       end
+
+      assert page.has_selector?('.take-care')
     end
 
     should 'display errors when a tag cannot be saved' do
@@ -107,6 +109,12 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
         assert page.has_field?('Description', with: @tag.description)
         assert page.has_button?('Save this section')
       end
+    end
+
+    should 'not display a "Take care!" notice' do
+      visit edit_tag_path(@tag)
+
+      assert page.has_no_selector?('.take-care')
     end
   end
 

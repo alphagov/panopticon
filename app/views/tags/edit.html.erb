@@ -45,7 +45,12 @@
     <%= render partial: 'curated_list', locals: { f: f } %>
   <% end %>
 
-  <div class="alert alert-info">Take care! All changes to tags appear immediately to users. If you're not sure what you're doing, please ask a developer.</div>
+  <% if @tag.live? %>
+    <div class="take-care">
+      Take care! This change will appear immediately to users.
+      If you're not sure about something, please ask a developer.
+    </div>
+  <% end %>
 
   <div class="form-actions">
     <%= f.submit :value => "Save this #{@tag.tag_type.humanize.downcase}", :class => "btn btn-primary" %>
