@@ -56,3 +56,7 @@
     <%= f.submit :value => "Save this #{@tag.tag_type.humanize.downcase}", :class => "btn btn-primary" %>
   </div>
 <% end %>
+
+<% if @tag.can_publish? %>
+  <%= button_to "Publish this #{@tag.tag_type.humanize.downcase}", publish_tag_path, method: :put %>
+<% end %>

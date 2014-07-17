@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:edit, :update]
+  before_filter :find_tag, only: [:edit, :update, :publish]
   helper_method :artefacts_in_section
 
   def index
@@ -55,7 +55,17 @@ class TagsController < ApplicationController
     end
   end
 
-  private
+  def publish
+    if @tag.draft?
+      @tag.publish!
+      flash[:notice] = 'Tag has been published'
+    else
+      flash[:error] = 'Tag is already live'
+    end
+    redirect_to edit_tag_path(@tag)
+  end
+
+private
   def require_tags_permission
     authorise_user!("manage_tags")
   end

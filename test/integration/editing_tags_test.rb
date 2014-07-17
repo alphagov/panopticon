@@ -28,13 +28,19 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
         assert page.has_selector?('.state-live', text: 'live')
       end
 
-      within 'form' do
+      within 'form.tag' do
         assert page.has_field?('Title', with: @tag.title)
         assert page.has_field?('Description', with: @tag.description)
         assert page.has_button?('Save this section')
       end
 
       assert page.has_selector?('.take-care')
+    end
+
+    should 'not display a publish button' do
+      visit edit_tag_path(@tag)
+
+      assert page.has_no_button?('Publish this section')
     end
 
     should 'display errors when a tag cannot be saved' do
@@ -104,17 +110,27 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
         assert page.has_selector?('.state-draft', text: 'draft')
       end
 
-      within 'form' do
+      within 'form.tag' do
         assert page.has_field?('Title', with: @tag.title)
         assert page.has_field?('Description', with: @tag.description)
         assert page.has_button?('Save this section')
       end
+
+      assert page.has_button?('Publish this section')
     end
 
     should 'not display a "Take care!" notice' do
       visit edit_tag_path(@tag)
 
       assert page.has_no_selector?('.take-care')
+    end
+
+    should 'display a notice when the tag is published' do
+      visit edit_tag_path(@tag)
+
+      click_on 'Publish this section'
+
+      assert page.has_content? 'Tag has been published'
     end
   end
 

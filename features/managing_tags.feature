@@ -11,3 +11,9 @@ Feature: Managing tags
     And a tag exists
     When I edit the tag
     Then the updated tag should appear in the list
+
+  Scenario: Publishing a tag
+    Given I am a user who can edit tags
+    And a draft tag exists
+    When I publish the tag
+    Then the tag should appear as live

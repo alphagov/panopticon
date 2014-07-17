@@ -27,6 +27,10 @@ module TagsHelper
       assert page.has_selector?(".draft", text: "draft")
     end
   end
+
+  def assert_state_on_edit_form(state)
+    assert page.has_selector?(".state-#{state}", text: state)
+  end
 end
 
 World(TagsHelper)
