@@ -12,6 +12,15 @@
 ul.tags-list {
   margin: 0;
 
+  .draft {
+    background: #d53880;
+    padding: 1px 6px 0px;
+    color: #fff;
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 14px;
+  }
+
   li.parent-tag {
     list-style: none;
     display: block;
@@ -71,6 +80,10 @@ ul.tags-list {
     margin: 0px;
     padding: 8px;
     position: relative;
+
+    .draft {
+      font-size: 13px;
+    }
 
     a.tag-id {
       font-size: 13px;

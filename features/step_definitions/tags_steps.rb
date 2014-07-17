@@ -23,3 +23,8 @@ Then /^the updated tag should appear in the list$/ do
   visit tags_path
   assert_updated_tag_present_in_list
 end
+
+Then /^the tag should be marked as draft in the list$/ do
+  visit tags_path
+  assert_draft_tag_in_list
+end
