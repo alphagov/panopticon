@@ -9,9 +9,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing a publisher artefact" do
     setup do
-      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
-      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
-      FactoryGirl.create(:tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
+      FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
+      FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
+      FactoryGirl.create(:live_tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
@@ -136,9 +136,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing legacy_sources" do
     setup do
-      @bl   = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
-      @dg   = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
-      @dvla = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
+      @bl   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
+      @dg   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
+      @dvla = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
       @a = FactoryGirl.create(:artefact, :name => "VAT")
     end
 
@@ -172,10 +172,10 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing specialist_sectors" do
     setup do
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
       @artefact = FactoryGirl.create(:artefact, :name => "VAT")
     end
@@ -220,9 +220,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing organisations" do
     setup do
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'hm-revenue-customs', title: 'HM Revenue and Customs')
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'hm-revenue-customs', title: 'HM Revenue and Customs')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
 
       @artefact = FactoryGirl.create(:artefact, :name => "VAT")
     end

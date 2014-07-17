@@ -3,18 +3,18 @@ require 'test_helper'
 class RummageableArtefactTest < ActiveSupport::TestCase
 
   setup do
-    FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime", title: "Crime")
-    FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime")
+    FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "crime", title: "Crime")
+    FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime")
 
-    FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
-    FactoryGirl.create(:tag, tag_type: "organisation", tag_id: "department-for-transport", title: "Department for Transport")
+    FactoryGirl.create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
+    FactoryGirl.create(:live_tag, tag_type: "organisation", tag_id: "department-for-transport", title: "Department for Transport")
 
-    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "oil-and-gas", title: "Oil and Gas")
-    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "oil-and-gas/licensing", title: "Licensing",
+    FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "oil-and-gas", title: "Oil and Gas")
+    FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "oil-and-gas/licensing", title: "Licensing",
                        parent_id: "oil-and-gas")
 
-    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
-    FactoryGirl.create(:tag, tag_type: "specialist_sector", tag_id: "working-sea/health-safety", title: "Health and safety",
+    FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
+    FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "working-sea/health-safety", title: "Health and safety",
                        parent_id: "working-sea")
   end
 

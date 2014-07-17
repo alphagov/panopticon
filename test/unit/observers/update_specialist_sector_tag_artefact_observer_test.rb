@@ -2,7 +2,7 @@ require_relative '../../test_helper'
 
 class UpdateSpecialistSectorTagArtefactObserverTest < ActiveSupport::TestCase
   setup do
-    @tag = FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
+    @tag = FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
   end
 
   context 'when an artefact exists for the tag' do

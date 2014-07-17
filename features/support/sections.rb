@@ -1,7 +1,7 @@
 require 'govuk_content_models/test_helpers/factories'
 
 def create_section
-  FactoryGirl.create(:tag,
+  FactoryGirl.create(:live_tag,
     tag_id: "crime",
     tag_type: "section",
     title: "Crime"
@@ -10,7 +10,7 @@ end
 
 def create_sections
   section = create_section
-  subsection = FactoryGirl.create(:tag,
+  subsection = FactoryGirl.create(:live_tag,
     tag_id: "crime/batman",
     tag_type: "section",
     title: "Batman",
