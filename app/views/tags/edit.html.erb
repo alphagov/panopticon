@@ -13,21 +13,21 @@
   </div>
 </header>
 
-<%= semantic_form_for @tag do |f| %>
-  <% if f.object.errors.count > 0 %>
-    <div class="form-errors">
-      <ul>
-        <% f.object.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="row-fluid">
+  <div class="span9">
 
-  <div class="row-fluid">
-    <div class="span10">
+    <%= semantic_form_for @tag do |f| %>
+      <% if f.object.errors.count > 0 %>
+        <div class="form-errors">
+          <ul>
+            <% f.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-      <div class="well">
+      <div class="well" style="clear: both">
         <%= f.input :title, input_html: { class: "span5" } %>
 
         <%= f.input :description, as: :text,
@@ -37,26 +37,31 @@
                                   }
                                   %>
       </div>
-    </div>
+
+      <% if @curated_list.present? %>
+        <%= render partial: 'curated_list', locals: { f: f } %>
+      <% end %>
+
+      <% if @tag.live? %>
+        <div class="take-care">
+          Take care! This change will appear immediately to users.
+          If you're not sure about something, please ask a developer.
+        </div>
+      <% end %>
+
+      <div class="form-actions">
+        <%= f.submit :value => "Save this #{@tag.tag_type.humanize.downcase}", :class => "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
 
+  <div class="span3">
+    <% if @tag.can_publish? %>
+      <div class="well">
+        <p>Publishing this tag will make it appear live on the site to users. Once you publish a tag, it can't be unpublished.</p>
 
-  <% if @curated_list.present? %>
-    <%= render partial: 'curated_list', locals: { f: f } %>
-  <% end %>
-
-  <% if @tag.live? %>
-    <div class="take-care">
-      Take care! This change will appear immediately to users.
-      If you're not sure about something, please ask a developer.
-    </div>
-  <% end %>
-
-  <div class="form-actions">
-    <%= f.submit :value => "Save this #{@tag.tag_type.humanize.downcase}", :class => "btn btn-primary" %>
+        <%= button_to "Publish this #{@tag.tag_type.humanize.downcase}", publish_tag_path, method: :put, class: 'btn btn-danger' %>
+      </div>
+    <% end %>
   </div>
-<% end %>
-
-<% if @tag.can_publish? %>
-  <%= button_to "Publish this #{@tag.tag_type.humanize.downcase}", publish_tag_path, method: :put %>
-<% end %>
+</div>
