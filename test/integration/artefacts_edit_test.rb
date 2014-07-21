@@ -169,7 +169,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
-
   context "editing specialist_sectors" do
     setup do
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
@@ -215,6 +214,51 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       @artefact.reload
       assert_equal ["charities/starting-a-charity"], @artefact.specialist_sector_ids
+    end
+
+    context 'draft specialist sectors' do
+      setup do
+        create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'schools-colleges', title: 'Schools and colleges')
+        create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'schools-colleges/academies', title: 'Academies', parent_id: 'schools-colleges')
+      end
+
+      should 'allow tagging draft specialist sectors to artefacts' do
+        visit "/artefacts"
+        click_on "VAT"
+
+        within "select#artefact_specialist_sector_ids" do
+          assert page.has_selector?("optgroup[label='Schools and colleges']")
+
+          within "optgroup[label='Schools and colleges']" do
+            assert page.has_selector?("option", text: "Schools and colleges")
+            assert page.has_selector?("option", text: "Schools and colleges: Academies")
+          end
+        end
+
+        select "Schools and colleges", :from => "Specialist sectors"
+        select "Schools and colleges: Academies", :from => "Specialist sectors"
+
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal ["schools-colleges", "schools-colleges/academies"], @artefact.specialist_sector_ids(true).sort
+      end
+
+      should 'allow removing draft specialist sectors from artefacts' do
+        @artefact.specialist_sector_ids = ["schools-colleges", "schools-colleges/academies"]
+        @artefact.save!
+
+        visit "/artefacts"
+        click_on "VAT"
+
+        assert page.has_select?("Specialist sectors", selected: ["Schools and colleges", "Schools and colleges: Academies"])
+
+        unselect "Schools and colleges: Academies", :from => "Specialist sectors"
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal ["schools-colleges"], @artefact.specialist_sector_ids(true)
+      end
     end
   end
 
