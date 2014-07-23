@@ -11,8 +11,8 @@ module Importers
 
     def stub_need_with_organisation_ids(need_id, *organisations)
       organisations.each do |organisation|
-        next if Tag.by_tag_id(organisation, 'organisation')
-        create(:tag, tag_type: 'organisation', tag_id: organisation)
+        next if Tag.by_tag_id(organisation, type: 'organisation', draft: true)
+        create(:live_tag, tag_type: 'organisation', tag_id: organisation)
       end
 
       stub_need = {
@@ -86,7 +86,7 @@ module Importers
     end
 
     should 'not remove existing organisation tags from the artefact' do
-      create(:tag, tag_type: 'organisation', tag_id: 'ministry-of-defence')
+      create(:live_tag, tag_type: 'organisation', tag_id: 'ministry-of-defence')
       artefact = create(:draft_artefact, owning_app: 'publisher',
                                          need_ids: ['100001'],
                                          organisation_ids: ['ministry-of-defence'])
@@ -113,7 +113,7 @@ module Importers
     end
 
     should 'not tag an organisation to an artefact to which it is already tagged' do
-      create(:tag, tag_type: 'organisation', tag_id: 'ministry-of-defence')
+      create(:live_tag, tag_type: 'organisation', tag_id: 'ministry-of-defence')
       artefact = create(:draft_artefact, owning_app: 'publisher',
                                          need_ids: ['100001'],
                                          organisation_ids: ['ministry-of-defence'])
@@ -144,7 +144,7 @@ module Importers
 
     should 'retry if fetching a need times out' do
       artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: ['100001'])
-      create(:tag, tag_type: 'organisation', tag_id: "hm-treasury")
+      create(:live_tag, tag_type: 'organisation', tag_id: "hm-treasury")
 
       stub_need = {
         "organisation_ids" => ["hm-treasury"]
