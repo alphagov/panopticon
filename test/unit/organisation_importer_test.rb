@@ -18,7 +18,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     importer.run
   end
 
-  should "create a tag for a new organisation" do
+  should "create a live tag for a new organisation" do
     organisations_api_has_organisations(["cabinet-office"])
 
     assert_difference ->{ Tag.where(tag_type: "organisation").count } do
@@ -27,10 +27,11 @@ class OrganisationImporterTest < ActiveSupport::TestCase
 
     created_tag = Tag.by_tag_id("cabinet-office", "organisation")
     assert_equal "Cabinet Office", created_tag.title
+    assert_equal "live", created_tag.state
   end
 
   should "not create a tag for an existing organisation" do
-    Tag.create!(tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
+    create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
 
     organisations_api_has_organisations(["cabinet-office"])
     assert_difference ->{ Tag.where(tag_type: "organisation").count }, 0 do
@@ -38,10 +39,20 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     end
   end
 
+  should "publish the organisation tag if it exists in draft" do
+    tag = create(:draft_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
+    organisations_api_has_organisations(["cabinet-office"])
+
+    OrganisationImporter.new.run
+    tag.reload
+
+    assert_equal "live", tag.state
+  end
+
   should "update the title of an existing organisation if it has changed" do
-    Tag.create!(tag_type: "organisation",
-                tag_id: "cabinet-office",
-                title: "An organisation by any other name")
+    create(:live_tag, tag_type: "organisation",
+                      tag_id: "cabinet-office",
+                      title: "An organisation by any other name")
 
     organisations_api_has_organisations(["cabinet-office"])
     OrganisationImporter.new.run
@@ -51,7 +62,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
   end
 
   should "not update the title of an existing organisation if it hasn't changed" do
-    Tag.create!(tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
+    create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
 
     # assert that no tags are updated during the import run
     Tag.any_instance.expects(:update_attributes).never
@@ -75,7 +86,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
   end
 
   should "notify Airbrake if updating an organisation fails" do
-    Tag.create!(tag_type: "organisation", tag_id: "cabinet-office", title: "Something else")
+    create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Something else")
     organisations_api_has_organisations(["cabinet-office"])
 
     Tag.any_instance.expects(:update_attributes).returns(false)
