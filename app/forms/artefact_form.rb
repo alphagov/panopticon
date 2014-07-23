@@ -11,6 +11,14 @@ class ArtefactForm < BasicObject
     artefact.specialist_sectors(draft: true)
   end
 
+  def sections
+    artefact.sections(draft: true)
+  end
+
+  def section_ids
+    artefact.section_ids(draft: true)
+  end
+
   def to_model
     self
   end

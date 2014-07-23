@@ -35,4 +35,20 @@ class ArtefactFormTest < ActiveSupport::TestCase
       assert_equal 'foo', subject.specialist_sectors
     end
   end
+
+  context '#section_ids' do
+    should 'call the artefact, including the draft argument' do
+      @artefact.expects(:section_ids).with(has_entry(:draft, true)).returns('foo')
+
+      assert_equal 'foo', subject.section_ids
+    end
+  end
+
+  context '#sections' do
+    should 'call the artefact, including the draft argument' do
+      @artefact.expects(:sections).with(has_entry(:draft, true)).returns('foo')
+
+      assert_equal 'foo', subject.sections
+    end
+  end
 end
