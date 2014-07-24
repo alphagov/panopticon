@@ -5,6 +5,8 @@ class RummageableArtefact
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"]
 
+  FORMATS_NOT_TO_AMEND = %W(specialist_sector)
+
   EXCEPTIONAL_SLUGS = %W(
     growthaccelerator
     technology-strategy-board
@@ -49,7 +51,7 @@ class RummageableArtefact
     # providing the indexable_content field to update Rummager. UI requests
     # and requests from apps that don't know about single registration, will
     # not include this field
-    if should_amend
+    if should_amend?
       logger.info "Posting amendments to Rummager: #{artefact_link}"
       search_index.amend artefact_link, artefact_hash
     else
@@ -66,8 +68,8 @@ class RummageableArtefact
     search_index.commit
   end
 
-  def should_amend
-    @artefact.indexable_content.nil?
+  def should_amend?
+    @artefact.indexable_content.nil? && FORMATS_NOT_TO_AMEND.exclude?(@artefact.kind)
   end
 
   def artefact_hash
@@ -79,7 +81,7 @@ class RummageableArtefact
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager
-    rummageable_keys << "link" unless should_amend
+    rummageable_keys << "link" unless should_amend?
 
     result = {}
 
