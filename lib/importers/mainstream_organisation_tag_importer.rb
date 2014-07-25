@@ -35,7 +35,7 @@ module Importers
         need['organisation_ids']
       }.flatten
 
-      organisation_ids = (artefact.organisation_ids + organisation_ids_to_add).uniq
+      organisation_ids = (artefact.organisation_ids(draft: true) + organisation_ids_to_add).uniq
 
       artefact.organisation_ids = organisation_ids
       artefact.save

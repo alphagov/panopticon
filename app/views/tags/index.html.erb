@@ -13,7 +13,13 @@
   <% @parents.each do |parent, children| %>
     <li class="parent-tag">
       <div class="details">
-        <h2><span class="tag-type"><%= parent.tag_type.humanize %>:</span> <%= parent.title %></h2>
+        <h2>
+          <span class="tag-type"><%= parent.tag_type.humanize %>:</span>
+          <%= parent.title %>
+          <% if parent.draft? %>
+            <span class="draft">draft</span>
+          <% end %>
+        </h2>
         <div class="actions">
           <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn' do %>
             <i class="icon-plus"></i> Add child tag
@@ -28,6 +34,9 @@
             <h3>
               <%= link_to tag.title, edit_tag_path(tag) %>
               <%= link_to tag.tag_id, public_tag_url(tag), class: 'tag-id' %>
+              <% if tag.draft? %>
+                <span class="draft">draft</span>
+              <% end %>
             </h3>
             <div class="actions">
               <%= link_to 'Edit tag', edit_tag_path(tag), class: 'btn' %>

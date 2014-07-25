@@ -5,12 +5,12 @@ class TagsHelperTest < ActiveSupport::TestCase
 
   context "grouped_options_for_tags_of_type" do
     setup do
-      Tag.create!(tag_type: "section", tag_id: "tax", title: "Tax")
-      Tag.create!(tag_type: "section", tag_id: "driving", title: "Driving")
-      Tag.create!(tag_type: "section", tag_id: "driving/car-tax", title: "Car tax", parent_id: "driving")
-      Tag.create!(tag_type: "section", tag_id: "driving/mot", title: "MOT", parent_id: "driving")
+      create(:live_tag, tag_type: "section", tag_id: "tax", title: "Tax")
+      create(:live_tag, tag_type: "section", tag_id: "driving", title: "Driving")
+      create(:live_tag, tag_type: "section", tag_id: "driving/car-tax", title: "Car tax", parent_id: "driving")
+      create(:live_tag, tag_type: "section", tag_id: "driving/mot", title: "MOT", parent_id: "driving")
 
-      Tag.create!(tag_type: "legacy_source", tag_id: "directgov", title: "Directgov")
+      create(:live_tag, tag_type: "legacy_source", tag_id: "directgov", title: "Directgov")
     end
 
     should "return a hierarchy of parent tags and their children" do

@@ -230,10 +230,10 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "assign list of sections" do
-        FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
-        FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
-        FactoryGirl.create(:tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
-        FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
+        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
+        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
+        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
+        FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
 
         artefact = FactoryGirl.create(:artefact)
 
@@ -380,7 +380,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Include section ID" do
-        FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
+        FactoryGirl.create(:live_tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001']
         artefact.sections = ['crime']
         artefact.save!
@@ -391,8 +391,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Include tag_ids" do
-        FactoryGirl.create(:tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
-        FactoryGirl.create(:tag, :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link')
+        FactoryGirl.create(:live_tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
+        FactoryGirl.create(:live_tag, :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link')
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001']
         artefact.sections = ['crime']
         artefact.legacy_sources = ['businesslink']
@@ -440,8 +440,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Update our primary section and ensure it persists into sections" do
-        tag1 = FactoryGirl.create(:tag, tag_id: "crime", title: "Crime", tag_type: "section")
-        tag2 = FactoryGirl.create(:tag, tag_id: "education", title: "Education", tag_type: "section")
+        tag1 = FactoryGirl.create(:live_tag, tag_id: "crime", title: "Crime", tag_type: "section")
+        tag2 = FactoryGirl.create(:live_tag, tag_id: "education", title: "Education", tag_type: "section")
 
         artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
                                     :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001'])
@@ -455,8 +455,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "Update the specialist sectors and ensure it persists into tags" do
-        tag1 = FactoryGirl.create(:tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "specialist_sector")
-        tag2 = FactoryGirl.create(:tag, tag_id: "confectionery", title: "Confectionery", tag_type: "specialist_sector")
+        tag1 = FactoryGirl.create(:live_tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "specialist_sector")
+        tag2 = FactoryGirl.create(:live_tag, tag_id: "confectionery", title: "Confectionery", tag_type: "specialist_sector")
 
         artefact = Artefact.new(:slug => 'a-history-of-chocolate', :kind => 'guide',
                                     :owning_app => 'publisher', :name => 'A history of chocolate', :need_ids => ['100001'])

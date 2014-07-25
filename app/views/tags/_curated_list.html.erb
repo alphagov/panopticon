@@ -1,26 +1,22 @@
-<div class="row-fluid">
-  <div class="span10">
-    <div class="well">
-      <%= f.inputs do %>
-        <label class="section-label">Curated artefacts <span class="hint">(click and drag to reorder)</span></label>
-        <p>The artefacts you choose will appear at the top of the section’s browse page. Any other artefacts in the section will appear below them.</p>
+<div class="well">
+  <%= f.inputs do %>
+    <label class="section-label">Curated artefacts <span class="hint">(click and drag to reorder)</span></label>
+    <p>The artefacts you choose will appear at the top of the section’s browse page. Any other artefacts in the section will appear below them.</p>
 
-        <div class="curated-artefact-group">
-          <% if @curated_list.usable_artefacts.any? %>
-            <% @curated_list.usable_artefacts.each do |artefact| %>
-              <%= render :partial => 'curated_artefact', :locals => { artefact_id: artefact.id, is_template: false } %>
-            <% end %>
-          <% else %>
-            <%= render :partial => 'curated_artefact', :locals => { artefact_id: nil, is_template: false } %>
-          <% end %>
-        </div>
-
-        <%= render :partial => 'curated_artefact', :locals => { artefact_id: nil, is_template: true } %>
-
-        <button id="add-curated-artefact" class="btn btn-success" type="button">Add another artefact</button>
+    <div class="curated-artefact-group">
+      <% if @curated_list.usable_artefacts.any? %>
+        <% @curated_list.usable_artefacts.each do |artefact| %>
+          <%= render :partial => 'curated_artefact', :locals => { artefact_id: artefact.id, is_template: false } %>
+        <% end %>
+      <% else %>
+        <%= render :partial => 'curated_artefact', :locals => { artefact_id: nil, is_template: false } %>
       <% end %>
     </div>
-  </div>
+
+    <%= render :partial => 'curated_artefact', :locals => { artefact_id: nil, is_template: true } %>
+
+    <button id="add-curated-artefact" class="btn btn-success" type="button">Add another artefact</button>
+  <% end %>
 </div>
 
 <%= content_for :extra_javascript do %>

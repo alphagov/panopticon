@@ -22,26 +22,43 @@ class OrganisationImporter
     existing_tag = Tag.where(tag_type: TAG_TYPE, tag_id: tag_id).first
 
     if existing_tag.present?
+      logger.info "Found existing tag: #{tag_id}"
+
       if existing_tag.title != organisation.title
         if existing_tag.update_attributes(title: organisation.title)
-          logger.info "Found existing tag: #{tag_id}; updated title to '#{existing_tag.title}'"
+          logger.info "Updated title to '#{existing_tag.title}'"
         else
           log_error_and_notify_airbrake(organisation,
-                                        "Found existing tag: #{tag_id}; could not update title: #{existing_tag.errors.full_messages}")
+                                        "Could not update title: #{existing_tag.errors.full_messages}")
         end
-      else
-        logger.info "Found existing tag: #{tag_id}"
+      end
+
+      if existing_tag.draft?
+        if existing_tag.publish
+          logger.info "Published tag"
+        else
+          log_error_and_notify_airbrake(organisation,
+                                        "Could not publish tag: #{existing_tag.errors.full_messages}")
+        end
       end
     else
       new_tag = Tag.new(tag_type: TAG_TYPE,
                         tag_id: tag_id,
                         title: organisation.title)
 
+      logger.info "Creating organisation tag: #{tag_id}"
+
       if new_tag.save
-        logger.info "Created organisation tag: #{tag_id}"
+        logger.info "Created tag"
+        if new_tag.publish
+          logger.info "Published tag"
+        else
+          log_error_and_notify_airbrake(organisation,
+                                        "Could not publish tag: #{new_tag.errors.full_messages}")
+        end
       else
         log_error_and_notify_airbrake(organisation,
-                                      "Could not create organisation tag: #{tag_id} - #{new_tag.errors.full_messages}")
+                                      "Could not create tag: #{new_tag.errors.full_messages}")
       end
     end
   end

@@ -2,7 +2,10 @@ require_relative '../../test_helper'
 
 class UpdateSpecialistSectorTagArtefactObserverTest < ActiveSupport::TestCase
   setup do
-    @tag = FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
+    stub_all_router_api_requests
+    stub_all_rummager_requests
+    
+    @tag = FactoryGirl.create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
   end
 
   context 'when an artefact exists for the tag' do
@@ -13,6 +16,11 @@ class UpdateSpecialistSectorTagArtefactObserverTest < ActiveSupport::TestCase
     should 'update the artefact name' do
       @tag.update_attributes(title: 'A brand new title')
       assert_equal 'A brand new title', @artefact.reload.name
+    end
+
+    should 'update the artefact state' do
+      @tag.publish!
+      assert_equal 'live', @artefact.reload.state
     end
   end
 

@@ -21,6 +21,16 @@ module TagsHelper
       assert page.has_content? "Section: Driving"
     end
   end
+
+  def assert_draft_tag_in_list
+    within ".tags-list li:first" do
+      assert page.has_selector?(".draft", text: "draft")
+    end
+  end
+
+  def assert_state_on_edit_form(state)
+    assert page.has_selector?(".state-#{state}", text: state)
+  end
 end
 
 World(TagsHelper)

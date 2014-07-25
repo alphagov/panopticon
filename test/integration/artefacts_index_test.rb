@@ -101,8 +101,8 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "filter by section tag" do
-      FactoryGirl.create(:tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
-      FactoryGirl.create(:tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
+      FactoryGirl.create(:live_tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
+      FactoryGirl.create(:live_tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
 
       FactoryGirl.create(:artefact, name: 'VAT rates', slug: 'vat-rates', section_ids: [])
       FactoryGirl.create(:artefact, name: 'Guide to driving', slug: 'guide-to-driving', section_ids: ['driving'])
@@ -134,8 +134,8 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "filter by specialist_sector tag" do
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas', tag_type: 'specialist_sector', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas/wells', tag_type: 'specialist_sector', title: 'Wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:live_tag, tag_id: 'oil-and-gas', tag_type: 'specialist_sector', title: 'Oil and gas')
+      FactoryGirl.create(:live_tag, tag_id: 'oil-and-gas/wells', tag_type: 'specialist_sector', title: 'Wells', parent_id: 'oil-and-gas')
 
       FactoryGirl.create(:artefact, name: 'Something else', slug: 'something-else', specialist_sector_ids: [])
       FactoryGirl.create(:artefact, name: 'Oil and gas licensing', slug: 'oil-and-gas-licensing', specialist_sector_ids: ['oil-and-gas'])
@@ -329,11 +329,11 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
     end
 
     should "filter by multiple tag criteria" do
-      FactoryGirl.create(:tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
-      FactoryGirl.create(:tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
+      FactoryGirl.create(:live_tag, tag_id: 'driving', tag_type: 'section', title: 'Driving')
+      FactoryGirl.create(:live_tag, tag_id: 'driving/learning-to-drive', tag_type: 'section', title: 'Learning to drive', parent_id: 'driving')
 
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas', tag_type: 'specialist_sector', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_id: 'oil-and-gas/wells', tag_type: 'specialist_sector', title: 'Wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:live_tag, tag_id: 'oil-and-gas', tag_type: 'specialist_sector', title: 'Oil and gas')
+      FactoryGirl.create(:live_tag, tag_id: 'oil-and-gas/wells', tag_type: 'specialist_sector', title: 'Wells', parent_id: 'oil-and-gas')
 
       FactoryGirl.create(:artefact, name: 'Motor incidents involving wells', specialist_sector_ids: ["oil-and-gas/wells"], section_ids: ["driving/learning-to-drive"])
       FactoryGirl.create(:artefact, name: 'Driving forward the oil and gas industry', specialist_sector_ids: ["oil-and-gas"], section_ids: ["driving"])

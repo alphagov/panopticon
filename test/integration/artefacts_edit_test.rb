@@ -9,9 +9,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing a publisher artefact" do
     setup do
-      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
-      FactoryGirl.create(:tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
-      FactoryGirl.create(:tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
+      FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
+      FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
+      FactoryGirl.create(:live_tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
@@ -136,9 +136,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing legacy_sources" do
     setup do
-      @bl   = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
-      @dg   = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
-      @dvla = FactoryGirl.create(:tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
+      @bl   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
+      @dg   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
+      @dvla = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
       @a = FactoryGirl.create(:artefact, :name => "VAT")
     end
 
@@ -169,13 +169,12 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
   end
 
-
   context "editing specialist_sectors" do
     setup do
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
-      FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas', title: 'Oil and gas')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas/fields-and-wells', title: 'Fields and wells', parent_id: 'oil-and-gas')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
+      FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
       @artefact = FactoryGirl.create(:artefact, :name => "VAT")
     end
@@ -216,13 +215,201 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       @artefact.reload
       assert_equal ["charities/starting-a-charity"], @artefact.specialist_sector_ids
     end
+
+    context 'draft specialist sectors' do
+      setup do
+        create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'schools-colleges', title: 'Schools and colleges')
+        create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'schools-colleges/academies', title: 'Academies', parent_id: 'schools-colleges')
+      end
+
+      should 'allow tagging draft specialist sectors to artefacts' do
+        visit "/artefacts"
+        click_on "VAT"
+
+        within "select#artefact_specialist_sector_ids" do
+          assert page.has_selector?("optgroup[label='Schools and colleges']")
+
+          within "optgroup[label='Schools and colleges']" do
+            assert page.has_selector?("option", text: "Schools and colleges")
+            assert page.has_selector?("option", text: "Schools and colleges: Academies")
+          end
+        end
+
+        select "Schools and colleges", :from => "Specialist sectors"
+        select "Schools and colleges: Academies", :from => "Specialist sectors"
+
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal ["schools-colleges", "schools-colleges/academies"], @artefact.specialist_sector_ids(true).sort
+      end
+
+      should 'allow removing draft specialist sectors from artefacts' do
+        @artefact.specialist_sector_ids = ["schools-colleges", "schools-colleges/academies"]
+        @artefact.save!
+
+        visit "/artefacts"
+        click_on "VAT"
+
+        assert page.has_select?("Specialist sectors", selected: ["Schools and colleges", "Schools and colleges: Academies"])
+
+        unselect "Schools and colleges: Academies", :from => "Specialist sectors"
+        click_on "Save and continue editing"
+
+        @artefact.reload
+        assert_equal ["schools-colleges"], @artefact.specialist_sector_ids(true)
+      end
+    end
+  end
+
+  context 'editing sections' do
+    setup do
+      # use javascript for the section tests
+      Capybara.current_driver = Capybara.javascript_driver
+
+      FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration', title: 'Visas and immigration')
+      FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration/student-visas', title: 'Student visas', parent_id: 'visas-immigration')
+
+      @artefact = FactoryGirl.create(:artefact, :name => 'VAT')
+    end
+
+    should 'allow adding sections to artefacts' do
+      visit "/artefacts"
+      click_on "VAT"
+
+      within '.section-tags' do
+        assert page.has_selector?('div.nested-item', count: 1)
+
+        within '.nested-item-group div:nth-of-type(1)' do
+          assert page.has_select?('artefact[sections][]',
+            options: ['Select a section', 'Student visas', 'Visas and immigration'],
+          )
+
+          select 'Student visas', :from => 'artefact[sections][]'
+        end
+
+        click_on 'Add another section'
+
+        within '.nested-item-group div:nth-of-type(2)' do
+          assert page.has_select?('artefact[sections][]',
+            options: ['Select a section', 'Student visas', 'Visas and immigration'],
+          )
+
+          select 'Visas and immigration', :from => 'artefact[sections][]'
+        end
+      end
+
+      click_on 'Save and continue editing'
+
+      @artefact.reload
+
+      assert_equal 'visas-immigration/student-visas', @artefact.primary_section.tag_id
+      assert_equal ['visas-immigration/student-visas', 'visas-immigration'], @artefact.section_ids
+    end
+
+    should 'allow removing sections from artefacts' do
+      @artefact.section_ids = ['visas-immigration/student-visas', 'visas-immigration']
+      @artefact.save!
+
+      visit '/artefacts'
+      click_on 'VAT'
+
+      within '.section-tags' do
+        assert page.has_selector?('div.nested-item', count: 2)
+
+        within '.nested-item-group div:nth-of-type(1)' do
+          assert page.has_select?('artefact[sections][]',
+            options: ['Select a section', 'Student visas', 'Visas and immigration'],
+            selected: 'Student visas',
+          )
+        end
+
+        within '.nested-item-group div:nth-of-type(2)' do
+          assert page.has_select?('artefact[sections][]',
+            options: ['Select a section', 'Student visas', 'Visas and immigration'],
+            selected: 'Visas and immigration',
+          )
+        end
+
+        # delete the first section
+        within '.nested-item-group div:nth-of-type(1)' do
+          click_on 'Remove this section'
+        end
+      end
+
+      click_on 'Save and continue editing'
+
+      @artefact.reload
+      assert_equal 'visas-immigration', @artefact.primary_section.tag_id
+      assert_equal ['visas-immigration'], @artefact.section_ids
+    end
+
+    context 'draft sections' do
+      setup do
+        FactoryGirl.create(:draft_tag, tag_type: 'section', tag_id: 'visas-immigration/family-visas', title: 'Family visas', parent_id: 'visas-immigration')
+      end
+
+      should 'allow tagging draft sections to artefacts' do
+        visit '/artefacts'
+        click_on 'VAT'
+
+        within '.section-tags' do
+          assert page.has_select?('artefact[sections][]',
+            options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
+          )
+
+          select 'Family visas', :from => 'artefact[sections][]'
+        end
+
+        click_on 'Save and continue editing'
+
+        @artefact.reload
+        assert_equal ['visas-immigration/family-visas'], @artefact.section_ids(true)
+      end
+
+      should 'allow removal of draft sections from artefacts' do
+        @artefact.section_ids = ['visas-immigration/student-visas', 'visas-immigration/family-visas']
+        @artefact.save!
+
+        visit '/artefacts'
+        click_on 'VAT'
+
+        within '.section-tags' do
+          assert page.has_selector?('div.nested-item', count: 2)
+
+          within '.nested-item-group div:nth-of-type(1)' do
+            assert page.has_select?('artefact[sections][]',
+              options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
+              selected: 'Student visas',
+            )
+          end
+
+          within '.nested-item-group div:nth-of-type(2)' do
+            assert page.has_select?('artefact[sections][]',
+              options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
+              selected: 'Family visas',
+            )
+          end
+
+          # delete the second (draft) section
+          within '.nested-item-group div:nth-of-type(2)' do
+            click_on 'Remove this section'
+          end
+        end
+
+        click_on 'Save and continue editing'
+
+        @artefact.reload
+        assert_equal ['visas-immigration/student-visas'], @artefact.section_ids(true)
+      end
+    end
   end
 
   context "editing organisations" do
     setup do
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'hm-revenue-customs', title: 'HM Revenue and Customs')
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
-      FactoryGirl.create(:tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'hm-revenue-customs', title: 'HM Revenue and Customs')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
+      FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
 
       @artefact = FactoryGirl.create(:artefact, :name => "VAT")
     end

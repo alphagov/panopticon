@@ -20,7 +20,12 @@ Panopticon::Application.routes.draw do
       get :search_relatable_items, constraints: { format: :json }
     end
   end
-  resources :tags
+  
+  resources :tags do
+    member do
+      put :publish
+    end
+  end
 
   root :to => redirect("/artefacts")
 end

@@ -40,7 +40,7 @@ private
       kind: "specialist_sector",
       owning_app: "panopticon",
       rendering_app: "collections",
-      state: "live"
+      state: tag.state,
     }
   end
 

@@ -8,6 +8,6 @@ class UpdateSpecialistSectorTagArtefactObserver < Mongoid::Observer
 private
   def update_artefact(tag)
     artefact = Artefact.where(kind: 'specialist_sector', slug: tag.tag_id).first
-    artefact.update_attributes(name: tag.title) if artefact
+    artefact.update_attributes(name: tag.title, state: tag.state) if artefact
   end
 end

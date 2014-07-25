@@ -4,10 +4,10 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
 
   context "with_tags" do
     setup do
-      @tag_one = FactoryGirl.create(:tag, tag_type: "section", tag_id: "business")
-      @tag_two = FactoryGirl.create(:tag, tag_type: "section", tag_id: "tax")
-      @tag_three = FactoryGirl.create(:tag, tag_type: "section", tag_id: "driving")
-      @tag_four = FactoryGirl.create(:tag, tag_type: "section", tag_id: "benefits")
+      @tag_one = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business")
+      @tag_two = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "tax")
+      @tag_three = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "driving")
+      @tag_four = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "benefits")
 
       @artefact_one = FactoryGirl.create(:artefact, slug: "low-hanging-fruit", tag_ids: [@tag_one.tag_id])
       @artefact_two = FactoryGirl.create(:artefact, slug: "something-about-tax", tag_ids: [@tag_two.tag_id])
@@ -49,11 +49,11 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
 
   context "with_parent_tag" do
     setup do
-      @tag_one = FactoryGirl.create(:tag, tag_type: "section", tag_id: "business")
-      @tag_two = FactoryGirl.create(:tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business")
-      @tag_three = FactoryGirl.create(:tag, tag_type: "section", tag_id: "business/starting-up", parent_id: "business")
-      @tag_four = FactoryGirl.create(:tag, tag_type: "section", tag_id: "driving")
-      @tag_five = FactoryGirl.create(:tag, tag_type: "section", tag_id: "driving/tax-discs", parent_id: "driving")
+      @tag_one = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business")
+      @tag_two = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business")
+      @tag_three = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/starting-up", parent_id: "business")
+      @tag_four = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "driving")
+      @tag_five = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "driving/tax-discs", parent_id: "driving")
 
       @artefact_one = FactoryGirl.create(:artefact, slug: "starting-a-company", tag_ids: [@tag_three.tag_id])
       @artefact_two = FactoryGirl.create(:artefact, slug: "business-overview", tag_ids: [@tag_one.tag_id])

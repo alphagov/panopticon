@@ -52,15 +52,14 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       stub_all_rummager_requests
     end
 
-    subject do
-      SpecialistSectorTagForm.new(
+    should 'create a live artefact for a live tag' do
+      subject = SpecialistSectorTagForm.new(
         title: 'Oil and gas',
         tag_type: 'specialist_sector',
         tag_id: 'oil-and-gas',
       )
-    end
+      subject.state = 'live'
 
-    should 'create an artefact for the tag' do
       assert_difference 'Artefact.count', 1 do
         subject.save
       end
@@ -74,6 +73,23 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       assert_equal 'oil-and-gas', artefact.slug
       assert_equal ['/oil-and-gas'], artefact.paths
       assert_equal 'live', artefact.state
+    end
+
+    should 'create a draft artefact for a draft tag' do
+      subject = SpecialistSectorTagForm.new(
+        title: 'Oil and gas',
+        tag_type: 'specialist_sector',
+        tag_id: 'oil-and-gas',
+      )
+      subject.state = 'draft'
+
+      assert_difference 'Artefact.count', 1 do
+        subject.save
+      end
+
+      artefact = Artefact.last
+
+      assert_equal 'draft', artefact.state
     end
   end
 end

@@ -278,4 +278,25 @@ class TagsControllerTest < ActionController::TestCase
     end
   end
 
+  context 'PUT publish' do
+    should 'publish a draft tag' do
+      tag = create(:draft_tag)
+      Tag.any_instance.expects(:publish!).returns(true)
+
+      put :publish, id: tag.id
+
+      assert_match /published/, @controller.flash[:notice]
+      assert_redirected_to edit_tag_path(tag)
+    end
+
+    should 'redirect with an error for a live tag' do
+      tag = create(:live_tag)
+
+      put :publish, id: tag.id
+
+      assert_match /already live/, @controller.flash[:error]
+      assert_redirected_to edit_tag_path(tag)
+    end
+  end
+
 end
