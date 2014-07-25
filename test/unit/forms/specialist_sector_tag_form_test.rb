@@ -80,8 +80,8 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
         title: 'Oil and gas',
         tag_type: 'specialist_sector',
         tag_id: 'oil-and-gas',
-        state: 'draft',
       )
+      subject.state = 'draft'
 
       assert_difference 'Artefact.count', 1 do
         subject.save
