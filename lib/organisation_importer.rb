@@ -46,11 +46,19 @@ class OrganisationImporter
                         tag_id: tag_id,
                         title: organisation.title)
 
-      if new_tag.save && new_tag.publish
-        logger.info "Created and published organisation tag: #{tag_id}"
+      logger.info "Creating organisation tag: #{tag_id}"
+
+      if new_tag.save
+        logger.info "Created tag"
+        if new_tag.publish
+          logger.info "Published tag"
+        else
+          log_error_and_notify_airbrake(organisation,
+                                        "Could not publish tag: #{new_tag.errors.full_messages}")
+        end
       else
         log_error_and_notify_airbrake(organisation,
-                                      "Could not create organisation tag: #{tag_id} - #{new_tag.errors.full_messages}")
+                                      "Could not create tag: #{new_tag.errors.full_messages}")
       end
     end
   end
