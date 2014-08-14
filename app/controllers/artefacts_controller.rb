@@ -11,11 +11,12 @@ class ArtefactsController < ApplicationController
 
   def index
     @filters = params.slice(:section, :specialist_sector, :kind, :state, :search, :owned_by)
-    @scope = apply_filters(artefact_scope, @filters)
+    @scope = artefact_scope.without(:actions)
+    @scope = apply_filters(@scope, @filters)
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
     @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
-    respond_with @artefacts, @tag_collection
+    respond_with @artefacts
   end
 
   def search_relatable_items

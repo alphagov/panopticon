@@ -44,7 +44,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           @controller.expects(:artefact_scope).returns(@scope)
 
           # stub out the extra calls which get made on the scope object
-          @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope, :where => @scope)
+          @scope.stubs(:order_by => @scope, :page => @scope, :per => @scope, :where => @scope, :without => @scope)
           @scope.stubs(:not_owned_by).with('panopticon').returns(@scope)
 
           # we aren't testing the template behaviour here, so don't try and render the template

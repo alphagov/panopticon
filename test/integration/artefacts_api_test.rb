@@ -6,6 +6,24 @@ class ArtefactsAPITest < ActiveSupport::TestCase
     create_test_user
   end
 
+  context "artefacts index" do
+    should "return list of artefacts as JSON" do
+      FactoryGirl.create(:artefact, :name => 'Alpha', :slug => 'alpha')
+      FactoryGirl.create(:artefact, :name => 'Bravo', :slug => 'bravo')
+      FactoryGirl.create(:artefact, :name => 'Charlie', :slug => 'charlie')
+
+      get "/artefacts.json"
+      assert_equal 200, last_response.status
+      data = JSON.parse(last_response.body)
+
+      slugs = data.map {|item| item["slug"] }
+      assert_equal %w(alpha bravo charlie), slugs
+
+      # Including the actions in the index is expensive, and unnecessary
+      refute data.first.has_key?("actions")
+    end
+  end
+
   context "show artefact" do
     should "return the JSON representation of the artefact" do
       artefact = FactoryGirl.create(:artefact, :slug => 'wibble', :name => "Wibble", :need_ids => ["100001", "100002"])
