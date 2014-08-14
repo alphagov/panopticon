@@ -18,6 +18,9 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
       slugs = data.map {|item| item["slug"] }
       assert_equal %w(alpha bravo charlie), slugs
+
+      # Including the actions in the index is expensive, and unnecessary
+      refute data.first.has_key?("actions")
     end
   end
 
