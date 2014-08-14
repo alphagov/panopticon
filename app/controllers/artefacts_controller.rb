@@ -15,7 +15,7 @@ class ArtefactsController < ApplicationController
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
     @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
-    respond_with @artefacts, @tag_collection
+    respond_with @artefacts
   end
 
   def search_relatable_items
