@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: git://github.com/theodi/odi_content_models.git
-  revision: bc6311c71266bb8d583f9c365105024a727f0fe2
+  revision: d238a8736a0535f269bb2d7937f0d1aa1f4d1163
   specs:
     odi_content_models (0.0.1)
       govuk_content_models (= 6.1.0)
@@ -301,9 +301,9 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rubyzip (0.9.9)
-    rummageable (0.3.0)
-      json
-      plek
+    rummageable (1.0.1)
+      multi_json
+      null_logger
       rest-client
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
@@ -411,7 +411,7 @@ DEPENDENCIES
   pry
   quiet_assets
   rails (= 3.2.16)
-  rummageable (~> 0.3.0)
+  rummageable (= 1.0.1)
   sass-rails (= 3.2.6)
   shoulda (~> 2.11.3)
   simplecov (~> 0.6.4)

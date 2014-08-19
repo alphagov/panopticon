@@ -7,4 +7,10 @@
   <% end %>
 
   <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
+
+  <%= f.input :live_at,
+              :label => 'Make live at',
+              :hint => "In format yyyy-mm-dd hh:mm (24 hour clock)",
+              :input_html => { :class => "span6", :disabled => f.object.live?, 'data-format' => 'yyyy-mm-dd hh:mm', :value => artefact.live_at.try(:strftime, "%Y-%m-%d %H:%m") } %>
+
 </div>

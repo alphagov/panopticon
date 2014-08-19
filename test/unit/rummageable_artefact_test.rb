@@ -18,7 +18,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -36,7 +35,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "format" => "guide",
       "description" => "Describe describey McDescribe",
       "section" => nil,
-      "subsection" => nil,
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
@@ -54,7 +52,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
@@ -73,7 +70,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
   end
@@ -91,26 +87,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "section" => "crime",
-      "subsection" => nil,
-      "indexable_content" => "Blah blah blah index this"
-    }
-    assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
-  end
-
-  test "should include subsection information" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.sections = ["crime/batman"]
-    end
-    expected = {
-      "link" => "/my-artefact",
-      "title" => "My artefact",
-      "format" => "guide",
-      "section" => "crime",
-      "subsection" => "batman",
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
@@ -128,7 +104,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "travel-advice",
       "section" => "foreign-travel-advice",
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this"
     }
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
@@ -161,4 +136,73 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
+  test "should not index content formats managed by Whitehall" do
+    skip("We don't use Whitehall")
+    artefact = Artefact.new do |artefact|
+      artefact.state = "live"
+      artefact.kind = Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].first
+    end
+
+    refute RummageableArtefact.new(artefact).should_be_indexed?
+  end
+
+  test "should not index content formats managed by Specialist publisher" do
+    skip("We don't use specialist publisher")
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"].each do |kind|
+      artefact = Artefact.new do |artefact|
+        artefact.state = "live"
+        artefact.kind = kind
+      end
+
+      refute RummageableArtefact.new(artefact).should_be_indexed?
+    end
+  end
+
+  test "should not index content formats managed by Finder api" do
+    skip("We don't use the finder API")
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"].each do |kind|
+      artefact = Artefact.new do |artefact|
+        artefact.state = "live"
+        artefact.kind = kind
+      end
+
+      refute RummageableArtefact.new(artefact).should_be_indexed?
+    end
+  end
+
+  test "adds a rummageable artefact with indexable content to the search index" do
+    artefact = build(:artefact, indexable_content: "blah")
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:add).with(rummageable_artefact.artefact_hash)
+    rummageable_artefact.submit
+  end
+
+  test "amends a rummageable artefact without indexable content" do
+    artefact = build(:artefact, indexable_content: nil)
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:amend).with(rummageable_artefact.artefact_link,
+                                           rummageable_artefact.artefact_hash)
+    rummageable_artefact.submit
+  end
+
+  test "deletes a rummageable artefact" do
+    artefact = build(:artefact)
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).returns(stub_search_index)
+
+    stub_search_index.expects(:delete).with(rummageable_artefact.artefact_link)
+    stub_search_index.expects(:commit)
+
+    rummageable_artefact.delete
+  end
 end

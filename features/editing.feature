@@ -51,6 +51,7 @@ Feature: Editing artefacts
 
   Scenario: Editing a live item
     Given an artefact exists
+      And that artefact has the role "dapaas"
       And the first artefact is live
       And a section exists
     When I add the section to the artefact

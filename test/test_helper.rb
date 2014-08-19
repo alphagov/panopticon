@@ -29,6 +29,8 @@ class ActiveSupport::TestCase
     load(Rails.root.join("db", "seeds.rb"))
   end
 
+  include FactoryGirl::Syntax::Methods
+
   def clean_db
     DatabaseCleaner.clean
   end
@@ -63,7 +65,7 @@ class ActiveSupport::TestCase
   end
 
   def stub_all_rummager_requests
-    WebMock.stub_request(:any, %r{\A#{Rummageable.rummager_host}})
+    WebMock.stub_request(:any, %r{\A#{SearchIndex.rummager_host}})
   end
 end
 

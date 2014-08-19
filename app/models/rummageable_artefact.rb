@@ -38,7 +38,9 @@ class RummageableArtefact
   end
 
   def submit
-    return unless indexable_artefact? 
+    return unless indexable_artefact?
+
+    search_index = SearchIndex.instance
 
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
@@ -46,17 +48,19 @@ class RummageableArtefact
     # not include this field
     if should_amend
       logger.info "Posting amendments to Rummager: #{artefact_link}"
-      Rummageable.amend artefact_link, artefact_hash
+      search_index.amend artefact_link, artefact_hash
     else
       logger.info "Posting document to Rummager: #{artefact_link}"
-      Rummageable.index [artefact_hash]
+      search_index.add artefact_hash
     end
   end
 
   def delete
     logger.info "Deleting item from Rummager: #{artefact_link}"
-    Rummageable.delete(artefact_link)
-    Rummageable.commit
+
+    search_index = SearchIndex.instance
+    search_index.delete(artefact_link)
+    search_index.commit
   end
 
   def should_amend
@@ -66,11 +70,12 @@ class RummageableArtefact
   def artefact_hash
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
-    rummageable_keys = Rummageable::VALID_KEYS.map {|full_key| full_key[0]}.uniq
+    rummageable_keys = %w{title description format section
+      indexable_content boost_phrases organisations additional_links}
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager
-    rummageable_keys.delete "link" if should_amend
+    rummageable_keys << "link" unless should_amend
 
     result = {}
 

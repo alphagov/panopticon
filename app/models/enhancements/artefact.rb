@@ -9,6 +9,21 @@ class Artefact
   attr_accessor :indexable_content
 
   STATES = [ "live", "draft", "archived" ]
+  ODI_FORMATS = [
+    "creative_work",
+    "case_study",
+    "course",
+    "course_instance",
+    "event",
+    "node",
+    "person",
+    "report",
+    "organization",
+    "article",
+    "timed_item",
+    "faq",
+    "job"
+  ]
 
   MASLOW_NEED_ID_LOWER_BOUND = 100000
 

@@ -98,6 +98,12 @@ Given /^an artefact exists$/ do
   @artefact = create_artefact
 end
 
+Given /^that artefact has the role "(.*?)"$/ do |role|
+  @index = role
+  @artefact.roles = [role]
+  @artefact.save
+end
+
 Given /^a section exists$/ do
   @section = create_section
 end
