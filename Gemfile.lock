@@ -208,6 +208,7 @@ GEM
       nokogiri (~> 1.4)
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (~> 0.0, >= 0.0.9)
+    memoist (0.10.0)
     metaclass (0.0.1)
     method_source (0.8.2)
     mime-types (1.25.1)
@@ -394,6 +395,7 @@ DEPENDENCIES
   launchy
   less-rails-bootstrap
   lograge (~> 0.1.0)
+  memoist
   minitest
   mocha (= 0.13.3)
   mongo (= 1.7.1)
