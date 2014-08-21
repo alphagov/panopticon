@@ -2,7 +2,6 @@ class UpdateSearchObserver < Mongoid::Observer
   observe :artefact
 
   def after_save(artefact)
-    return unless artefact.roles.any?{|t| t.tag_id == "dapaas"}
     rummageable_artefact = RummageableArtefact.new(artefact)
 
     rummageable_artefact.submit if rummageable_artefact.should_be_indexed?

@@ -171,7 +171,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "adds a rummageable artefact with indexable content to the search index" do
-    artefact = build(:artefact, indexable_content: "blah")
+    artefact = build(:artefact, indexable_content: "blah", roles: ["odi"])
     rummageable_artefact = RummageableArtefact.new(artefact)
 
     stub_search_index = stub("Rummageable::Index")
@@ -181,8 +181,23 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     rummageable_artefact.submit
   end
 
+  test "adds a rummageable artefact with multiple roles and indexable content to the search index" do
+    artefact = build(:artefact, indexable_content: "blah", roles: ["odi", "dapaas"])
+    rummageable_artefact = RummageableArtefact.new(artefact)
+
+    stub_search_index_1 = stub("Rummageable::Index")
+    stub_search_index_2 = stub("Rummageable::Index")
+    SearchIndex.expects(:instance).with('odi').returns(stub_search_index_1)
+    SearchIndex.expects(:instance).with('dapaas').returns(stub_search_index_2)
+
+    stub_search_index_1.expects(:add).with(rummageable_artefact.artefact_hash)
+    stub_search_index_2.expects(:add).with(rummageable_artefact.artefact_hash)
+
+    rummageable_artefact.submit
+  end
+
   test "amends a rummageable artefact without indexable content" do
-    artefact = build(:artefact, indexable_content: nil)
+    artefact = build(:artefact, indexable_content: nil, roles: ["odi"])
     rummageable_artefact = RummageableArtefact.new(artefact)
 
     stub_search_index = stub("Rummageable::Index")
@@ -194,7 +209,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "deletes a rummageable artefact" do
-    artefact = build(:artefact)
+    artefact = build(:artefact, roles: ["odi"])
     rummageable_artefact = RummageableArtefact.new(artefact)
 
     stub_search_index = stub("Rummageable::Index")

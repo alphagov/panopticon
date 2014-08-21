@@ -44,6 +44,8 @@ gem 'language_list'
 
 gem "govuk_content_models", "6.1.0"
 
+gem 'memoist'
+
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'
 else

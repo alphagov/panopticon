@@ -7,7 +7,7 @@ class SearchIndexTest < ActiveSupport::TestCase
                         .with('http://search.dev', '/dapaas', has_key(:logger))
                         .returns('search client')
 
-    client = SearchIndex.instance
+    client = SearchIndex.instance "dapaas"
     assert_equal 'search client', client
   end
 
