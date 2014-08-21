@@ -4,7 +4,7 @@ class SearchIndex
     extend Memoist
 
     def instance(role = 'dapaas')
-      Rummageable::Index.new(rummager_host, role, logger: Rails.logger)
+      Rummageable::Index.new(rummager_host, "/#{role}", logger: Rails.logger)
     end
     memoize :instance
 
