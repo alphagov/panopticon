@@ -102,12 +102,6 @@ ul.tags-list {
   }
 }
 
-.input span.parent-id {
-  font-size: 16px;
-  padding-right: 4px;
-  font-family: monospace;
-}
-
 .take-care {
   @extend .alert;
   @extend .alert-info;
