@@ -13,4 +13,5 @@
 //= require jquery-ui/sortable
 //= require chosen-jquery
 //= require jquery_nested_form
+//= require select2
 //= require_tree .

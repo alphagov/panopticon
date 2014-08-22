@@ -2,13 +2,13 @@
 @import 'formtastic-bootstrap';
 @import 'chosen';
 @import 'bootstrap-chosen';
+@import 'select2';
 
 @import "artefacts";
 @import "artefacts/form";
 @import "tags";
 
 @import "vendor/tagsmanager";
-@import "vendor/select2";
 
 /* For some reason it's getting a margin-left of 30px */
 .select2-container {
