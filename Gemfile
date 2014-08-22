@@ -24,6 +24,7 @@ gem 'rummageable', "1.0.1"
 
 gem "mongoid_rails_migrations", "1.0.0"
 gem "kaminari", "0.14.1"
+gem 'bootstrap-kaminari-views', '0.0.3'
 gem 'logstasher', '0.4.8'
 
 # TODO: Investigate whether there is a requirement to pin these
