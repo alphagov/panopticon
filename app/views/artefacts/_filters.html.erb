@@ -2,34 +2,34 @@
   <h3>Filters</h3>
 
   <%= form_tag "", method: :get do |f| %>
-    <div>
+    <div class="form-group">
       <label for="section">Section</label>
-      <%= select_tag :section, options_from_tags_for_select("section", @filters[:section]), class: "span12" %>
+      <%= select_tag :section, options_from_tags_for_select("section", @filters[:section]), class: "form-control" %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="specialist_sector">Specialist sector</label>
-      <%= select_tag :specialist_sector, options_from_tags_for_select("specialist_sector", @filters[:specialist_sector]), class: "span12" %>
+      <%= select_tag :specialist_sector, options_from_tags_for_select("specialist_sector", @filters[:specialist_sector]), class: 'form-control' %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="kind">Format</label>
-      <%= select_tag :kind, options_from_formats_for_select(@filters[:kind]), class: "span12" %>
+      <%= select_tag :kind, options_from_formats_for_select(@filters[:kind]), class: "form-control" %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="owned_by">Application</label>
-      <%= select_tag :owned_by, options_from_owning_apps_for_select(@filters[:owned_by]), class: "span12" %>
+      <%= select_tag :owned_by, options_from_owning_apps_for_select(@filters[:owned_by]), class: "form-control" %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="state">State</label>
-      <%= select_tag :state, options_from_states_for_select(@filters[:state]), class: "span12" %>
+      <%= select_tag :state, options_from_states_for_select(@filters[:state]), class: "form-control" %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="search">Contains</label>
-      <%= text_field_tag "search", @filters[:search], class: "span12", type: "search" %>
+      <%= text_field_tag "search", @filters[:search], class: "form-control", type: "search" %>
     </div>
 
     <div>
