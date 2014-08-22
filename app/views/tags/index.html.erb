@@ -9,7 +9,7 @@
   </p>
 </header>
 
-<ul class="tags-list">
+<ul class="tags-list list-unstyled">
   <% @parents.each do |parent, children| %>
     <li class="parent-tag">
       <div class="details">
@@ -28,12 +28,12 @@
         </div>
       </div>
 
-      <ul class="children">
+      <ul class="children list-unstyled">
         <% children.each do |tag| %>
           <li class="child-tag">
             <h3>
               <%= link_to tag.title, edit_tag_path(tag) %>
-              <%= link_to tag.tag_id, public_tag_url(tag), class: 'tag-id' %>
+              <%= link_to tag.tag_id, public_tag_url(tag), class: 'tag-id text-muted' %>
               <% if tag.draft? %>
                 <span class="draft">draft</span>
               <% end %>
