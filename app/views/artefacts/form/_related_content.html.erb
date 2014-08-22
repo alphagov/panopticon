@@ -13,16 +13,16 @@
       <label class="section-label">Related external links</label>
 
       <%= f.fields_for :external_links do |link| %>
-        <div class="row-fluid nested-item">
-          <div class="span4">
+        <div class="row nested-item">
+          <div class="col-md-4">
             <%= link.label :title, "Title" %>
-            <%= link.text_field :title, :class => "span12" %>
+            <%= link.text_field :title %>
           </div>
-          <div class="span5">
+          <div class="col-md-5">
             <%= link.label :url, "URL" %>
-            <%= link.text_field :url, :class => "span12" %>
+            <%= link.text_field :url %>
           </div>
-          <div class="span3">
+          <div class="col-md-3">
             <br>
             <%= link.link_to_remove "Remove this URL", :class => "remove-row" %>
           </div>

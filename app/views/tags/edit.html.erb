@@ -13,8 +13,8 @@
   </div>
 </header>
 
-<div class="row-fluid">
-  <div class="span9">
+<div class="row">
+  <div class="col-md-9">
 
     <%= semantic_form_for @tag do |f| %>
       <% if f.object.errors.count > 0 %>
@@ -28,12 +28,12 @@
       <% end %>
 
       <div class="well">
-        <%= f.input :title, input_html: { class: "span5" } %>
+        <%= f.input :title, input_html: { class: "input-md-5" } %>
 
         <%= f.input :description, as: :text,
                                   input_html: {
                                     rows: 4,
-                                    class: "span8"
+                                    class: "input-md-8"
                                   }
                                   %>
       </div>
@@ -55,7 +55,7 @@
     <% end %>
   </div>
 
-  <div class="span3">
+  <div class="col-md-3">
     <% if @tag.can_publish? %>
       <div class="well">
         <p>Publishing this tag will make it appear live on the site to users. Once you publish a tag, it can't be unpublished.</p>

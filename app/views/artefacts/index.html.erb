@@ -1,56 +1,53 @@
 <%= content_for :page_title, "List artefacts" %>
-<div class="row-fluid artefacts-container">
-  <div class="span12">
-
-    <div class="row-fluid">
-      <div class="span2">
-        <div class="artefact-count">
-          <em><%= @artefacts.count %></em> <%= "artefact".pluralize(@artefacts.count) %>
-        </div>
-
-        <%= render :partial => "filters" %>
+<div class="artefacts-container">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="artefact-count">
+        <em><%= @artefacts.count %></em> <%= "artefact".pluralize(@artefacts.count) %>
       </div>
 
-      <div class="span10">
-        <table class="table table-striped table-bordered table-condensed" id="artefact-list" summary="List of everything">
-          <thead>
-            <tr>
-              <th scope="col"><%= sortable "need_id", "Needs" %></th>
-              <th scope="col"><%= sortable "name", "Title" %></th>
-              <th scope="col"><%= sortable "kind", "Format" %></th>
-              <th scope="col">Primary section</th>
-              <th scope="col">Other sections</th>
-              <th scope="col">Related items</th>
-              <th scope="col"><%= sortable "owning_app", "App" %></th>
-              <th scope="col"><%= sortable "slug", "Slug" %></th>
-            </tr>
-          </thead>
-          <tbody>
-          <% @artefacts.each do |artefact| %>
-            <tr class="<%= artefact.state %>">
-              <td>
-                <% if artefact.need_ids %>
-                  <% artefact.need_ids.each do |need_id| %>
-                    <%= content_tag "span", need_id, :class => "label need-id" %>
-                  <% end %>
+      <%= render :partial => "filters" %>
+    </div>
+
+    <div class="col-md-10">
+      <table class="table table-striped table-bordered table-condensed" id="artefact-list" summary="List of everything">
+        <thead>
+          <tr>
+            <th scope="col"><%= sortable "need_id", "Needs" %></th>
+            <th scope="col"><%= sortable "name", "Title" %></th>
+            <th scope="col"><%= sortable "kind", "Format" %></th>
+            <th scope="col">Primary section</th>
+            <th scope="col">Other sections</th>
+            <th scope="col">Related items</th>
+            <th scope="col"><%= sortable "owning_app", "App" %></th>
+            <th scope="col"><%= sortable "slug", "Slug" %></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @artefacts.each do |artefact| %>
+          <tr class="<%= artefact.state %>">
+            <td>
+              <% if artefact.need_ids %>
+                <% artefact.need_ids.each do |need_id| %>
+                  <%= content_tag "span", need_id, :class => "label need-id" %>
                 <% end %>
-              </td>
-              <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
-              <td>
-                <small><%= artefact.kind.humanize %></small>
-                <%= content_tag "span", artefact.language, :class => "language_icon lang_#{artefact.language}" %>
-              </td>
-              <td><%= artefact.primary_section %></td>
-              <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
-              <td><%= artefact.related_artefact_ids.count %></td>
-              <td><%= artefact.owning_app.underscore.humanize %></td>
-              <td><%= link_to artefact.slug, published_url(artefact) %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-        <%= paginate @artefacts %>
-      </div><!-- ./span10 -->
-    </div><!-- ./row fluid -->
-  </div><!-- ./span12 -->
-</div><!-- ./row-fluid-->
+              <% end %>
+            </td>
+            <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
+            <td>
+              <small><%= artefact.kind.humanize %></small>
+              <%= content_tag "span", artefact.language, :class => "language_icon lang_#{artefact.language}" %>
+            </td>
+            <td><%= artefact.primary_section %></td>
+            <td><%= (artefact.sections - [artefact.primary_section]).join(", ") %></td>
+            <td><%= artefact.related_artefact_ids.count %></td>
+            <td><%= artefact.owning_app.underscore.humanize %></td>
+            <td><%= link_to artefact.slug, published_url(artefact) %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= paginate @artefacts %>
+    </div>
+  </div>
+</div>

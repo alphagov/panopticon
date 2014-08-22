@@ -15,8 +15,8 @@
 <% else %>
   <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => 'artefact', :id => 'edit_artefact'}) do |f| %>
 
-    <div class="row-fluid">
-      <div class="span8">
+    <div class="row">
+      <div class="col-md-8">
         <% if f.object.new_record? || f.object.state == "draft" %>
           <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
@@ -25,7 +25,7 @@
         <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
       </div>
 
-      <div class="span4">
+      <div class="col-md-4">
         <% if f.object.persisted? && f.object.owning_app.present? %>
           <%= render partial: "artefacts/form/owning_app", locals: { f: f } %>
         <% end %>
