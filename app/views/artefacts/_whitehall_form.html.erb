@@ -18,24 +18,19 @@
   </div>
 <% else %>
   <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => 'artefact', :id => 'edit_artefact'}) do |f| %>
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="well">
-          <%= f.input :name, :input_html => { :class => "span6" } %>
-          <%= f.input :description, :input_html => { :class => "span6", :rows => 6 }, :as => :text %>
-          <%= f.input :slug, :input_html => { :class => "span6" }, :hint => "Inside government slugs are: <code>government/the-slug</code>. Detailed guides are simply: <code>the-slug</code>".html_safe %>
+    <div class="well">
+      <%= f.input :name, :input_html => { :class => "input-md-6" } %>
+      <%= f.input :description, :input_html => { :class => "input-md-6", :rows => 6 }, :as => :text %>
+      <%= f.input :slug, :input_html => { :class => "input-md-6" }, :hint => "Inside government slugs are: <code>government/the-slug</code>. Detailed guides are simply: <code>the-slug</code>".html_safe %>
 
-          <% if artefact.new_record? %>
-            <%= f.input :kind, :collection => Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
-          <% end %>
-        </div>
-
-        <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
-      </div>
-
-      <%= f.input :owning_app, :as => :hidden %>
-      <%= f.input :state, :as => :hidden, :input_html => { :value => "live" } %>
+      <% if artefact.new_record? %>
+        <%= f.input :kind, :collection => Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].map { |s| [s.humanize, s]}, :as => :select, :input_html => {:class => "input-md-3"}, :prompt => "Select a kind" %>
+      <% end %>
     </div>
+
+    <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
+    <%= f.input :owning_app, :as => :hidden %>
+    <%= f.input :state, :as => :hidden, :input_html => { :value => "live" } %>
 
     <div class="form-actions">
       <%= f.submit :value => "Save and continue editing", :class => "btn btn-primary" %>
@@ -44,7 +39,7 @@
 <% end %>
 
 <%= content_for :extra_javascript do %>
-  <script type="text/javascript">
+  <script>
     $(".chzn-select").chosen();
 
     if ($('.artefact-section').size() == 1) {
