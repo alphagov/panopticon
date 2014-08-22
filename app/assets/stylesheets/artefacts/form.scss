@@ -110,10 +110,6 @@ label.section-label {
   }
 }
 
-.nested-item-group, .curated-artefact-group {
-  margin: 15px 0;
-}
-
 .nested-item, .curated-artefact {
   @include box-sizing(border-box);
   @include box-shadow(#bbb 0px 1px 2px);
@@ -127,9 +123,9 @@ label.section-label {
   }
 
   .glyphicon-align-justify {
-    opacity: 0.3; /* makes the button look greyer */
-    vertical-align: middle;
-    margin: 0 5px 0 2px;
+    color: $gray-light;
+    margin: 8px 10px 0 2px;
+    float: left;
   }
 
   select {

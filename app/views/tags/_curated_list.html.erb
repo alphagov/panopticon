@@ -3,7 +3,7 @@
     <label class="section-label">Curated artefacts <span class="hint">(click and drag to reorder)</span></label>
     <p>The artefacts you choose will appear at the top of the section’s browse page. Any other artefacts in the section will appear below them.</p>
 
-    <div class="curated-artefact-group">
+    <div class="add-vertical-margins curated-artefact-group">
       <% if @curated_list.usable_artefacts.any? %>
         <% @curated_list.usable_artefacts.each do |artefact| %>
           <%= render :partial => 'curated_artefact', :locals => { artefact_id: artefact.id, is_template: false } %>
