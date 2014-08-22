@@ -21,10 +21,10 @@
           <% end %>
         </h2>
         <div class="actions">
-          <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn' do %>
+          <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn btn-default' do %>
             <i class="glyphicon glyphicon-plus"></i> Add child tag
           <% end %>
-          <%= link_to "Edit tag", edit_tag_path(parent), class: 'btn' %>
+          <%= link_to "Edit tag", edit_tag_path(parent), class: 'btn btn-default' %>
         </div>
       </div>
 
@@ -39,7 +39,7 @@
               <% end %>
             </h3>
             <div class="actions">
-              <%= link_to 'Edit tag', edit_tag_path(tag), class: 'btn' %>
+              <%= link_to 'Edit tag', edit_tag_path(tag), class: 'btn btn-default' %>
             </div>
           </li>
         <% end %>
