@@ -50,7 +50,7 @@ gem 'govuk_admin_template', '1.1.1'
 gem 'formtastic', '2.3.0.rc4'
 gem 'formtastic-bootstrap', '3.0.0'
 gem 'jquery-ui-rails', '5.0.0'
-gem 'chosen-rails', '1.0.2'
+gem 'chosen-rails', '1.1.0'
 
 gem 'whenever', '0.9.2', require: false
 

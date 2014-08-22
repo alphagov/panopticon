@@ -23,7 +23,7 @@
       <%= f.input :legacy_source_ids,
                   :label => false,
                   :collection => options_for_tags_of_type('legacy_source'),
-                  :input_html => { :multiple => true, :class => "chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
 
     <div class="specialist-sector-tags fieldset-section">
@@ -32,7 +32,7 @@
       <%= f.input :specialist_sector_ids,
                   :label => false,
                   :collection => grouped_options_for_tags_of_type('specialist_sector'),
-                  :input_html => { :multiple => true, :class => "chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
 
     <div class="organisation-tags fieldset-section">
@@ -41,7 +41,7 @@
       <%= f.input :organisation_ids,
                   :label => false,
                   :collection => options_for_tags_of_type('organisation'),
-                  :input_html => { :multiple => true, :class => "chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
   <% end %>
 </div>
