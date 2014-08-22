@@ -1,85 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= yield :page_title %> | GOV.UK Panopticon</title>
+<% content_for :app_title, 'GOV.UK Panopticon' %>
+<% content_for :page_title, ' | GOV.UK Panopticon' %>
+<% content_for :head do %>
   <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag 'application.css' %>
+  <%= stylesheet_link_tag 'application' %>
   <%= yield :extra_headers %>
-  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-  <!--[if lt IE 9]>
-    <%= javascript_include_tag "html5" %>
-  <![endif]-->
   <%= javascript_include_tag "application" %>
-</head>
+<% end %>
 
-<body>
-  <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
-    <div class="navbar-inner">
-      <div class="container-fluid">
-        <%= link_to 'GOV.UK Panopticon', root_path, :class => "brand" %>
-        <% if user_signed_in? %>
-
-        <nav role="navigation" class="nav-collapse">
-          <ul class="nav">
-            <%= nav_link 'Artefacts', artefacts_path %>
-            <% if current_user.has_permission?("manage_tags") %>
-              <%= nav_link 'Tags', tags_path %>
-            <% end %>
-            <%= nav_link 'Add artefact', new_artefact_path %>
-            <%= nav_link 'Add Whitehall artefact', new_artefact_path(owning_app: "whitehall") %>
-          </ul>
-          <ul class="nav pull-right">
-            <li class="dropdown">
-              <a href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown">
-                Services
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="http://digital.cabinetoffice.gov.uk/">GDS blog</a></li>
-                <li><a href="http://wiki.digital.cabinet-office.gov.uk/">GDS wiki</a></li>
-                <li class="divider"></li>
-                <li><%= link_to 'Analytics', 'https://www.google.com/analytics/web/#dashboard/default/a26179049w50705554p51337955/'%></li>
-                <li class="divider"></li>
-                <li><%= link_to 'Sign out', gds_sign_out_path %></li>
-              </ul>
-            </li>
-          </ul>
-
-          <p class="navbar-text pull-right">Signed in as <a href="<%= Plek.current.find('signon') %>"><%= current_user.name %></a></p>
-        </nav>
-
-        <% end %>
-      </div>
-    </div>
-  </header>
-
-  <section class="container-fluid" role="main">
-    <% flash.each do |key,message| %>
-      <div class="alert alert-<%= key %>">
-        <%= message %>
-      </div>
+<% if user_signed_in? %>
+  <% content_for :navbar_items do %>
+    <%= nav_link 'Artefacts', artefacts_path %>
+    <% if current_user.has_permission?("manage_tags") %>
+      <%= nav_link 'Tags', tags_path %>
     <% end %>
+    <%= nav_link 'Add artefact', new_artefact_path %>
+    <%= nav_link 'Add Whitehall artefact', new_artefact_path(owning_app: "whitehall") %>
+  <% end %>
 
-    <%= yield %>
-    <hr>
-    <footer>
-      <p>&copy; GDS. <span class="pull-right">Panopticon release: <%= CURRENT_RELEASE_SHA %></span> </p>
-    </footer>
-  </section>
+  <% content_for :navbar_right do %>
+    <%= link_to current_user.name, Plek.current.find('signon') %>
+    &bull; <%= link_to 'Sign out', gds_sign_out_path %>
+  <% end %>
+<% end %>
 
+<% content_for :content do %>
+  <% flash.each do |key,message| %>
+    <div class="alert alert-<%= key %>">
+      <%= message %>
+    </div>
+  <% end %>
+  <%= yield %>
+<% end %>
+
+<% content_for :footer_version, CURRENT_RELEASE_SHA %>
+<% content_for :body_end do %>
   <%= yield :extra_javascript %>
   <% if Rails.env.production? %>
-    <script type="text/javascript">
+    <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-26179049-6', 'alphagov.co.uk');
       ga('send', 'pageview');
     </script>
   <% end %>
-</body>
-</html>
+<% end %>
+
+<%# use the govuk_admin_template layout %>
+<%= render :template => 'layouts/govuk_admin_template' %>
