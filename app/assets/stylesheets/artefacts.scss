@@ -17,27 +17,12 @@ span.need-id.label {
   line-height: 1.31579;
 }
 
-.artefacts-container {
-  padding-top: 20px;
-}
-
-
 .artefact-count {
   border-bottom: 1px solid #e5e5e5;
-  color: #000;
   font-size: 19px;
   font-weight: normal;
   line-height: 1.25;
   padding-bottom: 10px;
-
-  em {
-    font-style: normal;
-    font-size: 60px;
-    font-weight: bold;
-    line-height: 68px;
-    margin-bottom: 10px;
-    padding-right: 3px;
-  }
 }
 
 #artefact_need_ids_input {
