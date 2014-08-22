@@ -20,7 +20,7 @@ Panopticon::Application.routes.draw do
       get :search_relatable_items, constraints: { format: :json }
     end
   end
-  
+
   resources :tags do
     member do
       put :publish
@@ -28,4 +28,6 @@ Panopticon::Application.routes.draw do
   end
 
   root :to => redirect("/artefacts")
+
+  mount GovukAdminTemplate::Engine, at: "/style-guide"
 end
