@@ -140,7 +140,9 @@ label.section-label {
     @extend .btn;
     @extend .btn-danger;
 
-    float: right;
+    position: absolute;
+    right: 8px;
+    top: 8px;
   }
 }
 

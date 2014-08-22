@@ -1,4 +1,4 @@
-<div class="nested-item artefact-section">
-  <%= select_tag("artefact[sections][]", options_from_collection_for_select(tag_collection, :tag_id, :unique_title, section_id), {:prompt => "Select a section", :class => "input-md-4"}) %>
+<div class="nested-item artefact-section relative">
+  <%= select_tag("artefact[sections][]", options_from_collection_for_select(tag_collection, :tag_id, :unique_title, section_id), {:prompt => "Select a section", :class => "input-md-4 form-control"}) %>
   <button class="remove-row remove-section" type="button">Remove this section</button>
 </div>

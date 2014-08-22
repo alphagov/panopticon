@@ -4,7 +4,7 @@
       <label for="artefact[sections][]" class="section-label">Sections</label>
 
       <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-      <div class="nested-item-group">
+      <div class="add-vertical-margins nested-item-group">
         <% if f.object.section_ids.length > 0 %>
           <% f.object.section_ids.each do | section_id | %>
             <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>

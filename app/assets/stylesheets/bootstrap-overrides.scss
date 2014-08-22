@@ -23,10 +23,6 @@ td.icon {
   text-align: center;
 }
 
-.artefact-section, .related-artefact, .curated-artefact {
-  margin-bottom: 8px;
-}
-
 select#artefact_sections_, select#artefact_related_artefact_ids_, select#curated_list_artefact_ids_{
   display: inline-block;
   margin-bottom: 0;
@@ -36,7 +32,7 @@ select#artefact_sections_, select#artefact_related_artefact_ids_, select#curated
   Make wells look less rubbish.
 */
 .well {
-  @include border-radius(0px);
+  @include border-radius(0);
   @include box-shadow(none);
   border-color: #ccc;
 }
