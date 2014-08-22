@@ -4,7 +4,7 @@
 
   <p class="actions">
     <%= link_to new_tag_path, class: 'btn btn-primary' do %>
-      <i class="icon-plus icon-white"></i> Add new tag
+      <i class="glyphicon glyphicon-plus"></i> Add new tag
     <% end %>
   </p>
 </header>
@@ -22,7 +22,7 @@
         </h2>
         <div class="actions">
           <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn' do %>
-            <i class="icon-plus"></i> Add child tag
+            <i class="glyphicon glyphicon-plus"></i> Add child tag
           <% end %>
           <%= link_to "Edit tag", edit_tag_path(parent), class: 'btn' %>
         </div>

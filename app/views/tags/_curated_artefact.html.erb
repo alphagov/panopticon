@@ -1,5 +1,5 @@
 <div class="row sortable <%= is_template ? "hidden curated-artefact-template" : "curated-artefact" %>">
-  <i class="icon-align-justify"></i>
+  <i class="glyphicon glyphicon-align-justify"></i>
 
   <%= select_tag "curated_list[artefact_ids][]",
                  options_from_collection_for_select(artefacts_in_section, :id, :name, artefact_id),

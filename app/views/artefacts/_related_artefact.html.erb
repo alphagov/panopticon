@@ -1,5 +1,5 @@
 <div class="row nested-item sortable <%= is_template ? "hidden related-artefact-template" : "related-artefact" %>">
-  <i class="icon-align-justify"></i>
+  <i class="glyphicon glyphicon-align-justify"></i>
 
   <%= select_tag "artefact[related_artefact_ids][]",
                  options_from_collection_for_select(relatable_items, :id, :name, related_artefact_id),
