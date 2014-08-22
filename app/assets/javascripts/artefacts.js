@@ -14,9 +14,6 @@ $(function() {
 
   $('a[rel=external]').attr('target','_blank');
 
-  $('.flash-notice').delay(4000).slideUp(300).
-    one('click', function () { $(this).slideUp(300); });
-
   // add sections
   $('#add-section').click(function () {
     $('.remove-section').show();

@@ -81,7 +81,12 @@ class ArtefactsController < ApplicationController
     end
 
     saved = @artefact.update_attributes_as(current_user, parameters_to_use)
-    flash[:notice] = saved ? 'Panopticon item updated' : 'Failed to save item'
+
+    if saved
+      flash[:success] = 'Panopticon item updated'
+    else
+      flash[:notice] = 'Failed to save item'
+    end
 
     @actions = build_actions
     respond_with @artefact, status: status_to_use do |format|
