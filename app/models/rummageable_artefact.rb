@@ -20,6 +20,7 @@ class RummageableArtefact
     start-up-loans
     new-enterprise-allowance
     helping-your-business-grow-internationally
+    unimoney
   )
 
   def initialize(artefact)
