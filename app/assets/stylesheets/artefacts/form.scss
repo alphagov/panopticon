@@ -96,10 +96,8 @@ form.artefact {
 }
 
 label.section-label {
-  font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-  margin-bottom: 8px;
 
   .hint {
     display: inline;
@@ -139,6 +137,12 @@ label.section-label {
     position: absolute;
     right: 8px;
     top: 8px;
+  }
+
+  .remove-row-related {
+    top: auto;
+    bottom: 0;
+    right: 15px
   }
 }
 
