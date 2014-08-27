@@ -25,16 +25,26 @@ span.need-id.label {
   padding-bottom: 10px;
 }
 
-#artefact_need_ids_input {
-  #artefact_need_ids {
-    margin: 0 10px 5px 0;
+.user-needs-form {
+  label {
+    display: block;
   }
-  #add-artefact-need-id {
-    margin-bottom: 6px;
+
+  .need-id-input {
+    padding: 4px;
+    height: 29px;
   }
+
+  .need-id-input,
   .tm-tag {
-    span {
-      cursor: pointer;
-    }
+    margin: 0 5px 5px 0;
+  }
+
+  .tm-tag span {
+    cursor: pointer;
+  }
+
+  .btn {
+    margin-bottom: 6px;
   }
 }

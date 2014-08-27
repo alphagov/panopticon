@@ -13,17 +13,18 @@ $(document).ready(function() {
     hiddenTagListName: $needIdsField.attr("name"),
     delimiters: [],
   });
+
   $needIdsField
     .val("")
     .attr("name", "")
-    .attr("style", "width:50px")
+    .attr("style", "width: 60px")
     .mask("999999");
 
   $addNeedIdLink = $("<a>")
                     .text("Add Maslow Need ID")
                     .attr("href", "#")
                     .attr("id", "add-artefact-need-id")
-                    .addClass("btn btn-primary js-add-artefact-need-id")
+                    .addClass("btn btn-primary btn-sm js-add-artefact-need-id")
                     .click(function(e) {
                       e.preventDefault();
                       $needIdsField.tagsManager("pushTag", $needIdsField.val());
