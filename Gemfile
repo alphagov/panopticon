@@ -46,7 +46,7 @@ else
   gem 'gds-sso', '9.3.0'
 end
 
-gem 'govuk_admin_template', '1.1.1'
+gem 'govuk_admin_template', '1.1.2'
 gem 'formtastic', '2.3.0.rc4'
 gem 'formtastic-bootstrap', '3.0.0'
 gem 'jquery-ui-rails', '5.0.0'

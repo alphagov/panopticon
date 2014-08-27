@@ -131,7 +131,7 @@ GEM
       kramdown (~> 1.4.1)
       nokogiri (~> 1.5.10)
       sanitize (~> 2.1.0)
-    govuk_admin_template (1.1.1)
+    govuk_admin_template (1.1.2)
       bootstrap-sass (= 3.2.0.0)
       jquery-rails (= 3.1.1)
       rails (>= 3.2.0)
@@ -352,7 +352,7 @@ DEPENDENCIES
   gds-api-adapters (= 10.10.0)
   gds-sso (= 9.3.0)
   gelf
-  govuk_admin_template (= 1.1.1)
+  govuk_admin_template (= 1.1.2)
   govuk_content_models (= 18.0.0)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
