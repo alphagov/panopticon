@@ -76,13 +76,12 @@ form.artefact {
     font-size: 22px;
   }
 
-  > .row-fluid > div.span4 {
+  > .row > .col-md-4 {
     /*
       Bodge Bootstrap so that there isn't a massive
       gap between the two columns.
     */
-    width: 32.6239%;
-    margin-left: 1.4%;
+    padding-left: 0;
   }
 }
 
@@ -124,10 +123,6 @@ label.section-label {
     color: $gray-light;
     margin: 8px 10px 0 2px;
     float: left;
-  }
-
-  select {
-    @extend .span8;
   }
 
   .remove-row {
