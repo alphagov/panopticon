@@ -27,8 +27,6 @@ module Panopticon
     config.assets.version = '1.0'
     config.assets.prefix = '/assets'
 
-    config.assets.precompile += %W(html5.js)
-
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
 
