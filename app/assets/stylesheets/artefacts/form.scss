@@ -172,7 +172,7 @@ label.section-label {
 
 .form-errors {
   @extend .alert;
-  @extend .alert-error;
+  @extend .alert-danger;
 
   ul {
     margin: 0 0 0 25px;

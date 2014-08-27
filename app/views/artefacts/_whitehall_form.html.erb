@@ -3,7 +3,7 @@
 <% end %>
 
 <% if artefact.errors.count > 0 %>
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <ul>
       <% artefact.errors.full_messages.each do |message| %>
       <li><%= message %></li>
@@ -13,7 +13,7 @@
 <% end %>
 
 <% if artefact.archived? %>
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <h2>Stop! You can't edit this artefact because it has been archived.</h2>
   </div>
 <% else %>

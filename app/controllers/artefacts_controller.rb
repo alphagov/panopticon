@@ -85,7 +85,7 @@ class ArtefactsController < ApplicationController
     if saved
       flash[:success] = 'Panopticon item updated'
     else
-      flash[:notice] = 'Failed to save item'
+      flash[:danger] = 'Failed to save item'
     end
 
     @actions = build_actions
