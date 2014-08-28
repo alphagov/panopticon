@@ -4,7 +4,7 @@
       <label for="artefact[sections][]" class="section-label">Sections</label>
 
       <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-      <div class="nested-item-group">
+      <div class="add-vertical-margins nested-item-group">
         <% if f.object.section_ids.length > 0 %>
           <% f.object.section_ids.each do | section_id | %>
             <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
@@ -23,7 +23,7 @@
       <%= f.input :legacy_source_ids,
                   :label => false,
                   :collection => options_for_tags_of_type('legacy_source'),
-                  :input_html => { :multiple => true, :class => "span12 chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
 
     <div class="specialist-sector-tags fieldset-section">
@@ -32,7 +32,7 @@
       <%= f.input :specialist_sector_ids,
                   :label => false,
                   :collection => grouped_options_for_tags_of_type('specialist_sector'),
-                  :input_html => { :multiple => true, :class => "span12 chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
 
     <div class="organisation-tags fieldset-section">
@@ -41,7 +41,7 @@
       <%= f.input :organisation_ids,
                   :label => false,
                   :collection => options_for_tags_of_type('organisation'),
-                  :input_html => { :multiple => true, :class => "span12 chzn-select" } %>
+                  :input_html => { :multiple => true, :class => "chosen-select" } %>
     </div>
   <% end %>
 </div>

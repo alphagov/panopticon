@@ -93,7 +93,7 @@ class TagsControllerTest < ActionController::TestCase
       Tag.any_instance.expects(:save).returns(true)
       post :create, tag: @stub_atts
 
-      assert_match /created/, @controller.flash[:notice]
+      assert_match /created/, @controller.flash[:success]
       assert_redirected_to tags_path
     end
 
@@ -204,7 +204,7 @@ class TagsControllerTest < ActionController::TestCase
 
       put :update, id: @tag.id, tag: @stub_atts
 
-      assert_match /updated/, @controller.flash[:notice]
+      assert_match /updated/, @controller.flash[:success]
       assert_redirected_to tags_path
     end
 
@@ -285,7 +285,7 @@ class TagsControllerTest < ActionController::TestCase
 
       put :publish, id: tag.id
 
-      assert_match /published/, @controller.flash[:notice]
+      assert_match /published/, @controller.flash[:success]
       assert_redirected_to edit_tag_path(tag)
     end
 

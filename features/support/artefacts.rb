@@ -33,7 +33,7 @@ def add_related_artefacts(artefact, related_artefacts)
 end
 
 def select_related_artefact(artefact)
-  fill_in "s2id_autogen2", with: artefact.name
+  fill_in "s2id_autogen1", with: artefact.name
   find(".select2-result-label", match: :first).click
 end
 

@@ -10,15 +10,8 @@ $(document).ready(function() {
     .html("Related artefacts")
     .append(' <span class="hint">(drag to reorder)</span>');
 
-  // select2 needs a hidden input to serve our purpose
-  var $relatedArtefactsHiddenInput = $('<input type="hidden">')
-                                      .attr("name", $relatedArtefactsTextArea.attr("name"))
-                                      .attr("value", $relatedArtefactsTextArea.attr("value"));
-
-  $relatedArtefactsTextArea.replaceWith($relatedArtefactsHiddenInput);
-
-  // http://ivaynberg.github.io/select2/select-2.1.html
-  $relatedArtefactsHiddenInput.select2({
+  // http://ivaynberg.github.io/select2/index.html
+  $relatedArtefactsTextArea.select2({
     width: "75%",
     multiple: true,
     placeholder: "Enter first few characters of the artefact name",
@@ -43,7 +36,7 @@ $(document).ready(function() {
         var loadMore = (page * 15) < data.total;
         return {results: data.artefacts, more: loadMore};
       }
-    },
+    }
   });
 
   $(".js-artefact-name").click(function(e) {
@@ -57,7 +50,7 @@ $(document).ready(function() {
     .find("ul.select2-choices")
     .sortable({
       containment: 'parent',
-      start: function() { $relatedArtefactsHiddenInput.select2("onSortStart"); },
-      update: function() { $relatedArtefactsHiddenInput.select2("onSortEnd"); }
+      start: function() { $relatedArtefactsTextArea.select2("onSortStart"); },
+      update: function() { $relatedArtefactsTextArea.select2("onSortEnd"); }
     });
 });

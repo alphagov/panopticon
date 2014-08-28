@@ -1,32 +1,14 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require formtastic-bootstrap
- *= require chosen
- */
-
-@import "bootstrap/variables";
-@import "theme";
-
-@import "bootstrap";
-@import "bootstrap-responsive";
-@import "bootstrap-overrides";
+@import 'govuk_admin_template';
+@import 'formtastic-bootstrap';
+@import 'chosen';
+@import 'bootstrap-chosen';
+@import 'select2';
 
 @import "artefacts";
 @import "artefacts/form";
-
 @import "tags";
 
 @import "vendor/tagsmanager";
-@import "vendor/select2";
 
 /* For some reason it's getting a margin-left of 30px */
 .select2-container {
@@ -47,25 +29,6 @@
   width: 16px;
   height: 16px;
   background: url(language_cy.png) no-repeat center center;
-}
-
-
-/* Pagination tweaks copied from Migratorator */
-.pagination {
-  a,
-  span.current,
-  span.gap {
-    float: left;
-    padding: 0 14px;
-    line-height: 34px;
-    text-decoration: none;
-    border: 1px solid #DDD;
-    border-left-width: 0;
-  }
-}
-.pagination span.current { background: #eee; }
-.pagination span:first-child, .pagination span:first-child a {
-  border-left-width: 1px;
 }
 
 th .asc {
@@ -90,8 +53,4 @@ tr.top-level-section {
 
 #current td {
   background-color: #adf;
-}
-
-.alert-notice {
-  @extend .alert-success;
 }

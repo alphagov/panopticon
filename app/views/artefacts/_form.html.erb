@@ -1,5 +1,5 @@
 <% if artefact.errors.count > 0 %>
-  <div class="alert alert-error">
+  <div class="alert alert-danger">
     <ul>
       <% artefact.errors.full_messages.each do |message| %>
       <li><%= message %></li>
@@ -9,14 +9,14 @@
 <% end %>
 
 <% if artefact.archived? %>
-  <div class="alert alert-error">
-    <h2>Stop! You can't edit this artefact because it has been archived.</h2>
+  <div class="alert alert-danger">
+    <h2>Stop! You can’t edit this artefact because it has been archived.</h2>
   </div>
 <% else %>
   <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => 'artefact', :id => 'edit_artefact'}) do |f| %>
 
-    <div class="row-fluid">
-      <div class="span8">
+    <div class="row">
+      <div class="col-md-8">
         <% if f.object.new_record? || f.object.state == "draft" %>
           <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
@@ -25,7 +25,7 @@
         <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
       </div>
 
-      <div class="span4">
+      <div class="col-md-4">
         <% if f.object.persisted? && f.object.owning_app.present? %>
           <%= render partial: "artefacts/form/owning_app", locals: { f: f } %>
         <% end %>
@@ -39,14 +39,14 @@
 
     <div class="form-actions">
       <%= f.submit :value => "Save and continue editing", :class => "btn btn-primary" %>
-      <%= f.submit :value => "Save and go to item", :class => "btn" %>
+      <%= f.submit :value => "Save and go to item", :class => "add-left-margin btn btn-default" %>
     </div>
   <% end %>
 <% end %>
 
 <%= content_for :extra_javascript do %>
   <script type="text/javascript">
-    $(".chzn-select").chosen();
+    $(".chosen-select").chosen();
 
     $('.related-artefact-group').sortable();
 

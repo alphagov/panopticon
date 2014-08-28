@@ -14,8 +14,8 @@
     </div>
   <% end %>
 
-  <div class="row-fluid">
-    <div class="span10">
+  <div class="row">
+    <div class="col-md-10">
       <div class="well">
         <% if params[:type].present? %>
           <%= f.input :tag_type, as: :hidden %>
@@ -25,7 +25,7 @@
                              label: "Type",
                              collection: TagsController::TAG_TYPES.map {|type| [type.humanize, type] },
                              input_html: {
-                               class: "span3",
+                               class: "input-md-3",
                                disabled: params[:type].present?
                              }
                              %>
@@ -33,7 +33,7 @@
         <% if @tag.parent_id.present? %>
           <%= f.input :parent_id, label: "Parent",
                                   input_html: {
-                                    class: "span5",
+                                    class: "input-md-5",
                                     disabled: "disabled"
                                   } %>
           <%= f.input :parent_id, as: :hidden %>
@@ -42,22 +42,22 @@
                                label: "Slug",
                                required: true,
                                input_html: {
-                                 class: "span3"
+                                 class: "input-md-3"
                                } %>
         <% else %>
           <%= f.input :tag_id, label: "Slug",
                                required: true,
                                input_html: {
-                                 class: "span5"
+                                 class: "input-md-5"
                                } %>
         <% end %>
 
-        <%= f.input :title, input_html: { class: "span5" } %>
+        <%= f.input :title, input_html: { class: "input-md-5" } %>
 
         <%= f.input :description, as: :text,
                                   input_html: {
                                     rows: 4,
-                                    class: "span8"
+                                    class: "input-md-8"
                                   }
                                   %>
       </div>

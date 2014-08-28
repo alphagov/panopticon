@@ -76,13 +76,12 @@ form.artefact {
     font-size: 22px;
   }
 
-  > .row-fluid > div.span4 {
+  > .row > .col-md-4 {
     /*
       Bodge Bootstrap so that there isn't a massive
       gap between the two columns.
     */
-    width: 32.6239%;
-    margin-left: 1.4%;
+    padding-left: 0;
   }
 }
 
@@ -96,10 +95,8 @@ form.artefact {
 }
 
 label.section-label {
-  font-weight: bold;
   font-size: 16px;
   line-height: 24px;
-  margin-bottom: 8px;
 
   .hint {
     display: inline;
@@ -108,10 +105,6 @@ label.section-label {
     font-weight: normal;
     vertical-align: top;
   }
-}
-
-.nested-item-group, .curated-artefact-group {
-  margin: 15px 0;
 }
 
 .nested-item, .curated-artefact {
@@ -126,21 +119,25 @@ label.section-label {
     cursor: move;
   }
 
-  .icon-align-justify {
-    opacity: 0.3; /* makes the button look greyer */
-    vertical-align: middle;
-    margin: 0 5px 0 2px;
-  }
-
-  select {
-    @extend .span8;
+  .glyphicon-align-justify {
+    color: $gray-light;
+    margin: 8px 10px 0 2px;
+    float: left;
   }
 
   .remove-row {
     @extend .btn;
     @extend .btn-danger;
 
-    float: right;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  }
+
+  .remove-row-related {
+    top: auto;
+    bottom: 0;
+    right: 15px
   }
 }
 
@@ -175,7 +172,7 @@ label.section-label {
 
 .form-errors {
   @extend .alert;
-  @extend .alert-error;
+  @extend .alert-danger;
 
   ul {
     margin: 0 0 0 25px;

@@ -24,7 +24,7 @@ class ArtefactCreateTest < ActionDispatch::IntegrationTest
     end
 
     assert page.has_link?("/government/world/organisations/british-embassy-legoland")
-    assert page.has_no_css?(".alert.alert-error"), "No form errors were expected"
+    assert page.has_no_css?(".alert.alert-danger"), "No form errors were expected"
   end
 
   should "not allow the use of invalid slugs when creating a whitehall artefact" do
@@ -40,9 +40,9 @@ class ArtefactCreateTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal "/artefacts", current_path
-    
-    within(".alert.alert-error") do
-      assert page.has_content?("Slug must be usable in a URL") 
+
+    within(".alert-danger") do
+      assert page.has_content?("Slug must be usable in a URL")
     end
 
   end

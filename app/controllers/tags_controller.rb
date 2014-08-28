@@ -30,7 +30,7 @@ class TagsController < ApplicationController
     end
 
     if @tag.save
-      flash[:notice] = "Tag has been created"
+      flash[:success] = "Tag has been created"
       redirect_to tags_path
     else
       render action: :new
@@ -48,7 +48,7 @@ class TagsController < ApplicationController
     valid_tag_params = params[:tag].except(:parent_id, :tag_id)
 
     if @tag.update_attributes(valid_tag_params)
-      flash[:notice] = "Tag has been updated"
+      flash[:success] = "Tag has been updated"
       redirect_to tags_path
     else
       render action: :edit
@@ -58,7 +58,7 @@ class TagsController < ApplicationController
   def publish
     if @tag.draft?
       @tag.publish!
-      flash[:notice] = 'Tag has been published'
+      flash[:success] = 'Tag has been published'
     else
       flash[:error] = 'Tag is already live'
     end

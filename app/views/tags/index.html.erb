@@ -4,12 +4,12 @@
 
   <p class="actions">
     <%= link_to new_tag_path, class: 'btn btn-primary' do %>
-      <i class="icon-plus icon-white"></i> Add new tag
+      <i class="glyphicon glyphicon-plus"></i> Add new tag
     <% end %>
   </p>
 </header>
 
-<ul class="tags-list">
+<ul class="tags-list list-unstyled">
   <% @parents.each do |parent, children| %>
     <li class="parent-tag">
       <div class="details">
@@ -21,25 +21,25 @@
           <% end %>
         </h2>
         <div class="actions">
-          <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn' do %>
-            <i class="icon-plus"></i> Add child tag
+          <%= link_to new_tag_path(type: parent.tag_type, parent_id: parent.tag_id), class: 'btn btn-default' do %>
+            <i class="glyphicon glyphicon-plus"></i> Add child tag
           <% end %>
-          <%= link_to "Edit tag", edit_tag_path(parent), class: 'btn' %>
+          <%= link_to "Edit tag", edit_tag_path(parent), class: 'btn btn-default' %>
         </div>
       </div>
 
-      <ul class="children">
+      <ul class="children list-unstyled">
         <% children.each do |tag| %>
           <li class="child-tag">
             <h3>
               <%= link_to tag.title, edit_tag_path(tag) %>
-              <%= link_to tag.tag_id, public_tag_url(tag), class: 'tag-id' %>
+              <%= link_to tag.tag_id, public_tag_url(tag), class: 'tag-id text-muted' %>
               <% if tag.draft? %>
                 <span class="draft">draft</span>
               <% end %>
             </h3>
             <div class="actions">
-              <%= link_to 'Edit tag', edit_tag_path(tag), class: 'btn' %>
+              <%= link_to 'Edit tag', edit_tag_path(tag), class: 'btn btn-default' %>
             </div>
           </li>
         <% end %>

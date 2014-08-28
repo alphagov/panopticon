@@ -10,21 +10,20 @@
     </div>
 
     <div class="related-external-links fieldset-section">
-      <label class="section-label">Related external links</label>
+      <label class="section-label">Related external links</label><br />
 
       <%= f.fields_for :external_links do |link| %>
-        <div class="row-fluid nested-item">
-          <div class="span4">
-            <%= link.label :title, "Title" %>
-            <%= link.text_field :title, :class => "span12" %>
-          </div>
-          <div class="span5">
-            <%= link.label :url, "URL" %>
-            <%= link.text_field :url, :class => "span12" %>
-          </div>
-          <div class="span3">
-            <br>
-            <%= link.link_to_remove "Remove this URL", :class => "remove-row" %>
+        <div class="nested-item">
+          <div class="row relative">
+            <div class="col-md-4">
+              <%= link.label :title, "Title" %>
+              <%= link.text_field :title, class: 'form-control' %>
+            </div>
+            <div class="col-md-5">
+              <%= link.label :url, "URL" %>
+              <%= link.text_field :url, class: 'form-control' %>
+            </div>
+            <%= link.link_to_remove "Remove this URL", :class => "remove-row remove-row-related" %>
           </div>
         </div>
       <% end %>
