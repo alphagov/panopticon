@@ -9,8 +9,8 @@
 
 <% content_for :favicon do %>
   <% environment_style = GovukAdminTemplate.environment_style %>
-  <%= favicon_link_tag environment_style ?
-        "favicon-#{environment_style}.png" : "favicon.png" %>
+  <%= favicon_link_tag (environment_style ?
+        "favicon-#{environment_style}.png" : "favicon.png") %>
 <% end %>
 
 <% if user_signed_in? %>
