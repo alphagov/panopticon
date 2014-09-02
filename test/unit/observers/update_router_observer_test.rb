@@ -32,4 +32,11 @@ class UpdateRouterObserverTest < ActiveSupport::TestCase
     artefact = build(:archived_artefact)
     assert artefact.save
   end
+
+  should 'not delete an artefact owned by Whitehall from the router' do
+    RoutableArtefact.expects(:new).never
+
+    artefact = build(:archived_artefact, owning_app: 'whitehall')
+    assert artefact.save
+  end
 end
