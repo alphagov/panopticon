@@ -7,6 +7,12 @@
   <%= javascript_include_tag "application" %>
 <% end %>
 
+<% content_for :favicon do %>
+  <% environment_style = GovukAdminTemplate.environment_style %>
+  <%= favicon_link_tag (environment_style ?
+        "favicon-#{environment_style}.png" : "favicon.png") %>
+<% end %>
+
 <% if user_signed_in? %>
   <% content_for :navbar_items do %>
     <%= nav_link 'Artefacts', artefacts_path %>
