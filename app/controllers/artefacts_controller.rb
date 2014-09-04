@@ -2,6 +2,7 @@ class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
   before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:new, :create]
+  before_filter :find_or_build_artefact, :only => [:update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
 
@@ -65,13 +66,7 @@ class ArtefactsController < ApplicationController
   # NB: We are departing from usual rails conventions here. PUTing a resource
   # will create it if it doesn't exist, rather than the usual 404.
   def update
-    begin
-      @artefact = Artefact.from_param(params[:id])
-      status_to_use = 200
-    rescue Mongoid::Errors::DocumentNotFound
-      @artefact = Artefact.new(slug: params[:id])
-      status_to_use = 201
-    end
+    status_to_use = @artefact.new_record? ? 201 : 200
 
     parameters_to_use = extract_parameters(params)
 
@@ -196,6 +191,12 @@ class ArtefactsController < ApplicationController
 
     def find_artefact
       @artefact = Artefact.from_param(params[:id])
+    end
+
+    def find_or_build_artefact
+      find_artefact
+    rescue Mongoid::Errors::DocumentNotFound
+      @artefact = Artefact.new(slug: params[:id])
     end
 
     def build_artefact
