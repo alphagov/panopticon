@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'plek', '1.7.0'
+gem 'plek', '~> 1.8'
 
 gem 'nested_form', '0.3.2'
 
@@ -15,6 +15,8 @@ if ENV['API_DEV']
 else
   gem 'gds-api-adapters', "10.10.0"
 end
+
+gem 'govuk-client-url_arbiter', '0.0.2'
 
 gem 'rails', '3.2.18'
 gem 'unicorn', '4.3.1'

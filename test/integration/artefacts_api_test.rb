@@ -110,6 +110,52 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert artefact
       end
 
+      should "return an error if url-arbiter rejects the registration" do
+        url_arbiter_has_registration_for("/wibble", "a-different-backend")
+
+        artefact_data = {
+          'slug' => 'wibble',
+          'name' => 'Wibble',
+          'kind' => 'answer',
+          'description' => 'Wibble description',
+          'owning_app' => 'publisher',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+          'need_extended_font' => false
+        }
+
+        put "/artefacts/wibble.json", artefact_data
+
+        assert_equal 409, last_response.status
+        assert_equal "Path is already reserved by the a-different-backend application", last_response.body.strip
+
+        assert_nil Artefact.find_by_slug('wibble')
+      end
+
+      should "not blow up if not given an owning-app" do
+        # simulate the error that url-arbiter would return if it was called
+        url_arbiter_returns_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
+
+        artefact_data = {
+          'slug' => 'wibble',
+          'name' => 'Wibble',
+          'kind' => 'answer',
+          'description' => 'Wibble description',
+          'owning_app' => '',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+          'need_extended_font' => false
+        }
+
+        put "/artefacts/wibble.json", artefact_data
+
+        assert_equal 422, last_response.status
+        error_details = JSON.parse(last_response.body)
+        assert_equal({"errors" => ["Owning app can't be blank"]}, error_details)
+
+        assert_nil Artefact.find_by_slug('wibble')
+      end
+
       [
         'fr',
         'zh-hk',
@@ -185,6 +231,53 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal "Wibble", @artefact.name
       end
 
+      should "return an error if url-arbiter rejects the registration" do
+        url_arbiter_has_registration_for("/wibble", "a-different-backend")
+
+        artefact_data = {
+          'slug' => 'wibble',
+          'name' => 'Wibble 2 - the return',
+          'kind' => 'answer',
+          'description' => 'Wibble description',
+          'owning_app' => 'publisher',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+          'need_extended_font' => false
+        }
+
+        put "/artefacts/wibble.json", artefact_data
+
+        assert_equal 409, last_response.status
+        assert_equal "Path is already reserved by the a-different-backend application", last_response.body.strip
+
+        @artefact.reload
+        assert_equal "Wibble", @artefact.name
+      end
+
+      should "not blow up if not given an owning-app" do
+        # simulate the error that url-arbiter would return if it was called
+        url_arbiter_returns_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
+
+        artefact_data = {
+          'slug' => 'wibble',
+          'name' => 'Wibble 2 - the return',
+          'kind' => 'answer',
+          'description' => 'Wibble description',
+          'owning_app' => '',
+          'rendering_app' => 'frontend',
+          'state' => 'draft',
+          'need_extended_font' => false
+        }
+
+        put "/artefacts/wibble.json", artefact_data
+
+        assert_equal 422, last_response.status
+        error_details = JSON.parse(last_response.body)
+        assert_equal({"errors" => ["Owning app can't be blank"]}, error_details)
+
+        @artefact.reload
+        assert_equal "Wibble", @artefact.name
+      end
     end
   end
 end

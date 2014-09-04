@@ -3,6 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :find_or_build_artefact, :only => [:update]
+  before_filter :register_with_url_arbiter, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
 
@@ -70,7 +71,9 @@ class ArtefactsController < ApplicationController
 
     parameters_to_use = extract_parameters(params)
 
-    if attempting_to_change_owning_app?(parameters_to_use)
+    # url-arbiter supersedes this check.  This block can be removed once
+    # url-arbiter is no longer feature-flagged.
+    if !ENABLE_URL_ARBITER && attempting_to_change_owning_app?(parameters_to_use)
       render(
         text: "This artefact already belongs to the
                '#{@artefact.owning_app}' app",
@@ -257,6 +260,31 @@ class ArtefactsController < ApplicationController
         next if artefact_params[attribute].nil?
         artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
       end
+    end
+
+    def register_with_url_arbiter
+      return unless ENABLE_URL_ARBITER
+
+      parameters_to_use = extract_parameters(params)
+
+      # url-arbiter would reject this request, therefore rely on our model validation to make
+      # the error messaging better
+      return if parameters_to_use['owning_app'].blank?
+
+      Rails.application.url_arbiter_api.reserve_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
+    rescue GOVUK::Client::Errors::Conflict => e
+      message = ""
+      if e.response["errors"]
+        e.response["errors"].each do |field, errors|
+          errors.each do |error|
+            message << "#{field.humanize} #{error}\n"
+          end
+        end
+      else
+        message = e.response.raw_body
+      end
+
+      render text: message, status: 409
     end
 
 end

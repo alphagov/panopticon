@@ -18,6 +18,8 @@ require 'webmock/minitest'
 WebMock.disable_net_connect!(:allow_localhost => true)
 require 'govuk_content_models/test_helpers/factories'
 
+require 'govuk/client/test_helpers/url_arbiter'
+
 DatabaseCleaner.strategy = :truncation
 # initial clean
 DatabaseCleaner.clean
@@ -25,11 +27,14 @@ DatabaseCleaner.clean
 class ActiveSupport::TestCase
   include Rack::Test::Methods
   include FactoryGirl::Syntax::Methods
+  include GOVUK::Client::TestHelpers::URLArbiter
 
   def clean_db
     DatabaseCleaner.clean
   end
   set_callback :teardown, :before, :clean_db
+
+  set_callback :setup, :before, :stub_default_url_arbiter_responses
 
   def app
     Panopticon::Application
