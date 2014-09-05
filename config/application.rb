@@ -14,6 +14,8 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+require 'govuk/client/url_arbiter'
+
 module Panopticon
   mattr_accessor :need_api
 
@@ -61,5 +63,9 @@ module Panopticon
     # When saving a specialist sector tag we want to update the title of the
     # associated artefact
     config.mongoid.observers << :update_specialist_sector_tag_artefact_observer
+
+    def url_arbiter_api
+      @url_arbiter_api ||= GOVUK::Client::URLArbiter.new
+    end
   end
 end

@@ -6,6 +6,10 @@ Given /^I have stubbed search$/ do
   stub_search
 end
 
+Given /^I have stubbed url-arbiter$/ do
+  stub_url_arbiter
+end
+
 When /^I put a new smart answer's details into panopticon$/ do
   prepare_registration_environment
 

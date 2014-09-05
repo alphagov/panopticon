@@ -509,6 +509,8 @@ class ArtefactsControllerTest < ActionController::TestCase
           name: "Whatever",
           need_ids: ['100001']
         )
+        url_arbiter_has_registration_for("/whatever", "publisher")
+
         put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smart-answers'
         assert_equal 409, response.status
         assert response.body.include? "publisher"
