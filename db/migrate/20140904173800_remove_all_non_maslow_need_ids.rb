@@ -8,7 +8,7 @@ class RemoveAllNonMaslowNeedIds < Mongoid::Migration
       old_need_ids = artefact.need_ids
       new_need_ids = artefact.need_ids.select(&maslow_need)
       artefact.need_ids = new_need_ids
-      artefact.save!
+      artefact.save!(validate: false)
       puts "Updated need_ids for artefact #{artefact.id.to_s}: #{old_need_ids.inspect} => #{new_need_ids}"
     end
   end
