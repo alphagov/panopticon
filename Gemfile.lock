@@ -126,7 +126,7 @@ GEM
       json
     gherkin (2.11.1)
       json (>= 1.4.6)
-    govspeak (2.0.2)
+    govspeak (3.1.1)
       htmlentities (~> 4)
       kramdown (~> 1.4.1)
       nokogiri (~> 1.5.10)
@@ -139,12 +139,12 @@ GEM
       bootstrap-sass (= 3.2.0.0)
       jquery-rails (= 3.1.1)
       rails (>= 3.2.0)
-    govuk_content_models (18.0.0)
+    govuk_content_models (20.1.0)
       bson_ext
       differ
       gds-api-adapters (>= 10.9.0)
       gds-sso (>= 7.0.0, < 10.0.0)
-      govspeak (~> 2.0.0)
+      govspeak (~> 3.1.0)
       mongoid (~> 2.5)
       plek
       state_machine
@@ -166,7 +166,7 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     kgio (2.7.4)
-    kramdown (1.4.1)
+    kramdown (1.4.2)
     launchy (2.1.2)
       addressable (~> 2.3)
     libv8 (3.16.14.3)
@@ -358,7 +358,7 @@ DEPENDENCIES
   gelf
   govuk-client-url_arbiter (= 0.0.2)
   govuk_admin_template (= 1.1.2)
-  govuk_content_models (= 18.0.0)
+  govuk_content_models (= 20.1.0)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
   launchy
