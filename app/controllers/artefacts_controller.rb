@@ -231,7 +231,7 @@ class ArtefactsController < ApplicationController
           params[:artefact][:keywords] = params[:artefact][:keywords].split(",").map(&:strip)
         end
 
-        create_keywords(params)
+        create_keywords(params) if params[:artefact][:keywords]
         map_roles!(params)
       end
 
