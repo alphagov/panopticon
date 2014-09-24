@@ -56,3 +56,23 @@ Feature: Editing artefacts
       And a section exists
     When I add the section to the artefact
     Then rummager should be told to do a partial update
+
+  Scenario: Viewing artefact keywords
+    Given I have the "keywords" permission
+    And an artefact exists
+    And that artefact has the keyword "foo"
+    And that artefact has the keyword "bar"
+    And that artefact has the keyword "baz"
+    When I go to edit the artefact
+    Then I should see the keywords "foo, bar, baz"
+    And the "artefact_keywords" field should be editable
+
+  Scenario: Editing keywords without permission
+    Given I do not have the "keywords" permission
+    And an artefact exists
+    And that artefact has the keyword "foo"
+    And that artefact has the keyword "bar"
+    And that artefact has the keyword "baz"
+    When I go to edit the artefact
+    Then I should see the keywords "foo, bar, baz"
+    But the "artefact_keywords" field should be disabled

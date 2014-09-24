@@ -7,6 +7,7 @@ class ArtefactsController < ApplicationController
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
+  before_filter :get_keywords, :only => [:edit]
   before_filter :disable_unnecessary_features
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
@@ -107,7 +108,7 @@ class ArtefactsController < ApplicationController
   end
 
   private
-  
+
     def disable_unnecessary_features
       unless Rails.env.test?
         @disable_business_content = true
@@ -118,23 +119,27 @@ class ArtefactsController < ApplicationController
         @disable_description = true
       end
     end
-    
+
     def get_roles
       @roles = Tag.where(:tag_type => 'role')
       role = params[:role] || "odi"
       @artefact.roles = [role] if @artefact.roles.empty?
     end
-  
+
     def get_node_list
       @nodes = Artefact.where(:kind => "node").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
     end
-    
+
     def get_people_list
       @people = Artefact.where(:kind => "person", :state => "live").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
     end
 
     def get_organization_list
       @organizations = Artefact.where(:kind => "organization").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
+    end
+
+    def get_keywords
+      @keywords = @artefact.keywords.map { |k| k.title }.join(", ")
     end
 
     def admin_url_for_edition(artefact, options = {})
@@ -185,7 +190,7 @@ class ArtefactsController < ApplicationController
         tag.uniquely_named = title_counts[tag.title] < 2
       end
     end
-    
+
     def tags_by_kind
       @tags = {}
       Artefact.category_tags.each do |tag|
@@ -222,9 +227,14 @@ class ArtefactsController < ApplicationController
     def extract_parameters(params)
       # Map the actual tag ids for roles, as the ID is submitted
       unless params[:artefact].nil?
-        map_tags!(params)
+        if params[:artefact][:keywords].is_a?(String)
+          params[:artefact][:keywords] = params[:artefact][:keywords].split(",").map(&:strip)
+        end
+
+        create_keywords(params) if params[:artefact][:keywords]
+        map_roles!(params)
       end
-      
+
       fields_to_update = Artefact.fields.keys + ['sections', 'primary_section']
 
       # TODO: Remove this variance
@@ -251,11 +261,14 @@ class ArtefactsController < ApplicationController
       end
       parameters_to_use
     end
-    
-    def map_tags!(params)
+
+    def map_roles!(params)
       params[:artefact][:roles].map! { |r| Tag.find(r).tag_id rescue nil } unless params[:artefact][:roles].nil?
     end
-      
+
+    def create_keywords(params)
+      params[:artefact][:keywords].each { |k| Tag.find_or_create_by(tag_id: k.parameterize, title: k, tag_type: "keyword") }
+    end
 
     def build_actions
       # Construct a list of actions, with embedded diffs

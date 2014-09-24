@@ -98,6 +98,13 @@
         <button id="add-section" class="btn btn-success" type="button">Add another section</button>
       <% end %>
 
+      <div class='control-group'>
+        <%= f.label "keywords", class: 'control-label' %>
+        <div class='controls'>
+          <%= f.text_field :keywords, :input_html => {:class => "span2"}, :value => @keywords, :disabled => !current_user.permissions.include?("keywords") %>
+        </div>
+      </div>
+
       <hr>
 
       <%= f.inputs "Module image" do %>
