@@ -21,14 +21,22 @@ Feature: Creating artefacts
     Given an artefact exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher
-  
+
   Scenario Outline: Trying to create an artefact that has tags without specifying a tag
     Given I try to create a <kind> without specifying a tag
     Then I should see an error relating to <kind>
-    
+
     Examples:
       | kind         |
       | Person       |
       | Article      |
       | Organization |
       | Timed item   |
+
+  Scenario: Creating keywords
+    Given I follow the link link to create an item
+    And I specify the keywords "foo, bar, baz"
+    Then I should be redirected to Publisher
+    And the artefact should have the keyword "foo"
+    And the artefact should have the keyword "bar"
+    And the artefact should have the keyword "baz"

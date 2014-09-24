@@ -166,6 +166,20 @@ Given /^I try to create a (.*) without specifying a tag$/ do |kind|
   submit_artefact_form
 end
 
+Given /^I specify the keywords "(.*?)"$/ do |keywords|
+  visit new_artefact_path
+  fill_in "Name", with: "My cool thing"
+  fill_in "Slug", with: "my-cool-thing"
+  fill_in "Keywords", with: keywords
+  select "Course", from: "Kind"
+  submit_artefact_form
+end
+
+Then /^the artefact should have the keyword "(.*?)"$/ do |keyword|
+  artefact = Artefact.last
+  assert artefact.keywords.any? { |t| t.tag_id == keyword }
+end
+
 Then /^I should see an error relating to (.*)$/ do |kind|
   assert page.has_content? "#{kind} tag must be specified"
 end
