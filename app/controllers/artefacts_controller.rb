@@ -7,6 +7,7 @@ class ArtefactsController < ApplicationController
   before_filter :get_node_list, :only => [:new, :edit]
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
+  before_filter :get_keywords, :only => [:edit]
   before_filter :disable_unnecessary_features
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
@@ -135,6 +136,10 @@ class ArtefactsController < ApplicationController
 
     def get_organization_list
       @organizations = Artefact.where(:kind => "organization").order_by(:name.asc).to_a.map {|p| [p.name, p.slug]}
+    end
+
+    def get_keywords
+      @keywords = @artefact.keywords.map { |k| k.title }.join(", ")
     end
 
     def admin_url_for_edition(artefact, options = {})

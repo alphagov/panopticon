@@ -56,3 +56,11 @@ Feature: Editing artefacts
       And a section exists
     When I add the section to the artefact
     Then rummager should be told to do a partial update
+
+  Scenario: Viewing artefact keywords
+    Given an artefact exists
+    And that artefact has the keyword "foo"
+    And that artefact has the keyword "bar"
+    And that artefact has the keyword "baz"
+    When I go to edit the artefact
+    Then I should see the keywords "foo, bar, baz"

@@ -94,6 +94,12 @@ Given /^an artefact exists$/ do
   @artefact = create_artefact
 end
 
+Given /^that artefact has the keyword "(.*?)"$/ do |keyword|
+  tag = Tag.find_or_create_by(tag_id: keyword.parameterize, title: keyword, tag_type: "keyword")
+  @artefact.tags << tag
+  @artefact.save
+end
+
 Given /^that artefact has the role "(.*?)"$/ do |role|
   @index = role
   @artefact.roles = [role]
@@ -182,4 +188,12 @@ end
 
 Then /^I should see an error relating to (.*)$/ do |kind|
   assert page.has_content? "#{kind} tag must be specified"
+end
+
+When /^I go to edit the artefact$/ do
+  visit edit_artefact_path(@artefact)
+end
+
+Then /^I should see the keywords "(.*?)"$/ do |keywords|
+  assert_equal keywords, page.find("#artefact_keywords").value
 end
