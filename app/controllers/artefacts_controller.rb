@@ -71,17 +71,6 @@ class ArtefactsController < ApplicationController
 
     parameters_to_use = extract_parameters(params)
 
-    # url-arbiter supersedes this check.  This block can be removed once
-    # url-arbiter is no longer feature-flagged.
-    if !ENABLE_URL_ARBITER && attempting_to_change_owning_app?(parameters_to_use)
-      render(
-        text: "This artefact already belongs to the
-               '#{@artefact.owning_app}' app",
-        status: 409
-      )
-      return
-    end
-
     saved = @artefact.update_attributes_as(current_user, parameters_to_use)
 
     if saved
@@ -179,12 +168,6 @@ class ArtefactsController < ApplicationController
       end
     end
 
-    def attempting_to_change_owning_app?(parameters_to_use)
-      @artefact.persisted? &&
-        parameters_to_use.include?('owning_app') &&
-        parameters_to_use['owning_app'] != @artefact.owning_app
-    end
-
     def redirect_to_show_if_need_met
       if params[:artefact] && params[:artefact][:need_id]
         artefact = Artefact.any_in(need_ids: [params[:artefact][:need_id]]).first
@@ -263,8 +246,6 @@ class ArtefactsController < ApplicationController
     end
 
     def register_with_url_arbiter
-      return unless ENABLE_URL_ARBITER
-
       parameters_to_use = extract_parameters(params)
 
       # url-arbiter would reject this request, therefore rely on our model validation to make
