@@ -216,6 +216,25 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       assert_equal ["charities/starting-a-charity"], @artefact.specialist_sector_ids
     end
 
+    should 'not display specialist sector tags for whitehall artefacts' do
+      artefact = create(:artefact, name: 'Policy',
+                                   kind: 'publication',
+                                   slug: 'government/publications/foo',
+                                   owning_app: 'whitehall',
+                                   specialist_sector_ids: ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"])
+
+      visit '/artefacts'
+      click_on 'Policy'
+
+      assert page.has_no_selector?('select#artefact_specialist_sector_ids')
+
+      click_on 'Save and continue editing'
+
+      # check to make sure that specialist sectors are not removed when saved
+      artefact.reload
+      assert_equal ["oil-and-gas/fields-and-wells", "charities/starting-a-charity"], artefact.specialist_sector_ids
+    end
+
     context 'draft specialist sectors' do
       setup do
         create(:draft_tag, tag_type: 'specialist_sector', tag_id: 'schools-colleges', title: 'Schools and colleges')

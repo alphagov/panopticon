@@ -57,4 +57,18 @@ class ArtefactTest < ActiveSupport::TestCase
     end
   end
 
+  context '#allow_specialist_sector_tag_changes?' do
+    should 'be true for a non-whitehall artefact' do
+      artefact = FactoryGirl.build(:artefact, owning_app: 'publisher')
+
+      assert artefact.allow_specialist_sector_tag_changes?
+    end
+
+    should 'be false for a whitehall artefact' do
+      artefact = FactoryGirl.build(:whitehall_draft_artefact)
+
+      assert_equal false, artefact.allow_specialist_sector_tag_changes?
+    end
+  end
+
 end

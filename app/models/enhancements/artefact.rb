@@ -29,4 +29,8 @@ class Artefact
     (owning_app == "whitehall" ? "[Whitehall] " : "[Mainstream] ") + name
   end
 
+  def allow_specialist_sector_tag_changes?
+    owning_app != 'whitehall'
+  end
+
 end
