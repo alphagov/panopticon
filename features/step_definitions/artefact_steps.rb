@@ -183,7 +183,7 @@ end
 
 Then /^the artefact should have the keyword "(.*?)"$/ do |keyword|
   artefact = Artefact.last
-  assert artefact.keywords.any? { |t| t.tag_id == keyword }
+  assert artefact.keywords.any? { |t| t.tag_id == keyword.parameterize }
 end
 
 Then /^I should see an error relating to (.*)$/ do |kind|

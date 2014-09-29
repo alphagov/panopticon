@@ -268,6 +268,7 @@ class ArtefactsController < ApplicationController
 
     def create_keywords(params)
       params[:artefact][:keywords].each { |k| Tag.find_or_create_by(tag_id: k.parameterize, title: k, tag_type: "keyword") }
+      params[:artefact][:keywords].map! { |k| k.parameterize }
     end
 
     def build_actions
