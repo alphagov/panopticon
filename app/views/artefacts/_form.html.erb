@@ -101,7 +101,7 @@
       <div class='control-group'>
         <%= f.label "keywords", class: 'control-label' %>
         <div class='controls'>
-          <%= f.text_field :keywords, :input_html => {:class => "span2"}, :value => @keywords, :disabled => !current_user.permissions.include?("keywords") %>
+          <%= f.text_field :keywords, :input_html => {:class => "span2"}, :value => @keywords, :disabled => !current_user.permissions.include?("keywords"), :class => 'tm-input' %>
         </div>
       </div>
 
@@ -211,5 +211,7 @@
     if ($('.artefact-section').size() == 1) {
       $('.remove-section').hide();
     }
+    
+    $(".tm-input").tagsManager();
   </script>
 <% end %>
