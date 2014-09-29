@@ -63,8 +63,9 @@ Feature: Editing artefacts
     And that artefact has the keyword "foo"
     And that artefact has the keyword "bar"
     And that artefact has the keyword "baz"
+    And that artefact has the keyword "binky boo"
     When I go to edit the artefact
-    Then I should see the keywords "foo, bar, baz"
+    Then I should see the keywords "foo, bar, baz, binky boo"
     And the "artefact_keywords" field should be editable
 
   Scenario: Editing keywords without permission
@@ -73,6 +74,7 @@ Feature: Editing artefacts
     And that artefact has the keyword "foo"
     And that artefact has the keyword "bar"
     And that artefact has the keyword "baz"
+    And that artefact has the keyword "binky boo"
     When I go to edit the artefact
-    Then I should see the keywords "foo, bar, baz"
+    Then I should see the keywords "foo, bar, baz, binky boo"
     But the "artefact_keywords" field should be disabled
