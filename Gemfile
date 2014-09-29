@@ -11,7 +11,7 @@ gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch:
 gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
 gem 'nested_form', '0.3.2'
-
+gem 'tagmanager-rails'
 
 gem 'ansi'
 gem 'gelf'
