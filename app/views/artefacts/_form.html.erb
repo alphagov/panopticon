@@ -104,6 +104,7 @@
           <%= text_field_tag :keywords, "", {
             :class => "span2 keyword-tags", 
             :disabled => !current_user.permissions.include?("keywords"),
+            :autocomplete => "off"
           } %>
         </div>
       </div>
@@ -219,5 +220,15 @@
       prefilled: '<%= @keywords %>',
       hiddenTagListName: 'artefact[keywords]'
     });
+
+    $(".keyword-tags").typeahead({
+      hint: true,
+      highlight: true,
+      limit: 15,
+      source: [<%= @available_keywords.map{|x| "\"#{x}\""}.join(',').html_safe %>]
+    }).on('typeahead:selected', function (e, d) {
+      tagApi.tagsManager("pushTag", d.value);
+    });
+    
   </script>
 <% end %>

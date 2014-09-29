@@ -140,6 +140,7 @@ class ArtefactsController < ApplicationController
 
     def get_keywords
       @keywords = @artefact.keywords.map { |k| k.title }.join(", ")
+      @available_keywords = Tag.where(tag_type: "keyword").map { |k| k.title }
     end
 
     def admin_url_for_edition(artefact, options = {})
