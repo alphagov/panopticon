@@ -1,7 +1,5 @@
-# This file is overwritten on deploy
-#
-Airbrake.configure do |config|
-  # Adding "production" to the development environments causes Airbrake not
-  # to attempt to send notifications.
-  config.development_environments << "production"
+if ENV['QUIRKAFLEEG_AIRBRAKE_KEY']
+  Airbrake.configure do |config|
+    config.api_key = ENV['QUIRKAFLEEG_AIRBRAKE_KEY']
+  end
 end
