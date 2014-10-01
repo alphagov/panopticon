@@ -6,6 +6,8 @@ class TagsController < ApplicationController
   before_filter :find_tag, only: [:edit, :update, :publish]
   helper_method :artefacts_in_section
 
+  rescue_from Tag::TagNotFound, with: :record_not_found
+
   def index
     @parents = tags_grouped_by_parents
   end
@@ -91,7 +93,7 @@ private
   end
 
   def find_tag
-    @tag = Tag.find(params[:id])
+    @tag = Tag.find_by_param(params[:id])
 
     find_or_initialize_curated_list if tag_can_have_curated_list?(@tag)
   end
