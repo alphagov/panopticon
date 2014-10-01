@@ -23,17 +23,25 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = form_object.new(params[:tag])
+    @tag = form_object.new(tag_parameters)
 
     if @tag.parent_id.present?
       @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
     end
 
-    if @tag.save
-      flash[:success] = "Tag has been created"
-      redirect_to tags_path
-    else
-      render action: :new
+    respond_to do |format|
+      if @tag.save
+        format.html {
+          flash[:success] = "Tag has been created"
+          redirect_to tags_path
+        }
+        format.json { render json: @tag, status: :created }
+      else
+        format.html { render action: :new }
+        format.json {
+          render json: { errors: @tag.errors }, status: :unprocessable_entity
+        }
+      end
     end
   end
 
@@ -68,6 +76,18 @@ class TagsController < ApplicationController
 private
   def require_tags_permission
     authorise_user!("manage_tags")
+  end
+
+  def tag_parameters
+    # Support tag parameters being provided at either the root or through the
+    # 'tag' hash.
+    #
+    # Ideally this should be supported through Rails' wrap_parameters
+    # functionality but it does not seem to work as per the documentation
+    # in this circumstance (could be a Mongoid 2.x incompatibility).
+    #
+    params[:tag] ||
+      params.slice(:tag_id, :tag_type, :title, :parent_id, :description)
   end
 
   def find_tag
