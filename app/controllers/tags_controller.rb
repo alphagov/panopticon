@@ -55,13 +55,33 @@ class TagsController < ApplicationController
       update_curated_list
     end
 
-    valid_tag_params = params[:tag].except(:parent_id, :tag_id)
+    if tag_parameters.has_key?('tag_id') && tag_parameters['tag_id'] != @tag.tag_id
+      render json: { errors: { tag_id: ["can't be changed"] } },
+             status: :unprocessable_entity
+      return
+    end
 
-    if @tag.update_attributes(valid_tag_params)
-      flash[:success] = "Tag has been updated"
-      redirect_to tags_path
-    else
-      render action: :edit
+    if tag_parameters.has_key?('parent_id') && tag_parameters['parent_id'] != @tag.parent_id
+      render json: { errors: { parent_id: ["can't be changed"] } },
+             status: :unprocessable_entity
+      return
+    end
+
+    valid_tag_params = tag_parameters.except(:parent_id, :tag_id)
+
+    respond_to do |format|
+      if @tag.update_attributes(valid_tag_params)
+        format.html {
+          flash[:success] = "Tag has been updated"
+          redirect_to tags_path
+        }
+        format.json { head :ok }
+      else
+        format.html { render action: :edit }
+        format.json {
+          render json: { errors: @tag.errors }, status: :unprocessable_entity
+        }
+      end
     end
   end
 

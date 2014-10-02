@@ -181,16 +181,28 @@ class TagsControllerTest < ActionController::TestCase
       put :update, id: @tag.id, tag: @stub_atts
     end
 
-    should "discard the tag_id parameter" do
-      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
-
+    should "return an error if the tag_id parameter is present but differs from the existing value" do
       put :update, id: @tag.id, tag: @stub_atts.merge('tag_id' => 'something-else')
+
+      assert_equal 422, response.status
     end
 
-    should "discard the parent_id parameter" do
+    should "return an error if the parent_id parameter is present but differs from the existing value" do
+      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => 'something-else')
+
+      assert_equal 422, response.status
+    end
+
+    should "discard the tag_id parameter if present and matching the existing value" do
       Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
 
-      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => 'something-else')
+      put :update, id: @tag.id, tag: @stub_atts.merge('tag_id' => @tag.tag_id)
+    end
+
+    should "discard the parent_id parameter if present and matching the existing value" do
+      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => @tag.parent_id)
     end
 
     should "return a not found error if a tag doesn't exist" do

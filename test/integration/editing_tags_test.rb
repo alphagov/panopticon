@@ -134,4 +134,52 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
     end
   end
 
+  context 'format JSON' do
+    setup do
+      @tag = create(:tag, tag_type: 'section', tag_id: 'tea', title: 'Tea')
+    end
+
+    should 'update an existing tag given valid parameters' do
+      put tag_path(@tag), { title: 'Coffee', format: 'json' }
+
+      assert_equal 200, response.status
+
+      @tag.reload
+      assert_equal 'Coffee', @tag.title
+    end
+
+    should 'return validation errors given invalid parameters' do
+      put tag_path(@tag), { title: '', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match /can't be blank/, body['errors']['title'].first
+
+      @tag.reload
+      assert_equal 'Tea', @tag.title
+    end
+
+    should 'return error when a change is requested to the tag_id' do
+      put tag_path(@tag), { tag_id: 'foo', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match "can't be changed", body['errors']['tag_id'].first
+    end
+
+    should 'return error when a change is requested to the parent_id' do
+      put tag_path(@tag), { parent_id: 'foo', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match "can't be changed", body['errors']['parent_id'].first
+    end
+
+    should 'return an error when the tag does not exist' do
+      put tag_path('section/foo/bar'), { title: 'test', format: 'json' }
+
+      assert_equal 404, response.status
+    end
+  end
+
 end
