@@ -33,23 +33,23 @@ Feature: Creating artefacts
       | Organization |
       | Timed item   |
 
+  @javascript
   Scenario: Creating keywords with permission
     Given I have the "keywords" permission
     And I follow the link link to create an item
-    Then the "artefact_keywords" field should be editable
+    Then the "keywords" field should be editable
     When I specify the keywords "foo, bar, baz"
-    Then I should be redirected to Publisher
-    And the artefact should have the keyword "foo"
+    Then the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
     And the artefact should have the keyword "baz"
 
+  @javascript
   Scenario: Creating keywords with a phrase
     Given I have the "keywords" permission
     And I follow the link link to create an item
-    Then the "artefact_keywords" field should be editable
+    Then the "keywords" field should be editable
     When I specify the keywords "foo, bar, baz, binky boo"
-    Then I should be redirected to Publisher
-    And the artefact should have the keyword "foo"
+    Then the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
     And the artefact should have the keyword "baz"
     And the artefact should have the keyword "binky boo"
@@ -57,4 +57,4 @@ Feature: Creating artefacts
   Scenario: Creating keywords without permission
     Given I do not have the "keywords" permission
     And I follow the link link to create an item
-    Then the "artefact_keywords" field should be disabled
+    Then the "keywords" field should be disabled

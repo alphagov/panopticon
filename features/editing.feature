@@ -14,13 +14,6 @@ Feature: Editing artefacts
     Then I should see the edit form again
       And I should see an indication that the save worked
 
-  Scenario: Editing an artefact and returning to edit some more
-    Given two artefacts exist
-    When I change the title of the first artefact
-      And I save, indicating that I want to continue editing afterwards
-    Then I should be redirected back to the edit page
-      And I should see an indication that the save worked
-
   Scenario: Trying to create an artefact for a need that is already met
     Given an artefact exists
     When I try to create a new artefact with the same need
@@ -42,13 +35,6 @@ Feature: Editing artefacts
       And the API should say that the artefact has the first section
       And the API should say that the artefact does not have the second section
 
-  Scenario: Editing an item that's draft
-    Given two artefacts exist
-      And the first artefact is in draft
-    When I change the title of the first artefact
-      And I save
-    Then rummager should not be notified
-
   Scenario: Editing a live item
     Given an artefact exists
       And that artefact has the role "dapaas"
@@ -57,6 +43,7 @@ Feature: Editing artefacts
     When I add the section to the artefact
     Then rummager should be told to do a partial update
 
+  @javascript
   Scenario: Viewing artefact keywords
     Given I have the "keywords" permission
     And an artefact exists
@@ -65,9 +52,10 @@ Feature: Editing artefacts
     And that artefact has the keyword "baz"
     And that artefact has the keyword "binky boo"
     When I go to edit the artefact
-    Then I should see the keywords "foo, bar, baz, binky boo"
-    And the "artefact_keywords" field should be editable
+    Then I should see the keywords "foo,bar,baz,binky boo"
+    And the "keywords" field should be editable
 
+  @javascript
   Scenario: Editing keywords without permission
     Given I do not have the "keywords" permission
     And an artefact exists
@@ -76,5 +64,5 @@ Feature: Editing artefacts
     And that artefact has the keyword "baz"
     And that artefact has the keyword "binky boo"
     When I go to edit the artefact
-    Then I should see the keywords "foo, bar, baz, binky boo"
-    But the "artefact_keywords" field should be disabled
+    Then I should see the keywords "foo,bar,baz,binky boo"
+    But the "keywords" field should be disabled

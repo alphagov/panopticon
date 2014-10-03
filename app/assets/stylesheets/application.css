@@ -11,6 +11,7 @@
  *= require_tree .
  *= require chosen
  *= require formtastic-bootstrap
+ *= require tagmanager
  */
 
 .related-artefact-group, .curated-artefact-group, .modules-group {

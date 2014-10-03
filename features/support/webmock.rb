@@ -3,7 +3,7 @@ require 'webmock/cucumber'
 
 include WebMock::API
 
-WebMock.disable_net_connect!
+WebMock.disable_net_connect!(:allow_localhost => true)
 
 Before do
   # Mock out all publisher URLs

@@ -15,4 +15,5 @@
 //= require jquery.ui.sortable
 //= require twitter/bootstrap
 //= require jquery_nested_form
+//= require tagmanager
 //= require_tree .

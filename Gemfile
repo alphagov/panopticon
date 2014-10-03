@@ -11,7 +11,7 @@ gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch:
 gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
 gem 'nested_form', '0.3.2'
-
+gem 'tagmanager-rails'
 
 gem 'ansi'
 gem 'gelf'
@@ -83,12 +83,12 @@ group :test do
   gem "shoulda", "~> 2.11.3"
   gem 'factory_girl', "3.3.0"
   gem 'factory_girl_rails'
-  gem 'capybara', '1.1.2'
-  gem 'capybara-mechanize', '~> 0.3.0.rc3'
+  gem 'capybara'
+  gem 'capybara-mechanize'
   gem 'launchy'
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
-  gem 'poltergeist', '0.7.0'
+  gem 'poltergeist', '~> 1.5'
   gem 'pry'
 end
 
