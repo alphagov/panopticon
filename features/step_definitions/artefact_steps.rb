@@ -176,8 +176,10 @@ Given /^I specify the keywords "(.*?)"$/ do |keywords|
   visit new_artefact_path
   fill_in "Name", with: "My cool thing"
   fill_in "Slug", with: "my-cool-thing"
-  fill_in "keywords", with: keywords
   select "Course", from: "Kind"
+
+  page.find("#keywords").native.send_keys(keywords)
+
   submit_artefact_form
 end
 
@@ -195,5 +197,5 @@ When /^I go to edit the artefact$/ do
 end
 
 Then /^I should see the keywords "(.*?)"$/ do |keywords|
-  assert_equal keywords, page.find('#keyword-controls').find('input[type=hidden]').value
+  assert_equal keywords, page.find('input[name="artefact[keywords]"]', visible: false).value
 end

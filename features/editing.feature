@@ -14,13 +14,6 @@ Feature: Editing artefacts
     Then I should see the edit form again
       And I should see an indication that the save worked
 
-  Scenario: Editing an artefact and returning to edit some more
-    Given two artefacts exist
-    When I change the title of the first artefact
-      And I save, indicating that I want to continue editing afterwards
-    Then I should be redirected back to the edit page
-      And I should see an indication that the save worked
-
   Scenario: Trying to create an artefact for a need that is already met
     Given an artefact exists
     When I try to create a new artefact with the same need
@@ -41,13 +34,6 @@ Feature: Editing artefacts
     Then I should be redirected to Publisher
       And the API should say that the artefact has the first section
       And the API should say that the artefact does not have the second section
-
-  Scenario: Editing an item that's draft
-    Given two artefacts exist
-      And the first artefact is in draft
-    When I change the title of the first artefact
-      And I save
-    Then rummager should not be notified
 
   Scenario: Editing a live item
     Given an artefact exists

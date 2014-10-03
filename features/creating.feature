@@ -43,7 +43,7 @@ Feature: Creating artefacts
     And the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
     And the artefact should have the keyword "baz"
-  
+
   @javascript
   Scenario: Creating keywords with a phrase
     Given I have the "keywords" permission
