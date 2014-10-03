@@ -230,5 +230,9 @@
       tagApi.tagsManager("pushTag", d.value);
     });
 
+    $("#keywords").on('focusout', function() {
+      $(this).trigger({ type : 'keypress', which : 44 })
+    })
+
   </script>
 <% end %>
