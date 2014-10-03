@@ -76,7 +76,7 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
           within "form" do
             assert page.has_select?("Format", selected: "All")
             assert page.has_select?("State", selected: "Live")
-            assert page.has_field?("Contains", with: nil)
+            assert page.has_field?("Contains")
           end
 
           assert page.has_button?("Update results")

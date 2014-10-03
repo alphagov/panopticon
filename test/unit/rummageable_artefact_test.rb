@@ -5,6 +5,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   setup do
     FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime", title: "Crime")
     FactoryGirl.create(:tag, tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime")
+    FactoryGirl.create :odi_role
+    FactoryGirl.create :dapaas_role
   end
 
   test "should extract artefact attributes" do
