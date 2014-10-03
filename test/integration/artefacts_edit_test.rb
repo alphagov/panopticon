@@ -288,7 +288,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts"
       click_on "Alpha"
       click_on "Add related external link"
-      within ".related-external-links div:first-child" do
+      within ".related-external-links div:first-child", match: :first do
         fill_in "Title", :with => "BBC"
         fill_in "URL", :with => "http://bbc.co.uk"
       end
