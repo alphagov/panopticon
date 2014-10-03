@@ -22,13 +22,13 @@ DatabaseCleaner.strategy = :truncation
 # initial clean
 DatabaseCleaner.clean
 
+def load_tags
+  load(Rails.root.join("db", "seeds.rb"))
+end
+
 class ActiveSupport::TestCase
   include Rack::Test::Methods
   
-  def setup
-    load(Rails.root.join("db", "seeds.rb"))
-  end
-
   include FactoryGirl::Syntax::Methods
 
   def clean_db

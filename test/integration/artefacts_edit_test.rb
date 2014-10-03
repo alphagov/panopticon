@@ -6,6 +6,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   setup do
     create_test_user
+    FactoryGirl.create :odi_role
+    FactoryGirl.create :dapaas_role
   end
 
   def stub_basic_need_api_response(need_id = "100123")
