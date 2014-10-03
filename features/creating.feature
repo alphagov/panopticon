@@ -33,6 +33,7 @@ Feature: Creating artefacts
       | Organization |
       | Timed item   |
 
+  @javascript
   Scenario: Creating keywords with permission
     Given I have the "keywords" permission
     And I follow the link link to create an item
@@ -42,7 +43,8 @@ Feature: Creating artefacts
     And the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
     And the artefact should have the keyword "baz"
-
+  
+  @javascript
   Scenario: Creating keywords with a phrase
     Given I have the "keywords" permission
     And I follow the link link to create an item

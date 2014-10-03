@@ -176,7 +176,7 @@ Given /^I specify the keywords "(.*?)"$/ do |keywords|
   visit new_artefact_path
   fill_in "Name", with: "My cool thing"
   fill_in "Slug", with: "my-cool-thing"
-  fill_in "Keywords", with: keywords
+  fill_in "keywords", with: keywords
   select "Course", from: "Kind"
   submit_artefact_form
 end
