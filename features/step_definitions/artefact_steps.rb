@@ -197,5 +197,5 @@ When /^I go to edit the artefact$/ do
 end
 
 Then /^I should see the keywords "(.*?)"$/ do |keywords|
-  assert_equal keywords, page.find('#keyword-controls').find('input[type=hidden]').value
+  assert_equal keywords, page.find('input[name="artefact[keywords]"]', visible: false).value
 end
