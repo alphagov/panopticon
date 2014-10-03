@@ -86,13 +86,29 @@ class TagsController < ApplicationController
   end
 
   def publish
-    if @tag.draft?
-      @tag.publish!
-      flash[:success] = 'Tag has been published'
-    else
-      flash[:error] = 'Tag is already live'
+    respond_to do |format|
+      if @tag.draft?
+        @tag.publish!
+
+        format.html {
+          flash[:success] = 'Tag has been published'
+          redirect_to edit_tag_path(@tag)
+        }
+        format.json {
+          head :ok
+        }
+      else
+        format.html {
+          flash[:error] = 'Tag is already live'
+          redirect_to edit_tag_path(@tag)
+        }
+        format.json {
+          render json: { error: 'Tag is already published' },
+                 status: :unprocessable_entity
+        }
+      end
+
     end
-    redirect_to edit_tag_path(@tag)
   end
 
 private

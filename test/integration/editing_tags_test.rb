@@ -180,6 +180,22 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
 
       assert_equal 404, response.status
     end
+
+    should 'publish a draft tag' do
+      draft_tag = create(:draft_tag)
+      post publish_tag_path(draft_tag), format: 'json'
+
+      assert_equal 200, response.status
+    end
+
+    should 'return an error for requests to publish a live tag' do
+      live_tag = create(:live_tag)
+      post publish_tag_path(live_tag), format: 'json'
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match /already published/, body['error']
+    end
   end
 
 end
