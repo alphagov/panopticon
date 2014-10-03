@@ -357,7 +357,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake (= 3.1.15)
+  airbrake
   ansi
   aws-ses
   bson (= 1.7.1)
