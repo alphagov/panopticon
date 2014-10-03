@@ -225,14 +225,20 @@
       hint: true,
       highlight: true,
       limit: 15,
-      source: [<%= @available_keywords.map{|x| "\"#{x}\""}.join(',').html_safe rescue nil %>]
-    }).on('typeahead:selected', function (e, d) {
-      tagApi.tagsManager("pushTag", d.value);
+      source: [<%= @available_keywords.map{|x| "\"#{x}\""}.join(',').html_safe rescue nil %>],
+      updater: function(selection){
+        $("#keywords").val(selection);
+        addTag();
+      }
     });
 
-    $("#keywords").on('focusout', function() {
-      $(this).trigger({ type : 'keypress', which : 44 })
+    $("#edit_artefact").submit(function() {
+      addTag();
     })
+
+    function addTag() {
+      $("#keywords").trigger({ type : 'keypress', which : 44 })
+    }
 
   </script>
 <% end %>
