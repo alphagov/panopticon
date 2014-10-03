@@ -38,18 +38,18 @@ Feature: Creating artefacts
     Given I have the "keywords" permission
     And I follow the link link to create an item
     Then the "keywords" field should be editable
-    When I specify the keywords "foo, bar, baz"
+    When I specify the keywords "foo, bar, baz,"
     Then I should be redirected to Publisher
     And the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
     And the artefact should have the keyword "baz"
-  
+
   @javascript
   Scenario: Creating keywords with a phrase
     Given I have the "keywords" permission
     And I follow the link link to create an item
     Then the "keywords" field should be editable
-    When I specify the keywords "foo, bar, baz, binky boo"
+    When I specify the keywords "foo, bar, baz, binky boo,"
     Then I should be redirected to Publisher
     And the artefact should have the keyword "foo"
     And the artefact should have the keyword "bar"
