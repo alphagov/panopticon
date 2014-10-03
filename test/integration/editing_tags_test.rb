@@ -59,35 +59,6 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
 
       assert page.has_content? 'Tag has been updated'
     end
-
-    should 'show the curated list for a tag' do
-      child_tag = create(:tag, title: 'MOT',
-                               tag_id: 'driving/mot',
-                               tag_type: 'section',
-                               parent_id: 'driving')
-      artefacts = create_list(:live_artefact, 5, kind: 'answer',
-                                                 section_ids: [child_tag.tag_id])
-      curated_list = create(:curated_list, slug: child_tag.tag_id.gsub('/','-'),
-                                           tag_ids: [child_tag.tag_id],
-                                           artefact_ids: artefacts.map(&:id))
-
-      visit edit_tag_path(child_tag)
-
-      within ".curated-artefact-group" do
-        assert page.has_selector?('.curated-artefact', count: 5)
-
-        artefacts.each_with_index do |artefact, i|
-          selector = ".curated-artefact:nth-of-type(#{i+1})"
-
-          within(selector) do
-            assert page.has_select?('curated_list[artefact_ids][]', selected: artefact.name)
-            assert page.has_button?('Remove curated item')
-          end
-        end
-      end
-
-      assert page.has_button?('Add another artefact')
-    end
   end # given an existing live tag
 
   context 'editing a draft tag' do
@@ -131,6 +102,70 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
       click_on 'Publish this section'
 
       assert page.has_content? 'Tag has been published'
+    end
+  end
+
+  context 'format JSON' do
+    setup do
+      @tag = create(:tag, tag_type: 'section', tag_id: 'tea', title: 'Tea')
+    end
+
+    should 'update an existing tag given valid parameters' do
+      put tag_path(@tag), { title: 'Coffee', format: 'json' }
+
+      assert_equal 200, response.status
+
+      @tag.reload
+      assert_equal 'Coffee', @tag.title
+    end
+
+    should 'return validation errors given invalid parameters' do
+      put tag_path(@tag), { title: '', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match /can't be blank/, body['errors']['title'].first
+
+      @tag.reload
+      assert_equal 'Tea', @tag.title
+    end
+
+    should 'return error when a change is requested to the tag_id' do
+      put tag_path(@tag), { tag_id: 'foo', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match "can't be changed", body['errors']['tag_id'].first
+    end
+
+    should 'return error when a change is requested to the parent_id' do
+      put tag_path(@tag), { parent_id: 'foo', format: 'json' }
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match "can't be changed", body['errors']['parent_id'].first
+    end
+
+    should 'return an error when the tag does not exist' do
+      put tag_path('section/foo/bar'), { title: 'test', format: 'json' }
+
+      assert_equal 404, response.status
+    end
+
+    should 'publish a draft tag' do
+      draft_tag = create(:draft_tag)
+      post publish_tag_path(draft_tag), format: 'json'
+
+      assert_equal 200, response.status
+    end
+
+    should 'return an error for requests to publish a live tag' do
+      live_tag = create(:live_tag)
+      post publish_tag_path(live_tag), format: 'json'
+      body = JSON.parse(response.body)
+
+      assert_equal 422, response.status
+      assert_match /already published/, body['error']
     end
   end
 

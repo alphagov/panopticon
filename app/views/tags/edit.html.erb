@@ -38,10 +38,6 @@
                                   %>
       </div>
 
-      <% if @curated_list.present? %>
-        <%= render partial: 'curated_list', locals: { f: f } %>
-      <% end %>
-
       <% if @tag.live? %>
         <div class="take-care">
           Take care! This change will appear immediately to users.
@@ -60,7 +56,7 @@
       <div class="well">
         <p>Publishing this tag will make it appear live on the site to users. Once you publish a tag, it can't be unpublished.</p>
 
-        <%= button_to "Publish this #{@tag.tag_type.humanize.downcase}", publish_tag_path, method: :put, class: 'btn btn-danger' %>
+        <%= button_to "Publish this #{@tag.tag_type.humanize.downcase}", publish_tag_path, method: :post, class: 'btn btn-danger' %>
       </div>
     <% end %>
   </div>

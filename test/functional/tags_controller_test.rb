@@ -138,35 +138,6 @@ class TagsControllerTest < ActionController::TestCase
 
       assert response.not_found?
     end
-
-    should "assign a child section tag's curated list when it's present" do
-      child_tag = create(:tag, tag_type: 'section', parent_id: @tag.tag_id)
-      curated_list = create(:curated_list,
-                              slug: child_tag.tag_id.gsub('/','-'),
-                              tag_ids: [child_tag.tag_id])
-
-      get :edit, id: child_tag.id
-
-      assert_equal curated_list, assigns(:curated_list)
-    end
-
-    should "not assign a curated list when tag is a parent" do
-      parent_tag = create(:tag, tag_type: 'section', parent_id: nil)
-      CuratedList.expects(:where).never
-
-      get :edit, id: parent_tag.id
-
-      refute assigns(:curated_list)
-    end
-
-    should "not assign a curated list when tag is not a section" do
-      tag = create(:tag, tag_type: 'specialist_sector', parent_id: @tag.tag_id)
-      CuratedList.expects(:where).never
-
-      get :edit, id: tag.id
-
-      refute assigns(:curated_list)
-    end
   end
 
   context "PUT update" do
@@ -181,16 +152,28 @@ class TagsControllerTest < ActionController::TestCase
       put :update, id: @tag.id, tag: @stub_atts
     end
 
-    should "discard the tag_id parameter" do
-      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
-
+    should "return an error if the tag_id parameter is present but differs from the existing value" do
       put :update, id: @tag.id, tag: @stub_atts.merge('tag_id' => 'something-else')
+
+      assert_equal 422, response.status
     end
 
-    should "discard the parent_id parameter" do
+    should "return an error if the parent_id parameter is present but differs from the existing value" do
+      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => 'something-else')
+
+      assert_equal 422, response.status
+    end
+
+    should "discard the tag_id parameter if present and matching the existing value" do
       Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
 
-      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => 'something-else')
+      put :update, id: @tag.id, tag: @stub_atts.merge('tag_id' => @tag.tag_id)
+    end
+
+    should "discard the parent_id parameter if present and matching the existing value" do
+      Tag.any_instance.expects(:update_attributes).with(@stub_atts).returns(true)
+
+      put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => @tag.parent_id)
     end
 
     should "return a not found error if a tag doesn't exist" do
@@ -215,66 +198,6 @@ class TagsControllerTest < ActionController::TestCase
 
       assert response.ok?
       assert_template :edit
-    end
-
-    should "update the curated list for a child section tag" do
-      tag = create(:tag, tag_type: 'section', parent_id: 'foo')
-
-      stub_curated_list_atts = {
-        artefact_ids: ["foo"]
-      }
-
-      Tag.any_instance.stubs(:update_attributes).returns(true)
-      CuratedList.any_instance
-                    .expects(:update_attributes)
-                    .with(stub_curated_list_atts)
-                    .returns(true)
-
-      put :update, id: tag.id,
-                   tag: @stub_atts,
-                   curated_list: stub_curated_list_atts
-    end
-
-    should "remove empty artefact ids from curated list attributes" do
-      tag = create(:tag, tag_type: 'section', parent_id: 'foo')
-
-      Tag.any_instance.stubs(:update_attributes).returns(true)
-      CuratedList.any_instance
-                    .expects(:update_attributes)
-                    .with(artefact_ids: ["foo", "bar"])
-                    .returns(true)
-
-      put :update, id: tag.id,
-                   tag: @stub_atts,
-                   curated_list: {
-                     artefact_ids: ["foo", "bar", "", nil]
-                   }
-    end
-
-    should "not attempt to save a curated list for a parent tag" do
-      tag = create(:tag, tag_type: 'section', parent_id: nil)
-
-      Tag.any_instance.stubs(:update_attributes).returns(true)
-      CuratedList.any_instance.expects(:update_attributes).never
-
-      put :update, id: tag.id,
-                   tag: @stub_atts,
-                   curated_list: {
-                     artefact_ids: ["foo"]
-                   }
-    end
-
-    should "not attempt to save a curated list when the tag is not a section" do
-      tag = create(:tag, tag_type: 'specialist_sector', parent_id: nil)
-
-      Tag.any_instance.stubs(:update_attributes).returns(true)
-      CuratedList.any_instance.expects(:update_attributes).never
-
-      put :update, id: tag.id,
-                   tag: @stub_atts,
-                   curated_list: {
-                     artefact_ids: ["foo"]
-                   }
     end
   end
 
