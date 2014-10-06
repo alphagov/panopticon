@@ -130,20 +130,32 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
       assert_equal 'Tea', @tag.title
     end
 
-    should 'return error when a change is requested to the tag_id' do
-      put tag_path(@tag), { tag_id: 'foo', format: 'json' }
-      body = JSON.parse(response.body)
+    context 'fields which cannot be changed' do
 
-      assert_equal 422, response.status
-      assert_match "can't be changed", body['errors']['tag_id'].first
-    end
+      should 'return error when a change is requested to the tag_id' do
+        put tag_path(@tag), { tag_id: 'foo', format: 'json' }
+        body = JSON.parse(response.body)
 
-    should 'return error when a change is requested to the parent_id' do
-      put tag_path(@tag), { parent_id: 'foo', format: 'json' }
-      body = JSON.parse(response.body)
+        assert_equal 422, response.status
+        assert_match "can't be changed", body['errors']['tag_id'].first
+      end
 
-      assert_equal 422, response.status
-      assert_match "can't be changed", body['errors']['parent_id'].first
+      should 'return error when a change is requested to the parent_id' do
+        put tag_path(@tag), { parent_id: 'foo', format: 'json' }
+        body = JSON.parse(response.body)
+
+        assert_equal 422, response.status
+        assert_match "can't be changed", body['errors']['parent_id'].first
+      end
+
+      should 'return error when a change is requested to the tag_type' do
+        put tag_path(@tag), { tag_type: 'foo', format: 'json' }
+        body = JSON.parse(response.body)
+
+        assert_equal 422, response.status
+        assert_match "can't be changed", body['errors']['tag_type'].first
+      end
+
     end
 
     should 'return an error when the tag does not exist' do
