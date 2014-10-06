@@ -52,11 +52,7 @@ class TagsController < ApplicationController
   def update
     if disallowed_update_params.any?
       render status: :unprocessable_entity,
-             json: {
-               errors: Hash[disallowed_update_params.map {|key|
-                 [key, ["can't be changed"]]
-               }]
-             }
+             json: { errors: disallowed_update_params_errors }
       return
     end
 
@@ -122,12 +118,18 @@ private
   end
 
   def disallowed_update_param_keys
-    [:tag_id, :parent_id]
+    [:tag_id, :parent_id, :tag_type]
   end
 
   def disallowed_update_params
     disallowed_update_param_keys.select {|key|
-      tag_parameters.has_key?(key) && tag_parameters[key] != @tag.send(key)
+      tag_parameters.has_key?(key) && tag_parameters[key] != @tag.public_send(key)
+    }
+  end
+
+  def disallowed_update_params_errors
+    disallowed_update_params.inject({}) {|errors, (key,_)|
+      errors.merge(key => ["can't be changed"])
     }
   end
 
