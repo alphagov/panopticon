@@ -148,6 +148,14 @@ class EditingTagsTest < ActionDispatch::IntegrationTest
         assert_match "can't be changed", body['errors']['parent_id'].first
       end
 
+      should 'return error when a change is requested to the tag_type' do
+        put tag_path(@tag), { tag_type: 'foo', format: 'json' }
+        body = JSON.parse(response.body)
+
+        assert_equal 422, response.status
+        assert_match "can't be changed", body['errors']['tag_type'].first
+      end
+
     end
 
     should 'return an error when the tag does not exist' do

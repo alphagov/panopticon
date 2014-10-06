@@ -122,7 +122,7 @@ private
   end
 
   def disallowed_update_param_keys
-    [:tag_id, :parent_id]
+    [:tag_id, :parent_id, :tag_type]
   end
 
   def disallowed_update_params
