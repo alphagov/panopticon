@@ -50,19 +50,13 @@ class TagsController < ApplicationController
   end
 
   def update
-    if tag_parameters.has_key?('tag_id') && tag_parameters['tag_id'] != @tag.tag_id
-      render json: { errors: { tag_id: ["can't be changed"] } },
-             status: :unprocessable_entity
+    if disallowed_update_params.any?
+      render status: :unprocessable_entity,
+             json: { errors: disallowed_update_params_errors }
       return
     end
 
-    if tag_parameters.has_key?('parent_id') && tag_parameters['parent_id'] != @tag.parent_id
-      render json: { errors: { parent_id: ["can't be changed"] } },
-             status: :unprocessable_entity
-      return
-    end
-
-    valid_tag_params = tag_parameters.except(:parent_id, :tag_id)
+    valid_tag_params = tag_parameters.except(*disallowed_update_param_keys)
 
     respond_to do |format|
       if @tag.update_attributes(valid_tag_params)
@@ -121,6 +115,22 @@ private
     #
     params[:tag] ||
       params.slice(:tag_id, :tag_type, :title, :parent_id, :description)
+  end
+
+  def disallowed_update_param_keys
+    [:tag_id, :parent_id, :tag_type]
+  end
+
+  def disallowed_update_params
+    disallowed_update_param_keys.select {|key|
+      tag_parameters.has_key?(key) && tag_parameters[key] != @tag.public_send(key)
+    }
+  end
+
+  def disallowed_update_params_errors
+    disallowed_update_params.inject({}) {|errors, (key,_)|
+      errors.merge(key => ["can't be changed"])
+    }
   end
 
   def find_tag
