@@ -85,7 +85,7 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
 
       params = {
         format: 'json',
-        tag_id: 'car-tax', # parent tag is prepended on creation
+        tag_id: 'driving/car-tax',
         tag_type: 'section',
         title: 'Car tax',
         parent_id: 'driving',
