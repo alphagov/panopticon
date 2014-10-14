@@ -26,7 +26,7 @@ class TagsController < ApplicationController
   def create
     @tag = form_object.new(tag_parameters)
 
-    if @tag.parent_id.present?
+    if @tag.parent_id.present? && request.format.html?
       @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
     end
 

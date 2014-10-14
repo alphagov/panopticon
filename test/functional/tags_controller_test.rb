@@ -105,10 +105,21 @@ class TagsControllerTest < ActionController::TestCase
       assert_template :new
     end
 
-    should "prepend the parent to a tag id when a parent is present" do
+    should "prepend the parent to a tag id when a parent is present given a html request" do
       Tag.any_instance.expects(:save).returns(true)
 
-      post :create, tag: @stub_atts.merge('tag_id' => 'families',
+      post :create, format: :html,
+                    tag: @stub_atts.merge('tag_id' => 'families',
+                                          'parent_id' => 'benefits')
+
+      assert_equal 'benefits/families', assigns(:tag).tag_id
+    end
+
+    should 'not prepend the parent_id to the tag_id given a json request' do
+      Tag.any_instance.expects(:save).returns(true)
+
+      post :create, format: :json,
+                    tag: @stub_atts.merge('tag_id' => 'benefits/families',
                                           'parent_id' => 'benefits')
 
       assert_equal 'benefits/families', assigns(:tag).tag_id
