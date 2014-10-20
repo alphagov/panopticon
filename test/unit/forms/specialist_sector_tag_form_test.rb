@@ -30,20 +30,6 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
         assert subject.errors[:tag_id].include?('is already taken')
       end
     end
-
-    context 'with a two-part slug' do
-      setup do
-        FactoryGirl.create(:artefact, slug: 'oil-and-gas')
-      end
-
-      subject do
-        SpecialistSectorTagForm.new(
-          title: 'Fields and wells',
-          tag_type: 'specialist_sector',
-          tag_id: 'oil-and-gas/fields-and-wells',
-        )
-      end
-    end
   end
 
   context '#save' do
@@ -71,8 +57,44 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       assert_equal 'collections', artefact.rendering_app
       assert_equal 'Oil and gas', artefact.name
       assert_equal 'oil-and-gas', artefact.slug
-      assert_equal ['/oil-and-gas'], artefact.paths
       assert_equal 'live', artefact.state
+    end
+
+    should 'set paths for a parent tag' do
+      subject = SpecialistSectorTagForm.new(
+        title: 'Oil and gas',
+        tag_type: 'specialist_sector',
+        tag_id: 'oil-and-gas',
+      )
+      subject.state = 'live'
+
+      assert_difference 'Artefact.count', 1 do
+        subject.save
+      end
+
+      artefact = Artefact.last
+      assert_equal ['/oil-and-gas'], artefact.paths
+      assert_equal [], artefact.prefixes
+    end
+
+    should 'set prefixes for a child tag' do
+      parent_tag = FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
+
+      subject = SpecialistSectorTagForm.new(
+        title: 'Licensing',
+        tag_type: 'specialist_sector',
+        tag_id: 'oil-and-gas/licensing',
+        parent_id: parent_tag.tag_id
+      )
+      subject.state = 'live'
+
+      assert_difference 'Artefact.count', 1 do
+        subject.save
+      end
+
+      artefact = Artefact.last
+      assert_equal [], artefact.paths
+      assert_equal ['/oil-and-gas/licensing'], artefact.prefixes
     end
 
     should 'create a draft artefact for a draft tag' do
