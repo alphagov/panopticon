@@ -30,20 +30,6 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
         assert subject.errors[:tag_id].include?('is already taken')
       end
     end
-
-    context 'with a two-part slug' do
-      setup do
-        FactoryGirl.create(:artefact, slug: 'oil-and-gas')
-      end
-
-      subject do
-        SpecialistSectorTagForm.new(
-          title: 'Fields and wells',
-          tag_type: 'specialist_sector',
-          tag_id: 'oil-and-gas/fields-and-wells',
-        )
-      end
-    end
   end
 
   context '#save' do
