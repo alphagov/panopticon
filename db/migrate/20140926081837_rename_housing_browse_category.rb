@@ -69,7 +69,7 @@ class RenameHousingBrowseCategory < Mongoid::Migration
           t.gsub(from, to)
         end
         
-        if a.save!
+        if a.save
           puts "\t -> Rewritten section_ids to #{a.section_ids} for #{a.slug}"
         else
           puts "\t -> Couldn't update #{a.slug}"
