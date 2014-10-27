@@ -14,6 +14,10 @@ Given /^the first artefact is live$/ do
   end
 end
 
+Given /^a non-publisher artefact exists$/ do
+  @artefact = create_artefact("smart-answers")
+end
+
 Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end

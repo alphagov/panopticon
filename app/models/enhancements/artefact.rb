@@ -30,7 +30,11 @@ class Artefact
   end
 
   def allow_specialist_sector_tag_changes?
-    owning_app != 'whitehall'
+    owning_app != 'publisher' && owning_app != 'whitehall'
+  end
+
+  def allow_section_tag_changes?
+    owning_app != 'publisher'
   end
 
 end
