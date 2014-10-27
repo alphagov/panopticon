@@ -250,7 +250,7 @@ class ArtefactsController < ApplicationController
 
       # url-arbiter would reject this request, therefore rely on our model validation to make
       # the error messaging better
-      return if parameters_to_use['owning_app'].blank?
+      return if @artefact.slug.blank? || parameters_to_use['owning_app'].blank?
 
       Rails.application.url_arbiter_api.reserve_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
     rescue GOVUK::Client::Errors::Conflict => e

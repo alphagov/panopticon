@@ -196,6 +196,22 @@ class ArtefactsControllerTest < ActionController::TestCase
           Artefact.any_instance.stubs(:need)
           post :create, :artefact => { :slug => 'not/valid', :owning_app => 'smart-answers', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
         end
+
+        should "not blow up if not given a slug" do
+          # simulate the error that url-arbiter would return if it was called
+          url_arbiter_returns_validation_error_for("/", "path" => ["can't be blank"])
+
+          post :create, :artefact => {
+            :owning_app => 'smart-answers',
+            :slug => '',
+            :kind => 'smart-answer',
+            :name => 'Whatever',
+            :need_ids => '100001'
+          }
+
+          assert_template('new')
+          assert_equal ["can't be blank"], assigns[:artefact].errors[:slug]
+        end
       end
 
       should "redirect to GET edit" do
