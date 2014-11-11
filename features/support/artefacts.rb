@@ -1,7 +1,7 @@
 require 'govuk_content_models/test_helpers/factories'
 
-def create_artefact
-  FactoryGirl.create :artefact, :name => 'Child Benefit rates', :need_ids => ['100001']
+def create_artefact(owning_app="publisher")
+  FactoryGirl.create :artefact, :name => 'Child Benefit rates', :need_ids => ['100001'], owning_app: owning_app
 end
 
 def create_two_artefacts(owning_app="publisher")

@@ -1,21 +1,29 @@
 <div class="well">
   <%= f.inputs "Tags" do %>
-    <div class="section-tags fieldset-section">
-      <label for="artefact[sections][]" class="section-label">Sections</label>
+    <% if f.object.allow_section_tag_changes? %>
+      <div class="section-tags fieldset-section">
+        <label for="artefact[sections][]" class="section-label">Sections</label>
 
-      <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-      <div class="add-vertical-margins nested-item-group">
-        <% if f.object.section_ids.length > 0 %>
-          <% f.object.section_ids.each do | section_id | %>
-            <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+        <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
+        <div class="add-vertical-margins nested-item-group">
+          <% if f.object.section_ids.length > 0 %>
+            <% f.object.section_ids.each do | section_id | %>
+              <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+            <% end %>
+          <% else %>
+            <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
           <% end %>
-        <% else %>
-          <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
-        <% end %>
-      </div>
+        </div>
 
-      <button id="add-section" class="btn btn-success" type="button">Add another section</button>
-    </div>
+        <button id="add-section" class="btn btn-success" type="button">Add another section</button>
+      </div>
+    <% else %>
+      <p>
+        Sections and specialist sectors for Publisher content are now managed
+        in the Publisher app under the names "Mainstream browse pages" and
+        "Topics".
+      </p>
+    <% end %>
 
     <div class="legacy-source-tags fieldset-section">
       <label for="artefact_legacy_source_ids" class="section-label">Legacy sources</label>

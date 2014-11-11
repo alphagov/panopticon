@@ -28,20 +28,18 @@ Feature: Editing artefacts
     Then I should be redirected to Publisher
 
   Scenario: Add a section
-    Given an artefact exists
+    Given a non-publisher artefact exists
       And a section exists
     When I add the section to the artefact
-    Then I should be redirected to Publisher
-      And the API should say that the artefact has the section
+    Then the API should say that the artefact has the section
 
   Scenario: Remove a section
-    Given an artefact exists
+    Given a non-publisher artefact exists
       And two sections exist
       And the artefact has both sections
     When I remove the second section from the artefact
-    Then I should be redirected to Publisher
-      And the API should say that the artefact has the first section
-      And the API should say that the artefact does not have the second section
+    Then the API should say that the artefact has the first section
+    And the API should say that the artefact does not have the second section
 
   @javascript
   Scenario: Editing an item that's draft
@@ -52,7 +50,7 @@ Feature: Editing artefacts
     Then rummager should not be notified
 
   Scenario: Editing a live item
-    Given an artefact exists
+    Given a non-publisher artefact exists
       And the first artefact is live
       And a section exists
     When I add the section to the artefact

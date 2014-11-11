@@ -15,7 +15,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
-                                     owning_app: "publisher", language: "en", business_proposition: true,
+                                     owning_app: "smart-answers", language: "en", business_proposition: true,
                                      section_ids: ["business/employing-people"], legacy_source_ids: ["businesslink"])
     end
 
@@ -35,8 +35,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       end
 
       within ".owning-app" do
-        assert page.has_content? "This content is managed in Publisher"
-        assert page.has_link? "Edit in Publisher"
+        assert page.has_content? "This content is managed in Smart-answers"
       end
 
       within ".section-tags" do
@@ -64,6 +63,18 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts/#{@artefact.id}/edit"
 
       assert page.has_no_field? "Slug"
+    end
+
+    should "not show collections fields for Publisher content" do
+      publisher_artefact = FactoryGirl.create(:artefact, :draft, owning_app: "publisher")
+      visit "/artefacts/#{publisher_artefact.id}/edit"
+      assert page.has_no_select?("artefact[sections][]")
+      assert page.has_no_select?("artefact[specialist_sector_ids][]")
+
+      non_publisher_artefact = FactoryGirl.create(:artefact, :draft, :non_publisher)
+      visit "/artefacts/#{non_publisher_artefact.id}/edit"
+      assert page.has_select?("artefact[sections][]")
+      assert page.has_select?("artefact[specialist_sector_ids][]")
     end
 
     should "permit changes to the slug for a draft artefact" do
@@ -176,7 +187,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
-      @artefact = FactoryGirl.create(:artefact, :name => "VAT")
+      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => "VAT")
     end
 
     should "allow adding specialist sectors to artefacts" do
@@ -289,7 +300,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration', title: 'Visas and immigration')
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration/student-visas', title: 'Student visas', parent_id: 'visas-immigration')
 
-      @artefact = FactoryGirl.create(:artefact, :name => 'VAT')
+      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => 'VAT')
     end
 
     should 'allow adding sections to artefacts' do

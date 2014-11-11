@@ -58,8 +58,8 @@ class ArtefactTest < ActiveSupport::TestCase
   end
 
   context '#allow_specialist_sector_tag_changes?' do
-    should 'be true for a non-whitehall artefact' do
-      artefact = FactoryGirl.build(:artefact, owning_app: 'publisher')
+    should 'be true for a non-whitehall non-publisher artefact' do
+      artefact = FactoryGirl.build(:artefact, owning_app: 'smart-answers')
 
       assert artefact.allow_specialist_sector_tag_changes?
     end
@@ -68,6 +68,26 @@ class ArtefactTest < ActiveSupport::TestCase
       artefact = FactoryGirl.build(:whitehall_draft_artefact)
 
       assert_equal false, artefact.allow_specialist_sector_tag_changes?
+    end
+
+    should 'be false for a publisher artefact' do
+      artefact = FactoryGirl.build(:artefact, owning_app: 'publisher')
+
+      assert_equal false, artefact.allow_specialist_sector_tag_changes?
+    end
+  end
+
+  context '#allow_section_tag_changes?' do
+    should 'be true for a non-publisher artefact' do
+      artefact = FactoryGirl.build(:artefact, :non_publisher)
+
+      assert artefact.allow_section_tag_changes?
+    end
+
+    should 'be false for a publisher artefact' do
+      artefact = FactoryGirl.build(:artefact, owning_app: 'publisher')
+
+      assert_equal false, artefact.allow_section_tag_changes?
     end
   end
 
