@@ -1,0 +1,9 @@
+desc "Delete mainstream slugs from search.\n
+See original documentation @ https://github.com/alphagov/wiki/wiki/Changing-GOV.UK-URLs#making-the-change"
+
+task :delete_mainstream_slug_from_search, [:slug] => :environment do |_task, args|
+  slug = args[:slug]
+  raise "Slug must be present!" if slug.blank?
+  slug = (slug =~ /^\// ? slug : "/#{slug}")
+  SearchIndex.instance.delete(slug)
+end
