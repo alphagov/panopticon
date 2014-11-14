@@ -1,15 +1,16 @@
 class OrganisationSlugChanger
-  def initialize(old_slug, new_slug, logger = nil)
+  def initialize(old_slug, new_slug, options = {})
     @old_slug = old_slug
     @new_slug = new_slug
-    @logger = logger || Logger.new(nil)
+    @logger = options[:logger] || Logger.new(nil)
   end
 
   def call
     if organisation.present?
+      logger.info "Updating slug for organisation tag '#{organisation.tag_id}'"
       change_organisation_slug
     else
-      logger.info "No organisation tag found with id #{old_slug}, skipping..."
+      logger.info "No organisation tag found with id '#{old_slug}', skipping..."
     end
   end
 
@@ -23,6 +24,7 @@ private
   attr_reader(
     :old_slug,
     :new_slug,
+    :logger,
   )
 
   def organisation
@@ -43,18 +45,18 @@ private
 
   def update_organisation_slug
     organisation.update_attributes!(:tag_id => new_slug)
-    logger.info "Renamed #{old_slug} => #{new_slug}"
+    logger.info "Renamed organisation tag '#{old_slug}' => '#{new_slug}'"
   end
 
   def update_artefact(artefact)
     artefact.organisation_ids = (artefact.organisation_ids - [old_slug] + [new_slug])
     artefact.save!
-    logger.info "   -> Updated tags for #{artefact.slug}"
+    logger.info "   -> Updated tags for artefact '#{artefact.slug}'"
   end
 
   def reindex_artefact(artefact)
     RummageableArtefact.new(artefact).submit
-    logger.info "   -> Reindexed #{artefact.slug}"
+    logger.info "   -> Reindexed artefact '#{artefact.slug}'"
   end
 
   def reindex_updated_artefacts
