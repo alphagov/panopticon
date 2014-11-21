@@ -16,6 +16,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "working-sea", title: "Working at sea")
     FactoryGirl.create(:live_tag, tag_type: "specialist_sector", tag_id: "working-sea/health-safety", title: "Health and safety",
                        parent_id: "working-sea")
+    FactoryGirl.create(:draft_tag, tag_type: "specialist_sector", tag_id: "working-sea/training-certification", title: "Training and certification",
+                       parent_id: "working-sea")
   end
 
   test "should extract artefact attributes" do
@@ -182,7 +184,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
-  test "should include specialist sectors" do
+  test "should include live specialist sectors" do
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"
       artefact.slug = "my-artefact"
@@ -191,7 +193,8 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       artefact.organisation_ids = []
       artefact.specialist_sectors = [
         'oil-and-gas/licensing',
-        'working-sea/health-safety'
+        'working-sea/health-safety',
+        'working-sea/training-certification'
       ]
     end
     expected = {
@@ -204,6 +207,7 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "specialist_sectors" => [
         'oil-and-gas/licensing',
         'working-sea/health-safety'
+        # Deliberately missing draft tag 'working-sea/training-certification'
       ],
       "indexable_content" => "Blah blah blah index this"
     }
