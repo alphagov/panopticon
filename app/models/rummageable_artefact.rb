@@ -78,7 +78,16 @@ class RummageableArtefact
     # When we want to include additional links, this will become an issue
     rummageable_keys = %w{title description format section subsection
       indexable_content boost_phrases organisations additional_links
-      specialist_sectors}
+      specialist_sectors public_timestamp latest_change_note}
+
+    # If a key is in this list, and the corresponding value in the artefact is
+    # nil, then it will be omitted from the hash returned from this method
+    strip_nil_keys = %w{
+      indexable_content
+      description
+      public_timestamp
+      latest_change_note
+    }
 
     # When amending an artefact, requests with the "link" parameter will be
     # refused, because we can't amend the link within Rummager
@@ -87,7 +96,7 @@ class RummageableArtefact
     result = {}
 
     rummageable_keys.each_with_object(result) do |rummageable_key, hash|
-      strip_nils = ["indexable_content", "description"].include? rummageable_key
+      strip_nils = strip_nil_keys.include? rummageable_key
 
       # Use the relevant extraction method from this class if it exists
       if respond_to? "artefact_#{rummageable_key}"
@@ -137,6 +146,12 @@ class RummageableArtefact
 
   def artefact_specialist_sectors
     @artefact.specialist_sectors.map(&:tag_id)
+  end
+
+  def artefact_public_timestamp
+    if @artefact.public_timestamp
+      @artefact.public_timestamp.iso8601
+    end
   end
 
 private
