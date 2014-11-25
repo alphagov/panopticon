@@ -79,6 +79,28 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
+  test "should include latest_change_note and public_timestamp if present" do
+    artefact = Artefact.new do |artefact|
+      artefact.name = "My artefact"
+      artefact.slug = "my-artefact"
+      artefact.kind = "guide"
+      artefact.latest_change_note = "Something has changed"
+      artefact.public_timestamp = Time.zone.parse('2014-01-01 12:00:00 +00:00')
+    end
+    # Note: the link is present if we are not amending
+    expected = {
+      "title" => "My artefact",
+      "format" => "guide",
+      "section" => nil,
+      "subsection" => nil,
+      "organisations" => [],
+      "specialist_sectors" => [],
+      "public_timestamp" => "2014-01-01T12:00:00+00:00",
+      "latest_change_note" => "Something has changed",
+    }
+    assert_equal expected, RummageableArtefact.new(artefact).artefact_hash
+  end
+
   test "should work with no primary section" do
     artefact = Artefact.new do |artefact|
       artefact.name = "My artefact"

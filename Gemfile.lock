@@ -112,7 +112,7 @@ GEM
       null_logger
       plek
       rest-client (~> 1.6.3)
-    gds-sso (9.3.0)
+    gds-sso (10.0.0)
       multi_json (~> 1.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
@@ -138,10 +138,10 @@ GEM
       bootstrap-sass (= 3.2.0.0)
       jquery-rails (= 3.1.1)
       rails (>= 3.2.0)
-    govuk_content_models (22.2.0)
+    govuk_content_models (24.2.0)
       bson_ext
       gds-api-adapters (>= 10.9.0)
-      gds-sso (>= 7.0.0, < 10.0.0)
+      gds-sso (>= 10.0.0)
       govspeak (~> 3.1.0)
       mongoid (~> 2.5)
       plek
@@ -352,11 +352,11 @@ DEPENDENCIES
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
   gds-api-adapters (= 10.10.0)
-  gds-sso (= 9.3.0)
+  gds-sso (= 10.0.0)
   gelf
   govuk-client-url_arbiter (= 0.0.2)
   govuk_admin_template (= 1.1.2)
-  govuk_content_models (= 22.2.0)
+  govuk_content_models (= 24.2.0)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
   launchy
