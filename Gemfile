@@ -13,7 +13,7 @@ gem 'airbrake', '3.1.15'
 if ENV['API_DEV']
   gem 'gds-api-adapters', :path => '../gds-api-adapters'
 else
-  gem 'gds-api-adapters', "10.10.0"
+  gem 'gds-api-adapters', '16.5.0'
 end
 
 gem 'govuk-client-url_arbiter', '0.0.2'
@@ -87,6 +87,8 @@ group :test do
   gem 'webmock', require: false
   gem 'poltergeist', '~> 1.5.0'
 end
+
+gem 'debugger', group: [:test, :development]
 
 group :import do
   gem 'nokogiri'

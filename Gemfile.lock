@@ -71,6 +71,7 @@ GEM
       execjs
     coffee-script-source (1.7.1)
     colorize (0.5.8)
+    columnize (0.8.9)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -88,6 +89,12 @@ GEM
       cucumber (>= 1.1.8)
       nokogiri (>= 1.5.0)
     database_cleaner (0.8.0)
+    debugger (1.6.8)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.3.5)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.3.7)
     diff-lcs (1.1.3)
     domain_name (0.5.18)
       unf (>= 0.0.5, < 1.0.0)
@@ -106,11 +113,12 @@ GEM
     formtastic-bootstrap (3.0.0)
       formtastic (>= 2.2)
     fssm (0.2.10)
-    gds-api-adapters (10.10.0)
+    gds-api-adapters (16.5.0)
       link_header
       lrucache (~> 0.1.1)
       null_logger
       plek
+      rack-cache
       rest-client (~> 1.6.3)
     gds-sso (10.0.0)
       multi_json (~> 1.0)
@@ -347,11 +355,12 @@ DEPENDENCIES
   colorize (~> 0.5.8)
   cucumber-rails
   database_cleaner
+  debugger
   factory_girl (= 3.3.0)
   factory_girl_rails
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
-  gds-api-adapters (= 10.10.0)
+  gds-api-adapters (= 16.5.0)
   gds-sso (= 10.0.0)
   gelf
   govuk-client-url_arbiter (= 0.0.2)
