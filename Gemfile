@@ -88,6 +88,8 @@ group :test do
   gem 'poltergeist', '~> 1.5.0'
 end
 
+gem 'debugger', group: [:test, :development]
+
 group :import do
   gem 'nokogiri'
 end
