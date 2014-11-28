@@ -17,3 +17,10 @@ Feature: Managing tags
     And a draft tag exists
     When I publish the tag
     Then the tag should appear as live
+
+  @stub-topic-reindex-endpoints
+  Scenario: Publishing a topic (aka specialist sector) tag
+    Given I am a user who can edit tags
+    And a draft topic tag exists
+    When I publish the tag
+    Then Whitehall and Publisher should have been asked to reindex tagged editions

@@ -18,6 +18,8 @@ require 'govuk/client/url_arbiter'
 
 module Panopticon
   mattr_accessor :need_api
+  mattr_accessor :whitehall_admin_api
+  mattr_accessor :publisher_api
 
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

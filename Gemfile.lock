@@ -113,11 +113,12 @@ GEM
     formtastic-bootstrap (3.0.0)
       formtastic (>= 2.2)
     fssm (0.2.10)
-    gds-api-adapters (10.10.0)
+    gds-api-adapters (16.5.0)
       link_header
       lrucache (~> 0.1.1)
       null_logger
       plek
+      rack-cache
       rest-client (~> 1.6.3)
     gds-sso (10.0.0)
       multi_json (~> 1.0)
@@ -359,7 +360,7 @@ DEPENDENCIES
   factory_girl_rails
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
-  gds-api-adapters (= 10.10.0)
+  gds-api-adapters (= 16.5.0)
   gds-sso (= 10.0.0)
   gelf
   govuk-client-url_arbiter (= 0.0.2)
