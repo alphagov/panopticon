@@ -181,13 +181,13 @@ GEM
     language_list (1.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    less (2.6.0)
-      commonjs (~> 0.2.7)
-    less-rails (2.6.0)
+    less (2.2.2)
+      commonjs (~> 0.2.6)
+    less-rails (2.2.6)
       actionpack (>= 3.1)
-      less (~> 2.6.0)
-    less-rails-bootstrap (3.3.1.0)
-      less-rails (~> 2.6.0)
+      less (~> 2.2.0)
+    less-rails-bootstrap (2.0.13)
+      less-rails (~> 2.2.0)
     libv8 (3.16.14.7)
     link_header (0.0.8)
     lograge (0.1.2)
@@ -391,7 +391,7 @@ DEPENDENCIES
   kaminari (= 0.14.1)
   language_list
   launchy
-  less-rails-bootstrap
+  less-rails-bootstrap (~> 2.0.0)
   lograge (~> 0.1.0)
   memoist
   minitest

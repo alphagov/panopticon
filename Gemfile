@@ -27,7 +27,7 @@ gem 'aws-ses', require: 'aws/ses'
 gem 'rails', '~> 3.2.16'
 gem 'foreman', '< 0.65.0'
 gem 'thin'
-gem 'less-rails-bootstrap'
+gem 'less-rails-bootstrap', '~> 2.0.0'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "1.0.1"
