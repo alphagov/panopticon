@@ -3,8 +3,8 @@ class UpdateSpecialistSectorTagArtefactObserver < Mongoid::Observer
 
   def after_update(tag)
     if tag.tag_type == 'specialist_sector'
-      reindex_tagged_documents(tag) if tag.state_changed? && tag.live?
       update_artefact(tag)
+      reindex_tagged_documents(tag) if tag.state_changed? && tag.live?
     end
   end
 
