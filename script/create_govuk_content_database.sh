@@ -23,7 +23,7 @@ ENVS="development preview production"
 PANOPTICON_COLLECTIONS="artefacts contacts tags system.indexes"
 
 read -d '' PUBLISHER_COLLECTIONS <<END
-  authorities editions expectations local_authorities local_services
+  authorities editions local_authorities local_services
   local_transactions_source_lgsls local_transactions_sources
   mr_publications_count_by_this._type mr_publications_count_by_this.department
   mr_publications_count_by_this.section overview_dashboards publications
