@@ -146,7 +146,7 @@ GEM
       bootstrap-sass (~> 3.3.1)
       jquery-rails (~> 3.1.1)
       rails (>= 3.2.0)
-    govuk_content_models (25.0.0)
+    govuk_content_models (26.2.0)
       bson_ext
       gds-api-adapters (>= 10.9.0)
       gds-sso (>= 10.0.0)
@@ -365,7 +365,7 @@ DEPENDENCIES
   gelf
   govuk-client-url_arbiter (= 0.0.2)
   govuk_admin_template (= 1.4.0)
-  govuk_content_models (= 25.0.0)
+  govuk_content_models (= 26.2.0)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
   launchy
