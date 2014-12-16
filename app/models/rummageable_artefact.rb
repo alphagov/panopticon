@@ -8,6 +8,7 @@ class RummageableArtefact
   FORMATS_NOT_TO_AMEND = %W(specialist_sector)
 
   EXCEPTIONAL_SLUGS = %W(
+    gosuperfast
     growthaccelerator
     technology-strategy-board
     enterprise-finance-guarantee
