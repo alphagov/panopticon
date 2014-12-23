@@ -17,4 +17,5 @@
 //= require chosen-jquery
 //= require bootstrap
 //= require jquery_nested_form
+//= require tagmanager
 //= require_tree .

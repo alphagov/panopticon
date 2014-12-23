@@ -1,23 +1,4 @@
 <div class="well">
-  <input type="hidden" name="artefact[sections][]" value="" />
-  <%= f.inputs "Tags" do %>
-    <% @tags.each do |type, tags| %>
-      <div class="fieldset-section tag <%= type.to_s %>-tags <%= "hidden" unless f.object.kind == type.to_s  %>">
-        <label class="section-label" for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
-        <div class="nested-item-group">
-          <div class="row-fluid nested-item">
-            <% if f.object.send("#{type}_ids").length > 0 %>
-              <% f.object.send("#{type}_ids").each do |tag_id| %>
-                <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
-              <% end %>
-            <% else %>
-              <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
 
   <div class="fieldset-section tag team-tags <%= "hidden" unless f.object.kind == "person" && f.object.person_ids.include?("team") %>">
     <label class="section-label control-label" for="">Team</label>
@@ -43,4 +24,16 @@
 
     <button id="add-section" class="btn btn-success" type="button">Add another section</button>
   </div>
+
+  <div class="fieldset-section">
+    <%= f.label "keywords", class: 'control-label section-label' %>
+    <div class='controls' id='keyword-controls'>
+      <%= text_field_tag :keywords, "", {
+        :class => "keyword-tags",
+        :disabled => !current_user.permissions.include?("keywords"),
+        :autocomplete => "off"
+        } %>
+    </div>
+  </div>
+
 </div>

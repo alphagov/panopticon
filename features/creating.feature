@@ -21,14 +21,40 @@ Feature: Creating artefacts
     Given an artefact exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher
-  
+
   Scenario Outline: Trying to create an artefact that has tags without specifying a tag
     Given I try to create a <kind> without specifying a tag
     Then I should see an error relating to <kind>
-    
+
     Examples:
       | kind         |
       | Person       |
       | Article      |
       | Organization |
       | Timed item   |
+
+  @javascript
+  Scenario: Creating keywords with permission
+    Given I have the "keywords" permission
+    And I follow the link link to create an item
+    Then the "keywords" field should be editable
+    When I specify the keywords "foo, bar, baz"
+    Then the artefact should have the keyword "foo"
+    And the artefact should have the keyword "bar"
+    And the artefact should have the keyword "baz"
+
+  @javascript
+  Scenario: Creating keywords with a phrase
+    Given I have the "keywords" permission
+    And I follow the link link to create an item
+    Then the "keywords" field should be editable
+    When I specify the keywords "foo, bar, baz, binky boo"
+    Then the artefact should have the keyword "foo"
+    And the artefact should have the keyword "bar"
+    And the artefact should have the keyword "baz"
+    And the artefact should have the keyword "binky boo"
+
+  Scenario: Creating keywords without permission
+    Given I do not have the "keywords" permission
+    And I follow the link link to create an item
+    Then the "keywords" field should be disabled

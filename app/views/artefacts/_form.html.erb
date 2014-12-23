@@ -93,5 +93,30 @@
     if ($('.artefact-section').size() == 1) {
       $('.remove-section').hide();
     }
+
+    $(".keyword-tags").tagsManager({
+      prefilled: '<%= @keywords %>',
+      hiddenTagListName: 'artefact[keywords]'
+    });
+
+    $(".keyword-tags").typeahead({
+      hint: true,
+      highlight: true,
+      limit: 15,
+      source: [<%= @available_keywords.map{|x| "\"#{x}\""}.join(',').html_safe rescue nil %>],
+      updater: function(selection){
+        $("#keywords").val(selection);
+        addTag();
+      }
+    });
+
+    $("#edit_artefact").submit(function() {
+      addTag();
+    })
+
+    function addTag() {
+      $("#keywords").trigger({ type : 'keypress', which : 44 })
+    }
+
   </script>
 <% end %>

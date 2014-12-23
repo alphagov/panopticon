@@ -44,7 +44,7 @@ def add_related_artefacts(artefact, related_artefacts)
 end
 
 def select_related_artefact(artefact)
-  select artefact.name, :from => "artefact_related_artefact_ids_"
+  select artefact.name, :from => "artefact_related_artefact_ids_", :match => :first
 end
 
 def unselect_related_artefact(artefact)

@@ -98,6 +98,12 @@ Given /^an artefact exists$/ do
   @artefact = create_artefact
 end
 
+Given /^that artefact has the keyword "(.*?)"$/ do |keyword|
+  tag = Tag.find_or_create_by(tag_id: keyword.parameterize, title: keyword, tag_type: "keyword")
+  @artefact.tags << tag
+  @artefact.save
+end
+
 Given /^that artefact has the role "(.*?)"$/ do |role|
   @index = role
   @artefact.roles = [role]
@@ -169,6 +175,30 @@ Given /^I try to create a (.*) without specifying a tag$/ do |kind|
   submit_artefact_form
 end
 
+Given /^I specify the keywords "(.*?)"$/ do |keywords|
+  visit new_artefact_path
+  fill_in "Name", with: "My cool thing"
+  fill_in "Slug", with: "my-cool-thing"
+  select "Course", from: "Kind"
+
+  page.find("#keywords").native.send_keys(keywords)
+
+  submit_artefact_form
+end
+
+Then /^the artefact should have the keyword "(.*?)"$/ do |keyword|
+  artefact = Artefact.last
+  assert artefact.keywords.any? { |t| t.tag_id == keyword.parameterize }
+end
+
 Then /^I should see an error relating to (.*)$/ do |kind|
   assert page.has_content? "#{kind} tag must be specified"
+end
+
+When /^I go to edit the artefact$/ do
+  visit edit_artefact_path(@artefact)
+end
+
+Then /^I should see the keywords "(.*?)"$/ do |keywords|
+  assert_equal keywords, page.find('input[name="artefact[keywords]"]', visible: false).value
 end

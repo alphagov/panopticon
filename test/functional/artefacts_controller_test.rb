@@ -3,6 +3,8 @@ require 'test_helper'
 class ArtefactsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
+    FactoryGirl.create :odi_role
+    FactoryGirl.create :dapaas_role
   end
 
   context "accept HTML" do

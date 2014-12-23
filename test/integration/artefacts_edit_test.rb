@@ -8,6 +8,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     create_test_user
     stub_all_router_api_requests
     stub_all_rummager_requests
+    FactoryGirl.create :odi_role
+    FactoryGirl.create :dapaas_role
   end
 
   def stub_basic_need_api_response(need_id = "100123")
@@ -307,7 +309,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts"
       click_on "Alpha"
       click_on "Add related external link"
-      within ".related-external-links div:first-child" do
+      within ".related-external-links div:first-child", match: :first do
         fill_in "Title", :with => "BBC"
         fill_in "URL", :with => "http://bbc.co.uk"
       end

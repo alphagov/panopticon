@@ -9,21 +9,21 @@ gem 'dotenv-rails'
 gem 'plek', '1.5.0'
 
 gem 'nested_form', '0.3.2'
-
+gem 'tagmanager-rails'
 
 gem 'ansi'
 gem 'gelf'
 gem 'null_logger'
 
-gem 'exception_notification'
-gem 'airbrake', '3.1.15'
+gem 'exception_notification', '~> 2.6'
+gem 'airbrake'
 
 gem 'gds-api-adapters', :github => 'theodi/gds-api-adapters'
 
 gem 'aws-ses', require: 'aws/ses'
 
-gem 'rails', '3.2.16'
-gem 'foreman'
+gem 'rails', '~> 3.2.16'
+gem 'foreman', '< 0.65.0'
 gem 'thin'
 
 gem 'colorize', '~> 0.5.8'
@@ -40,6 +40,8 @@ gem 'lograge', '~> 0.1.0'
 gem 'language_list'
 
 gem "govuk_content_models", "6.1.0"
+
+gem 'memoist'
 
 if ENV['CONTENT_MODELS_DEV']
   gem "odi_content_models", path: '../odi_content_models'
@@ -85,12 +87,12 @@ group :test do
   gem "shoulda", "~> 2.11.3"
   gem 'factory_girl', "3.3.0"
   gem 'factory_girl_rails'
-  gem 'capybara', '1.1.2'
-  gem 'capybara-mechanize', '~> 0.3.0.rc3'
+  gem 'capybara'
+  gem 'capybara-mechanize'
   gem 'launchy'
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
-  gem 'poltergeist', '0.7.0'
+  gem 'poltergeist', '~> 1.5'
   gem 'pry'
 end
 

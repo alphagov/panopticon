@@ -1,4 +1,8 @@
 language: ruby
+cache: bundler
+sudo: false
+git:
+  depth: 10
 rvm:
 - 1.9.3-p484
 after_success:

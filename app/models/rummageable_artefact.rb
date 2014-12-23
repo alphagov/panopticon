@@ -40,8 +40,13 @@ class RummageableArtefact
   def submit
     return unless indexable_artefact?
 
-    search_index = SearchIndex.instance
+    @artefact.roles.each do |role|
+      search_index = SearchIndex.instance(role.tag_id)
+      post(search_index)
+    end
+  end
 
+  def post(search_index)
     # API requests, if they know about the single registration API, will be
     # providing the indexable_content field to update Rummager. UI requests
     # and requests from apps that don't know about single registration, will
@@ -58,9 +63,11 @@ class RummageableArtefact
   def delete
     logger.info "Deleting item from Rummager: #{artefact_link}"
 
-    search_index = SearchIndex.instance
-    search_index.delete(artefact_link)
-    search_index.commit
+    @artefact.roles.each do |role|
+      search_index = SearchIndex.instance(role.tag_id)
+      search_index.delete(artefact_link)
+      search_index.commit
+    end
   end
 
   def should_amend
