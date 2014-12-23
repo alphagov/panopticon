@@ -1,6 +1,6 @@
 module RegistrationInfo
 
-  SEARCH_ROOT = /http:\/\/search.#{ENV['GOVUK_APP_DOMAIN']}\/(mainstream|dapaas)/
+  SEARCH_ROOT = /http:\/\/search.#{ENV['GOVUK_APP_DOMAIN']}\/(odi|mainstream|dapaas)/
 
   def example_smart_answer
     role = Tag.where(tag_id: "dapaas").first.id.to_s
