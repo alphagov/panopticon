@@ -39,7 +39,7 @@ gem "bson", "1.7.1"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", "26.2.0"
+  gem "govuk_content_models", "28.0.1"
 end
 
 if ENV['BUNDLE_DEV']
