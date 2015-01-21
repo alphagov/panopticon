@@ -219,6 +219,8 @@ GEM
       activemodel (~> 3.1)
       mongo (~> 1.7)
       tzinfo (~> 0.3.22)
+    mongoid-tree (0.7.0)
+      mongoid (~> 2.0)
     mongoid_rails_migrations (1.0.0)
       activesupport (>= 3.2.0)
       bundler (>= 1.0.0)
@@ -399,6 +401,7 @@ DEPENDENCIES
   mocha (= 0.13.3)
   mongo (= 1.7.1)
   mongoid (~> 2.5)
+  mongoid-tree
   mongoid_rails_migrations (= 1.0.0)
   nested_form (= 0.3.2)
   nokogiri
