@@ -1,22 +1,7 @@
-@import "twitter/bootstrap/bootstrap";
-
 body {
   padding-top: 40px;
   padding-bottom: 60px;
 }
-
-@import "twitter/bootstrap/responsive";
-
-// Your custom LESS stylesheets goes here
-//
-// Since bootstrap was imported above you have access to its mixins which
-// you may use and inherit here
-//
-// If you'd like to override bootstrap's own variables, you can do so here as well
-// See http://twitter.github.com/bootstrap/less.html for their names and documentation
-//
-// Example:
-// @linkColor: #ff0000;
 
 // Custom styles for Panopticon
 
@@ -44,4 +29,13 @@ td.icon {
 select#artefact_sections_, select#artefact_related_artefact_ids_, select#curated_list_artefact_ids_, select#section_modules_ {
   display: inline-block;
   margin-bottom: 0;
+}
+
+/*
+  Make wells look less rubbish.
+*/
+.well {
+  @include border-radius(0px);
+  @include box-shadow(none);
+  border-color: #ccc;
 }

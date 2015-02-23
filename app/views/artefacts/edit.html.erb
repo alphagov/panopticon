@@ -1,30 +1,3 @@
-<%= content_for :page_title, "Editing artefact #{@artefact.name}" %>
-<div class="page-header">
-  <h1>Editing <%= @artefact.name %></h1>
-</div>
-<div class="tabbable">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#edit" data-toggle="tab">Edit</a></li>
-    <li><a href="#history" data-toggle="tab">History</a></li>
-    <% unless @artefact.archived? %>
-      <li><a href="#archive" data-toggle="tab">Archive</a></li>
-    <% end %>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="edit">
-      <% if "whitehall" == @artefact.owning_app %>
-        <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
-      <% else %>
-        <%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="history">
-      <%= render 'history', actions: @actions %>
-    </div>
-    <% unless @artefact.archived? %>
-      <div class="tab-pane" id="archive">
-        <%= render 'archive', artefact: @artefact %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= content_for :page_title, "Edit - #{@artefact.name}" %>
+<%= render partial: "artefact_header" %>
+<%= render 'form', artefact: @artefact, tag_collection: @tag_collection %>

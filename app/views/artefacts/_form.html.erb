@@ -12,198 +12,76 @@
   </div>
 <% end %>
 
-  <% if artefact.archived? %>
-    <div class="alert alert-error">
-      <h2>Stop! You can't edit this artefact because it has been archived.</h2>
-    </div>
-  <% else %>
-  <div class="well">
-    <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => '', :id => 'edit_artefact'}) do |f| %>
-      <%= f.inputs do %>
-        <%= f.input :name, :input_html => { :class => "span6", :disabled => f.object.persisted?}, :hint => name_hint_for(f.object) %>
-        <%= f.input :description, :input_html => { :class => "span6", :disabled => true, :rows => 6 }, :hint => 'Managed through API and/or owning app', :as => :text unless @disable_description %>
-        <%= f.input :slug, :input_html => { :class => "span6", :disabled => f.object.live? }, :hint => "A valid slug might look like this: i-am-a-good-slug-with-no-spaces" %>
+<% if artefact.archived? %>
+  <div class="alert alert-error">
+    <h2>Stop! You can't edit this artefact because it has been archived.</h2>
+  </div>
+<% else %>
+  <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => 'artefact', :id => 'edit_artefact'}) do |f| %>
 
-        <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean unless @disable_extra_fonts %>
+    <div class="row-fluid">
+      <div class="span8">
 
-        <%= f.input :author, :collection => @people, :as => :select, :input_html => {:class => "span2"}, :include_blank => "Select an author", :hint => 'Who should appear as the author? (not necessarily you!)' %>
-        <%= f.input :node, :collection => @nodes, :as => :select, :input_html => {:class => "span2"}, :hint => 'Is the content about specific node(s)?', :multiple => true, :size => 5 %>
-        <%= f.input :organization_name, :collection => @organizations, :as => :select, :input_html => {:class => "span2"}, :hint => 'Is the content about specific member(s) or startup(s)?', :multiple => true, :size => 5 %>
-
-        <%= link_to "View on site", published_url(f.object), :rel => 'external', :class => "btn btn-primary" unless f.object.new_record? %>
-
-        <%= f.input :live_at,
-                    :label => 'Make live at',
-                    :hint => "In format yyyy-mm-dd hh:mm (24 hour clock)",
-                    :input_html => { :class => "span6", :disabled => f.object.live?, 'data-format' => 'yyyy-mm-dd hh:mm', :value => artefact.live_at.try(:strftime, "%Y-%m-%d %H:%m") } %>
-
-        <hr>
-        <%= render :partial => "need", :locals => { :f => f } unless @disable_needs %>
-        <hr>
-
-        <%= f.input :language, :collection => language_options, :as => :select, :input_html => { :class => "span2" }, :include_blank => false, :selected => 'en' %>
-        <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean unless @disable_business_content %>
-
-        <hr>
-
-        <%= f.input :roles, :collection => @roles, :as => :check_boxes, :hint => 'What project(s) is this content for?' %>
-
-        <hr>
-        <input type="hidden" name="artefact[sections][]" value="" />
-        <% if artefact.new_record? %>
-          <%= f.input :kind, :collection => non_whitehall_formats.map { |s| [s.humanize, s]}, :as => :select, :class => "span6", :prompt => "Select a kind" %>
+        <% if f.object.new_record? || f.object.state == "draft" %>
+          <%= render partial: "artefacts/form/core_attributes", locals: { f: f, artefact: artefact } %>
         <% end %>
 
-        <% @tags.each do |type, tags| %>
-          <div class="tag <%= type.to_s %>-tags <%= "hidden" unless artefact.kind == type.to_s  %>">
-            <label for="artefact[<%= type %>][]"><%= type.to_s.humanize %> category</label>
-            <% if artefact.send("#{type}_ids").length > 0 %>
-              <% artefact.send("#{type}_ids").each do |tag_id| %>
-                <%= render :partial => 'tag_section', :locals => {:tag_id => tag_id, :tag_collection => tags, :type => type} %>
-              <% end %>
-            <% else %>
-              <%= render :partial => 'tag_section', :locals => {:tag_id => nil, :tag_collection => tags, :type => type} %>
-            <% end %>
-            <hr>
-          </div>
-        <% end %>
-        <div class="<%= "hidden" unless ["event", "course_instance"].include?(artefact.kind)  %>" id="featured">
-            <%= f.input :featured, :label => "", :collection => Tag.where(:tag_id => 'featured').map { |t| [t.title, t.tag_id]}, :as => :check_boxes, :input_html => { :checked => !artefact.featured.blank? } %>
+        <div class="well">
+          <%= render :partial => "artefacts/form/module_image", :locals => { :f => f, :artefact => artefact } %>
         </div>
 
-        <div class="tag team-tags <%= "hidden" unless artefact.kind == "person" && artefact.person_ids.include?("team") %>">
-          <div class="check_boxes control-group optional" id="artefact_team_input">
-            <label class=" control-label">Team</label>
-            <div class="choices controls">
-              <% Tag.where(:tag_type => "team").each do |tag| %>
-                <label>
-                  <%= check_box_tag "artefact[team][]", tag.tag_id, artefact.team_ids.include?(tag.tag_id) %>
-                  <%= tag.title %>
-                </label>
-              <% end %>
-            </div>
-          <hr>
-        </div>
-
-        <label for="artefact[sections][]">Sections</label>
-        <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-        <% if artefact.section_ids.length > 0 %>
-          <% artefact.section_ids.each do | section_id | %>
-            <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+        <div class="well">
+          <%= f.inputs "Organisations" do %>
+            <%= f.input :organization_name, :label => "Is the content about specific member(s) or startup(s)?", :collection => @organizations, :as => :select, :input_html => {:class => "span8"}, :multiple => true, :size => 5 %>
           <% end %>
-        <% else %>
-          <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
-        <% end %>
-
-        <button id="add-section" class="btn btn-success" type="button">Add another section</button>
-      <% end %>
-
-      <div class='control-group'>
-        <%= f.label "keywords", class: 'control-label' %>
-        <div class='controls' id='keyword-controls'>
-          <%= text_field_tag :keywords, "", {
-            :class => "span2 keyword-tags",
-            :disabled => !current_user.permissions.include?("keywords"),
-            :autocomplete => "off"
-          } %>
         </div>
+
+        <%= render partial: "artefacts/form/related_content", locals: { f: f } %>
+        <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
+
       </div>
 
-      <hr>
+      <div class="span4">
 
-      <%= f.inputs "Module image" do %>
+        <%= render partial: "artefacts/form/featured", locals: { f: f } %>
 
-        <fieldset class='form-horizontal'>
-
-          <% if artefact.module_image %>
-            <div class='control-group'>
-              <%= f.label "Current image", class: 'control-label' %>
-              <div class='controls'>
-                <%= link_to artefact.module_image.name, artefact.module_image.file_url %>
-              </div>
-            </div>
-
-            <div class='control-group'>
-              <%= f.label "Remove image?", class: 'control-label' %>
-              <div class='controls'>
-                <%= check_box_tag "artefact[remove_module_image]", "1" %>
-              </div>
-            </div>
-
+        <div class="well">
+          <%= f.inputs "Role" do %>
+          <%= f.input :roles, :collection => @roles, :as => :check_boxes, :label => 'What project(s) is this content for?' %>
           <% end %>
+        </div>
 
-          <p><%= f.input :module_image, :as => :file, :label => artefact.module_image ? "Replace image" : "Upload a new image" %></p>
+        <div class="well">
+          <%= render :partial => "artefacts/form/author", :locals => { :f => f } %>
+        </div>
 
-        </fieldset>
+        <div class="well">
+          <%= f.inputs "Nodes" do %>
+            <%= f.input :node, :collection => @nodes, :label => 'Is the content about specific node(s)?', :as => :select, :input_html => {:class => "span8"}, :multiple => true, :size => 5 %>
+          <% end %>
+        </div>
 
-      <% end %>
+        <div class="well">
+          <%= f.input :language, :collection => {"English" => "en", "Welsh" => "cy"}, :as => :select, :input_html => { :class => "span8" }, :include_blank => false %>
+        </div>
 
-      <hr>
-
-      <%= f.inputs do %>
-        <label for="artefact[related_artefact_ids][]">Related content</label>
-        <p>Click and drag to reorder</p>
-        <div class="related-artefact-group">
-          <% if artefact.related_artefact_ids.length > 0 %>
-            <% artefact.related_artefact_ids.each do |related_artefact_id| %>
-              <%= render :partial => 'related_artefact', :locals => { related_artefact_id: related_artefact_id, is_template: false } %>
+        <% if @artefact.persisted? && @artefact.owning_app.present? %>
+          <div class="well owning-app">
+            <p>This content is managed in <strong><%= @artefact.owning_app.humanize %></strong>.</p>
+            <% if @artefact.owning_app == "publisher" %>
+              <%= link_to "Edit in Publisher", admin_url_for_edition(@artefact), :class => "btn" %>
             <% end %>
-          <% else %>
-            <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: false } %>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <%= render :partial => 'related_artefact', :locals => { related_artefact_id: nil, is_template: true } %>
-        <button id="add-related" class="btn btn-success" type="button">Add another related item</button>
-      <% end %>
+      </div>
+    </div>
 
-      <hr>
-
-      <%= f.inputs do %>
-        <div class="related-external-links">
-          <label>Related external links</label>
-          <%= f.fields_for :external_links do |link| %>
-            <div class="row-fluid">
-              <div class="span4">
-                <%= link.label :title, "Title" %>
-                <%= link.text_field :title %>
-              </div>
-              <div class="span4">
-                <%= link.label :url, "URL" %>
-                <%= link.text_field :url %>
-              </div>
-              <div class="span4">
-                <br>
-                <%= link.link_to_remove "Remove this URL", :class => "btn btn-danger" %>
-              </div>
-            </div>
-          <% end %>
-          <%= f.link_to_add "Add related external link", :external_links, :class => "btn btn-success" %>
-        </div>
-      <% end %>
-
-      <hr>
-
-      <%= f.input :legacy_source_ids, :label => "Legacy sources", :collection => options_for_tags_of_type('legacy_source'), :input_html => { :multiple => true, :class => "span6 chzn-select" } unless @disable_legacy_sources %>
-
-
-      <%= f.inputs do %>
-
-        <%= f.input :department, :label => "Writing team", :input_html => { :disabled => f.object.persisted?, :class => "span6"} unless @disable_writing_team %>
-        <%= f.input :fact_checkers, :input_html => { :disabled => f.object.persisted?, :class => "span6"} %>
-
-      <% end %>
-
-      <% if artefact.new_record? %>
-        <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
-      <% end %>
-
-      <hr>
-
-      <%= f.submit :value => "Save and continue editing", :class => "btn" %>
-      <%= f.submit :value => "Save and go to item", :class => "btn btn-success" %>
-    <% end %>
-  </div>
+    <div class="form-actions">
+      <%= f.submit :value => "Save and continue editing", :class => "btn btn-primary" %>
+      <%= f.submit :value => "Save and go to item", :class => "btn" %>
+    </div>
+  <% end %>
 <% end %>
 
 <%= content_for :extra_javascript do %>

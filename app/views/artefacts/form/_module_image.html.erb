@@ -1,0 +1,23 @@
+<%= f.inputs "Module image", :id => "module-image" do %>
+  <fieldset class='form-horizontal'>
+    <% if artefact.module_image %>
+      <div class='control-group'>
+        <%= f.label "Current image", class: 'control-label' %>
+        <div class='controls'>
+          <%= link_to artefact.module_image.name, artefact.module_image.file_url %>
+        </div>
+      </div>
+
+      <div class='control-group'>
+        <%= f.label "Remove image?", class: 'control-label' %>
+        <div class='controls'>
+          <%= check_box_tag "artefact[remove_module_image]", "1" %>
+        </div>
+      </div>
+
+    <% end %>
+
+    <p><%= f.input :module_image, :as => :file, :label => artefact.module_image ? "Replace image" : "Upload a new image" %></p>
+
+  </fieldset>
+<% end %>

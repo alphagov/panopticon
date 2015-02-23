@@ -2,6 +2,10 @@ Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
 end
 
+Given /^two course artefacts exist$/ do
+  @artefact, @related_artefact = create_two_course_artefacts
+end
+
 Given /^the first artefact is in draft$/ do
   Artefact.observers.disable :update_search_observer do
     Artefact.first.update_attributes!('state' => 'draft')
@@ -153,10 +157,9 @@ Then /^I should see the artefact form$/ do
   assert page.has_css?('form.artefact')
 end
 
-When /^I fill in the form for a business need$/ do
-  fill_in "Name", with: "A key business need"
-  fill_in "Slug", with: "key-business-need"
-  fill_in "Need", with: "Biz001"
+When /^I fill in the form for a course need$/ do
+  fill_in "Name", with: "A key course need"
+  fill_in "Slug", with: "key-course-need"
   select "Course", from: "Kind"
 end
 

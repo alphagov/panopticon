@@ -7,8 +7,6 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 gem 'dotenv-rails'
 
 gem 'plek', '1.5.0'
-gem 'formtastic', git: 'https://github.com/justinfrench/formtastic.git', branch: '2.1-stable'
-gem 'formtastic-bootstrap', git: 'https://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap-2'
 
 gem 'nested_form', '0.3.2'
 gem 'tagmanager-rails'
@@ -27,7 +25,6 @@ gem 'aws-ses', require: 'aws/ses'
 gem 'rails', '~> 3.2.16'
 gem 'foreman', '< 0.65.0'
 gem 'thin'
-gem 'less-rails-bootstrap', '~> 2.0.0'
 
 gem 'colorize', '~> 0.5.8'
 gem 'rummageable', "1.0.1"
@@ -59,12 +56,19 @@ else
   gem 'gds-sso', '9.2.2'
 end
 
+gem 'formtastic', '2.2.1'
+gem 'formtastic-bootstrap', '2.1.3'
+
+gem 'bootstrap-sass', '2.3.2.2'
+
 gem 'jquery-rails', '2.0.2'
 gem 'jquery-ui-rails', '3.0.1'
+gem 'chosen-rails', '1.0.2'
 
 group :assets do
   gem "therubyracer", "~> 0.12.0"
   gem 'sass-rails', '3.2.6'
+  gem 'compass-rails', '1.1.2'
   gem 'uglifier'
 end
 
