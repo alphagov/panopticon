@@ -1,0 +1,28 @@
+<%= content_for :page_title, "Showing #{@tag.tag_type.humanize.downcase}: #{@tag.title}" %>
+<header class="artefact-header">
+  <div class="artefact-title">
+    <h1><%= @tag.tag_type.humanize %>: <%= @tag.title %></h1>
+    <h2>
+      <% if @tag.live? %>
+        <%= link_to public_tag_path(@tag), public_tag_url(@tag) %>
+      <% else %>
+        <%= public_tag_path(@tag) %>
+      <% end %>
+      <span class="state state-<%= @tag.state %>"><%= @tag.state %></span>
+    </h2>
+  </div>
+</header>
+
+<div class="row">
+  <div class="col-md-9">
+    <div class="well">
+      <h3>Description</h3>
+      <p><%= @tag.description %></p>
+    </div>
+
+    <div class="take-care">
+      <p>If you'd like to manage this tag, use
+      the <a href="<%= Plek.current.find("collections-publisher") %>">Collections Publisher</a>.</p>
+    </div>
+  </div>
+</div>

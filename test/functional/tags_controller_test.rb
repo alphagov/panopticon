@@ -126,31 +126,6 @@ class TagsControllerTest < ActionController::TestCase
     end
   end
 
-  context "GET edit" do
-    setup do
-      @tag = create(:tag)
-    end
-
-    should "render the edit form given an existing tag" do
-      get :edit, id: @tag.id
-
-      assert response.ok?
-      assert_template :edit
-    end
-
-    should "assign the tag to the template given an existing tag" do
-      get :edit, id: @tag.id
-
-      assert_equal @tag, assigns(:tag)
-    end
-
-    should "return a not found error if a tag doesn't exist" do
-      get :edit, id: "foo"
-
-      assert response.not_found?
-    end
-  end
-
   context "PUT update" do
     setup do
       @tag = create(:tag)
@@ -201,15 +176,6 @@ class TagsControllerTest < ActionController::TestCase
       assert_match /updated/, @controller.flash[:success]
       assert_redirected_to tags_path
     end
-
-    should "render the form when the update fails" do
-      Tag.any_instance.expects(:update_attributes).returns(false)
-
-      put :update, id: @tag.id, tag: @stub_atts
-
-      assert response.ok?
-      assert_template :edit
-    end
   end
 
   context 'PUT publish' do
@@ -217,19 +183,19 @@ class TagsControllerTest < ActionController::TestCase
       tag = create(:draft_tag)
       Tag.any_instance.expects(:publish!).returns(true)
 
-      put :publish, id: tag.id
+      put :publish, id: tag.id, format: :json
 
-      assert_match /published/, @controller.flash[:success]
-      assert_redirected_to edit_tag_path(tag)
+      assert response.ok?
     end
 
-    should 'redirect with an error for a live tag' do
+    should 'not process and return an error for a live tag' do
       tag = create(:live_tag)
+      error_response = {"error" => "Tag is already published"}
 
-      put :publish, id: tag.id
+      put :publish, id: tag.id, format: :json
 
-      assert_match /already live/, @controller.flash[:error]
-      assert_redirected_to edit_tag_path(tag)
+      assert_equal 422, response.status
+      assert_equal error_response, JSON.parse(response.body)
     end
   end
 
