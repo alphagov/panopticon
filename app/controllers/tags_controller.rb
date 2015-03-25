@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:edit, :update, :publish]
+  before_filter :find_tag, only: [:edit, :publish, :show, :update]
 
   rescue_from Tag::TagNotFound, with: :record_not_found
 
@@ -47,6 +47,9 @@ class TagsController < ApplicationController
   end
 
   def edit
+  end
+
+  def show
   end
 
   def update
