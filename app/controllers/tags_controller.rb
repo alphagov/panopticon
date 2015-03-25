@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:edit, :publish, :show, :update]
+  before_filter :find_tag, only: [:publish, :show, :update]
 
   rescue_from Tag::TagNotFound, with: :record_not_found
 
@@ -46,9 +46,6 @@ class TagsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def show
   end
 
@@ -69,7 +66,6 @@ class TagsController < ApplicationController
         }
         format.json { head :ok }
       else
-        format.html { render action: :edit }
         format.json {
           render json: { errors: @tag.errors }, status: :unprocessable_entity
         }
@@ -81,25 +77,13 @@ class TagsController < ApplicationController
     respond_to do |format|
       if @tag.draft?
         @tag.publish!
-
-        format.html {
-          flash[:success] = 'Tag has been published'
-          redirect_to edit_tag_path(@tag)
-        }
-        format.json {
-          head :ok
-        }
+        format.json { head :ok }
       else
-        format.html {
-          flash[:error] = 'Tag is already live'
-          redirect_to edit_tag_path(@tag)
-        }
         format.json {
           render json: { error: 'Tag is already published' },
                  status: :unprocessable_entity
         }
       end
-
     end
   end
 
