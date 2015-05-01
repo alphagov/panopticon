@@ -42,7 +42,9 @@ class ArtefactsController < ApplicationController
   end
 
   def archive
-
+    if @artefact.archived?
+      redirect_to root_path
+    end
   end
 
   def new
