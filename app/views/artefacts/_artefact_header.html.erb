@@ -15,7 +15,9 @@
   <li class="<%= "active" if controller.action_name == "history" %>">
     <%= link_to "History", history_artefact_path(@artefact) %>
   </li>
-  <li class="<%= "active" if controller.action_name == "archive" %>">
-    <%= link_to "Archive", archive_artefact_path(@artefact) %>
-  </li>
+  <% unless @artefact.archived? %>
+    <li class="<%= "active" if controller.action_name == "archive" %>">
+      <%= link_to "Archive", archive_artefact_path(@artefact) %>
+      </li>
+  <% end %>
 </ul>

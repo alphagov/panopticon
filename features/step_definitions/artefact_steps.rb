@@ -22,6 +22,17 @@ Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
 
+Given /^a live artefact exists$/ do
+  @artefact = create_artefact("live-artefact")
+end
+
+Given /^an archived artefact exists$/ do
+  @artefact = create_artefact("archived-artefact")
+  Artefact.observers.disable :update_search_observer do
+    @artefact.update_attributes!('state' => 'archived')
+  end
+end
+
 When /^I change the need ID of the first artefact$/ do
   visit edit_artefact_path(@artefact)
   @new_need_id = "100001"
@@ -160,4 +171,29 @@ end
 
 When /^I try to create a new artefact with the same need$/ do
   visit new_artefact_path(:artefact => {:need_id => @artefact.need_ids.first})
+end
+
+When /^I browse to the "(.*)" URL for the artefact$/ do |path|
+  visit archive_artefact_path(@artefact)
+end
+
+And /^I click the archive tab on the artefact page$/ do
+  visit edit_artefact_path(@artefact)
+  click_link "Archive"
+end
+
+And /^I archive the existing artefact$/ do
+  Artefact.observers.disable :update_search_observer do
+    click_button "Archive"
+  end
+end
+
+Then /^I should not see the archive tab along with the edit and history tabs$/ do
+  visit edit_artefact_path(@artefact)
+  assert page.has_no_css?("ul.artefact-actions li", :count => 3)
+  assert page.has_css?("ul.artefact-actions li", :count => 2)
+end
+
+Then /^I should get redirected to the homepage$/ do
+  URI.parse(current_url).path == root_path
 end
