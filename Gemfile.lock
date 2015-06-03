@@ -393,7 +393,7 @@ DEPENDENCIES
   compass-rails (= 1.1.2)
   cucumber-rails
   database_cleaner
-  dotenv-rails
+  dotenv-rails (~> 1.0)
   exception_notification (~> 2.6)
   factory_girl (= 3.3.0)
   factory_girl_rails

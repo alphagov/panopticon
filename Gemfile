@@ -4,7 +4,7 @@ source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 #ruby=ruby-1.9.3
 #ruby-gemset=quirkafleeg-panopticon
 
-gem 'dotenv-rails'
+gem 'dotenv-rails', '~> 1.0' # Fix to 1.x for rails 3
 
 gem 'plek', '1.5.0'
 
