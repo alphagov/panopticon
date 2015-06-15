@@ -110,12 +110,33 @@
       }
     });
 
+    $(".team-tags").tagsManager({
+      prefilled: '<%= @teams %>',
+      hiddenTagListName: 'artefact[team]'
+    });
+
+    $(".team-tags").typeahead({
+      hint: true,
+      highlight: true,
+      limit: 15,
+      source: [<%= @available_teams.map{|x| "\"#{x}\""}.join(',').html_safe rescue nil %>],
+      updater: function(selection){
+        $("#team").val(selection);
+        addTeam();
+      }
+    });
+
     $("#edit_artefact").submit(function() {
       addTag();
+      addTeam();
     })
 
     function addTag() {
       $("#keywords").trigger({ type : 'keypress', which : 44 })
+    }
+
+    function addTeam() {
+      $("#team").trigger({ type: 'keypress', which : 44 })
     }
 
   </script>

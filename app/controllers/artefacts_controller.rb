@@ -8,6 +8,7 @@ class ArtefactsController < ApplicationController
   before_filter :get_people_list, :only => [:new, :edit]
   before_filter :get_organization_list, :only => [:new, :edit]
   before_filter :get_keywords, :only => [:new, :edit, :create, :update]
+  before_filter :get_teams, :only => [:new, :edit, :create, :update]
   before_filter :disable_unnecessary_features
   helper_method :relatable_items
   helper_method :sort_column, :sort_direction
@@ -150,6 +151,11 @@ class ArtefactsController < ApplicationController
       @available_keywords = Tag.where(tag_type: "keyword").map { |k| k.title }
     end
 
+    def get_teams
+      @teams = @artefact.team.map { |k| k.title }.join(", ") if @artefact
+      @available_teams = Tag.where(tag_type: "team").map { |k| k.title }
+    end
+
     def admin_url_for_edition(artefact, options = {})
       [
         "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
@@ -238,8 +244,12 @@ class ArtefactsController < ApplicationController
         if params[:artefact][:keywords].is_a?(String)
           params[:artefact][:keywords] = params[:artefact][:keywords].split(",").map(&:strip)
         end
+        if params[:artefact][:team].is_a?(String)
+          params[:artefact][:team] = params[:artefact][:team].split(",").map(&:strip)
+        end
 
         create_keywords(params) if params[:artefact][:keywords]
+        create_teams(params) if params[:artefact][:team]
         map_roles!(params)
       end
 
@@ -277,6 +287,11 @@ class ArtefactsController < ApplicationController
     def create_keywords(params)
       params[:artefact][:keywords].each { |k| Tag.find_or_create_by(tag_id: k.parameterize, title: k, tag_type: "keyword") }
       params[:artefact][:keywords].map! { |k| k.parameterize }
+    end
+
+    def create_teams(params)
+      params[:artefact][:team].each { |k| Tag.find_or_create_by(tag_id: k.parameterize, title: k, tag_type: "team") }
+      params[:artefact][:team].map! { |k| k.parameterize }
     end
 
     def build_actions
