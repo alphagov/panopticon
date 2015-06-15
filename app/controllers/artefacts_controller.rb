@@ -249,7 +249,7 @@ class ArtefactsController < ApplicationController
         end
 
         create_keywords(params) if params[:artefact][:keywords]
-        create_teams(params) if params[:artefact][:team]
+        map_teams!(params) if params[:artefact][:team]
         map_roles!(params)
       end
 
@@ -289,9 +289,8 @@ class ArtefactsController < ApplicationController
       params[:artefact][:keywords].map! { |k| k.parameterize }
     end
 
-    def create_teams(params)
-      params[:artefact][:team].each { |k| Tag.find_or_create_by(tag_id: k.parameterize, title: k, tag_type: "team") }
-      params[:artefact][:team].map! { |k| k.parameterize }
+    def map_teams!(params)
+      params[:artefact][:team].map! { |t| Tag.where(title: t, tag_type: "team").first.tag_id rescue nil }
     end
 
     def build_actions
