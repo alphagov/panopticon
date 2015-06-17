@@ -48,11 +48,11 @@ else
   gem 'gds-sso', '10.0.0'
 end
 
-gem 'govuk_admin_template', '1.4.0'
+gem 'govuk_admin_template', '2.3.1'
 gem 'formtastic', '2.3.0.rc4'
 gem 'formtastic-bootstrap', '3.0.0'
 gem 'jquery-ui-rails', '5.0.0'
-gem 'chosen-rails', '1.1.0'
+gem 'chosen-rails', '1.4.2'
 gem 'select2-rails', '3.5.9.1'
 
 gem 'whenever', '0.9.2', require: false
