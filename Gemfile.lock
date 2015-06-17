@@ -175,7 +175,7 @@ GEM
     kramdown (1.4.2)
     launchy (2.1.2)
       addressable (~> 2.3)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.7)
     link_header (0.0.8)
     logstash-event (1.1.5)
     logstasher (0.4.8)
