@@ -18,7 +18,7 @@ end
 
 gem 'govuk-client-url_arbiter', '0.0.2'
 
-gem 'rails', '3.2.18'
+gem 'rails', '3.2.22'
 gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
