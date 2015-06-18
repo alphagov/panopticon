@@ -1,11 +1,11 @@
 <%= form.inputs do %>
   <%= form.input :title %>
   <%= form.input :type, :as => :select, :collection => ['Image', 'Frame', 'Text'] %>
-  
+
   <div class="types image text hidden">
     <%= form.input :link %>
   </div>
-  
+
   <div class="types frame <% unless section_module.type == "Frame" %>hidden<% end %>">
     <%= form.input :frame, :collection => {
                                           'Blog'    => 'blog',
@@ -14,11 +14,11 @@
                                           'News'    => 'news'
                                         } %>
   </div>
-  
+
   <div class="types image <% unless section_module.type == "Image" %>hidden<% end %>">
 
     <%= form.inputs "Image file" do %>
-    
+
       <fieldset class='form-horizontal'>
 
         <% if section_module.image %>
@@ -41,30 +41,36 @@
         <p><%= form.input :image, :as => :file, :label => section_module.image ? "Replace image" : "Upload a new image" %></p>
 
       </fieldset>
-    
+
     <% end %>
-    
+
   </div>
-  
+
   <div class="types text <% unless section_module.type == "Text" %>hidden<% end %>">
     <%= form.input :text %>
     <%= form.input :colour, :as => :select, :collection =>  {
-                                            'Red'          => 1,
-                                            'Orange'       => 2,
-                                            'Yellow'       => 3,
-                                            'Light Green'  => 4,
-                                            'Medium Green' => 5,
-                                            'Turquoise'    => 6,
-                                            'Dark Blue'    => 7,
-                                            'Medium Blue'  => 8,
-                                            'Light Blue'   => 9,
-                                            'Pink'         => 10,
-                                            'Magenta'      => 11,
-                                            'Purple'       => 12
+                                            'Red'                 => 1,
+                                            'Orange'              => 2,
+                                            'Yellow'              => 3,
+                                            'Light Green'         => 4,
+                                            'Medium Green'        => 5,
+                                            'Turquoise'           => 6,
+                                            'Dark Blue'           => 7,
+                                            'Medium Blue'         => 8,
+                                            'Light Blue'          => 9,
+                                            'Pink'                => 10,
+                                            'Magenta'             => 11,
+                                            'Purple'              => 12,
+                                            'Dapaas green'        => 13,
+                                            'Dapaas light green'  => 14,
+                                            'Dapaas dark green'   => 15,
+                                            #'Dapaas black'       => 16,
+                                            'Dapaas grey'         => 17,
+                                            'Dapaas mid-grey'     => 18
                                           }
     %>
   </div>
-  
+
   <%= form.submit :value => "Save", :class => "btn btn-success" %>
 <% end %>
 
