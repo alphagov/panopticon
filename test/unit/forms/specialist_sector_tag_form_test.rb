@@ -60,7 +60,7 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       assert_equal 'live', artefact.state
     end
 
-    should 'set paths for a parent tag' do
+    should 'not set any paths or prefixes' do
       subject = SpecialistSectorTagForm.new(
         title: 'Oil and gas',
         tag_type: 'specialist_sector',
@@ -73,28 +73,8 @@ class SpecialistSectorTagFormTest < ActiveSupport::TestCase
       end
 
       artefact = Artefact.last
-      assert_equal ['/oil-and-gas'], artefact.paths
-      assert_equal [], artefact.prefixes
-    end
-
-    should 'set prefixes for a child tag' do
-      parent_tag = FactoryGirl.create(:tag, tag_type: 'specialist_sector', tag_id: 'oil-and-gas')
-
-      subject = SpecialistSectorTagForm.new(
-        title: 'Licensing',
-        tag_type: 'specialist_sector',
-        tag_id: 'oil-and-gas/licensing',
-        parent_id: parent_tag.tag_id
-      )
-      subject.state = 'live'
-
-      assert_difference 'Artefact.count', 1 do
-        subject.save
-      end
-
-      artefact = Artefact.last
       assert_equal [], artefact.paths
-      assert_equal ['/oil-and-gas/licensing'], artefact.prefixes
+      assert_equal [], artefact.prefixes
     end
 
     should 'create a draft artefact for a draft tag' do
