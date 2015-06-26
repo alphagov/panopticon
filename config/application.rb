@@ -65,7 +65,7 @@ module Panopticon
 
     # When saving a specialist sector tag we want to update the title of the
     # associated artefact
-    config.mongoid.observers << :update_specialist_sector_tag_artefact_observer
+    config.mongoid.observers << :update_specialist_sector_tag_observer
 
     def url_arbiter_api
       @url_arbiter_api ||= GOVUK::Client::URLArbiter.new
