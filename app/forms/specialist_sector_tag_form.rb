@@ -36,8 +36,6 @@ private
     {
       name: tag.title,
       slug: slug,
-      paths: paths,
-      prefixes: prefixes,
       kind: "specialist_sector",
       owning_app: "panopticon",
       rendering_app: "collections",
@@ -47,17 +45,5 @@ private
 
   def slug
     tag.tag_id
-  end
-
-  def paths
-    child? ? [] : ["/#{slug}"]
-  end
-
-  def prefixes
-    child? ? ["/#{slug}"] : []
-  end
-
-  def child?
-    slug.include?('/')
   end
 end
