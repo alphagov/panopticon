@@ -11,12 +11,6 @@ task :specialist_sector_cleanup => :environment do
         puts "WARNING! This sector has been published.  You will need to redirect its URL"
       end
 
-      # Archiving the artefact will trigger its removal from the search index.
-      artefact = Artefact.where(slug: slug, kind: "specialist_sector").first
-      puts "Archiving artefact \"#{artefact.id}\""
-      artefact.state = "archived"
-      artefact.save
-
       puts "Deleting tag \"#{tag.tag_id}\""
       tag.destroy
     else
