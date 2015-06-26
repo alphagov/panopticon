@@ -24,7 +24,7 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = form_object.new(tag_parameters)
+    @tag = Tag.new(tag_parameters)
 
     if @tag.parent_id.present? && request.format.html?
       @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
@@ -145,18 +145,5 @@ private
         children || []
       ]
     }
-  end
-
-  def form_object
-    case tag_type
-    when 'specialist_sector'
-      SpecialistSectorTagForm
-    else
-      Tag
-    end
-  end
-
-  def tag_type
-    params[:tag] && params[:tag][:tag_type] || params[:type]
   end
 end
