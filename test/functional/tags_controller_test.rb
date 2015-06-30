@@ -162,12 +162,6 @@ class TagsControllerTest < ActionController::TestCase
       put :update, id: @tag.id, tag: @stub_atts.merge('parent_id' => @tag.parent_id)
     end
 
-    should "return a not found error if a tag doesn't exist" do
-      put :update, id: "foo", tag: @stub_atts
-
-      assert response.not_found?
-    end
-
     should "redirect to the tags list on a successful update" do
       Tag.any_instance.expects(:update_attributes).returns(true)
 

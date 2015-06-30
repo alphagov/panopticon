@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:publish, :show, :update]
+  before_filter :find_tag, only: [:publish, :show]
 
   rescue_from Tag::TagNotFound, with: :record_not_found
 
@@ -50,13 +50,22 @@ class TagsController < ApplicationController
   end
 
   def update
-    if disallowed_update_params.any?
-      render status: :unprocessable_entity,
-             json: { errors: disallowed_update_params_errors }
-      return
-    end
+    find_or_build_tag
 
-    valid_tag_params = tag_parameters.except(*disallowed_update_param_keys)
+    if @tag.new_record?
+      valid_tag_params = tag_parameters
+      success_status = :created
+    else
+
+      if disallowed_update_params.any?
+        render status: :unprocessable_entity,
+               json: { errors: disallowed_update_params_errors }
+        return
+      end
+
+      valid_tag_params = tag_parameters.except(*disallowed_update_param_keys)
+      success_status = :ok
+    end
 
     respond_to do |format|
       if @tag.update_attributes(valid_tag_params)
@@ -64,7 +73,7 @@ class TagsController < ApplicationController
           flash[:success] = "Tag has been updated"
           redirect_to tags_path
         }
-        format.json { head :ok }
+        format.json { head success_status }
       else
         format.json {
           render json: { errors: @tag.errors }, status: :unprocessable_entity
@@ -122,6 +131,12 @@ private
 
   def find_tag
     @tag = Tag.find_by_param(params[:id])
+  end
+
+  def find_or_build_tag
+    find_tag
+  rescue Tag::TagNotFound
+    @tag = Tag.new
   end
 
   def tags_grouped_by_parents
