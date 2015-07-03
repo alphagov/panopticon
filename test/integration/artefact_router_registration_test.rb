@@ -88,7 +88,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
     should "delete routes in the router then the updated artefact is archived" do
       delete_request = WebMock.stub_request(:delete, "#{@router_api_base}/routes").
-        with(:query => {"incoming_path" => "/foo", "route_type" => "prefix"}).
+        with(:query => {"incoming_path" => "/foo"}).
         to_return(:status => 200)
 
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "archived")
@@ -101,7 +101,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
     should "not blow up when deleting routes if the routes dont exist" do
       delete_request = WebMock.stub_request(:delete, "#{@router_api_base}/routes").
-        with(:query => {"incoming_path" => "/foo", "route_type" => "prefix"}).
+        with(:query => {"incoming_path" => "/foo"}).
         to_return(:status => 404)
 
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "archived")
