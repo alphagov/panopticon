@@ -37,17 +37,17 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     end
 
     should "add all defined prefix routes" do
-      GdsApi::Router.any_instance.expects(:add_route).with("/foo", "prefix", "bee", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "prefix", "bee", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:add_route).with("/baz", "prefix", "bee", :skip_commit => true)
+      GdsApi::Router.any_instance.expects(:add_route).with("/foo", "prefix", "bee")
+      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "prefix", "bee")
+      GdsApi::Router.any_instance.expects(:add_route).with("/baz", "prefix", "bee")
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.submit
     end
 
     should "add all defined exact routes" do
-      GdsApi::Router.any_instance.expects(:add_route).with("/foo.json", "exact", "bee", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "exact", "bee", :skip_commit => true)
+      GdsApi::Router.any_instance.expects(:add_route).with("/foo.json", "exact", "bee")
+      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "exact", "bee")
 
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.submit
@@ -85,17 +85,17 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     end
 
     should "delete all defined prefix routes" do
-      GdsApi::Router.any_instance.expects(:delete_route).with("/foo", "prefix", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:delete_route).with("/bar", "prefix", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:delete_route).with("/baz", "prefix", :skip_commit => true)
+      GdsApi::Router.any_instance.expects(:delete_route).with("/foo")
+      GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
+      GdsApi::Router.any_instance.expects(:delete_route).with("/baz")
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.delete
     end
 
     should "delete all defined exact routes" do
-      GdsApi::Router.any_instance.expects(:delete_route).with("/foo.json", "exact", :skip_commit => true)
-      GdsApi::Router.any_instance.expects(:delete_route).with("/bar", "exact", :skip_commit => true)
+      GdsApi::Router.any_instance.expects(:delete_route).with("/foo.json")
+      GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
 
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.delete
@@ -137,8 +137,8 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       end
 
       should "continue to delete other routes" do
-        GdsApi::Router.any_instance.stubs(:delete_route).with("/foo", "prefix", :skip_commit => true).raises(GdsApi::HTTPNotFound.new(404))
-        GdsApi::Router.any_instance.expects(:delete_route).with("/bar", "prefix", :skip_commit => true)
+        GdsApi::Router.any_instance.stubs(:delete_route).with("/foo").raises(GdsApi::HTTPNotFound.new(404))
+        GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
 
         @artefact.prefixes = ["/foo", "/bar"]
         @routable.delete

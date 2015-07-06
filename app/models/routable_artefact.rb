@@ -26,11 +26,11 @@ class RoutableArtefact
     ensure_backend_exists
     prefixes.each do |path|
       logger.debug("Registering route #{path} (prefix) => #{rendering_app}")
-      router_api.add_route(path, "prefix", rendering_app, :skip_commit => true)
+      router_api.add_route(path, "prefix", rendering_app)
     end
     paths.each do |path|
       logger.debug("Registering route #{path} (exact) => #{rendering_app}")
-      router_api.add_route(path, "exact", rendering_app, :skip_commit => true)
+      router_api.add_route(path, "exact", rendering_app)
     end
     commit unless options[:skip_commit]
   end
@@ -38,15 +38,15 @@ class RoutableArtefact
   def delete(options = {})
     prefixes.each do |path|
       begin
-        logger.debug "Removing route #{path} (prefix)"
-        router_api.delete_route(path, "prefix", :skip_commit => true)
+        logger.debug "Removing route #{path}"
+        router_api.delete_route(path)
       rescue GdsApi::HTTPNotFound
       end
     end
     paths.each do |path|
       begin
-        logger.debug "Removing route #{path} (exact)"
-        router_api.delete_route(path, "exact", :skip_commit => true)
+        logger.debug "Removing route #{path}"
+        router_api.delete_route(path)
       rescue GdsApi::HTTPNotFound
       end
     end
