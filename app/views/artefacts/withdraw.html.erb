@@ -1,4 +1,4 @@
-<%= content_for :page_title, "Archive - #{@artefact.name}" %>
+<%= content_for :page_title, "Withdraw - #{@artefact.name}" %>
 <%= render partial: "artefact_header" %>
 
 <div class="well">
@@ -6,7 +6,7 @@
   <p>This will remove <em><%= @artefact.name %></em> from the website.</p>
   <p>Once you've unpublished you can't change your mind.</p>
 
-  <%= button_to 'Archive',
+  <%= button_to 'Withdraw',
                 artefact_path(@artefact),
                 :method => "delete",
                 :class => "btn btn-danger" %>

@@ -1,5 +1,5 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit, :history, :archive]
+  before_filter :find_artefact, :only => [:show, :edit, :history, :withdraw]
   before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:new, :create]
   before_filter :find_or_build_artefact, :only => [:update]
@@ -41,7 +41,7 @@ class ArtefactsController < ApplicationController
     @actions = build_actions
   end
 
-  def archive
+  def withdraw
     if @artefact.archived?
       redirect_to root_path
     end

@@ -26,7 +26,7 @@ Given /^a live artefact exists$/ do
   @artefact = create_artefact("live-artefact")
 end
 
-Given /^an archived artefact exists$/ do
+Given /^a withdrawn artefact exists$/ do
   @artefact = create_artefact("archived-artefact")
   Artefact.observers.disable :update_search_observer do
     @artefact.update_attributes!('state' => 'archived')
@@ -173,22 +173,22 @@ When /^I try to create a new artefact with the same need$/ do
   visit new_artefact_path(:artefact => {:need_id => @artefact.need_ids.first})
 end
 
-When /^I browse to the "(.*)" URL for the artefact$/ do |path|
-  visit archive_artefact_path(@artefact)
+When /^I go to the withdraw URL for the artefact$/ do
+  visit withdraw_artefact_path(@artefact)
 end
 
-And /^I click the archive tab on the artefact page$/ do
+And /^I click the withdraw tab on the artefact page$/ do
   visit edit_artefact_path(@artefact)
-  click_link "Archive"
+  click_link "Withdraw"
 end
 
-And /^I archive the existing artefact$/ do
+And /^I withdraw the existing artefact$/ do
   Artefact.observers.disable :update_search_observer do
-    click_button "Archive"
+    click_button "Withdraw"
   end
 end
 
-Then /^I should not see the archive tab along with the edit and history tabs$/ do
+Then /^I should not see the withdraw tab along with the edit and history tabs$/ do
   visit edit_artefact_path(@artefact)
   assert page.has_no_css?("ul.artefact-actions li", :count => 3)
   assert page.has_css?("ul.artefact-actions li", :count => 2)
