@@ -34,7 +34,10 @@ delete_tags(['global',
             'people/start-ups',
             'people/writers',
             'people/artists',
-            'news'])
+            'news',
+            'executive',
+            'commercial',
+            'operation'])
 
 create_or_update_tag(
     title: "Featured item?",
@@ -84,45 +87,43 @@ create_or_update_tag(
     tag_id: "artists",
     description: "Artists")
 
-add_team_tag("Board", "board", "Board")
-add_team_tag("Technical Team", "technical", "Technical Team")
+# Programmes
+# Core
+add_team_tag("Culture", "culture-programme", "Culture Programme")
+add_team_tag("Environment", "environment-programme", "Environment Programme")
+add_team_tag("Strategy", "strategy-programme", "Strategy Programme")
+# Global Network
+add_team_tag("Franchise", "franchise-programme", "Franchise Programme")
+add_team_tag("Learning", "learning-programme", "Learning Programme")
+add_team_tag("Membership", "membership-programme", "Membership Programme")
+# Innovation
+add_team_tag("Evidence", "evidence-programme", "Evidence Programme")
+add_team_tag("R&D", "rnd-programme", "R&D Programme")
+add_team_tag("Services", "services-programme", "Services Programme")
 
-add_team_tag("Culture", "team-culture", "Culture")
-add_team_tag("Environment", "team-environment", "Environment")
-add_team_tag("Strategy", "team-strategy", "Strategy")
-add_team_tag("Franchise", "team-franchise", "Franchise")
-add_team_tag("Learning", "team-learning", "Learning")
-add_team_tag("Membership", "team-membership", "Membership")
-add_team_tag("Training", "team-training", "Training")
-add_team_tag("Evidence", "team-evidence", "Evidence")
-add_team_tag("Research", "team-research", "Research")
-add_team_tag("Services", "team-services", "Services")
-add_team_tag("R&D", "team-randd", "R&D")
-add_team_tag("Production", "team-production", "Production")
-add_team_tag("People", "team-people", "People")
-add_team_tag("Dev", "team-dev", "Dev")
-add_team_tag("Finance", "team-finance", "Finance")
-add_team_tag("Business", "team-business", "Business")
-add_team_tag("Support", "team-support", "Support")
+# Functional Teams
+add_team_tag("Leadership", "leadership-team", "Leadership Team")
+add_team_tag("Finance", "finance-team", "Finance Team")
+add_team_tag("Sales", "sales-team", "Sales Team")
+add_team_tag("Marketing", "marketing-team", "Marketing Team")
+add_team_tag("Engagement", "engagement-team", "Engagement Team")
+add_team_tag("Account Management", "account-mgmt-team", "Account Management Team")
+add_team_tag("Project Management", "project-mgmt-team", "Project Management Team")
+add_team_tag("Consultancy", "consultancy-team", "Consultancy Team")
+add_team_tag("Research", "research-team", "Research Team")
+add_team_tag("Training", "training-team", "Training Team")
+add_team_tag("Product Management", "product-mgmt-team", "Product Management Team")
+add_team_tag("Software", "software-team", "Software Team")
+add_team_tag("Communications", "communications-team", "Communications Team")
+add_team_tag("Production", "production-team", "Production Team")
+add_team_tag("Events", "events-team", "Events Team")
+add_team_tag("Business Support", "business-support-team", "Business Support Team")
+add_team_tag("People Dev", "people-dev-team", "People Dev Team")
+
+# Other
+add_team_tag("Board", "team-board", "Board Member")
 add_team_tag("Intern", "team-intern", "Intern")
-
-create_or_update_tag(
-    title: "Executive Team",
-    tag_type: "team",
-    tag_id: "executive",
-    description: "Executive Team")
-
-create_or_update_tag(
-    title: "Commercial Team",
-    tag_type: "team",
-    tag_id: "commercial",
-    description: "Commercial Team")
-
-create_or_update_tag(
-    title: "Operations Team",
-    tag_type: "team",
-    tag_id: "operation",
-    description: "Operations Team")
+add_team_tag("Associate", "team-associate", "Associate")
 
 create_or_update_tag(
     title: "Consultation Response",
