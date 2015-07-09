@@ -39,18 +39,18 @@ class RoutableArtefact
     prefixes.each do |path|
       begin
         logger.debug "Removing route #{path}"
-        router_api.delete_route(path)
+        router_api.add_gone_route(path, "prefix")
       rescue GdsApi::HTTPNotFound
       end
     end
     paths.each do |path|
       begin
         logger.debug "Removing route #{path}"
-        router_api.delete_route(path)
+        router_api.add_gone_route(path, "exact")
       rescue GdsApi::HTTPNotFound
       end
     end
-    commit unless options[:skip_commit]
+    commit unless options[:skip_commit] || prefixes.empty? && paths.empty?
   end
 
   def commit

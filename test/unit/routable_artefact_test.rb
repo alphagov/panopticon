@@ -1,72 +1,88 @@
-require_relative '../test_helper'
+require 'test_helper'
+require 'gds_api/test_helpers/router'
 
 class RoutableArtefactTest < ActiveSupport::TestCase
+  include GdsApi::TestHelpers::Router
+
   setup do
-    @old_app_domain, ENV['GOVUK_APP_DOMAIN'] = ENV['GOVUK_APP_DOMAIN'], 'test.gov.uk'
+    stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
     @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
     @routable = RoutableArtefact.new(@artefact)
   end
 
-  teardown do
-    ENV['GOVUK_APP_DOMAIN'] = @old_app_domain
-  end
-
   context "registering routes for an artefact" do
     setup do
-      GdsApi::Router.any_instance.stubs(:add_backend)
-      GdsApi::Router.any_instance.stubs(:add_route)
-      GdsApi::Router.any_instance.stubs(:commit_routes)
+      stub_all_router_registration
     end
 
     context "ensuring the backend exists in the router" do
       should "use the rendering_app if set" do
         @artefact.rendering_app = "fooey"
-        GdsApi::Router.any_instance.expects(:add_backend).with("fooey", "http://fooey.test.gov.uk/")
+        request = stub_router_backend_registration("fooey", "http://fooey.dev.gov.uk/")
         @routable.submit
+        assert_requested request
       end
 
       should "use the owning_app if rendering_app not set" do
         @artefact.rendering_app = nil
-        GdsApi::Router.any_instance.expects(:add_backend).with("bee", "http://bee.test.gov.uk/")
+        request = stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
         @routable.submit
+        assert_requested request
+      end
 
+      should "use the owning_app if rendering_app is blank" do
         @artefact.rendering_app = ""
-        GdsApi::Router.any_instance.expects(:add_backend).with("bee", "http://bee.test.gov.uk/")
+        request = stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
         @routable.submit
+        assert_requested request
       end
     end
 
     should "add all defined prefix routes" do
-      GdsApi::Router.any_instance.expects(:add_route).with("/foo", "prefix", "bee")
-      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "prefix", "bee")
-      GdsApi::Router.any_instance.expects(:add_route).with("/baz", "prefix", "bee")
+      requests = [
+        stub_route_registration("/foo", "prefix", "bee"),
+        stub_route_registration("/bar", "prefix", "bee"),
+        stub_route_registration("/baz", "prefix", "bee")
+      ]
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.submit
+
+      requests.each do |route_request, commit_request|
+        assert_requested route_request
+        assert_requested commit_request
+      end
     end
 
     should "add all defined exact routes" do
-      GdsApi::Router.any_instance.expects(:add_route).with("/foo.json", "exact", "bee")
-      GdsApi::Router.any_instance.expects(:add_route).with("/bar", "exact", "bee")
+      requests = [
+        stub_route_registration("/foo.json", "exact", "bee"),
+        stub_route_registration("/bar", "exact", "bee")
+      ]
 
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.submit
-    end
 
-    should "commit the route changes" do
-      GdsApi::Router.any_instance.expects(:commit_routes)
-
-      @artefact.prefixes = ["/foo", "/bar", "/baz"]
-      @artefact.paths = ["/foo.json"]
-      @routable.submit
+      requests.each do |route_request, commit_request|
+        assert_requested route_request
+        assert_requested commit_request
+      end
     end
 
     should "not commit when asked not to" do
-      @routable.router_api.expects(:commit_routes).never
+      prefix_route_request, prefix_commit_request = stub_route_registration(
+        "/foo", "prefix", "bee")
+      exact_route_request, exact_commit_request = stub_route_registration(
+        "/bar", "exact", "bee")
 
-      @artefact.prefixes = ["/foo", "/bar", "/baz"]
-      @artefact.paths = ["/foo.json"]
+      @artefact.prefixes = ["/foo"]
+      @artefact.paths = ["/bar"]
       @routable.submit(:skip_commit => true)
+
+      assert_requested prefix_route_request
+      assert_requested exact_route_request
+      assert_not_requested prefix_commit_request
+      assert_not_requested exact_commit_request
     end
 
     should "not blow up if prefixes or paths is nil" do
@@ -79,46 +95,55 @@ class RoutableArtefactTest < ActiveSupport::TestCase
   end
 
   context "deleting routes for an artefact" do
-    setup do
-      GdsApi::Router.any_instance.stubs(:delete_route)
-      GdsApi::Router.any_instance.stubs(:commit_routes)
-    end
-
     should "delete all defined prefix routes" do
-      GdsApi::Router.any_instance.expects(:delete_route).with("/foo")
-      GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
-      GdsApi::Router.any_instance.expects(:delete_route).with("/baz")
+      requests = [
+        stub_gone_route_registration("/foo", "prefix"),
+        stub_gone_route_registration("/bar", "prefix"),
+        stub_gone_route_registration("/baz", "prefix")
+      ]
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.delete
+
+      requests.each do |route_request, commit_request|
+        assert_requested route_request
+        assert_requested commit_request
+      end
     end
 
     should "delete all defined exact routes" do
-      GdsApi::Router.any_instance.expects(:delete_route).with("/foo.json")
-      GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
+      requests = [
+        stub_gone_route_registration("/foo.json", "exact"),
+        stub_gone_route_registration("/bar", "exact")
+      ]
 
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.delete
-    end
 
-    should "commit the routes" do
-      GdsApi::Router.any_instance.expects(:commit_routes)
-
-      @artefact.prefixes = ["/foo", "/bar", "/baz"]
-      @artefact.paths = ["/foo.json"]
-      @routable.delete
+      requests.each do |route_request, commit_request|
+        assert_requested route_request
+        assert_requested commit_request
+      end
     end
 
     should "not commit when asked not to" do
-      @routable.router_api.expects(:commit_routes).never
+      prefix_route_request, prefix_commit_request = stub_gone_route_registration(
+        "/foo", "prefix")
+      exact_route_request, exact_commit_request = stub_gone_route_registration(
+        "/bar", "exact")
 
-      @artefact.prefixes = ["/foo", "/bar", "/baz"]
-      @artefact.paths = ["/foo.json"]
-      @routable.delete(:skip_commit => true)
+      @artefact.prefixes = ["/foo"]
+      @artefact.paths = ["/bar"]
+      @routable.delete(skip_commit: true)
+
+      assert_requested prefix_route_request
+      assert_requested exact_route_request
+      assert_not_requested prefix_commit_request
+      assert_not_requested exact_commit_request
     end
 
-
     should "not blow up if prefixes or paths is nil" do
+
       @artefact.prefixes = nil
       @artefact.paths = nil
       assert_nothing_raised do
@@ -128,7 +153,10 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     context "when router-api returns 404 for a delete request" do
       should "not blow up" do
-        GdsApi::Router.any_instance.stubs(:delete_route).raises(GdsApi::HTTPNotFound.new(404))
+        gone_request, commit_request = stub_gone_route_registration(
+          "/foo", "prefix")
+
+        gone_request.to_return(status: 404)
 
         @artefact.prefixes = ["/foo"]
         assert_nothing_raised do
@@ -137,11 +165,18 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       end
 
       should "continue to delete other routes" do
-        GdsApi::Router.any_instance.stubs(:delete_route).with("/foo").raises(GdsApi::HTTPNotFound.new(404))
-        GdsApi::Router.any_instance.expects(:delete_route).with("/bar")
+        missing_gone_request, _ = stub_gone_route_registration(
+          "/foo", "prefix")
+        missing_gone_request.to_return(status: 404)
+
+        gone_request, commit_request = stub_gone_route_registration(
+          "/bar", "prefix")
 
         @artefact.prefixes = ["/foo", "/bar"]
         @routable.delete
+
+        assert_requested gone_request
+        assert_requested commit_request
       end
     end
   end
