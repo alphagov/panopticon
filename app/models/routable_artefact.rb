@@ -53,6 +53,24 @@ class RoutableArtefact
     commit unless options[:skip_commit] || prefixes.empty? && paths.empty?
   end
 
+  def redirect(destination, options = {})
+    prefixes.each do |path|
+      begin
+        logger.debug "Removing route #{path}"
+        router_api.add_redirect_route(path, "prefix", destination)
+      rescue GdsApi::HTTPNotFound
+      end
+    end
+    paths.each do |path|
+      begin
+        logger.debug "Removing route #{path}"
+        router_api.add_redirect_route(path, "exact", destination)
+      rescue GdsApi::HTTPNotFound
+      end
+    end
+    commit unless options[:skip_commit] || prefixes.empty? && paths.empty?
+  end
+
   def commit
     router_api.commit_routes
   end
