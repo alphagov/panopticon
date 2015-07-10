@@ -90,5 +90,4 @@ class ArtefactTest < ActiveSupport::TestCase
       assert_equal false, artefact.allow_section_tag_changes?
     end
   end
-
 end

@@ -23,7 +23,7 @@ class UpdateRouterObserverTest < ActiveSupport::TestCase
     assert artefact.save
   end
 
-  should 'delete an archived artefact from the router' do
+  should 'mark an archived artefact as gone in the router' do
     mock_routable_artefact = mock("RoutableArtefact")
     RoutableArtefact.stubs(:new).returns(mock_routable_artefact)
 
@@ -37,6 +37,25 @@ class UpdateRouterObserverTest < ActiveSupport::TestCase
     RoutableArtefact.expects(:new).never
 
     artefact = build(:archived_artefact, owning_app: 'whitehall')
+    assert artefact.save
+  end
+
+  should 'add a redirect for an artefact if requested' do
+    mock_routable_artefact = mock("RoutableArtefact")
+    RoutableArtefact.stubs(:new).returns(mock_routable_artefact)
+
+    mock_routable_artefact.expects(:redirect, "/new")
+
+    artefact = build(:archived_artefact, redirect_url: "/new")
+    assert artefact.save
+  end
+
+  should 'not redirect an artefact owned by Whitehall' do
+    RoutableArtefact.expects(:new).never
+
+    artefact = build(:archived_artefact,
+                     owning_app: 'whitehall', 
+                     redirect_url: "/new")
     assert artefact.save
   end
 end
