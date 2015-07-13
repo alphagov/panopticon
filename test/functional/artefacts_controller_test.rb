@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'gds_api/test_helpers/router'
 
 class ArtefactsControllerTest < ActionController::TestCase
   setup do
@@ -579,30 +580,114 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "DELETE /artefacts/:id" do
+      include GdsApi::TestHelpers::Router
+
       setup do
-        stub_all_router_api_requests
         WebMock.stub_request(:delete, "http://search.dev.gov.uk/mainstream/documents/%2Fwhatever").
             to_return(:status => 200)
         WebMock.stub_request(:post, "http://search.dev.gov.uk/mainstream/commit").
             to_return(:status => 200)
-      end
-
-      should "mark an artefact as archived" do
-        artefact = Artefact.create!(
+        @artefact = Artefact.create!(
           slug: "whatever",
           kind: "guide",
           owning_app: "publisher",
           name: "Whatever",
-          need_ids: ['100001']
+          need_ids: ['100001'],
+          paths: ["/whatever"]
         )
-        delete :destroy, id: artefact.id, format: "json"
-        assert_equal 200, response.status
-        assert_equal "archived", artefact.reload.state
+
       end
 
-      should "return a 404" do
-        delete :destroy, id: "4567", format: "json"
-        assert_equal 404, response.status
+      context "when a redirect is requested" do
+        context "for a relative path" do
+          should "mark an artefact as archived" do
+            stub_all_router_registration
+
+            delete :destroy, id: @artefact.id, format: :json,
+                             artefact: { redirect_url: "/whenever" }
+            assert_equal 200, response.status
+            @artefact.reload
+            assert_equal "archived", @artefact.state
+            assert_equal "/whenever", @artefact.redirect_url
+          end
+
+          should "add a redirect route" do
+            redirect, commit = stub_redirect_registration "/whatever",
+                                                          "exact",
+                                                          "/whenever",
+                                                          "permanent"
+
+            delete :destroy, id: @artefact.id, format: :json,
+                             artefact: { redirect_url: "/whenever" }
+
+            assert_requested redirect
+            assert_requested commit
+          end
+        end
+
+        context "for a GOV.UK absolute URL path" do
+          should "mark an artefact as archived" do
+            stub_all_router_registration
+
+            delete :destroy, id: @artefact.id, format: :json,
+                             artefact: { redirect_url: "https://gov.uk/whenever" }
+            assert_equal 200, response.status
+            @artefact.reload
+            assert_equal "archived", @artefact.state
+            assert_equal "/whenever", @artefact.redirect_url
+          end
+
+          should "add a redirect route" do
+            redirect, commit = stub_redirect_registration "/whatever",
+                                                          "exact",
+                                                          "/whenever",
+                                                          "permanent"
+
+            delete :destroy, id: @artefact.id, format: :json,
+                             artefact: { redirect_url: "https://gov.uk/whenever" }
+
+            assert_requested redirect
+            assert_requested commit
+          end
+        end
+      end
+
+      context "for a non-GOV.UK absolute URL path" do
+        should "redirect to the withdraw page with a flash message" do
+          delete :destroy, id: @artefact.id, format: :json,
+                           artefact: { redirect_url: "https://example.com/whenever" }
+
+          assert_redirected_to withdraw_artefact_path(@artefact.id)
+          assert_match /not a valid redirect target/, @controller.flash[:danger]
+        end
+      end
+
+      context "when a redirect is not requested" do
+        should "mark an artefact as archived" do
+          stub_all_router_registration
+
+          delete :destroy, id: @artefact.id, format: :json
+          assert_equal 200, response.status
+          @artefact.reload
+          assert_equal "archived", @artefact.state
+          assert_nil @artefact.redirect_url
+        end
+
+        should "add a Gone route" do
+          gone, commit = stub_gone_route_registration "/whatever", "exact"
+
+          delete :destroy, id: @artefact.id, format: :json
+
+          assert_requested gone
+          assert_requested commit
+        end
+      end
+
+      context "for an unknown artefact" do
+        should "return a 404" do
+          delete :destroy, id: "4567", format: :json
+          assert_equal 404, response.status
+        end
       end
     end
   end

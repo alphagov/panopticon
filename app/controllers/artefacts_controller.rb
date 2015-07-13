@@ -104,10 +104,20 @@ class ArtefactsController < ApplicationController
 
   def destroy
     @artefact = Artefact.from_param(params[:id])
-    @artefact.update_attributes_as(current_user, state: "archived")
-    respond_with(@artefact) do |format|
-      format.json { head 200 }
-      format.html { redirect_to artefacts_path }
+    redirect_url = params[:artefact] && params[:artefact][:redirect_url]
+    redirect_url.sub!(%r{^https?://(www\.)?gov\.uk/}, "/") if redirect_url
+    if @artefact.update_attributes_as(
+      current_user,
+      state: "archived",
+      redirect_url: redirect_url)
+
+      respond_with(@artefact) do |format|
+        format.json { head 200 }
+        format.html { redirect_to artefacts_path }
+      end
+    else
+      flash[:danger] = @artefact.errors.full_messages.to_sentence
+      redirect_to withdraw_artefact_path(@artefact)
     end
   end
 
