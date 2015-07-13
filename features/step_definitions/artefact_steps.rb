@@ -22,8 +22,8 @@ Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
 
-Given /^a live artefact exists$/ do
-  @artefact = create_artefact("live-artefact")
+Given /^a live whitehall artefact exists$/ do
+  @artefact = create_artefact("whitehall")
 end
 
 Given /^a withdrawn artefact exists$/ do
@@ -31,6 +31,10 @@ Given /^a withdrawn artefact exists$/ do
   Artefact.observers.disable :update_search_observer do
     @artefact.update_attributes!('state' => 'archived')
   end
+end
+
+Given /^a live artefact exists$/ do
+  @artefact = create_artefact("live-artefact")
 end
 
 When /^I change the need ID of the first artefact$/ do

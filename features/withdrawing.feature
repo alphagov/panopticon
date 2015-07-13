@@ -18,3 +18,9 @@ Feature: Withdrawing artefacts
     Then I should not see the withdraw tab along with the edit and history tabs
     When I go to the withdraw URL for the artefact
     Then I should get redirected to the homepage
+
+  Scenario: Withdraing a Whitehall artefact
+    Given a live whitehall artefact exists
+    Then I should not see the withdraw tab along with the edit and history tabs
+    When I go to the withdraw URL for the artefact
+    Then I should get redirected to the homepage
