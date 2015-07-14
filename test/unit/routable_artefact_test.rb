@@ -4,14 +4,95 @@ require 'gds_api/test_helpers/router'
 class RoutableArtefactTest < ActiveSupport::TestCase
   include GdsApi::TestHelpers::Router
 
-  setup do
-    stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
-    @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
-    @routable = RoutableArtefact.new(@artefact)
+  context "submitting a live artefact" do
+    context "for a Whitehall artefact" do
+      setup do
+        Artefact.observers.disable :all
+        @artefact = FactoryGirl.create(:whitehall_live_artefact,
+                                       owning_app: "whitehall",
+                                       paths: ["/foo"])
+        @routable = RoutableArtefact.new(@artefact)
+        @routable.stubs(:ensure_backend_exists).returns true
+      end
+
+      teardown do
+        Artefact.observers.enable :all
+      end
+
+      should "register the route" do
+        @routable.expects(:register)
+        @routable.expects(:commit)
+
+        @routable.submit
+      end
+
+      should "not set an archived route as Gone" do
+        @routable.expects(:delete).never
+        @routable.expects(:commit).never
+
+        @artefact.state = "archived"
+
+        @routable.submit
+      end
+
+      should "not add a redirect" do
+        @routable.expects(:redirect).never
+        @routable.expects(:commit).never
+
+        @artefact.state = "archived"
+        @artefact.redirect_url = "/bar"
+
+        @routable.submit
+      end
+    end
+
+    context "for a non-Whitehall artefact" do
+      setup do
+        Artefact.observers.disable :all
+        @artefact = FactoryGirl.create(:live_artefact,
+                                       owning_app: "bee",
+                                       paths: ["/foo"])
+        @routable = RoutableArtefact.new(@artefact)
+        @routable.stubs(:ensure_backend_exists).returns true
+      end
+
+      teardown do
+        Artefact.observers.enable :all
+      end
+
+      should "register the route" do
+        @routable.expects(:register)
+        @routable.expects(:commit)
+
+        @routable.submit
+      end
+
+      should "set an archived route as Gone" do
+        @routable.expects(:delete)
+        @routable.expects(:commit)
+
+        @artefact.state = "archived"
+
+        @routable.submit
+      end
+
+      should "add a redirect if requested" do
+        @routable.expects(:redirect).with("/bar")
+        @routable.expects(:commit)
+
+        @artefact.state = "archived"
+        @artefact.redirect_url = "/bar"
+
+        @routable.submit
+      end
+    end
   end
 
   context "registering routes for an artefact" do
     setup do
+      stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
+      @routable = RoutableArtefact.new(@artefact)
       stub_all_router_registration
     end
 
@@ -19,21 +100,21 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       should "use the rendering_app if set" do
         @artefact.rendering_app = "fooey"
         request = stub_router_backend_registration("fooey", "http://fooey.dev.gov.uk/")
-        @routable.submit
+        @routable.register
         assert_requested request
       end
 
       should "use the owning_app if rendering_app not set" do
         @artefact.rendering_app = nil
         request = stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
-        @routable.submit
+        @routable.register
         assert_requested request
       end
 
       should "use the owning_app if rendering_app is blank" do
         @artefact.rendering_app = ""
         request = stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
-        @routable.submit
+        @routable.register
         assert_requested request
       end
     end
@@ -46,11 +127,10 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       ]
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
-      @routable.submit
+      @routable.register
 
-      requests.each do |route_request, commit_request|
+      requests.each do |route_request, _commit_request|
         assert_requested route_request
-        assert_requested commit_request
       end
     end
 
@@ -61,40 +141,29 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       ]
 
       @artefact.paths = ["/foo.json", "/bar"]
-      @routable.submit
+      @routable.register
 
-      requests.each do |route_request, commit_request|
+      requests.each do |route_request, _commit_request|
         assert_requested route_request
-        assert_requested commit_request
       end
-    end
-
-    should "not commit when asked not to" do
-      prefix_route_request, prefix_commit_request = stub_route_registration(
-        "/foo", "prefix", "bee")
-      exact_route_request, exact_commit_request = stub_route_registration(
-        "/bar", "exact", "bee")
-
-      @artefact.prefixes = ["/foo"]
-      @artefact.paths = ["/bar"]
-      @routable.submit(:skip_commit => true)
-
-      assert_requested prefix_route_request
-      assert_requested exact_route_request
-      assert_not_requested prefix_commit_request
-      assert_not_requested exact_commit_request
     end
 
     should "not blow up if prefixes or paths is nil" do
       @artefact.prefixes = nil
       @artefact.paths = nil
       assert_nothing_raised do
-        @routable.submit
+        @routable.register
       end
     end
   end
 
   context "deleting routes for an artefact" do
+    setup do
+      stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
+      @routable = RoutableArtefact.new(@artefact)
+    end
+
     should "delete all defined prefix routes" do
       requests = [
         stub_gone_route_registration("/foo", "prefix"),
@@ -105,9 +174,8 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.delete
 
-      requests.each do |route_request, commit_request|
+      requests.each do |route_request, _commit_request|
         assert_requested route_request
-        assert_requested commit_request
       end
     end
 
@@ -120,30 +188,12 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.delete
 
-      requests.each do |route_request, commit_request|
+      requests.each do |route_request, _commit_request|
         assert_requested route_request
-        assert_requested commit_request
       end
     end
 
-    should "not commit when asked not to" do
-      prefix_route_request, prefix_commit_request = stub_gone_route_registration(
-        "/foo", "prefix")
-      exact_route_request, exact_commit_request = stub_gone_route_registration(
-        "/bar", "exact")
-
-      @artefact.prefixes = ["/foo"]
-      @artefact.paths = ["/bar"]
-      @routable.delete(skip_commit: true)
-
-      assert_requested prefix_route_request
-      assert_requested exact_route_request
-      assert_not_requested prefix_commit_request
-      assert_not_requested exact_commit_request
-    end
-
     should "not blow up if prefixes or paths is nil" do
-
       @artefact.prefixes = nil
       @artefact.paths = nil
       assert_nothing_raised do
@@ -153,7 +203,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     context "when router-api returns 404 for a delete request" do
       should "not blow up" do
-        gone_request, commit_request = stub_gone_route_registration(
+        gone_request, _commit_request = stub_gone_route_registration(
           "/foo", "prefix")
 
         gone_request.to_return(status: 404)
@@ -165,23 +215,28 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       end
 
       should "continue to delete other routes" do
-        missing_gone_request, _ = stub_gone_route_registration(
+        missing_gone_request, _commit_request = stub_gone_route_registration(
           "/foo", "prefix")
         missing_gone_request.to_return(status: 404)
 
-        gone_request, commit_request = stub_gone_route_registration(
+        gone_request, _commit_request = stub_gone_route_registration(
           "/bar", "prefix")
 
         @artefact.prefixes = ["/foo", "/bar"]
         @routable.delete
 
         assert_requested gone_request
-        assert_requested commit_request
       end
     end
   end
 
   context "redirecting routes for an artefact" do
+    setup do
+      stub_router_backend_registration("bee", "http://bee.dev.gov.uk/")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "bee")
+      @routable = RoutableArtefact.new(@artefact)
+    end
+
     should "redirect all defined prefix routes" do
       requests = [
         stub_redirect_registration("/foo", "prefix", "/new", "permanent"),
@@ -192,9 +247,8 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
       @routable.redirect("/new")
 
-      requests.each do |redirect_request, commit_request|
+      requests.each do |redirect_request, _commit_request|
         assert_requested redirect_request
-        assert_requested commit_request
       end
     end
 
@@ -207,26 +261,9 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       @artefact.paths = ["/foo.json", "/bar"]
       @routable.redirect("/new")
 
-      requests.each do |redirect_request, commit_request|
+      requests.each do |redirect_request, _commit_request|
         assert_requested redirect_request
-        assert_requested commit_request
       end
-    end
-
-    should "not commit when asked not to" do
-      prefix_redirect_request, prefix_commit_request = stub_redirect_registration(
-        "/foo", "prefix", "/new", "permanent")
-      exact_redirect_request, exact_commit_request = stub_redirect_registration(
-        "/bar", "exact", "/new", "permanent")
-
-      @artefact.prefixes = ["/foo"]
-      @artefact.paths = ["/bar"]
-      @routable.redirect("/new", skip_commit: true)
-
-      assert_requested prefix_redirect_request
-      assert_requested exact_redirect_request
-      assert_not_requested prefix_commit_request
-      assert_not_requested exact_commit_request
     end
 
     should "not blow up if prefixes or paths is nil" do
@@ -239,7 +276,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     context "when router-api returns 404 for a delete request" do
       should "not blow up" do
-        gone_request, commit_request = stub_redirect_registration(
+        gone_request, _commit_request = stub_redirect_registration(
           "/foo", "prefix", "/new", "permanent")
 
         gone_request.to_return(status: 404)
@@ -251,18 +288,17 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       end
 
       should "continue to redirect other routes" do
-        missing_redirect_request, _ = stub_redirect_registration(
+        missing_redirect_request, _commit_request = stub_redirect_registration(
           "/foo", "prefix", "/new", "permanent")
         missing_redirect_request.to_return(status: 404)
 
-        redirect_request, commit_request = stub_redirect_registration(
+        redirect_request, _commit_request = stub_redirect_registration(
           "/bar", "prefix", "/new", "permanent")
 
         @artefact.prefixes = ["/foo", "/bar"]
         @routable.redirect("/new")
 
         assert_requested redirect_request
-        assert_requested commit_request
       end
     end
   end

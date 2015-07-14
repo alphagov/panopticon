@@ -1,19 +1,10 @@
-require_relative '../../test_helper'
+require 'test_helper'
 
 class UpdateRouterObserverTest < ActiveSupport::TestCase
-  setup do
-    stub_all_router_api_requests
-    stub_all_rummager_requests
-  end
+  setup { Artefact.observers.disable :update_search_observer }
+  teardown { Artefact.observers.enable :update_search_observer }
 
-  should 'not register a draft artefact with the router' do
-    RoutableArtefact.expects(:new).never
-
-    artefact = build(:draft_artefact)
-    assert artefact.save
-  end
-
-  should 'submit a live artefact into the router' do
+  should 'submit a live artefact' do
     mock_routable_artefact = mock("RoutableArtefact")
     RoutableArtefact.stubs(:new).returns(mock_routable_artefact)
 
@@ -23,39 +14,23 @@ class UpdateRouterObserverTest < ActiveSupport::TestCase
     assert artefact.save
   end
 
-  should 'mark an archived artefact as gone in the router' do
+  should 'submit an archived artefact' do
     mock_routable_artefact = mock("RoutableArtefact")
     RoutableArtefact.stubs(:new).returns(mock_routable_artefact)
 
-    mock_routable_artefact.expects(:delete)
+    mock_routable_artefact.expects(:submit)
 
     artefact = build(:archived_artefact)
     assert artefact.save
   end
 
-  should 'not delete an artefact owned by Whitehall from the router' do
-    RoutableArtefact.expects(:new).never
-
-    artefact = build(:archived_artefact, owning_app: 'whitehall')
-    assert artefact.save
-  end
-
-  should 'add a redirect for an artefact if requested' do
+  should 'submit a draft artefact' do
     mock_routable_artefact = mock("RoutableArtefact")
     RoutableArtefact.stubs(:new).returns(mock_routable_artefact)
 
-    mock_routable_artefact.expects(:redirect, "/new")
+    mock_routable_artefact.expects(:submit)
 
-    artefact = build(:archived_artefact, redirect_url: "/new")
-    assert artefact.save
-  end
-
-  should 'not redirect an artefact owned by Whitehall' do
-    RoutableArtefact.expects(:new).never
-
-    artefact = build(:archived_artefact,
-                     owning_app: 'whitehall', 
-                     redirect_url: "/new")
+    artefact = build(:draft_artefact)
     assert artefact.save
   end
 end
