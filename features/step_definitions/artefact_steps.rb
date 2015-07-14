@@ -22,21 +22,6 @@ Given /^two non-publisher artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts("smart-answers")
 end
 
-Given /^a live whitehall artefact exists$/ do
-  @artefact = create_artefact("whitehall")
-end
-
-Given /^a withdrawn artefact exists$/ do
-  @artefact = create_artefact("archived-artefact")
-  Artefact.observers.disable :update_search_observer do
-    @artefact.update_attributes!('state' => 'archived')
-  end
-end
-
-Given /^a live artefact exists$/ do
-  @artefact = create_artefact("live-artefact")
-end
-
 When /^I change the need ID of the first artefact$/ do
   visit edit_artefact_path(@artefact)
   @new_need_id = "100001"
@@ -175,29 +160,4 @@ end
 
 When /^I try to create a new artefact with the same need$/ do
   visit new_artefact_path(:artefact => {:need_id => @artefact.need_ids.first})
-end
-
-When /^I go to the withdraw URL for the artefact$/ do
-  visit withdraw_artefact_path(@artefact)
-end
-
-And /^I click the withdraw tab on the artefact page$/ do
-  visit edit_artefact_path(@artefact)
-  click_link "Withdraw"
-end
-
-And /^I withdraw the existing artefact$/ do
-  Artefact.observers.disable :update_search_observer do
-    click_button "Withdraw"
-  end
-end
-
-Then /^I should not see the withdraw tab along with the edit and history tabs$/ do
-  visit edit_artefact_path(@artefact)
-  assert page.has_no_css?("ul.artefact-actions li", :count => 3)
-  assert page.has_css?("ul.artefact-actions li", :count => 2)
-end
-
-Then /^I should get redirected to the homepage$/ do
-  URI.parse(current_url).path == root_path
 end
