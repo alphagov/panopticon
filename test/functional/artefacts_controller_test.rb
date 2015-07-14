@@ -588,16 +588,16 @@ class ArtefactsControllerTest < ActionController::TestCase
         WebMock.stub_request(:post, "http://search.dev.gov.uk/mainstream/commit").
             to_return(:status => 200)
 
-        Artefact.observers.disable :all
-        @artefact = Artefact.create!(
-          slug: "whatever",
-          kind: "guide",
-          owning_app: "publisher",
-          name: "Whatever",
-          need_ids: ['100001'],
-          paths: ["/whatever"]
-        )
-        Artefact.observers.enable :all
+        without_artefact_observers do
+          @artefact = Artefact.create!(
+            slug: "whatever",
+            kind: "guide",
+            owning_app: "publisher",
+            name: "Whatever",
+            need_ids: ['100001'],
+            paths: ["/whatever"]
+          )
+        end
       end
 
       context "when a redirect is requested" do
