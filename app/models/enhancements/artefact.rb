@@ -36,5 +36,4 @@ class Artefact
   def allow_section_tag_changes?
     owning_app != 'publisher'
   end
-
 end

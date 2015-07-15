@@ -14,7 +14,7 @@ Panopticon::Application.routes.draw do
   resources :artefacts, :constraints => { :id => artefact_id_regex } do
     member do
       get :history
-      get :archive
+      get :withdraw
     end
     collection do
       get :search_relatable_items, constraints: { format: :json }

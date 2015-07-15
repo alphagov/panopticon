@@ -67,4 +67,10 @@ class ActiveSupport::TestCase
   def stub_all_rummager_requests
     WebMock.stub_request(:any, %r{\A#{SearchIndex.rummager_host}})
   end
+
+  def without_artefact_observers(observers = :all)
+    Artefact.observers.disable observers
+    yield
+    Artefact.observers.enable observers
+  end
 end

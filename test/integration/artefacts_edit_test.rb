@@ -31,7 +31,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       within ".artefact-actions" do
         assert page.has_selector? "li.active", text: "Edit"
         assert page.has_selector? "li:not(.active)", text: "History"
-        assert page.has_selector? "li:not(.active)", text: "Archive"
+        assert page.has_selector? "li:not(.active)", text: "Withdraw"
       end
 
       within ".owning-app" do

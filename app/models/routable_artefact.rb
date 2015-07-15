@@ -3,6 +3,8 @@ require 'gds_api/router'
 
 class RoutableArtefact
 
+  attr_reader :artefact
+
   def initialize(artefact)
     @artefact = artefact
   end
@@ -23,6 +25,26 @@ class RoutableArtefact
   end
 
   def submit(options = {})
+    if artefact.live?
+      register
+    elsif artefact.owning_app == "whitehall"
+      return
+    elsif artefact.archived? && artefact.redirect_url.present?
+      redirect(artefact.redirect_url)
+    elsif artefact.archived?
+      delete
+    else
+      return
+    end
+
+    if options[:skip_commit] || prefixes.empty? && paths.empty?
+      return
+    end
+
+    commit
+  end
+
+  def register
     ensure_backend_exists
     prefixes.each do |path|
       logger.debug("Registering route #{path} (prefix) => #{rendering_app}")
@@ -32,25 +54,40 @@ class RoutableArtefact
       logger.debug("Registering route #{path} (exact) => #{rendering_app}")
       router_api.add_route(path, "exact", rendering_app)
     end
-    commit unless options[:skip_commit]
   end
 
-  def delete(options = {})
+  def delete
     prefixes.each do |path|
       begin
         logger.debug "Removing route #{path}"
-        router_api.delete_route(path)
+        router_api.add_gone_route(path, "prefix")
       rescue GdsApi::HTTPNotFound
       end
     end
     paths.each do |path|
       begin
         logger.debug "Removing route #{path}"
-        router_api.delete_route(path)
+        router_api.add_gone_route(path, "exact")
       rescue GdsApi::HTTPNotFound
       end
     end
-    commit unless options[:skip_commit]
+  end
+
+  def redirect(destination)
+    prefixes.each do |path|
+      begin
+        logger.debug "Removing route #{path}"
+        router_api.add_redirect_route(path, "prefix", destination)
+      rescue GdsApi::HTTPNotFound
+      end
+    end
+    paths.each do |path|
+      begin
+        logger.debug "Removing route #{path}"
+        router_api.add_redirect_route(path, "exact", destination)
+      rescue GdsApi::HTTPNotFound
+      end
+    end
   end
 
   def commit
@@ -60,14 +97,14 @@ class RoutableArtefact
   private
 
   def rendering_app
-    @rendering_app ||= [@artefact.rendering_app, @artefact.owning_app].reject(&:blank?).first
+    @rendering_app ||= [artefact.rendering_app, artefact.owning_app].reject(&:blank?).first
   end
 
   def paths
-    @artefact.paths || []
+    artefact.paths || []
   end
 
   def prefixes
-    @artefact.prefixes || []
+    artefact.prefixes || []
   end
 end
