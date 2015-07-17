@@ -15,7 +15,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
-                                     owning_app: "smart-answers", language: "en", business_proposition: true,
+                                     owning_app: "smart-answers", language: "en",
                                      section_ids: ["business/employing-people"], legacy_source_ids: ["businesslink"])
     end
 
