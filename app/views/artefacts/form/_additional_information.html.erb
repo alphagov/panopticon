@@ -1,5 +1,4 @@
 <div class="well">
   <%= f.input :language, :collection => {"English" => "en", "Welsh" => "cy"}, :as => :select, :input_html => { :class => "input-md-8" }, :include_blank => false %>
-  <%= f.input :business_proposition, :label => 'Is this business content?', :as => :boolean %>
   <%= f.input :need_extended_font, :label => "Does this artefact need the extra font files?", :as => :boolean %>
 </div>
