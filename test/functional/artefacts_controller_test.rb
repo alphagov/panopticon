@@ -216,17 +216,13 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "redirect to GET edit" do
-        Artefact.any_instance.stubs(:id).returns("abc")
         post :create, :artefact => { :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
 
-        assert_redirected_to "/artefacts/abc/edit"
+        artefact = Artefact.last
+        assert_redirected_to "/artefacts/#{artefact.id}/edit"
       end
 
       context "publisher artefact" do
-        setup do
-          Artefact.any_instance.stubs(:id).returns("abc")
-        end
-
         def valid_artefact_params
           { :owning_app => 'publisher',
             :slug => 'whatever',
@@ -238,13 +234,15 @@ class ArtefactsControllerTest < ActionController::TestCase
         should "redirect to publisher" do
           post :create, artefact: valid_artefact_params
 
-          assert_redirected_to Plek.current.find('publisher') + "/admin/publications/abc"
+          artefact = Artefact.last
+          assert_redirected_to Plek.current.find('publisher') + "/admin/publications/#{artefact.id}"
         end
 
         should "redirect to edit page when requested" do
           post :create, artefact: valid_artefact_params, commit: "Save and continue editing"
 
-          assert_redirected_to "/artefacts/abc/edit"
+          artefact = Artefact.last
+          assert_redirected_to "/artefacts/#{artefact.id}/edit"
         end
       end
 
