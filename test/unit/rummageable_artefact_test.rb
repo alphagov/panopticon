@@ -242,6 +242,33 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
+  test "should include live mainstream browse pages" do
+    FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "a-browse-page-tag")
+
+    artefact = Artefact.new do |artefact|
+      artefact.sections = [
+        'a-browse-page-tag',
+      ]
+    end
+
+    expected = { "mainstream_browse_pages" => ['a-browse-page-tag'] }
+    assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
+  end
+
+  test "should include live second-level mainstream browse pages" do
+    parent_section = FactoryGirl.create(:live_tag, tag_id: "parent-browse-page", tag_type: "section")
+    FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "parent-browse-page/a-browse-page-tag", parent_id: parent_section.tag_id)
+
+    artefact = Artefact.new do |artefact|
+      artefact.sections = [
+        'parent-browse-page/a-browse-page-tag',
+      ]
+    end
+
+    expected = { "mainstream_browse_pages" => ['parent-browse-page/a-browse-page-tag'] }
+    assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
+  end
+
   test "should consider live items should be indexed" do
     artefact = Artefact.new do |artefact|
       artefact.state = "live"

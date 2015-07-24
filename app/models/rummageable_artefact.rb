@@ -79,7 +79,7 @@ class RummageableArtefact
     # When we want to include additional links, this will become an issue
     rummageable_keys = %w{title description format section subsection
       indexable_content boost_phrases organisations additional_links
-      specialist_sectors public_timestamp latest_change_note}
+      specialist_sectors public_timestamp latest_change_note mainstream_browse_pages}
 
     # If a key is in this list, and the corresponding value in the artefact is
     # nil, then it will be omitted from the hash returned from this method
@@ -147,6 +147,10 @@ class RummageableArtefact
 
   def artefact_specialist_sectors
     @artefact.specialist_sectors.map(&:tag_id)
+  end
+
+  def artefact_mainstream_browse_pages
+    @artefact.sections.map(&:tag_id)
   end
 
   def artefact_public_timestamp

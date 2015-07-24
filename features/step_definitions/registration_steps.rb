@@ -89,7 +89,8 @@ Then /^rummager should be told to do a partial update$/ do
     title: "Child Benefit rates",
     format: "answer",
     section: @section.tag_id,
-    subsection: ""
+    subsection: "",
+    "mainstream_browse_pages[]" => "crime",
   }
   assert_requested :post, artefact_search_url(@artefact), body: amendments
 end
