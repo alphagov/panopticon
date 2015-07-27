@@ -75,6 +75,7 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
       "subsection" => "subsection",
       "organisations" => ["cabinet-office"],
       "specialist_sectors" => ["working-sea/health-safety"],
+      "mainstream_browse_pages" => ["a-section/subsection"],
     }
 
     mock_search_index = mock()
