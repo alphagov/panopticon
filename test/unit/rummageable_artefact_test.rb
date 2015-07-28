@@ -348,18 +348,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     rummageable_artefact.submit
   end
 
-  test "adds a rummageable artefact for specialist sectors without indexable content" do
-    artefact = build(:artefact, kind: "specialist_sector", indexable_content: nil)
-    rummageable_artefact = RummageableArtefact.new(artefact)
-
-    stub_search_index = stub("Rummageable::Index")
-    SearchIndex.expects(:instance).returns(stub_search_index)
-
-    stub_search_index.expects(:amend).with(rummageable_artefact.artefact_link, rummageable_artefact.artefact_hash).never
-    stub_search_index.expects(:add).with(rummageable_artefact.artefact_hash)
-    rummageable_artefact.submit
-  end
-
   test "amends a rummageable artefact without indexable content" do
     artefact = build(:artefact, indexable_content: nil)
     rummageable_artefact = RummageableArtefact.new(artefact)
