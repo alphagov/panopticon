@@ -5,8 +5,6 @@ class RummageableArtefact
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"]
 
-  FORMATS_NOT_TO_AMEND = %W(specialist_sector)
-
   EXCEPTIONAL_SLUGS = %W(
     gosuperfast
     growthaccelerator
@@ -71,7 +69,7 @@ class RummageableArtefact
   end
 
   def should_amend?
-    @artefact.indexable_content.nil? && FORMATS_NOT_TO_AMEND.exclude?(@artefact.kind)
+    @artefact.indexable_content.nil?
   end
 
   def artefact_hash
