@@ -35,6 +35,3 @@ is no need to have an up-to-date Whitehall database.
 Panopticon includes observers which will index, update or delete records in the
 search index when an artefact is updated. It expects an instance of
 [Rummager](https://github.com/alphagov/rummager) to be present.
-
-Indexing is disabled by default in the development environment. To turn indexing
-on, set the `UPDATE_SEARCH` environment variable when starting Panopticon.

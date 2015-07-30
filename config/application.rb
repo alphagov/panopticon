@@ -67,6 +67,12 @@ module Panopticon
     # associated artefact
     config.mongoid.observers << :update_specialist_sector_tag_observer
 
+    # When saving an artefact we want to send it to the router.
+    config.mongoid.observers << :update_router_observer
+
+    # When saving an artefact we want to update search.
+    config.mongoid.observers << :update_search_observer
+
     def url_arbiter_api
       @url_arbiter_api ||= GOVUK::Client::URLArbiter.new
     end
