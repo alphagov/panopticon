@@ -1,16 +1,21 @@
-class MoveDetailedGuidesSlugsUnderGuidance < Mongoid::Migration
-  def self.up
-    Artefact.where(kind: 'detailed_guide').each do |detailed_guide|
+namespace :detailed_guide do
+  desc "Reslugs Detailed Guide artefacts to live under /guidance"
+  task reslug: :environment do
+    scope = Artefact.where(kind: 'detailed_guide')
+    count = scope.count
+
+    scope.each_with_index do |detailed_guide, i|
       unless detailed_guide.slug.start_with?('guidance/')
         old_slug = detailed_guide.slug
         new_slug = "guidance/#{old_slug}"
+
         begin
-          path = Rails.application.url_arbiter_api.reserve_path("/#{new_slug}", "publishing_app" => "whitehall")
-          detailed_guide.slug = new_slug
-          detailed_guide.save!
-          puts "moved #{old_slug} to #{new_slug}"
+          path = Rails.application.url_arbiter_api.reserve_path("/#{new_slug}",
+            "publishing_app" => "whitehall")
+          detailed_guide.set(:slug, new_slug)
+          puts "Renamed #{old_slug} to #{new_slug} (#{i+1}/#{count})"
         rescue GOVUK::Client::Errors::Conflict => e
-          puts "couldn't move #{old_slug} to #{new_slug}"
+          puts "Couldn't rename #{old_slug} to #{new_slug} (#{i+1}/#{count})"
           message = ""
           if e.response["errors"]
             e.response["errors"].each do |field, errors|
@@ -25,8 +30,5 @@ class MoveDetailedGuidesSlugsUnderGuidance < Mongoid::Migration
         end
       end
     end
-  end
-
-  def self.down
   end
 end
