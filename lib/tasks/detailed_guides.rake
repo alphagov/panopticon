@@ -4,7 +4,7 @@ namespace :detailed_guide do
     scope = Artefact.where(kind: 'detailed_guide')
     count = scope.count
 
-    scope.each_with_index do |detailed_guide, i|
+    scope.each.each_with_index do |detailed_guide, i|
       unless detailed_guide.slug.start_with?('guidance/')
         old_slug = detailed_guide.slug
         new_slug = "guidance/#{old_slug}"
@@ -37,7 +37,7 @@ namespace :detailed_guide do
     scope = Artefact.where(kind: 'detailed_guide')
     count = scope.count
 
-    scope.each_with_index do |detailed_guide, i|
+    scope.each.each_with_index do |detailed_guide, i|
       begin
         detailed_guide.set(:paths, ["/#{detailed_guide.slug}"])
         puts "updated path to /#{detailed_guide.slug} (#{i+1}/#{count})"
