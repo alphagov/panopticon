@@ -26,6 +26,16 @@ class RoutableArtefactTest < ActiveSupport::TestCase
         @routable.submit
       end
 
+      should "register the route for an achived detailed guide" do
+        @routable.expects(:register)
+        @routable.expects(:commit)
+
+        @artefact.kind = "detailed_guide"
+        @artefact.state = "archived"
+
+        @routable.submit
+      end
+
       should "not set an archived route as Gone" do
         @routable.expects(:delete).never
         @routable.expects(:commit).never
