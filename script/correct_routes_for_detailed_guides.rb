@@ -11,7 +11,7 @@ router_api = GdsApi::Router.new(Plek.find("router-api"))
 
 scope = Artefact.where(kind: "detailed_guide")
 count = scope.count
-scope.each_with_index do |guide, i|
+scope.to_a.each_with_index do |guide, i|
   puts "Processing #{guide.slug} (#{i + 1}/#{count})"
   guide.slug.sub!(%r{^(guidance/)?(deleted-)?}, 'guidance/')
 
