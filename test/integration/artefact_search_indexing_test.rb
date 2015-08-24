@@ -71,8 +71,6 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
     expected_hash_of_attributes_to_index = {
       "title" => "My artefact",
       "format" => "guide",
-      "section" => "a-section",
-      "subsection" => "subsection",
       "organisations" => ["cabinet-office"],
       "specialist_sectors" => ["working-sea/health-safety"],
       "mainstream_browse_pages" => ["a-section/subsection"],

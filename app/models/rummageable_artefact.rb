@@ -75,7 +75,7 @@ class RummageableArtefact
   def artefact_hash
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
-    rummageable_keys = %w{title description format section subsection
+    rummageable_keys = %w{title description format
       indexable_content boost_phrases organisations additional_links
       specialist_sectors public_timestamp latest_change_note mainstream_browse_pages}
 
@@ -112,14 +112,6 @@ class RummageableArtefact
     end
 
     result
-  end
-
-  def artefact_section
-    section_parts[0]
-  end
-
-  def artefact_subsection
-    section_parts[1]
   end
 
   def artefact_format

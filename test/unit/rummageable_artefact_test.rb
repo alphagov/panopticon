@@ -36,8 +36,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     expected = {
       "title" => "My artefact",
       "format" => "guide",
-      "section" => nil,
-      "subsection" => nil,
       "organisations" => [],
       "specialist_sectors" => [],
     }
@@ -56,8 +54,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "title" => "My artefact",
       "format" => "guide",
       "description" => "Describe describey McDescribe",
-      "section" => nil,
-      "subsection" => nil,
       "organisations" => [],
       "specialist_sectors" => [],
     }
@@ -76,8 +72,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
       "specialist_sectors" => [],
@@ -97,8 +91,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     expected = {
       "title" => "My artefact",
       "format" => "guide",
-      "section" => nil,
-      "subsection" => nil,
       "organisations" => [],
       "specialist_sectors" => [],
       "public_timestamp" => "2014-01-01T12:00:00+00:00",
@@ -119,53 +111,9 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "section" => nil,
-      "subsection" => nil,
       "indexable_content" => "Blah blah blah index this",
       "organisations" => [],
     }
-  end
-
-  test "should include section information" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.sections = ["crime"]
-    end
-    expected = {
-      "link" => "/my-artefact",
-      "title" => "My artefact",
-      "format" => "guide",
-      "section" => "crime",
-      "subsection" => nil,
-      "indexable_content" => "Blah blah blah index this",
-      "organisations" => [],
-      "specialist_sectors" => [],
-    }
-    assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
-  end
-
-  test "should include subsection information" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.sections = ["crime/batman"]
-    end
-    expected = {
-      "link" => "/my-artefact",
-      "title" => "My artefact",
-      "format" => "guide",
-      "section" => "crime",
-      "subsection" => "batman",
-      "indexable_content" => "Blah blah blah index this",
-      "organisations" => [],
-      "specialist_sectors" => [],
-    }
-    assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
   test "should include organisations" do
@@ -180,8 +128,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "subsection" => nil,
-      "section" => nil,
       "organisations" => [
         "cabinet-office",
         "department-for-transport"
@@ -209,8 +155,6 @@ class RummageableArtefactTest < ActiveSupport::TestCase
       "link" => "/my-artefact",
       "title" => "My artefact",
       "format" => "guide",
-      "subsection" => nil,
-      "section" => nil,
       "organisations" => [],
       "specialist_sectors" => [
         'oil-and-gas/licensing',
