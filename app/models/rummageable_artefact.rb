@@ -110,12 +110,7 @@ class RummageableArtefact
         hash[rummageable_key] = value
       end
     end
-    # travel advice fakes belonging to a section in frontend
-    # this code continues the fakery so it'll display in search results
-    # as belonging to the correct section
-    if @artefact.kind == "travel-advice"
-      result['section'] = 'foreign-travel-advice'
-    end
+
     result
   end
 
