@@ -8,7 +8,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
   context "artefacts index" do
     should "return list of artefacts as JSON" do
-      FactoryGirl.create(:artefact, :name => 'Alpha', :slug => 'alpha')
+      FactoryGirl.create(:artefact, :name => 'Alpha', :slug => 'alpha', :content_id => '2bd6f4e4-9e47-4952-b1ac-b3799f9368ff')
       FactoryGirl.create(:artefact, :name => 'Bravo', :slug => 'bravo')
       FactoryGirl.create(:artefact, :name => 'Charlie', :slug => 'charlie')
 
@@ -26,7 +26,12 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
   context "show artefact" do
     should "return the JSON representation of the artefact" do
-      artefact = FactoryGirl.create(:artefact, :slug => 'wibble', :name => "Wibble", :need_ids => ["100001", "100002"])
+      artefact = FactoryGirl.create(:artefact,
+        :slug => 'wibble',
+        :name => "Wibble",
+        :need_ids => ["100001", "100002"],
+        :content_id => '436b83ff-dc72-4278-a336-199344be4a33',
+      )
 
       get "/artefacts/wibble.json"
 
@@ -39,6 +44,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
       assert_equal 'publisher', artefact["owning_app"]
       assert_equal 'draft', artefact["state"]
       assert_equal ['100001', '100002'], artefact["need_ids"]
+      assert_equal '436b83ff-dc72-4278-a336-199344be4a33', artefact.content_id
     end
   end
 
@@ -53,7 +59,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false
+          'need_extended_font' => false,
+          'content_id' => 'f392ddac-f600-4963-a3f4-9a82985582f7',
         }
 
         # Rack::Test put method calls to_json on whatever body you pass.
@@ -72,6 +79,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal 'frontend', artefact.rendering_app
         assert_equal 'draft', artefact.state
         assert_equal false, artefact.need_extended_font
+        assert_equal 'f392ddac-f600-4963-a3f4-9a82985582f7', artefact.content_id
       end
 
       should "return an error if creating an artefact fails" do
@@ -209,6 +217,18 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal 'publisher', @artefact.owning_app
         assert_equal 'frontend', @artefact.rendering_app
         assert_equal 'draft', @artefact.state
+      end
+
+      should "add content_id to an artefact that does not have one" do
+        artefact_data = { 'content_id' => '105e2299-dcfe-4301-b8e0-56959ce95ec0' }
+
+        put "/artefacts/wibble.json", artefact_data
+
+        assert_equal 200, last_response.status
+
+        @artefact.reload
+
+        assert_equal '105e2299-dcfe-4301-b8e0-56959ce95ec0', @artefact.content_id
       end
 
       should "return an error if updating the artefact fails" do
