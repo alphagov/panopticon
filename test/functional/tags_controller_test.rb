@@ -193,4 +193,26 @@ class TagsControllerTest < ActionController::TestCase
     end
   end
 
+  context 'DELETE destroy' do
+    should 'remove an empty tag' do
+      tag = create(:draft_tag)
+
+      delete :destroy, id: tag.id, format: :json
+
+      assert response.ok?
+      assert_raises Mongoid::Errors::DocumentNotFound do
+        tag.reload
+      end
+    end
+
+    should 'not remove tags with documents tagged to it' do
+      tag = create(:draft_tag)
+      artefact = create(:artefact, tag_ids: [tag.tag_id])
+
+      delete :destroy, id: tag.id, format: :json
+
+      assert_equal 409, response.status
+      assert tag.reload
+    end
+  end
 end
