@@ -28,8 +28,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
     should "return the JSON representation of the artefact" do
       artefact = FactoryGirl.create(:artefact,
         :slug => 'wibble',
-        :name => "Wibble",
-        :need_ids => ["100001", "100002"],
+        :name => 'Wibble',
+        :need_ids => ['100001', '100002'],
         :content_id => '436b83ff-dc72-4278-a336-199344be4a33',
       )
 
@@ -175,7 +175,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
             'slug' => slug,
             'name' => "News article in locale #{locale}",
             'kind' => 'world_location_news_article',
-            'description' => "Interesting news article",
+            'description' => 'Interesting news article',
             'owning_app' => 'whitehall',
             'rendering_app' => 'whitehall-frontend',
           }
