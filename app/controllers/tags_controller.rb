@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   TAG_TYPES = ['section', 'specialist_sector']
 
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:publish, :show]
+  before_filter :find_tag, only: [:publish, :show, :destroy]
 
   rescue_from Tag::TagNotFound, with: :record_not_found
 
@@ -92,6 +92,19 @@ class TagsController < ApplicationController
           render json: { error: 'Tag is already published' },
                  status: :unprocessable_entity
         }
+      end
+    end
+  end
+
+  def destroy
+    respond_to do |format|
+      format.json do
+        if Artefact.with_tags([@tag.tag_id]).any?
+          render json: { error: 'Tag has documents tagged to it' }, status: 409
+        else
+          @tag.destroy
+          head :ok
+        end
       end
     end
   end
