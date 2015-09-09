@@ -122,10 +122,8 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
     should 'return an error for requests to publish a live tag' do
       live_tag = create(:live_tag)
       post publish_tag_path(live_tag), format: 'json'
-      body = JSON.parse(response.body)
 
-      assert_equal 422, response.status
-      assert_match /already published/, body['error']
+      assert_equal 200, response.status
     end
   end
 end

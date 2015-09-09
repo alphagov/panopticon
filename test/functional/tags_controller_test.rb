@@ -182,14 +182,12 @@ class TagsControllerTest < ActionController::TestCase
       assert response.ok?
     end
 
-    should 'not process and return an error for a live tag' do
+    should 'be cool with published tags' do
       tag = create(:live_tag)
-      error_response = {"error" => "Tag is already published"}
 
       put :publish, id: tag.id, format: :json
 
-      assert_equal 422, response.status
-      assert_equal error_response, JSON.parse(response.body)
+      assert response.ok?
     end
   end
 
