@@ -84,15 +84,8 @@ class TagsController < ApplicationController
 
   def publish
     respond_to do |format|
-      if @tag.draft?
-        @tag.publish!
-        format.json { head :ok }
-      else
-        format.json {
-          render json: { error: 'Tag is already published' },
-                 status: :unprocessable_entity
-        }
-      end
+      @tag.publish! if @tag.draft?
+      format.json { head :ok }
     end
   end
 
