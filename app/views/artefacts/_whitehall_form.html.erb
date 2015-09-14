@@ -22,10 +22,6 @@
       <%= f.input :name, :input_html => { :class => "input-md-6" } %>
       <%= f.input :description, :input_html => { :class => "input-md-6", :rows => 6 }, :as => :text %>
       <%= f.input :slug, :input_html => { :class => "input-md-6" }, :hint => "Inside government slugs are: <code>government/the-slug</code>. Detailed guides are simply: <code>the-slug</code>".html_safe %>
-
-      <% if artefact.new_record? %>
-        <%= f.input :kind, :collection => Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].map { |s| [s.humanize, s]}, :as => :select, :input_html => {:class => "input-md-3"}, :prompt => "Select a kind" %>
-      <% end %>
     </div>
 
     <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>

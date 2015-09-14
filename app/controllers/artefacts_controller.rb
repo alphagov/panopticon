@@ -1,7 +1,7 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :withdraw]
   before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
-  before_filter :build_artefact, :only => [:new, :create]
+  before_filter :build_artefact, :only => [:create]
   before_filter :find_or_build_artefact, :only => [:update]
   before_filter :register_with_url_arbiter, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
@@ -48,6 +48,7 @@ class ArtefactsController < ApplicationController
   end
 
   def new
+    @artefact = Artefact.new
     redirect_to_show_if_need_met
   end
 
