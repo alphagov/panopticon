@@ -16,7 +16,7 @@ module ArtefactsHelper
   end
 
   def manageable_formats
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP.except('whitehall', 'panopticon').values.flatten
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP['publisher']
   end
 
   def related_artefacts_json(related_artefacts)
