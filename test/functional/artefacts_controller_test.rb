@@ -143,30 +143,6 @@ class ArtefactsControllerTest < ActionController::TestCase
 
         assert_template "index"
       end
-
-      context "minimal view" do
-        setup do
-          get :index, format: :json, minimal: 1
-          @json = JSON.parse(response.body)
-        end
-
-        should "include a list of results" do
-          assert_equal 10, @json.count
-        end
-
-        should "include artefact names" do
-          @json.each do |artefact_json|
-            assert artefact_json["name"].present?
-          end
-        end
-
-        should "not include tag information" do
-          @json.each do |artefact_json|
-            refute artefact_json.include? "tag_ids"
-            refute artefact_json.include? "tags"
-          end
-        end
-      end
     end
 
     context "GET new" do
