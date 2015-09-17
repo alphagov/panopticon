@@ -71,6 +71,10 @@ Then /^I should be redirected to (.*)$/ do |app|
   check_redirect app, (@artefact || Artefact.last)
 end
 
+Then /^an artefact should have be created with content_id$/ do
+  assert Artefact.last.content_id
+end
+
 Given /^the artefacts are related$/ do
   add_related_artefact @artefact, @related_artefact
 end

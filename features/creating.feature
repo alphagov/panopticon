@@ -17,6 +17,7 @@ Feature: Creating artefacts
      And I save, indicating that I want to go to the item
 
     Then I should be redirected to Publisher
+     And an artefact should have be created with content_id
 
   Scenario: Trying to create an artefact for a need that is already met
     Given an artefact exists
