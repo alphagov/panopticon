@@ -53,6 +53,10 @@ class ArtefactsController < ApplicationController
   end
 
   def create
+    if @artefact.owning_app == "publisher"
+      @artefact.content_id = SecureRandom.uuid
+    end
+
     @artefact.save_as current_user
     continue_editing = (params[:commit] == 'Save and continue editing')
     if continue_editing || @artefact.owning_app != "publisher"
