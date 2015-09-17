@@ -18,11 +18,7 @@ class ArtefactsController < ApplicationController
 
     @scope = @scope.order_by([[sort_column, sort_direction]])
     @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
-    if params[:minimal]
-      respond_with (@artefacts.map { |a| MinimalArtefactPresenter.new(a) })
-    else
-      respond_with @artefacts
-    end
+    respond_with @artefacts
   end
 
   def search_relatable_items
