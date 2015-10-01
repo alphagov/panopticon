@@ -21,6 +21,7 @@ class RummageableArtefact
     helping-your-business-grow-internationally
     unimoney
     horizon-2020
+    civil-service-apprenticeships
   )
 
   def initialize(artefact)
