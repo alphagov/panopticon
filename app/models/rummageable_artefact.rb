@@ -20,6 +20,7 @@ class RummageableArtefact
     new-enterprise-allowance
     helping-your-business-grow-internationally
     unimoney
+    horizon-2020
   )
 
   def initialize(artefact)
