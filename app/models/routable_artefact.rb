@@ -80,14 +80,14 @@ class RoutableArtefact
   def redirect(destination)
     prefixes.each do |path|
       begin
-        logger.debug "Removing route #{path}"
+        logger.debug "Redirecting route #{path}"
         router_api.add_redirect_route(path, "prefix", destination)
       rescue GdsApi::HTTPNotFound
       end
     end
     paths.each do |path|
       begin
-        logger.debug "Removing route #{path}"
+        logger.debug "Redirecting route #{path}"
         router_api.add_redirect_route(path, "exact", destination)
       rescue GdsApi::HTTPNotFound
       end
