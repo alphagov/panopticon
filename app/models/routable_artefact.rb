@@ -81,7 +81,7 @@ class RoutableArtefact
     prefixes.each do |path|
       begin
         logger.debug "Redirecting route #{path}"
-        router_api.add_redirect_route(path, "prefix", destination)
+        router_api.add_redirect_route(path, "prefix", destination, "permanent", segments_mode: "ignore")
       rescue GdsApi::HTTPNotFound
       end
     end

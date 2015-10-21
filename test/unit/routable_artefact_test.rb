@@ -26,7 +26,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
         @routable.submit
       end
 
-      should "register the route for an achived detailed guide" do
+      should "register the route for an archived detailed guide" do
         @routable.expects(:register)
         @routable.expects(:commit)
 
@@ -249,9 +249,9 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     should "redirect all defined prefix routes" do
       requests = [
-        stub_redirect_registration("/foo", "prefix", "/new", "permanent"),
-        stub_redirect_registration("/bar", "prefix", "/new", "permanent"),
-        stub_redirect_registration("/baz", "prefix", "/new", "permanent")
+        stub_redirect_registration("/foo", "prefix", "/new", "permanent", "ignore"),
+        stub_redirect_registration("/bar", "prefix", "/new", "permanent", "ignore"),
+        stub_redirect_registration("/baz", "prefix", "/new", "permanent", "ignore")
       ]
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
@@ -287,7 +287,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
     context "when router-api returns 404 for a delete request" do
       should "not blow up" do
         gone_request, _commit_request = stub_redirect_registration(
-          "/foo", "prefix", "/new", "permanent")
+          "/foo", "prefix", "/new", "permanent", "ignore")
 
         gone_request.to_return(status: 404)
 
@@ -299,11 +299,11 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
       should "continue to redirect other routes" do
         missing_redirect_request, _commit_request = stub_redirect_registration(
-          "/foo", "prefix", "/new", "permanent")
+          "/foo", "prefix", "/new", "permanent", "ignore")
         missing_redirect_request.to_return(status: 404)
 
         redirect_request, _commit_request = stub_redirect_registration(
-          "/bar", "prefix", "/new", "permanent")
+          "/bar", "prefix", "/new", "permanent", "ignore")
 
         @artefact.prefixes = ["/foo", "/bar"]
         @routable.redirect("/new")
