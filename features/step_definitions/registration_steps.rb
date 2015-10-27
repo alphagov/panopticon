@@ -6,8 +6,8 @@ Given /^I have stubbed search$/ do
   stub_search
 end
 
-Given /^I have stubbed url-arbiter$/ do
-  stub_url_arbiter
+Given /^I have stubbed publishing-api$/ do
+  stub_publishing_api
 end
 
 When /^I put a new smart answer's details into panopticon$/ do

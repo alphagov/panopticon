@@ -7,6 +7,7 @@ require "sass"
 require "sprockets/railtie"
 require 'kaminari' # has to be loaded before the models, otherwise the methods aren't added
 require "govuk_content_models"
+require "gds_api/publishing_api"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -14,8 +15,6 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
-
-require 'govuk/client/url_arbiter'
 
 module Panopticon
   mattr_accessor :need_api
@@ -73,8 +72,8 @@ module Panopticon
     # When saving an artefact we want to update search.
     config.mongoid.observers << :update_search_observer
 
-    def url_arbiter_api
-      @url_arbiter_api ||= GOVUK::Client::URLArbiter.new
+    def publishing_api
+      @publishing_api ||= GdsApi::PublishingApi.new(Plek.current.find('publishing-api'))
     end
   end
 end

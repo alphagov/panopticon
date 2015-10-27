@@ -6,7 +6,7 @@ Feature: Registering resources
   Background:
     # Router registration is tested in test/integration/artefact_router_registration_test.rb
     Given I have stubbed the router
-    And I have stubbed url-arbiter
+    And I have stubbed publishing-api
 
   Scenario: Creating a smart answer
     When I put a new smart answer's details into panopticon

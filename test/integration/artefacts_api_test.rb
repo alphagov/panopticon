@@ -118,8 +118,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert artefact
       end
 
-      should "return an error if url-arbiter rejects the registration" do
-        url_arbiter_has_registration_for("/wibble", "a-different-backend")
+      should "return an error if publishing-api rejects the registration" do
+        publishing_api_has_path_reservation_for("/wibble", "a-different-backend")
 
         artefact_data = {
           'slug' => 'wibble',
@@ -141,8 +141,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
       end
 
       should "not blow up if not given an owning-app" do
-        # simulate the error that url-arbiter would return if it was called
-        url_arbiter_returns_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
+        # simulate the error that publishing-api would return if it was called
+        publishing_api_returns_path_reservation_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
 
         artefact_data = {
           'slug' => 'wibble',
@@ -251,8 +251,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal "Wibble", @artefact.name
       end
 
-      should "return an error if url-arbiter rejects the registration" do
-        url_arbiter_has_registration_for("/wibble", "a-different-backend")
+      should "return an error if publishing-api rejects the registration" do
+        publishing_api_has_path_reservation_for("/wibble", "a-different-backend")
 
         artefact_data = {
           'slug' => 'wibble',
@@ -275,8 +275,8 @@ class ArtefactsAPITest < ActiveSupport::TestCase
       end
 
       should "not blow up if not given an owning-app" do
-        # simulate the error that url-arbiter would return if it was called
-        url_arbiter_returns_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
+        # simulate the error that publishing-api would return if it was called
+        publishing_api_returns_path_reservation_validation_error_for("/wibble", "publishing_app" => ["can't be blank"])
 
         artefact_data = {
           'slug' => 'wibble',

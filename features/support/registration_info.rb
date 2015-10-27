@@ -1,7 +1,7 @@
-require 'govuk/client/test_helpers/url_arbiter'
+require 'gds_api/test_helpers/publishing_api'
 
 module RegistrationInfo
-  include GOVUK::Client::TestHelpers::URLArbiter
+  include GdsApi::TestHelpers::PublishingApi
 
   SEARCH_ROOT = "http://search.dev.gov.uk/mainstream"
 
@@ -75,11 +75,11 @@ module RegistrationInfo
     Artefact.observers.disable :update_search_observer do
       @artefact = Artefact.create!(example_smart_answer)
     end
-    url_arbiter_has_registration_for("/#{@artefact.slug}", @artefact.owning_app)
+    publishing_api_has_path_reservation_for("/#{@artefact.slug}", @artefact.owning_app)
   end
 
-  def stub_url_arbiter
-    stub_default_url_arbiter_responses
+  def stub_publishing_api
+    stub_default_publishing_api_path_reservation
   end
 end
 
