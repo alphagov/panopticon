@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'gds_api/test_helpers/publishing_api'
 require 'gds_api/test_helpers/router'
 
 class ArtefactsControllerTest < ActionController::TestCase
@@ -161,8 +162,8 @@ class ArtefactsControllerTest < ActionController::TestCase
         end
 
         should "not blow up if not given a slug" do
-          # simulate the error that url-arbiter would return if it was called
-          url_arbiter_returns_validation_error_for("/", "path" => ["can't be blank"])
+          # simulate the error that publishing-api would return if it was called
+          publishing_api_returns_path_reservation_validation_error_for("/", "path" => ["can't be blank"])
 
           post :create, :artefact => {
             :owning_app => 'smart-answers',
@@ -486,7 +487,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           name: "Whatever",
           need_ids: ['100001']
         )
-        url_arbiter_has_registration_for("/whatever", "publisher")
+        publishing_api_has_path_reservation_for("/whatever", "publisher")
 
         put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smart-answers'
         assert_equal 409, response.status

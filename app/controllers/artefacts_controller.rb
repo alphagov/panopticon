@@ -3,7 +3,7 @@ class ArtefactsController < ApplicationController
   before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:create]
   before_filter :find_or_build_artefact, :only => [:update]
-  before_filter :register_with_url_arbiter, :only => [:create, :update]
+  before_filter :register_url_with_publishing_api, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
 
@@ -258,24 +258,24 @@ class ArtefactsController < ApplicationController
       end
     end
 
-    def register_with_url_arbiter
+    def register_url_with_publishing_api
       parameters_to_use = extract_parameters(params)
 
-      # url-arbiter would reject this request, therefore rely on our model validation to make
-      # the error messaging better
+      # publishing api url-arbitration would reject this request,
+      # therefore rely on our model validation to make the error messaging better
       return if @artefact.slug.blank? || parameters_to_use['owning_app'].blank?
 
-      Rails.application.url_arbiter_api.reserve_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
-    rescue GOVUK::Client::Errors::Conflict => e
+      Rails.application.publishing_api.put_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
+    rescue GdsApi::HTTPClientError => e
       message = ""
-      if e.response["errors"]
-        e.response["errors"].each do |field, errors|
+      if e.error_details["errors"]
+        e.error_details["errors"].each do |field, errors|
           errors.each do |error|
             message << "#{field.humanize} #{error}\n"
           end
         end
       else
-        message = e.response.raw_body
+        message = e.message
       end
 
       render text: message, status: 409

@@ -4,7 +4,7 @@ Feature: Creating artefacts
 
   Background:
     Given I am an admin
-    And I have stubbed url-arbiter
+    And I have stubbed publishing-api
 
   Scenario: Creating artefacts directly in panopticon
     When I visit the homepage
