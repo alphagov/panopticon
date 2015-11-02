@@ -45,7 +45,7 @@ end
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '10.0.0'
+  gem 'gds-sso', '11.1.0'
 end
 
 gem 'govuk_admin_template', '3.0.0'
