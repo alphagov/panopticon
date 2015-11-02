@@ -6,7 +6,7 @@
     Warning
   </div>
   <div class="callout-body">
-    Withdraw a page from GOV.UK. This can’t be undone.
+    Withdraw content from GOV.UK. This can’t be undone.
   </div>
 </div>
 
@@ -22,11 +22,43 @@
         <%= f.input :redirect_url, class: "form-control input-md-6",
           label: ('Redirect to <span class="normal">(optional)<br />' +
                   'For example: <code>/government/organisations/hm-revenue-customs</code></span>').html_safe%>
-        <%= button_tag 'Withdraw',
-                       "data-module" => 'confirm',
-                       "data-message" => "This will remove ‘#{@artefact.name}’ from the website.\n\n Are you sure?",
-                       :class => "btn btn-danger" %>
       </div>
+      <div class="form-group">
+        <strong class="add-label-margin">Redirect a part to somewhere different <span class="normal">(optional)</span></strong>
+        <div data-module="checkbox-toggle">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" data-target="target-1" /> Advice on motorcycles
+            </label>
+          </div>
+          <div id="target-1" style="margin-left: 20px" class="add-bottom-margin">
+            <label>Redirect “Advice on motorcycles” to</label>
+            <input type="text" class="form-control input-md-8" />
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" data-target="target-2" /> Advice on caravans
+            </label>
+          </div>
+          <div id="target-2" style="margin-left: 20px" class="add-bottom-margin">
+            <label>Redirect “Advice on caravans” to</label>
+            <input type="text" class="form-control input-md-8" />
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" data-target="target-3" /> Advice on horse drawn carriages
+            </label>
+          </div>
+          <div id="target-3" style="margin-left: 20px" class="add-bottom-margin">
+            <label>Redirect “Advice on horse drawn carriages” to</label>
+            <input type="text" class="form-control input-md-8" />
+          </div>
+        </div>
+      </div>
+      <%= button_tag 'Withdraw',
+                     "data-module" => 'confirm',
+                     "data-message" => "This will remove ‘#{@artefact.name}’ from the website.\n\n Are you sure?",
+                     :class => "btn btn-danger" %>
     </div>
   <% end %>
 </div>
