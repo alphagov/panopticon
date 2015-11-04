@@ -35,3 +35,14 @@ is no need to have an up-to-date Whitehall database.
 Panopticon includes observers which will index, update or delete records in the
 search index when an artefact is updated. It expects an instance of
 [Rummager](https://github.com/alphagov/rummager) to be present.
+
+## Running the message queue
+
+This application uses the GOV.UK message queue to update artefacts when they are
+tagged via the publishing-api.
+
+To run the message queue:
+
+```
+govuk_setenv panopticon bundle exec rake message_queue:consumer
+```
