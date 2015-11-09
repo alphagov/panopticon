@@ -13,7 +13,7 @@ gem 'airbrake', '3.1.15'
 if ENV['API_DEV']
   gem 'gds-api-adapters', :path => '../gds-api-adapters'
 else
-  gem 'gds-api-adapters', '24.8.0'
+  gem 'gds-api-adapters', '25.1.0'
 end
 
 gem 'govuk-client-url_arbiter', '0.0.2'
