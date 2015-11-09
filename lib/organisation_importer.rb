@@ -24,13 +24,16 @@ class OrganisationImporter
     if existing_tag.present?
       logger.info "Found existing tag: #{tag_id}"
 
-      if existing_tag.title != organisation.title
-        if existing_tag.update_attributes(title: organisation.title)
-          logger.info "Updated title to '#{existing_tag.title}'"
-        else
-          log_error_and_notify_airbrake(organisation,
-                                        "Could not update title: #{existing_tag.errors.full_messages}")
+      existing_tag.title = organisation.title
+      existing_tag.content_id = organisation.details.content_id
+
+      if existing_tag.save
+        if existing_tag.changes.any?
+          logger.info "Updated tag with changes: #{existing_tag.changes}"
         end
+      else
+        log_error_and_notify_airbrake(organisation,
+                                      "Could not update title: #{existing_tag.errors.full_messages}")
       end
 
       if existing_tag.draft?
@@ -44,7 +47,8 @@ class OrganisationImporter
     else
       new_tag = Tag.new(tag_type: TAG_TYPE,
                         tag_id: tag_id,
-                        title: organisation.title)
+                        title: organisation.title,
+                        content_id: organisation.details.content_id)
 
       logger.info "Creating organisation tag: #{tag_id}"
 

@@ -61,16 +61,6 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     assert_equal "Cabinet Office", organisation_tag.title
   end
 
-  should "not update the title of an existing organisation if it hasn't changed" do
-    create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
-
-    # assert that no tags are updated during the import run
-    Tag.any_instance.expects(:update_attributes).never
-
-    organisations_api_has_organisations(["cabinet-office"])
-    OrganisationImporter.new.run
-  end
-
   should "notify Airbrake if creating an organisation fails" do
     organisations_api_has_organisations(["cabinet-office"])
 
@@ -89,7 +79,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Something else")
     organisations_api_has_organisations(["cabinet-office"])
 
-    Tag.any_instance.expects(:update_attributes).returns(false)
+    Tag.any_instance.expects(:save).returns(false)
 
     Airbrake.expects(:notify_or_ignore).with {|exception, options|
       options.has_key?(:parameters) &&
