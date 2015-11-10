@@ -1,57 +1,60 @@
-<div class="well">
-  <%= f.inputs "Tags" do %>
-    <% if f.object.allow_section_tag_changes? %>
-      <div class="section-tags fieldset-section">
-        <label for="artefact[sections][]" class="section-label">Sections</label>
+<%- unless f.object.tagging_migrated? %>
 
-        <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
-        <div class="add-vertical-margins nested-item-group">
-          <% if f.object.section_ids.length > 0 %>
-            <% f.object.section_ids.each do | section_id | %>
-              <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+  <div class="well">
+    <%= f.inputs "Tags" do %>
+      <% if f.object.allow_section_tag_changes? %>
+        <div class="section-tags fieldset-section">
+          <label for="artefact[sections][]" class="section-label">Sections</label>
+
+          <p>The first section will be the primary section the content lives in. This will form the content breadcrumb.</p>
+          <div class="add-vertical-margins nested-item-group">
+            <% if f.object.section_ids.length > 0 %>
+              <% f.object.section_ids.each do | section_id | %>
+                <%= render :partial => 'artefact_section', :locals => {:section_id => section_id, :tag_collection => tag_collection} %>
+              <% end %>
+            <% else %>
+              <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
             <% end %>
-          <% else %>
-            <%= render :partial => 'artefact_section', :locals => {:section_id => nil, :tag_collection => tag_collection} %>
-          <% end %>
+          </div>
+
+          <button id="add-section" class="btn btn-success" type="button">Add another section</button>
         </div>
+      <% else %>
+        <p>
+          Sections and specialist sectors for Publisher content are now managed
+          in the Publisher app under the names "Mainstream browse pages" and
+          "Topics".
+        </p>
+      <% end %>
 
-        <button id="add-section" class="btn btn-success" type="button">Add another section</button>
-      </div>
-    <% else %>
-      <p>
-        Sections and specialist sectors for Publisher content are now managed
-        in the Publisher app under the names "Mainstream browse pages" and
-        "Topics".
-      </p>
-    <% end %>
+      <div class="legacy-source-tags fieldset-section">
+        <label for="artefact_legacy_source_ids" class="section-label">Legacy sources</label>
 
-    <div class="legacy-source-tags fieldset-section">
-      <label for="artefact_legacy_source_ids" class="section-label">Legacy sources</label>
-
-      <%= f.input :legacy_source_ids,
-                  :label => false,
-                  :collection => options_for_tags_of_type('legacy_source'),
-                  :input_html => { :multiple => true, :class => "chosen-select" } %>
-    </div>
-
-    <% if f.object.allow_specialist_sector_tag_changes? %>
-      <div class="specialist-sector-tags fieldset-section">
-        <label for="artefact_specialist_sector_ids" class="section-label">Specialist sectors</label>
-
-        <%= f.input :specialist_sector_ids,
+        <%= f.input :legacy_source_ids,
                     :label => false,
-                    :collection => grouped_options_for_tags_of_type('specialist_sector'),
+                    :collection => options_for_tags_of_type('legacy_source'),
+                    :input_html => { :multiple => true, :class => "chosen-select" } %>
+      </div>
+
+      <% if f.object.allow_specialist_sector_tag_changes? %>
+        <div class="specialist-sector-tags fieldset-section">
+          <label for="artefact_specialist_sector_ids" class="section-label">Specialist sectors</label>
+
+          <%= f.input :specialist_sector_ids,
+                      :label => false,
+                      :collection => grouped_options_for_tags_of_type('specialist_sector'),
+                      :input_html => { :multiple => true, :class => "chosen-select" } %>
+        </div>
+      <% end %>
+
+      <div class="organisation-tags fieldset-section">
+        <label for="artefact_organisation_ids" class="section-label">Organisations</label>
+
+        <%= f.input :organisation_ids,
+                    :label => false,
+                    :collection => options_for_tags_of_type('organisation'),
                     :input_html => { :multiple => true, :class => "chosen-select" } %>
       </div>
     <% end %>
-
-    <div class="organisation-tags fieldset-section">
-      <label for="artefact_organisation_ids" class="section-label">Organisations</label>
-
-      <%= f.input :organisation_ids,
-                  :label => false,
-                  :collection => options_for_tags_of_type('organisation'),
-                  :input_html => { :multiple => true, :class => "chosen-select" } %>
-    </div>
-  <% end %>
-</div>
+  </div>
+<%- end %>

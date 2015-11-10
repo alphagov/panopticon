@@ -151,6 +151,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       @dg   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
       @dvla = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
       @a = FactoryGirl.create(:artefact, :name => "VAT")
+      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
     end
 
     should "allow adding legacy sources to artefacts" do
@@ -445,6 +446,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow adding organisation tags to artefacts" do
+      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
       visit "/artefacts"
       click_on "VAT"
 
@@ -465,6 +467,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow removing organisation tags from artefacts" do
+      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
       @artefact.organisation_ids = ["cabinet-office", "hm-revenue-customs"]
       @artefact.save!
 
