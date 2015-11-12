@@ -56,6 +56,7 @@ gem 'chosen-rails', '1.4.2'
 gem 'select2-rails', '3.5.9.1'
 
 gem 'whenever', '0.9.2', require: false
+gem 'config', '~>1.0'
 
 group :assets do
   gem "therubyracer", "0.12.0"

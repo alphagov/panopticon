@@ -36,4 +36,10 @@ class Artefact
   def allow_section_tag_changes?
     owning_app != 'publisher'
   end
+
+  def tagging_migrated?
+    return false unless Settings.apps_with_migrated_tagging
+    return true if self.new_record? && self.owning_app.nil? && Settings.apps_with_migrated_tagging.include?('publisher')
+    Settings.apps_with_migrated_tagging.include?(self.owning_app)
+  end
 end
