@@ -7,21 +7,28 @@
 class TaggingUpdater
   def process(message)
     content_item = message.payload
-
-    return message.ack unless content_item['publishing_app'].in?(Settings.apps_with_migrated_tagging)
-    return message.ack unless content_item['links']
-
-    slug = content_item.fetch('base_path').sub(/\A\//, '')
-    artefact = Artefact.find_by_slug(slug)
-
-    if artefact
-      update_artefact_with_content_item(content_item, artefact)
-    end
-
+    process_content_item(content_item)
     message.ack
   end
 
 private
+  def process_content_item(content_item)
+    return unless should_update_tags?(content_item)
+    artefact = find_artefact_by_base_path(content_item.fetch('base_path'))
+
+    return unless artefact
+    update_artefact_with_content_item(content_item, artefact)
+  end
+
+  def should_update_tags?(content_item)
+    content_item['links'] &&
+      content_item['publishing_app'].in?(Settings.apps_with_migrated_tagging)
+  end
+
+  def find_artefact_by_base_path(base_path)
+    slug_without_leading_slash = base_path.sub(/\A\//, '')
+    Artefact.find_by_slug(slug_without_leading_slash)
+  end
 
   # Panopticon still uses deprecated names for the tags.
   TAG_MAPPING = {

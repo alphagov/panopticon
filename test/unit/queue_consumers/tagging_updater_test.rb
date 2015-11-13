@@ -10,7 +10,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       sections: ["existing-tag"],
     )
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "smartanswers",
+      "publishing_app" => "an-app-from-the-migrated-apps-config",
       "base_path" => "/a-tagged-item",
       "links" => { "mainstream_browse_pages" => ["MY-CONTENT-ID"] }
     })
@@ -29,7 +29,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       sections: ["existing-tag"],
     )
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "not-smartanswers",
+      "publishing_app" => "not-an-app-from-the-migrated-apps-config",
       "base_path" => "/a-tagged-item",
       "links" => { "mainstream_browse_pages" => ["MY-CONTENT-ID"] }
     })
@@ -43,7 +43,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
 
   def test_when_no_artefact_found
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "smartanswers",
+      "publishing_app" => "an-app-from-the-migrated-apps-config",
       "base_path" => "/some-item-that-does-not-exist",
       "links" => { "mainstream_browse_pages" => ["MY-CONTENT-ID"] }
     })
@@ -56,7 +56,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
   def test_when_links_are_missing
     artefact = create(:artefact, slug: 'an-item')
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "smartanswers",
+      "publishing_app" => "an-app-from-the-migrated-apps-config",
       "base_path" => "/an-item",
     })
 
