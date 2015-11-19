@@ -4,6 +4,7 @@ require 'govuk_message_queue_consumer/test_helpers'
 class TaggingUpdaterTest < ActiveSupport::TestCase
   def test_artefact_is_updated_with_tags
     create(:live_tag, tag_id: 'my-tag', tag_type: 'section', content_id: 'MY-CONTENT-ID')
+    create(:live_tag, tag_id: 'parent-tag', tag_type: 'section', content_id: 'MY-PARENT')
     create(:live_tag, tag_id: 'existing-tag', tag_type: 'section', content_id: 'A-CONTENT-ID')
     artefact = create(:artefact,
       slug: 'a-tagged-item',
@@ -12,13 +13,16 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "an-app-from-the-migrated-apps-config",
       "base_path" => "/a-tagged-item",
-      "links" => { "mainstream_browse_pages" => ["MY-CONTENT-ID"] }
+      "links" => {
+        "mainstream_browse_pages" => ["MY-CONTENT-ID"],
+        "parent" => ["MY-PARENT"],
+      }
     })
 
     TaggingUpdater.new.process(message)
 
     artefact.reload
-    assert_equal ["my-tag"], artefact.tags.map(&:tag_id)
+    assert_equal ["parent-tag", "my-tag"], artefact.tags.map(&:tag_id)
     assert message.acked?
   end
 

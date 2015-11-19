@@ -37,9 +37,9 @@ class TaggingMigratorTest < ActiveSupport::TestCase
     TaggingMigrator.new("smartanswers").migrate!
 
     assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/A",
-      body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":["A-TOPIC"],"organisations":[]}}'
+      body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":["A-TOPIC"],"organisations":[],"parent":["A-BROWSE-PAGE"]}}'
     assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/B",
-      body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":[],"organisations":["AN-ORGANISATION"]}}'
+      body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":[],"organisations":["AN-ORGANISATION"],"parent":["A-BROWSE-PAGE"]}}'
     assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/C",
       body: '{"links":{"mainstream_browse_pages":[],"topics":[],"organisations":[]}}'
   end

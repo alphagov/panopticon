@@ -28,6 +28,10 @@ private
       organisations: [],
     }
 
+    if artefact.primary_section
+      link_payload[:parent] = [artefact.primary_section.content_id]
+    end
+
     artefact.tags.each do |tag|
       if tag.tag_type == 'section'
         link_payload[:mainstream_browse_pages] << tag.content_id
