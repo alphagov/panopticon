@@ -46,6 +46,11 @@ private
       artefact.set_tags_of_type(panopticon_tag_name, new_tags.map(&:tag_id))
     end
 
+    if content_item['links']['parent']
+      parent = Tag.where(:content_id.in => content_item['links']['parent'])
+      artefact.set_primary_tag_of_type('section', parent.first.tag_id)
+    end
+
     artefact.save!
   end
 end
