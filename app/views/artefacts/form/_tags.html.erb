@@ -1,5 +1,6 @@
-<%- unless f.object.tagging_migrated? %>
-
+<%- if f.object.tagging_migrated? %>
+  <%= render 'migrated_app', artefact: f.object %>
+<% else %>
   <div class="well">
     <%= f.inputs "Tags" do %>
       <% if f.object.allow_section_tag_changes? %>
