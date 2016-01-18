@@ -1,6 +1,10 @@
 require 'gds_api/content_store'
 
 class ManualArtefactGuarantor
+  def self.guarantee(manual_slug)
+    new(manual_slug).guarantee
+  end
+
   attr_reader :manual_slug
   def initialize(manual_slug)
     @manual_slug = manual_slug
@@ -119,6 +123,10 @@ class ManualArtefactGuarantor
 
     def message
       "#{slug}#{content_id.present? ? "(#{content_id})" : ''} #{reason.to_s.humanize.downcase}"
+    end
+
+    def to_s
+      "#{success? ? "OK" : "ERROR"}: #{message}"
     end
 
     def self.failure(slug, content_id: nil, reason:)
