@@ -9,6 +9,8 @@ class ManualArtefactGuarantor
   def guarantee
     if !content_item_exists?
       Guarantee.failure(manual_slug, :does_not_exist)
+    elsif !content_item_is_a_manual?
+      Guarantee.failure(manual_slug, :is_not_a_manual)
     end
   end
 
@@ -21,6 +23,10 @@ class ManualArtefactGuarantor
   end
 
   private
+
+  def content_item_is_a_manual?
+    content_item.format == 'manual'
+  end
 
   def content_item_exists?
     content_item.present?
