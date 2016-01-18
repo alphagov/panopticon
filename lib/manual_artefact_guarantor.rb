@@ -11,14 +11,10 @@ class ManualArtefactGuarantor
       Guarantee.failure(manual_slug, reason: :does_not_exist)
     elsif !content_item_is_a_manual?
       Guarantee.failure(manual_slug, reason: :is_not_a_manual)
+    elsif artefact_exists?
+      handle_existing_artefact
     else
-      if artefact_exists?
-        if artefact_matches?
-          Guarantee.success(manual_slug, content_id: content_item.content_id, reason: :artefact_already_exists)
-        else
-          Guarantee.failure(manual_slug, content_id: content_item.content_id, reason: :artefact_details_do_not_match)
-        end
-      end
+      handle_missing_artefact
     end
   end
 
@@ -39,8 +35,25 @@ class ManualArtefactGuarantor
 
   private
 
+  def handle_existing_artefact
+    if artefact_matches?
+      Guarantee.success(manual_slug, content_id: content_item.content_id, reason: :artefact_already_exists)
+    else
+      Guarantee.failure(manual_slug, content_id: content_item.content_id, reason: :artefact_details_do_not_match)
+    end
+  end
+
   def artefact_exists?
     artefact.present?
+  end
+
+  def handle_missing_artefact
+    create_artefact
+    if artefact_persisted?
+      Guarantee.success(manual_slug, content_id: content_item.content_id, reason: :artefact_created)
+    else
+      Guarantee.failure(manual_slug, content_id: content_item.content_id, reason: :artefact_creation_failed)
+    end
   end
 
   def artefact_matches?
@@ -49,6 +62,26 @@ class ManualArtefactGuarantor
 
   def fetch_artefact
     Artefact.where(content_id: content_item.content_id).first
+  end
+
+  def create_artefact
+    @artefact = Artefact.create(
+      content_id: content_item.content_id,
+      slug: content_item.base_path[1..-1],
+      name: content_item.title,
+      kind: 'manual',
+      owning_app: "specialist-publisher",
+      rendering_app: "manuals-frontend",
+      language: content_item.locale,
+      description: content_item.description,
+      state: 'live',
+      public_timestamp: content_item.public_updated_at,
+      paths: [content_item.base_path],
+    )
+  end
+
+  def artefact_persisted?
+    artefact.persisted?
   end
 
   def content_item_is_a_manual?
