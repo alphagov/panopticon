@@ -41,20 +41,42 @@ class ManualArtefactGuarantorTest < ActiveSupport::TestCase
     assert_match /is not a manual/, response.message
   end
 
-  should "return a successful result if the content_item is a manual and an artefact already exists for it" do
-    manual_item = manual_item('a-manual-with-artefact')
-    content_store_has_item('/guidance/a-manual-with-artefact', manual_item)
-    artefact = FactoryGirl.create(:artefact,
-      slug: 'guidance/a-manual-with-artefact',
-      owning_app: 'specialist-publisher',
-      kind: 'manual',
-      content_id: manual_item['content_id']
-    )
+  context 'when there is already an artefact for the slug' do
+    setup do
+      @manual_item = manual_item('a-manual-with-artefact')
+      content_store_has_item('/guidance/a-manual-with-artefact', @manual_item)
+      @artefact = FactoryGirl.create(:artefact,
+        slug: 'guidance/a-manual-with-artefact',
+        owning_app: 'specialist-publisher',
+        kind: 'manual',
+        content_id: @manual_item['content_id']
+      )
+    end
 
-    mag = ManualArtefactGuarantor.new('a-manual-with-artefact')
-    response = mag.guarantee
-    assert_equal true, response.success?
-    assert_match /artefact already exists/, response.message
-    assert_match /#{Regexp.escape(manual_item['content_id'])}/, response.message
+    should "return a successful result when the artefact details match the content item" do
+      mag = ManualArtefactGuarantor.new('a-manual-with-artefact')
+      response = mag.guarantee
+      assert_equal true, response.success?
+      assert_match /artefact already exists/, response.message
+      assert_match /#{Regexp.escape(@manual_item['content_id'])}/, response.message
+    end
+
+    should "return an unsuccessful result if the artefact format does not match the content item" do
+      @artefact.update_attributes!(kind: 'detailed_guide')
+      mag = ManualArtefactGuarantor.new('a-manual-with-artefact')
+      response = mag.guarantee
+      assert_equal false, response.success?
+      assert_match /artefact details do not match/, response.message
+      assert_match /#{Regexp.escape(@manual_item['content_id'])}/, response.message
+    end
+
+    should "return an unsuccessful result if the artefact slug does not match the content item" do
+      @artefact.update_attributes!(slug: 'guidance/a-different-manual')
+      mag = ManualArtefactGuarantor.new('a-manual-with-artefact')
+      response = mag.guarantee
+      assert_equal false, response.success?
+      assert_match /artefact details do not match/, response.message
+      assert_match /#{Regexp.escape(@manual_item['content_id'])}/, response.message
+    end
   end
 end

@@ -8,12 +8,16 @@ class ManualArtefactGuarantor
 
   def guarantee
     if !content_item_exists?
-      Guarantee.failure(manual_slug, :does_not_exist)
+      Guarantee.failure(manual_slug, reason: :does_not_exist)
     elsif !content_item_is_a_manual?
-      Guarantee.failure(manual_slug, :is_not_a_manual)
+      Guarantee.failure(manual_slug, reason: :is_not_a_manual)
     else
       if artefact_exists?
-        Guarantee.success(manual_slug, content_item.content_id, :artefact_already_exists)
+        if artefact_matches?
+          Guarantee.success(manual_slug, content_id: content_item.content_id, reason: :artefact_already_exists)
+        else
+          Guarantee.failure(manual_slug, content_id: content_item.content_id, reason: :artefact_details_do_not_match)
+        end
       end
     end
   end
@@ -37,6 +41,10 @@ class ManualArtefactGuarantor
 
   def artefact_exists?
     artefact.present?
+  end
+
+  def artefact_matches?
+    (artefact.kind == content_item.format) && ("/#{artefact.slug}" == content_item.base_path)
   end
 
   def fetch_artefact
@@ -80,11 +88,11 @@ class ManualArtefactGuarantor
       "#{slug}#{content_id.present? ? "(#{content_id})" : ''} #{reason.to_s.humanize.downcase}"
     end
 
-    def self.failure(slug, reason)
-      new(false, slug, nil, reason)
+    def self.failure(slug, content_id: nil, reason:)
+      new(false, slug, content_id, reason)
     end
 
-    def self.success(slug, content_id, reason)
+    def self.success(slug, content_id:, reason:)
       new(true, slug, content_id, reason)
     end
   end
