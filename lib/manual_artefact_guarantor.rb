@@ -11,6 +11,10 @@ class ManualArtefactGuarantor
       Guarantee.failure(manual_slug, :does_not_exist)
     elsif !content_item_is_a_manual?
       Guarantee.failure(manual_slug, :is_not_a_manual)
+    else
+      if artefact_exists?
+        Guarantee.success(manual_slug, content_item.content_id, :artefact_already_exists)
+      end
     end
   end
 
@@ -22,7 +26,22 @@ class ManualArtefactGuarantor
     @content_item
   end
 
+  def artefact
+    unless defined? @artefact
+      @artefact = fetch_artefact
+    end
+    @artefact
+  end
+
   private
+
+  def artefact_exists?
+    artefact.present?
+  end
+
+  def fetch_artefact
+    Artefact.where(content_id: content_item.content_id).first
+  end
 
   def content_item_is_a_manual?
     content_item.format == 'manual'
@@ -33,7 +52,7 @@ class ManualArtefactGuarantor
   end
 
   def base_path
-    "/#{manual_slug}"
+    "/guidance/#{manual_slug}"
   end
 
   def fetch_content_item
@@ -45,10 +64,11 @@ class ManualArtefactGuarantor
   end
 
   class Guarantee
-    attr_reader :slug, :reason
-    def initialize(success, slug, reason)
+    attr_reader :slug, :content_id, :reason
+    def initialize(success, slug, content_id, reason)
       @success = !!success
       @slug = slug
+      @content_id = content_id
       @reason = reason
     end
 
@@ -57,11 +77,15 @@ class ManualArtefactGuarantor
     end
 
     def message
-      "#{slug} #{reason.to_s.humanize.downcase}"
+      "#{slug}#{content_id.present? ? "(#{content_id})" : ''} #{reason.to_s.humanize.downcase}"
     end
 
     def self.failure(slug, reason)
       new(false, slug, nil, reason)
+    end
+
+    def self.success(slug, content_id, reason)
+      new(true, slug, content_id, reason)
     end
   end
 end

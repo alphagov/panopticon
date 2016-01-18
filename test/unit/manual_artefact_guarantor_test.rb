@@ -40,4 +40,21 @@ class ManualArtefactGuarantorTest < ActiveSupport::TestCase
     assert_equal false, response.success?
     assert_match /is not a manual/, response.message
   end
+
+  should "return a successful result if the content_item is a manual and an artefact already exists for it" do
+    manual_item = manual_item('a-manual-with-artefact')
+    content_store_has_item('/guidance/a-manual-with-artefact', manual_item)
+    artefact = FactoryGirl.create(:artefact,
+      slug: 'guidance/a-manual-with-artefact',
+      owning_app: 'specialist-publisher',
+      kind: 'manual',
+      content_id: manual_item['content_id']
+    )
+
+    mag = ManualArtefactGuarantor.new('a-manual-with-artefact')
+    response = mag.guarantee
+    assert_equal true, response.success?
+    assert_match /artefact already exists/, response.message
+    assert_match /#{Regexp.escape(manual_item['content_id'])}/, response.message
+  end
 end
