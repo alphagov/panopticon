@@ -4,3 +4,4 @@ apps_with_migrated_tagging:
  - calendars
  - licencefinder
  - smartanswers
+ - policy-publisher
