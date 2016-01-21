@@ -37,7 +37,7 @@ class ManualArtefactGuarantor
     @artefact
   end
 
-  private
+private
 
   def handle_existing_artefact
     if artefact_matches?
