@@ -5,3 +5,4 @@ apps_with_migrated_tagging:
  - licencefinder
  - smartanswers
  - policy-publisher
+ - hmrc-manuals-api
