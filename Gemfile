@@ -19,7 +19,7 @@ end
 gem 'govuk-client-url_arbiter', '0.0.2'
 gem 'govuk_message_queue_consumer', '~> 2.0.0'
 
-gem 'rails', '3.2.22'
+gem 'rails', '3.2.22.1'
 gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
