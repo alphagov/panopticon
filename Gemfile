@@ -88,6 +88,7 @@ group :test do
   gem 'mocha', '0.13.3', :require => false
   gem 'webmock', require: false
   gem 'poltergeist', '~> 1.6.0'
+  gem 'govuk-lint', '0.5.1'
 end
 
 group :import do
