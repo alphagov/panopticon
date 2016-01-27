@@ -26,11 +26,11 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should extract artefact attributes" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide"
+    )
     # Note: the link is not present if we are amending
     expected = {
       "title" => "My artefact",
@@ -42,12 +42,12 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should include description" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.description = "Describe describey McDescribe"
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      description: "Describe describey McDescribe"
+    )
     # Note: the link is not present if we are amending
     expected = {
       "title" => "My artefact",
@@ -60,12 +60,12 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should include indexable content if present" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      indexable_content: "Blah blah blah index this"
+    )
     # Note: the link is present if we are not amending
     expected = {
       "link" => "/my-artefact",
@@ -79,13 +79,13 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should include latest_change_note and public_timestamp if present" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.latest_change_note = "Something has changed"
-      artefact.public_timestamp = Time.zone.parse('2014-01-01 12:00:00 +00:00')
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      latest_change_note: "Something has changed",
+      public_timestamp: Time.zone.parse('2014-01-01 12:00:00 +00:00')
+    )
     # Note: the link is present if we are not amending
     expected = {
       "title" => "My artefact",
@@ -99,13 +99,13 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should work with no primary section" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.sections = []
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      indexable_content: "Blah blah blah index this",
+      sections: []
+    )
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
@@ -116,13 +116,13 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should include organisations" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.organisation_ids = ["cabinet-office", "department-for-transport"]
-    end
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      indexable_content: "Blah blah blah index this",
+      organisation_ids: ["cabinet-office", "department-for-transport"]
+    )
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
@@ -138,18 +138,18 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   end
 
   test "should include live specialist sectors" do
-    artefact = Artefact.new do |artefact|
-      artefact.name = "My artefact"
-      artefact.slug = "my-artefact"
-      artefact.kind = "guide"
-      artefact.indexable_content = "Blah blah blah index this"
-      artefact.organisation_ids = []
-      artefact.specialist_sectors = [
+    artefact = Artefact.new(
+      name: "My artefact",
+      slug: "my-artefact",
+      kind: "guide",
+      indexable_content: "Blah blah blah index this",
+      organisation_ids: [],
+      specialist_sectors: [
         'oil-and-gas/licensing',
         'working-sea/health-safety',
         'working-sea/training-certification'
       ]
-    end
+    )
     expected = {
       "link" => "/my-artefact",
       "title" => "My artefact",
@@ -168,11 +168,11 @@ class RummageableArtefactTest < ActiveSupport::TestCase
   test "should include live mainstream browse pages" do
     FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "a-browse-page-tag")
 
-    artefact = Artefact.new do |artefact|
-      artefact.sections = [
+    artefact = Artefact.new(
+      sections: [
         'a-browse-page-tag',
       ]
-    end
+    )
 
     expected = { "mainstream_browse_pages" => ['a-browse-page-tag'] }
     assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
@@ -182,68 +182,68 @@ class RummageableArtefactTest < ActiveSupport::TestCase
     parent_section = FactoryGirl.create(:live_tag, tag_id: "parent-browse-page", tag_type: "section")
     FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "parent-browse-page/a-browse-page-tag", parent_id: parent_section.tag_id)
 
-    artefact = Artefact.new do |artefact|
-      artefact.sections = [
+    artefact = Artefact.new(
+      sections: [
         'parent-browse-page/a-browse-page-tag',
       ]
-    end
+    )
 
     expected = { "mainstream_browse_pages" => ['parent-browse-page/a-browse-page-tag'] }
     assert_hash_including expected, RummageableArtefact.new(artefact).artefact_hash
   end
 
   test "should consider live items should be indexed" do
-    artefact = Artefact.new do |artefact|
-      artefact.state = "live"
-    end
+    artefact = Artefact.new(
+      state: "live"
+    )
 
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
   test "should not index business support content" do
-    artefact = Artefact.new do |artefact|
-      artefact.state = "live"
-      artefact.kind = "business_support"
-    end
+    artefact = Artefact.new(
+      state: "live",
+      kind: "business_support"
+    )
 
     refute RummageableArtefact.new(artefact).should_be_indexed?
   end
 
   test "should index business support content with an acceptable slug" do
-    artefact = Artefact.new do |artefact|
-      artefact.slug = "new-enterprise-allowance"
-      artefact.state = "live"
-      artefact.kind = "business_support"
-    end
+    artefact = Artefact.new(
+      slug: "new-enterprise-allowance",
+      state: "live",
+      kind: "business_support"
+    )
 
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
   should "index campaigns with an acceptable slug" do
-    artefact = Artefact.new do |artefact|
-      artefact.slug = "unimoney"
-      artefact.state = "live"
-      artefact.kind = "campaign"
-    end
+    artefact = Artefact.new(
+      slug: "unimoney",
+      state: "live",
+      kind: "campaign"
+    )
 
     assert RummageableArtefact.new(artefact).should_be_indexed?
   end
 
   test "should not index content formats managed by Whitehall" do
-    artefact = Artefact.new do |artefact|
-      artefact.state = "live"
-      artefact.kind = Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].first
-    end
+    artefact = Artefact.new(
+      state: "live",
+      kind: Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"].first
+    )
 
     refute RummageableArtefact.new(artefact).should_be_indexed?
   end
 
   test "should not index content formats managed by Specialist publisher" do
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"].each do |kind|
-      artefact = Artefact.new do |artefact|
-        artefact.state = "live"
-        artefact.kind = kind
-      end
+      artefact = Artefact.new(
+        state: "live",
+        kind: kind
+      )
 
       refute RummageableArtefact.new(artefact).should_be_indexed?
     end
@@ -251,10 +251,10 @@ class RummageableArtefactTest < ActiveSupport::TestCase
 
   test "should not index content formats managed by Finder api" do
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"].each do |kind|
-      artefact = Artefact.new do |artefact|
-        artefact.state = "live"
-        artefact.kind = kind
-      end
+      artefact = Artefact.new(
+        state: "live",
+        kind: kind
+      )
 
       refute RummageableArtefact.new(artefact).should_be_indexed?
     end
