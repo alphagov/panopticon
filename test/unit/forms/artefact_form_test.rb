@@ -1,7 +1,6 @@
 require_relative '../../test_helper'
 
 class ArtefactFormTest < ActiveSupport::TestCase
-
   setup do
     @artefact = mock('Artefact')
   end

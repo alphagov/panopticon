@@ -1,7 +1,6 @@
 require_relative '../../test_helper'
 
 class TagTest < ActiveSupport::TestCase
-
   context '#find_by_param' do
     setup do
       @tag = create(:draft_tag, tag_id: 'cake', tag_type: 'section')
@@ -51,5 +50,4 @@ class TagTest < ActiveSupport::TestCase
       end
     end
   end
-
 end

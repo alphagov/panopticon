@@ -15,12 +15,11 @@ class TagsHelperTest < ActiveSupport::TestCase
 
     should "return a hierarchy of parent tags and their children" do
       expected = [
-        [ "Driving", [ ["Driving", "driving"], ["Driving: Car tax", "driving/car-tax"], ["Driving: MOT", "driving/mot"] ]],
-        [ "Tax", [["Tax", "tax"]] ]
+        ["Driving", [%w(Driving driving), ["Driving: Car tax", "driving/car-tax"], ["Driving: MOT", "driving/mot"]]],
+        ["Tax", [%w(Tax tax)]]
       ]
 
       assert_equal expected, grouped_options_for_tags_of_type("section")
     end
   end
-
 end

@@ -1,5 +1,5 @@
 namespace :relatedness do
-  task :draw => :environment do
+  task draw: :environment do
     class Graph
       attr_accessor :nodes, :vertices
       private :nodes=, :vertices=
@@ -32,9 +32,9 @@ namespace :relatedness do
 
       def draw into
         into << "digraph Relatedness {\n"
-        into << %Q(  graph[overlap="false",layout="neato",splines=true,epsilon=0.2,margin="0,0"];\n)
-        into << %Q(  node [shape=box, fontname="Gotham Light", style=filled, penwidth=1];\n)
-        into << %Q(  edge [fontname="Georgia", len=2, fontsize=10, style=filled, arrowhead=none];\n)
+        into << %(  graph[overlap="false",layout="neato",splines=true,epsilon=0.2,margin="0,0"];\n)
+        into << %(  node [shape=box, fontname="Gotham Light", style=filled, penwidth=1];\n)
+        into << %(  edge [fontname="Georgia", len=2, fontsize=10, style=filled, arrowhead=none];\n)
         into << "\n"
         nodes.sort.group_by(&:cluster).each_pair do |cluster, nodes|
           into << "  subgraph #{cluster.gsub(/[^a-zA-Z0-0]/, '_')} {\n"
@@ -63,7 +63,7 @@ namespace :relatedness do
       end
 
       def to_dot
-        %Q(#{name}[label="#{artefact.name}",labelURL="#{Plek.current.find('www')}/#{artefact.slug}"])
+        %(#{name}[label="#{artefact.name}",labelURL="#{Plek.current.find('www')}/#{artefact.slug}"])
       end
 
       # FIXME: It'd be nice if Panopticon knew which slugs were published,
@@ -71,7 +71,7 @@ namespace :relatedness do
       def cluster
         require 'gds_api/publisher'
         api = GdsApi::Publisher.new(Plek.current.find('publisher'), 'http://localhost:3000')
-        if artefact.valid? and api.publication_for_slug(artefact.slug)
+        if artefact.valid? && api.publication_for_slug(artefact.slug)
           "published"
         else
           "not started"

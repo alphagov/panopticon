@@ -8,11 +8,11 @@ class Artefact
   # without persisting it
   attr_accessor :indexable_content
 
-  STATES = [ "live", "draft", "archived" ]
+  STATES = %w(live draft archived)
 
   scope :relatable_items_like, proc { |title_substring|
     relatable_items
-      .any_of(:name => /\A#{Regexp.escape(title_substring)}/i)
+      .any_of(name: /\A#{Regexp.escape(title_substring)}/i)
   }
 
   def related_artefact_slugs=(slugs)

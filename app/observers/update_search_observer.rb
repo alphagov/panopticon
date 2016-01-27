@@ -3,7 +3,7 @@ class UpdateSearchObserver < Mongoid::Observer
 
   def after_save(artefact)
     rummageable_artefact = RummageableArtefact.new(artefact)
-    
+
     rummageable_artefact.submit if rummageable_artefact.should_be_indexed?
 
     if artefact.live? && becoming_nonindexed_kind?(artefact)
@@ -21,7 +21,7 @@ class UpdateSearchObserver < Mongoid::Observer
 
     not_a_new_record = ! old_kind.nil?
     not_a_new_record &&
-        (RummageableArtefact.indexable_artefact?(old_kind, artefact.slug)) &&
-         !RummageableArtefact.indexable_artefact?(new_kind, artefact.slug)
+      (RummageableArtefact.indexable_artefact?(old_kind, artefact.slug)) &&
+      !RummageableArtefact.indexable_artefact?(new_kind, artefact.slug)
   end
 end

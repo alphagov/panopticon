@@ -13,9 +13,9 @@ namespace :detailed_guide do
           path = Rails.application.publishing_api.put_path("/#{new_slug}",
             "publishing_app" => "whitehall")
           detailed_guide.set(:slug, new_slug)
-          puts "Renamed #{old_slug} to #{new_slug} (#{i+1}/#{count})"
+          puts "Renamed #{old_slug} to #{new_slug} (#{i + 1}/#{count})"
         rescue GdsApi::HTTPClientError => e
-          puts "Couldn't rename #{old_slug} to #{new_slug} (#{i+1}/#{count})"
+          puts "Couldn't rename #{old_slug} to #{new_slug} (#{i + 1}/#{count})"
           message = ""
           if e.error_details["errors"]
             e.error_details["errors"].each do |field, errors|
@@ -40,9 +40,9 @@ namespace :detailed_guide do
     scope.each.each_with_index do |detailed_guide, i|
       begin
         detailed_guide.set(:paths, ["/#{detailed_guide.slug}"])
-        puts "updated path to /#{detailed_guide.slug} (#{i+1}/#{count})"
+        puts "updated path to /#{detailed_guide.slug} (#{i + 1}/#{count})"
       rescue GOVUK::Client::Errors::Conflict => e
-        puts "couldn't delete /#{detailed_guide.slug} path (#{i+1}/#{count})"
+        puts "couldn't delete /#{detailed_guide.slug} path (#{i + 1}/#{count})"
         message = ""
         if e.response["errors"]
           e.response["errors"].each do |field, errors|

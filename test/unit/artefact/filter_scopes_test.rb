@@ -1,7 +1,6 @@
 require_relative '../../test_helper'
 
 class Artefact::FilterScopesTest < ActiveSupport::TestCase
-
   context "with_tags" do
     setup do
       @tag_one = FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business")
@@ -35,7 +34,7 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
 
     should "return artefacts that have at least one tag from each collection when called multiple times" do
       artefacts = Artefact.with_tags([@tag_one.tag_id, @tag_three.tag_id])
-                            .with_tags([@tag_two.tag_id, @tag_four.tag_id])
+        .with_tags([@tag_two.tag_id, @tag_four.tag_id])
 
       assert_equal [@artefact_three.slug], artefacts.map(&:slug)
     end
@@ -165,5 +164,4 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
       assert_equal [@artefact_three.slug], artefacts.map(&:slug)
     end
   end
-
 end

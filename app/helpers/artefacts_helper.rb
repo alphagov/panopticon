@@ -11,7 +11,7 @@ module ArtefactsHelper
     artefact.persisted? ? "This should be edited in #{artefact.owning_app}" : "A name/title for the item"
   end
 
-  def admin_url_for_edition(artefact, options = {})
+  def admin_url_for_edition(artefact, _options = {})
     "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}"
   end
 

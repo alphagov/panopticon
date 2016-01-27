@@ -15,7 +15,7 @@ require 'rails/test_help'
 require 'mocha/setup'
 require 'webmock/minitest'
 # this is to allow Poltergeist JS tests to talk to the local server
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(allow_localhost: true)
 require 'govuk_content_models/test_helpers/factories'
 require 'gds_api/test_helpers/publishing_api'
 
@@ -40,7 +40,7 @@ class ActiveSupport::TestCase
   end
 
   def stub_user
-    @stub_user ||= FactoryGirl.create(:user, :name => 'Stub User')
+    @stub_user ||= FactoryGirl.create(:user, name: 'Stub User')
   end
 
   def login_as_stub_user
@@ -49,9 +49,9 @@ class ActiveSupport::TestCase
 
   def login_as(user)
     request.env['warden'] = stub(
-      :authenticate! => true,
-      :authenticated? => true,
-      :user => user
+      authenticate!: true,
+      authenticated?: true,
+      user: user
     )
   end
 
@@ -60,7 +60,7 @@ class ActiveSupport::TestCase
   end
 
   def stub_all_router_api_requests
-    WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(:status => 200)
+    WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(status: 200)
   end
 
   def stub_all_rummager_requests

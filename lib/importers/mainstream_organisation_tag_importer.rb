@@ -1,6 +1,5 @@
 module Importers
   class MainstreamOrganisationTagImporter
-
     def initialize(need_api)
       @need_api = need_api
     end
@@ -70,6 +69,5 @@ module Importers
       output = Rails.env.test? ? "/dev/null" : STDOUT
       @logger ||= Logger.new(output)
     end
-
   end
 end

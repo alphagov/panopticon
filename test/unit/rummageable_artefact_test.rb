@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class RummageableArtefactTest < ActiveSupport::TestCase
-
   setup do
     FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "crime", title: "Crime")
     FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "crime/batman", title: "Batman", parent_id: "crime")

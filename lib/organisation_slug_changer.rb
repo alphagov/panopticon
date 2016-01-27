@@ -21,6 +21,7 @@ class OrganisationSlugChanger
   end
 
 private
+
   attr_reader(
     :old_slug,
     :new_slug,
@@ -28,11 +29,11 @@ private
   )
 
   def organisation
-    @organisation ||= Tag.where(:tag_id => old_slug, :tag_type => 'organisation').first
+    @organisation ||= Tag.where(tag_id: old_slug, tag_type: 'organisation').first
   end
 
   def associated_artefacts
-    Artefact.where(:tag_ids => old_slug)
+    Artefact.where(tag_ids: old_slug)
   end
 
   def update_associated_artefacts
@@ -44,7 +45,7 @@ private
   end
 
   def update_organisation_slug
-    organisation.update_attributes!(:tag_id => new_slug)
+    organisation.update_attributes!(tag_id: new_slug)
     logger.info "Renamed organisation tag '#{old_slug}' => '#{new_slug}'"
   end
 

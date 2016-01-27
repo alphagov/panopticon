@@ -12,6 +12,7 @@ class TaggingUpdater
   end
 
 private
+
   def process_content_item(content_item)
     return unless should_update_tags?(content_item)
     artefact = find_artefact_by_base_path(content_item.fetch('base_path'))

@@ -1,12 +1,11 @@
 module SectionsHelper
-
   # Load all the section tags and return them in a form suitable for
   # use with the rails form helpers to build a select box.
   #
   # To force a tag to be excluded pass in the +options+ hash with a
   # key of :except
   def all_sections(options = {})
-    section_tags = Tag.where(:tag_type => 'section')
+    section_tags = Tag.where(tag_type: 'section')
 
     sections = options_for_sections(section_tags)
 
@@ -37,27 +36,24 @@ module SectionsHelper
   end
 
   def parent_sections
-    parent_sections = all_sections.reject do |title, tag_id|
+    parent_sections = all_sections.reject do |_title, tag_id|
       tag_id =~ %r{/}
     end
   end
 
   def parent_section_tab_list(options)
-    sections = [["All", "all"]] + parent_sections
+    sections = [%w(All all)] + parent_sections
 
     output = sections.map do |title, tag_id|
       css_class = ""
-      if tag_id == options[:current].downcase
-        css_class = "active"
-      end
-      content_tag(:li, :class => css_class) do
-        link_params = { :section => tag_id, :filter => params[:filter] }
-        link_params.reject! { |key, value| value.blank? }
+      css_class = "active" if tag_id == options[:current].downcase
+      content_tag(:li, class: css_class) do
+        link_params = { section: tag_id, filter: params[:filter] }
+        link_params.reject! { |_key, value| value.blank? }
 
         link_to(title, link_params)
       end
     end
     safe_join(output)
   end
-
 end

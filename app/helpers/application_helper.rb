@@ -5,13 +5,13 @@ module ApplicationHelper
     controller_matches = recognized[:controller] == params[:controller]
     action_matches = recognized[:action] == params[:action]
 
-    if (controller_matches && action_matches)
-      content_tag(:li, :class => "active") do
-        link_to( text, link)
+    if controller_matches && action_matches
+      content_tag(:li, class: "active") do
+        link_to(text, link)
       end
     else
       content_tag(:li) do
-        link_to( text, link)
+        link_to(text, link)
       end
     end
   end
@@ -20,6 +20,6 @@ module ApplicationHelper
     title ||= column.titleize
     css_class = column == sort_column ? "current #{sort_direction}" : "sortable"
     direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-    link_to title, params.merge({:sort => column, :direction => direction}), {:class => css_class}
+    link_to title, params.merge({sort: column, direction: direction}), {class: css_class}
   end
 end

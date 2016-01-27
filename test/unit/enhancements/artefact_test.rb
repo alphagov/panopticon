@@ -1,7 +1,6 @@
 require_relative '../../test_helper'
 
 class ArtefactTest < ActiveSupport::TestCase
-
   context "#related_artefact_slugs=" do
     setup do
       @artefact = FactoryGirl.create(:artefact)

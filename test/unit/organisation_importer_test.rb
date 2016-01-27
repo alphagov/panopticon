@@ -21,7 +21,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
   should "create a live tag for a new organisation" do
     organisations_api_has_organisations(["cabinet-office"])
 
-    assert_difference ->{ Tag.where(tag_type: "organisation").count } do
+    assert_difference -> { Tag.where(tag_type: "organisation").count } do
       OrganisationImporter.new.run
     end
 
@@ -34,7 +34,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
     create(:live_tag, tag_type: "organisation", tag_id: "cabinet-office", title: "Cabinet Office")
 
     organisations_api_has_organisations(["cabinet-office"])
-    assert_difference ->{ Tag.where(tag_type: "organisation").count }, 0 do
+    assert_difference -> { Tag.where(tag_type: "organisation").count }, 0 do
       OrganisationImporter.new.run
     end
   end
@@ -66,7 +66,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
 
     Tag.any_instance.expects(:save).returns(false)
 
-    Airbrake.expects(:notify_or_ignore).with {|exception, options|
+    Airbrake.expects(:notify_or_ignore).with {|_exception, options|
       options.has_key?(:parameters) &&
         options[:parameters].has_key?(:organisation) &&
         options[:parameters][:organisation].title == "Cabinet Office"
@@ -81,7 +81,7 @@ class OrganisationImporterTest < ActiveSupport::TestCase
 
     Tag.any_instance.expects(:save).returns(false)
 
-    Airbrake.expects(:notify_or_ignore).with {|exception, options|
+    Airbrake.expects(:notify_or_ignore).with {|_exception, options|
       options.has_key?(:parameters) &&
         options[:parameters].has_key?(:organisation) &&
         options[:parameters][:organisation].title == "Cabinet Office"
@@ -89,5 +89,4 @@ class OrganisationImporterTest < ActiveSupport::TestCase
 
     OrganisationImporter.new.run
   end
-
 end

@@ -1,10 +1,10 @@
 class ArtefactsController < ApplicationController
-  before_filter :find_artefact, :only => [:show, :edit, :history, :withdraw]
-  before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
-  before_filter :build_artefact, :only => [:create]
-  before_filter :find_or_build_artefact, :only => [:update]
-  before_filter :register_url_with_publishing_api, :only => [:create, :update]
-  before_filter :tag_collection, :except => [:show]
+  before_filter :find_artefact, only: [:show, :edit, :history, :withdraw]
+  before_filter :convert_comma_separated_string_to_array_attribute, only: [:create, :update], if: -> { request.format.html? }
+  before_filter :build_artefact, only: [:create]
+  before_filter :find_or_build_artefact, only: [:update]
+  before_filter :register_url_with_publishing_api, only: [:create, :update]
+  before_filter :tag_collection, except: [:show]
   helper_method :sort_column, :sort_direction
 
   respond_to :html, :json
@@ -122,163 +122,158 @@ class ArtefactsController < ApplicationController
     end
   end
 
-  private
+private
 
-    def admin_url_for_edition(artefact, options = {})
-      [
-        "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
-        options.to_query
-      ].reject(&:blank?).join("?")
+  def admin_url_for_edition(artefact, options = {})
+    [
+      "#{Plek.current.find(artefact.owning_app)}/admin/publications/#{artefact.id}",
+      options.to_query
+    ].reject(&:blank?).join("?")
+  end
+
+  def artefact_scope
+    # This is here so that we can stub this out a bit more easily in the
+    # functional tests.
+    Artefact
+  end
+
+  def apply_filters(scope, filters)
+    [:section, :specialist_sector].each do |tag_type|
+      if filters[tag_type].present?
+        scope = scope.with_parent_tag(tag_type, filters[tag_type])
+      end
     end
 
-    def artefact_scope
-      # This is here so that we can stub this out a bit more easily in the
-      # functional tests.
-      Artefact
+    if filters[:state].present? && Artefact::STATES.include?(filters[:state])
+      scope = scope.in_state(filters[:state])
     end
 
-    def apply_filters(scope, filters)
-      [:section, :specialist_sector].each do |tag_type|
-        if filters[tag_type].present?
-          scope = scope.with_parent_tag(tag_type, filters[tag_type])
+    if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
+      scope = scope.of_kind(filters[:kind])
+    end
+
+    scope = scope.matching_query(filters[:search]) if filters[:search].present?
+
+    if filters[:owned_by].present?
+      scope = scope.owned_by(filters[:owned_by])
+    else
+      # Exclude all panopticon-owned artefacts from the index
+      # because they have their own specialised interfaces.
+      scope = scope.not_owned_by('panopticon')
+    end
+
+    scope
+  end
+
+  def tag_collection
+    @tag_collection = Tag.where(tag_type: 'section')
+      .asc(:title).to_a
+
+    title_counts = Hash.new(0)
+    @tag_collection.each do |tag|
+      title_counts[tag.title] += 1
+    end
+
+    @tag_collection.each do |tag|
+      tag.uniquely_named = title_counts[tag.title] < 2
+    end
+  end
+
+  def redirect_to_show_if_need_met
+    if params[:artefact] && params[:artefact][:need_id]
+      artefact = Artefact.any_in(need_ids: [params[:artefact][:need_id]]).first
+      redirect_to artefact if artefact
+    end
+  end
+
+  def find_artefact
+    @artefact = Artefact.from_param(params[:id])
+  end
+
+  def find_or_build_artefact
+    find_artefact
+  rescue Mongoid::Errors::DocumentNotFound
+    @artefact = Artefact.new(slug: params[:id])
+  end
+
+  def build_artefact
+    @artefact = Artefact.new(extract_parameters(params))
+  end
+
+  def extract_parameters(params)
+    fields_to_update = Artefact.fields.keys + %w(sections primary_section specialist_sectors)
+
+    # TODO: Remove this variance
+    parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
+
+    # Partly for legacy reasons, the API can receive live=true
+    if live_param = parameters_to_use[:live]
+      if ["true", true, "1"].include?(live_param)
+        parameters_to_use[:state] = "live"
+      end
+    end
+
+    # Convert nil tag fields to empty arrays if they're present
+    Artefact.tag_types.each do |tag_type|
+      parameters_to_use[tag_type] ||= [] if parameters_to_use.has_key?(tag_type)
+    end
+
+    # Strip out the empty submit option for sections
+    %w(sections legacy_source_ids specialist_sector_ids organisation_ids).each do |param|
+      param_value = parameters_to_use[param]
+      param_value.reject!(&:blank?) if param_value
+    end
+    parameters_to_use
+  end
+
+  def build_actions
+    # Construct a list of actions, with embedded diffs
+    # The reason for appending the nil is so that the initial action is
+    # included: the DiffEnabledAction class handles the case where the
+    # previous action does not exist
+    reverse_actions = @artefact.actions.reverse
+    (reverse_actions + [nil]).each_cons(2).map { |action, previous|
+      DiffEnabledAction.new(action, previous)
+    }
+  end
+
+  def sort_column
+    Artefact.fields.keys.include?(params[:sort]) ? params[:sort] : :name
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
+  end
+
+  def convert_comma_separated_string_to_array_attribute
+    return if (artefact_params = params[:artefact]).blank?
+
+    [:need_ids, :related_artefact_slugs].each do |attribute|
+      next if artefact_params[attribute].nil?
+      artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
+    end
+  end
+
+  def register_url_with_publishing_api
+    parameters_to_use = extract_parameters(params)
+
+    # publishing api url-arbitration would reject this request,
+    # therefore rely on our model validation to make the error messaging better
+    return if @artefact.slug.blank? || parameters_to_use['owning_app'].blank?
+
+    Rails.application.publishing_api.put_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
+  rescue GdsApi::HTTPClientError => e
+    message = ""
+    if e.error_details["errors"]
+      e.error_details["errors"].each do |field, errors|
+        errors.each do |error|
+          message << "#{field.humanize} #{error}\n"
         end
       end
-
-      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
-        scope = scope.in_state(filters[:state])
-      end
-
-      if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
-        scope = scope.of_kind(filters[:kind])
-      end
-
-      if filters[:search].present?
-        scope = scope.matching_query(filters[:search])
-      end
-
-      if filters[:owned_by].present?
-        scope = scope.owned_by(filters[:owned_by])
-      else
-        # Exclude all panopticon-owned artefacts from the index
-        # because they have their own specialised interfaces.
-        scope = scope.not_owned_by('panopticon')
-      end
-
-      scope
+    else
+      message = e.message
     end
 
-    def tag_collection
-      @tag_collection = Tag.where(:tag_type => 'section')
-                                     .asc(:title).to_a
-
-      title_counts = Hash.new(0)
-      @tag_collection.each do |tag|
-        title_counts[tag.title] += 1
-      end
-
-      @tag_collection.each do |tag|
-        tag.uniquely_named = title_counts[tag.title] < 2
-      end
-    end
-
-    def redirect_to_show_if_need_met
-      if params[:artefact] && params[:artefact][:need_id]
-        artefact = Artefact.any_in(need_ids: [params[:artefact][:need_id]]).first
-        redirect_to artefact if artefact
-      end
-    end
-
-    def find_artefact
-      @artefact = Artefact.from_param(params[:id])
-    end
-
-    def find_or_build_artefact
-      find_artefact
-    rescue Mongoid::Errors::DocumentNotFound
-      @artefact = Artefact.new(slug: params[:id])
-    end
-
-    def build_artefact
-      @artefact = Artefact.new(extract_parameters(params))
-    end
-
-    def extract_parameters(params)
-      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section', 'specialist_sectors']
-
-      # TODO: Remove this variance
-      parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
-
-      # Partly for legacy reasons, the API can receive live=true
-      if live_param = parameters_to_use[:live]
-        if ["true", true, "1"].include?(live_param)
-          parameters_to_use[:state] = "live"
-        end
-      end
-
-      # Convert nil tag fields to empty arrays if they're present
-      Artefact.tag_types.each do |tag_type|
-        if parameters_to_use.has_key?(tag_type)
-          parameters_to_use[tag_type] ||= []
-        end
-      end
-
-      # Strip out the empty submit option for sections
-      ['sections', 'legacy_source_ids', 'specialist_sector_ids', 'organisation_ids'].each do |param|
-        param_value = parameters_to_use[param]
-        param_value.reject!(&:blank?) if param_value
-      end
-      parameters_to_use
-    end
-
-    def build_actions
-      # Construct a list of actions, with embedded diffs
-      # The reason for appending the nil is so that the initial action is
-      # included: the DiffEnabledAction class handles the case where the
-      # previous action does not exist
-      reverse_actions = @artefact.actions.reverse
-      (reverse_actions + [nil]).each_cons(2).map { |action, previous|
-        DiffEnabledAction.new(action, previous)
-      }
-    end
-
-    def sort_column
-      Artefact.fields.keys.include?(params[:sort]) ? params[:sort] : :name
-    end
-
-    def sort_direction
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
-    end
-
-    def convert_comma_separated_string_to_array_attribute
-      return if (artefact_params = params[:artefact]).blank?
-
-      [:need_ids, :related_artefact_slugs].each do |attribute|
-        next if artefact_params[attribute].nil?
-        artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
-      end
-    end
-
-    def register_url_with_publishing_api
-      parameters_to_use = extract_parameters(params)
-
-      # publishing api url-arbitration would reject this request,
-      # therefore rely on our model validation to make the error messaging better
-      return if @artefact.slug.blank? || parameters_to_use['owning_app'].blank?
-
-      Rails.application.publishing_api.put_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
-    rescue GdsApi::HTTPClientError => e
-      message = ""
-      if e.error_details["errors"]
-        e.error_details["errors"].each do |field, errors|
-          errors.each do |error|
-            message << "#{field.humanize} #{error}\n"
-          end
-        end
-      else
-        message = e.message
-      end
-
-      render text: message, status: 409
-    end
-
+    render text: message, status: 409
+  end
 end

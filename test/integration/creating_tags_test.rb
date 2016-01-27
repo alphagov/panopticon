@@ -1,7 +1,6 @@
 require_relative '../integration_test_helper'
 
 class CreatingTagsTest < ActionDispatch::IntegrationTest
-
   setup do
     login_as_user_with_permission('manage_tags')
   end
@@ -116,5 +115,4 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
       assert_match /must be valid/, body['errors']['tag_id'].first
     end
   end
-
 end

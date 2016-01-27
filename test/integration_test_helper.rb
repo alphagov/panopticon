@@ -27,5 +27,4 @@ class ActionDispatch::IntegrationTest
     user = create(:user, permissions: ['signin', permission])
     login_as(user)
   end
-
 end

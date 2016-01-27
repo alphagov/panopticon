@@ -1,7 +1,6 @@
 require_relative '../test_helper'
 
 class DiffEnabledActionTest < ActiveSupport::TestCase
-
   test "should report being an initial action" do
     action = ArtefactAction.new(
       action_type: "update",
@@ -84,5 +83,4 @@ class DiffEnabledActionTest < ActiveSupport::TestCase
       a.changes
     )
   end
-
 end

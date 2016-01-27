@@ -2,7 +2,6 @@ require 'plek'
 require 'gds_api/router'
 
 class RoutableArtefact
-
   attr_reader :artefact
 
   def initialize(artefact)
@@ -20,7 +19,7 @@ class RoutableArtefact
   # Ensure the backend app exists in the router so that the routes below
   # can reference it.
   def ensure_backend_exists
-    backend_url = Plek.current.find(rendering_app, :force_http => true) + "/"
+    backend_url = Plek.current.find(rendering_app, force_http: true) + "/"
     router_api.add_backend(rendering_app, backend_url)
   end
 
@@ -41,9 +40,7 @@ class RoutableArtefact
       return
     end
 
-    if options[:skip_commit] || prefixes.empty? && paths.empty?
-      return
-    end
+    return if options[:skip_commit] || prefixes.empty? && paths.empty?
 
     commit
   end
@@ -98,7 +95,7 @@ class RoutableArtefact
     router_api.commit_routes
   end
 
-  private
+private
 
   def rendering_app
     @rendering_app ||= [artefact.rendering_app, artefact.owning_app].reject(&:blank?).first

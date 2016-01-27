@@ -1,8 +1,7 @@
 class ChildTagIdInput < FormtasticBootstrap::Inputs::StringInput
-
   def options
     if builder.object.parent_id.present?
-      super.merge(:prepend => "#{builder.object.parent_id}/")
+      super.merge(prepend: "#{builder.object.parent_id}/")
     end
   end
 
@@ -13,7 +12,7 @@ class ChildTagIdInput < FormtasticBootstrap::Inputs::StringInput
     end
   end
 
-  protected
+protected
 
   def remove_parent_from_tag_id
     if builder.object.tag_id.present?

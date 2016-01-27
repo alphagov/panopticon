@@ -59,7 +59,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
     should "set a Gone route when archiving without a redirect" do
       stub_router_backend_registration("publisher",
-        Plek.current.find("publisher", :force_http => true) + "/")
+        Plek.current.find("publisher", force_http: true) + "/")
 
       gone_request, commit_request = stub_gone_route_registration("/foo", "exact")
 
@@ -72,7 +72,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
     should "set a Redirect route when archiving with a relative redirect" do
       stub_router_backend_registration("publisher",
-        Plek.current.find("publisher", :force_http => true) + "/")
+        Plek.current.find("publisher", force_http: true) + "/")
 
       redirect_request, commit_request = stub_redirect_registration("/foo",
                                                                     "exact",
@@ -89,7 +89,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
     should "set a Redirect route when archiving with a GOV.UK redirect" do
       stub_router_backend_registration("publisher",
-        Plek.current.find("publisher", :force_http => true) + "/")
+        Plek.current.find("publisher", force_http: true) + "/")
 
       redirect_request, commit_request = stub_redirect_registration("/foo",
                                                                     "exact",

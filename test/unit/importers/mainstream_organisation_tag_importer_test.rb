@@ -3,7 +3,6 @@ require 'importers/mainstream_organisation_tag_importer'
 
 module Importers
   class MainstreamOrganisationTagImporterTest < ActiveSupport::TestCase
-
     setup do
       @need_api = stub("GdsApi::NeedApi")
       @importer = MainstreamOrganisationTagImporter.new(@need_api)
@@ -53,7 +52,7 @@ module Importers
       # as new need_ids are now validated to the Maslow format, we have to set the
       # need_ids field manually so that we avoid validation.
       artefact = create(:draft_artefact, owning_app: 'publisher')
-      artefact.update_attribute(:need_ids, ['123', 'B123'])
+      artefact.update_attribute(:need_ids, %w(123 B123))
 
       @need_api.expects(:need).never
 
@@ -73,7 +72,7 @@ module Importers
     end
 
     should 'assign organisations for all needs to a publisher artefact with multiple need IDs' do
-      artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: ['100001', '100002'])
+      artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: %w(100001 100002))
       stub_need_with_organisation_ids('100001', 'home-office',
                                                 'uk-visas-and-immigration')
       stub_need_with_organisation_ids('100002', 'environment-agency')
@@ -100,7 +99,7 @@ module Importers
     end
 
     should 'not tag the same new organisation multiple times to an artefact' do
-      artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: ['100001', '100002'])
+      artefact = create(:draft_artefact, owning_app: 'publisher', need_ids: %w(100001 100002))
       stub_need_with_organisation_ids('100001', 'home-office',
                                                 'uk-visas-and-immigration')
       stub_need_with_organisation_ids('100002', 'home-office')
@@ -128,7 +127,7 @@ module Importers
 
     should 'assign organisations for any present needs to an artefact with incorrect need IDs' do
       artefact = create(:draft_artefact, owning_app: 'publisher',
-                                         need_ids: ['100001', '100002', '100003'])
+                                         need_ids: %w(100001 100002 100003))
 
       stub_need_with_organisation_ids('100001', 'home-office')
       stub_need_with_organisation_ids('100002', 'environment-agency')
@@ -150,8 +149,8 @@ module Importers
         "organisation_ids" => ["hm-treasury"]
       }
       @need_api.stubs(:need).with(artefact.need_ids.first)
-                            .raises(GdsApi::TimedOutException)
-                            .then.returns(stub_need)
+        .raises(GdsApi::TimedOutException)
+        .then.returns(stub_need)
 
       @importer.run
 

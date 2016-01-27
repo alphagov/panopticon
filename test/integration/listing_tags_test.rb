@@ -1,7 +1,6 @@
 require_relative '../integration_test_helper'
 
 class ListingTagsTest < ActionDispatch::IntegrationTest
-
   setup do
     login_as_user_with_permission('manage_tags')
   end
@@ -70,5 +69,4 @@ class ListingTagsTest < ActionDispatch::IntegrationTest
       end
     end
   end
-
 end

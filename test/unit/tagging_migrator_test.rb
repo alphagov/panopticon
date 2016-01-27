@@ -12,24 +12,24 @@ class TaggingMigratorTest < ActiveSupport::TestCase
       owning_app: "smartanswers",
       sections: ["a-browse-page"],
       specialist_sectors: ["a-topic"],
-    )
+          )
     create(:artefact,
       content_id: "B",
       slug: "item-b",
       owning_app: "smartanswers",
       sections: ["a-browse-page"],
       organisations: ["an-organisation"],
-    )
+          )
     create(:artefact,
       content_id: "C",
       slug: "item-c",
       owning_app: "smartanswers",
-    )
+          )
     create(:artefact,
       content_id: "D",
       slug: "item-d",
       owning_app: "whitehall",
-    )
+          )
 
     stub_request(:put, %r[#{Plek.find('publishing-api')}/v2/links/*]).
       to_return(body: {}.to_json)

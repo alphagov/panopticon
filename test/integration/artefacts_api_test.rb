@@ -1,16 +1,15 @@
 require_relative '../test_helper'
 
 class ArtefactsAPITest < ActiveSupport::TestCase
-
   setup do
     create_test_user
   end
 
   context "artefacts index" do
     should "return list of artefacts as JSON" do
-      FactoryGirl.create(:artefact, :name => 'Alpha', :slug => 'alpha', :content_id => '2bd6f4e4-9e47-4952-b1ac-b3799f9368ff')
-      FactoryGirl.create(:artefact, :name => 'Bravo', :slug => 'bravo')
-      FactoryGirl.create(:artefact, :name => 'Charlie', :slug => 'charlie')
+      FactoryGirl.create(:artefact, name: 'Alpha', slug: 'alpha', content_id: '2bd6f4e4-9e47-4952-b1ac-b3799f9368ff')
+      FactoryGirl.create(:artefact, name: 'Bravo', slug: 'bravo')
+      FactoryGirl.create(:artefact, name: 'Charlie', slug: 'charlie')
 
       get "/artefacts.json"
       assert_equal 200, last_response.status
@@ -27,11 +26,11 @@ class ArtefactsAPITest < ActiveSupport::TestCase
   context "show artefact" do
     should "return the JSON representation of the artefact" do
       artefact = FactoryGirl.create(:artefact,
-        :slug => 'wibble',
-        :name => 'Wibble',
-        :need_ids => ['100001', '100002'],
-        :content_id => '436b83ff-dc72-4278-a336-199344be4a33',
-      )
+        slug: 'wibble',
+        name: 'Wibble',
+        need_ids: %w(100001 100002),
+        content_id: '436b83ff-dc72-4278-a336-199344be4a33',
+                                   )
 
       get "/artefacts/wibble.json"
 
@@ -43,7 +42,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
       assert_equal 'answer', artefact["kind"]
       assert_equal 'publisher', artefact["owning_app"]
       assert_equal 'draft', artefact["state"]
-      assert_equal ['100001', '100002'], artefact["need_ids"]
+      assert_equal %w(100001 100002), artefact["need_ids"]
       assert_equal '436b83ff-dc72-4278-a336-199344be4a33', artefact.content_id
     end
   end
@@ -191,7 +190,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
     context "for an existing artefact" do
       setup do
-        @artefact = FactoryGirl.create(:artefact, :slug => 'wibble', :name => "Wibble")
+        @artefact = FactoryGirl.create(:artefact, slug: 'wibble', name: "Wibble")
       end
 
       should "update the artefact" do

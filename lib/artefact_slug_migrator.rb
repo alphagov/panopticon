@@ -1,5 +1,4 @@
 class ArtefactSlugMigrator
-
   attr_reader :logger
 
   def initialize(logger = nil)
@@ -30,13 +29,14 @@ class ArtefactSlugMigrator
     logger.info "Sequence complete."
   end
 
-  private
-    def slugs
-      @slugs ||= load_slugs
-    end
+private
 
-    def load_slugs
-      json = File.open(Rails.root.join('data','slugs_to_migrate.json')).read
-      JSON.parse(json) || [ ]
-    end
+  def slugs
+    @slugs ||= load_slugs
+  end
+
+  def load_slugs
+    json = File.open(Rails.root.join('data', 'slugs_to_migrate.json')).read
+    JSON.parse(json) || []
+  end
 end

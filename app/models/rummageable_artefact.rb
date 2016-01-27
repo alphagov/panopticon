@@ -1,5 +1,4 @@
 class RummageableArtefact
-
   FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction campaign) +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"] +
@@ -78,8 +77,8 @@ class RummageableArtefact
     # This won't cope with nested values, but we don't have any of those yet
     # When we want to include additional links, this will become an issue
     rummageable_keys = %w{title description format
-      indexable_content boost_phrases organisations additional_links
-      specialist_sectors public_timestamp latest_change_note mainstream_browse_pages}
+                          indexable_content boost_phrases organisations additional_links
+                          specialist_sectors public_timestamp latest_change_note mainstream_browse_pages}
 
     # If a key is in this list, and the corresponding value in the artefact is
     # nil, then it will be omitted from the hash returned from this method
@@ -108,9 +107,7 @@ class RummageableArtefact
         next
       end
 
-      unless (strip_nils && value.nil?)
-        hash[rummageable_key] = value
-      end
+      hash[rummageable_key] = value unless strip_nils && value.nil?
     end
 
     result
@@ -141,12 +138,11 @@ class RummageableArtefact
   end
 
   def artefact_public_timestamp
-    if @artefact.public_timestamp
-      @artefact.public_timestamp.iso8601
-    end
+    @artefact.public_timestamp.iso8601 if @artefact.public_timestamp
   end
 
 private
+
   def section_parts
     section_parts = []
     return section_parts if @artefact.sections.empty?

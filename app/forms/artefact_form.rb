@@ -26,6 +26,7 @@ class ArtefactForm < BasicObject
   alias_method :send, :__send__
 
 private
+
   attr_reader :artefact
 
   def method_missing(method, *args, &block)

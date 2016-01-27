@@ -1,13 +1,11 @@
 namespace :needs do
-
   require 'csv'
   require 'ansi/code'
 
-  task :import_csv => :environment do
-
-    @artefacts = CSV.read( File.join( Rails.root, 'lib', 'import', '20111129_need_ids.csv' ) ).collect{ |row| { :artefact_id => row[0].to_i, :need_id => row[2] } }
+  task import_csv: :environment do
+    @artefacts = CSV.read(File.join(Rails.root, 'lib', 'import', '20111129_need_ids.csv')).collect { |row| { artefact_id: row[0].to_i, need_id: row[2] } }
     @artefacts.each_with_index do |a, i|
-      puts "[#{i+1}/#{@artefacts.size}] Looking for artefact #{a[:artefact_id]}..."
+      puts "[#{i + 1}/#{@artefacts.size}] Looking for artefact #{a[:artefact_id]}..."
       record = Artefact.find(a[:artefact_id].to_i) rescue nil
 
       if (a[:need_id].match(/delete/i) rescue false) || (a[:need_id].match(/Not found/i) rescue false)
@@ -26,5 +24,4 @@ namespace :needs do
       end
     end
   end
-
 end

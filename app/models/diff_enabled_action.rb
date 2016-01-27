@@ -1,5 +1,4 @@
 class DiffEnabledAction
-
   # Decorator for the ArtefactAction class, which can express what has changed.
 
   extend Forwardable
@@ -7,7 +6,8 @@ class DiffEnabledAction
   def_delegators :@action, :action_type, :snapshot, :created_at, :user
 
   def initialize(action, previous = nil)
-    @action, @previous = action, previous
+    @action = action
+    @previous = previous
   end
 
   def initial?

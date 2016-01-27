@@ -1,5 +1,5 @@
 desc "Move content from one topic to another"
-task :move_content_to_new_topic => :environment do
+task move_content_to_new_topic: :environment do
   source_topic_id = ENV.fetch('source')
   dest_topic_id = ENV.fetch('dest')
 
@@ -15,13 +15,13 @@ task :move_content_to_new_topic => :environment do
     exit
   end
 
-  source_artefacts = Artefact.any_in(:tag_ids => [source_topic_id])
+  source_artefacts = Artefact.any_in(tag_ids: [source_topic_id])
   puts "Source tag #{source_topic_id} found with #{source_artefacts.count} artefacts"
   source_artefacts.each do |artefact|
     puts " - #{artefact.slug} #{artefact.name}"
   end
 
-  dest_artefacts = Artefact.any_in(:tag_ids => [dest_topic_id])
+  dest_artefacts = Artefact.any_in(tag_ids: [dest_topic_id])
   puts "\nDestination tag #{dest_topic_id} found with #{dest_artefacts.count} artefacts"
   dest_artefacts.each do |artefact|
     puts " - #{artefact.slug} #{artefact.name}"
@@ -31,9 +31,7 @@ task :move_content_to_new_topic => :environment do
   source_artefacts.each do |artefact|
     puts "Retagging #{artefact.slug}"
     new_topics = artefact.specialist_sectors.map { |topic|
-      if (topic == source_topic)
-        topic = dest_topic
-      end
+      topic = dest_topic if topic == source_topic
       topic.tag_id
     }
     artefact.specialist_sectors = new_topics
@@ -47,5 +45,4 @@ task :move_content_to_new_topic => :environment do
       puts "Artefact not indexed from panopticon"
     end
   end
-
 end

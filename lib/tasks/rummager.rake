@@ -1,7 +1,6 @@
 namespace :rummager do
-
   desc "Reindex (with an amend) live artefacts in rummager"
-  task :reindex_live_artefacts => :environment do
+  task reindex_live_artefacts: :environment do
     artefact_scope = Artefact.where(:state => 'live', :owning_app.ne => 'whitehall')
     total = artefact_scope.count
     puts "Re-indexing (amending) live artefacts"

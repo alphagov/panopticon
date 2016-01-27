@@ -1,6 +1,5 @@
 class TagsController < ApplicationController
-
-  TAG_TYPES = ['section', 'specialist_sector']
+  TAG_TYPES = %w(section specialist_sector)
 
   before_filter :require_tags_permission
   before_filter :find_tag, only: [:publish, :show, :destroy]
@@ -17,9 +16,7 @@ class TagsController < ApplicationController
     if params[:type].present?
       @tag.tag_type = params[:type]
 
-      if params[:parent_id].present?
-        @tag.parent_id = params[:parent_id]
-      end
+      @tag.parent_id = params[:parent_id] if params[:parent_id].present?
     end
   end
 
@@ -103,6 +100,7 @@ class TagsController < ApplicationController
   end
 
 private
+
   def require_tags_permission
     authorise_user!("manage_tags")
   end
@@ -130,7 +128,7 @@ private
   end
 
   def disallowed_update_params_errors
-    disallowed_update_params.inject({}) {|errors, (key,_)|
+    disallowed_update_params.inject({}) {|errors, (key, _)|
       errors.merge(key => ["can't be changed"])
     }
   end
@@ -153,7 +151,7 @@ private
 
     # find the group for the 'nil' parent_id, as this contains all the root tags.
     # discard the first value in the array, as we only want the array of tags.
-    _, root_tags = tags_in_groups.find {|parent_id,_| parent_id == nil }
+    _, root_tags = tags_in_groups.find {|parent_id, _| parent_id == nil }
 
     # iterate over the root tags, finding the children of each root tag as we go.
     # we then build a similar group array structure, where the parent tag is the

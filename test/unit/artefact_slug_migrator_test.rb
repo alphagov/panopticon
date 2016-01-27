@@ -2,19 +2,18 @@ require 'test_helper'
 require 'artefact_slug_migrator'
 
 class ArtefactSlugMigratorTest < ActiveSupport::TestCase
-
   setup do
     # stub the observers for creating artefacts
     UpdateRouterObserver.any_instance.stubs(:after_save)
     UpdateSearchObserver.any_instance.stubs(:after_save)
 
     @artefacts = [
-      FactoryGirl.create(:artefact, :slug => "first-original-slug"),
-      FactoryGirl.create(:artefact, :slug => "second-original-slug", :state => 'live'),
-      FactoryGirl.create(:artefact, :slug => "third-original-slug", :state => 'archived')
+      FactoryGirl.create(:artefact, slug: "first-original-slug"),
+      FactoryGirl.create(:artefact, slug: "second-original-slug", state: 'live'),
+      FactoryGirl.create(:artefact, slug: "third-original-slug", state: 'archived')
     ]
 
-    @it = ArtefactSlugMigrator.new( Logger.new("/dev/null") )
+    @it = ArtefactSlugMigrator.new(Logger.new("/dev/null"))
 
     RummageableArtefact.any_instance.stubs(:delete).returns(true)
     ArtefactSlugMigrator.any_instance.stubs(:slugs).returns({
@@ -36,5 +35,4 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
     @artefacts.each(&:reload)
     assert_equal ["first-new-slug", "second-new-slug", "third-new-slug"], @artefacts.map(&:slug)
   end
-
 end

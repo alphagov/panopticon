@@ -17,6 +17,6 @@ class AssociateArtefactsWithMultipleNeedsTest < ActionDispatch::IntegrationTest
     click_on "Save and continue editing"
 
     visit "/artefacts"
-    assert_equal ["100123", "100124", "100125"], page.all("#artefact-list span.need-id").map(&:text)
+    assert_equal %w(100123 100124 100125), page.all("#artefact-list span.need-id").map(&:text)
   end
 end

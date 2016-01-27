@@ -2,7 +2,7 @@ module ArtefactNeedIdsFormFiller
   def add_need_id(need_id)
     # needs ids are entered in an input field
     # which has a mask. hence, this is needed.
-    page.execute_script(%Q<$("#artefact_need_ids").val("#{need_id}")>)
+    page.execute_script(%<$("#artefact_need_ids").val("#{need_id}")>)
     within '#user-need' do
       click_link 'Add Maslow Need ID'
       # the click above triggers a page javascript

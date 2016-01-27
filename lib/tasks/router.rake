@@ -1,15 +1,15 @@
 
 namespace :router do
   desc "Reregister all live artefacts with the router"
-  task :reregister_live_artefacts => :environment do
+  task reregister_live_artefacts: :environment do
     puts "Re-registering all live artefacts with the router"
-    artefact_count = Artefact.where(:state => 'live').count
-    Artefact.where(:state => 'live').each_with_index do |artefact, i|
+    artefact_count = Artefact.where(state: 'live').count
+    Artefact.where(state: 'live').each_with_index do |artefact, i|
       puts "  #{artefact.slug} (#{i}/#{artefact_count})..."
       retry_count = 0
       begin
         r = RoutableArtefact.new(artefact)
-        r.submit(:skip_commit => true)
+        r.submit(skip_commit: true)
       rescue Timeout::Error, GdsApi::TimedOutException
         if retry_count < 3
           retry_count += 1

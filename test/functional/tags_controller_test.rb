@@ -1,9 +1,8 @@
 require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
-
   def login_as_user_with_permission
-    user = create(:user, permissions: ['signin', 'manage_tags'])
+    user = create(:user, permissions: %w(signin manage_tags))
     login_as(user)
   end
 
@@ -39,7 +38,7 @@ class TagsControllerTest < ActionController::TestCase
       groups = assigns(:parents)
 
       assert_equal 3, groups.size
-      assert_equal [parent_1, parent_2, parent_3], groups.map {|parent, children| parent }
+      assert_equal [parent_1, parent_2, parent_3], groups.map {|parent, _children| parent }
 
       assert_equal children_1.sort, groups[0].last.sort
       assert_equal children_2.sort, groups[1].last.sort

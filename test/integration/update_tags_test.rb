@@ -1,7 +1,6 @@
 require_relative '../integration_test_helper'
 
 class UpdateTagsTest < ActionDispatch::IntegrationTest
-
   setup do
     login_as_user_with_permission('manage_tags')
   end
@@ -33,7 +32,6 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
       end
 
       context 'fields which cannot be changed' do
-
         should 'return error when a change is requested to the tag_id' do
           put tag_path(@tag), { tag_id: 'foo', format: 'json' }
           body = JSON.parse(response.body)
@@ -57,7 +55,6 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
           assert_equal 422, response.status
           assert_match "can't be changed", body['errors']['tag_type'].first
         end
-
       end
     end
 
@@ -111,7 +108,6 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
   end
 
   context "publishing a tag" do
-
     should 'publish a draft tag' do
       draft_tag = create(:draft_tag)
       post publish_tag_path(draft_tag), format: 'json'

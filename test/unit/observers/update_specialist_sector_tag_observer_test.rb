@@ -9,7 +9,7 @@ class UpdateSpecialistSectorTagObserverTest < ActiveSupport::TestCase
       tag_type: 'specialist_sector',
       tag_id: 'oil-and-gas/licensing',
       parent_id: 'oil-and-gas'
-    )
+                             )
   end
 
   should 'trigger reindex of tagged documents on publish' do

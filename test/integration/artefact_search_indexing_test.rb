@@ -76,7 +76,7 @@ class ArtefactSearchIndexingTest < ActiveSupport::TestCase
       "mainstream_browse_pages" => ["a-section/subsection"],
     }
 
-    mock_search_index = mock()
+    mock_search_index = mock
     SearchIndex.stubs(:instance).returns(mock_search_index)
     mock_search_index.expects(:amend).with("/#{new_artefact['slug']}", expected_hash_of_attributes_to_index)
 

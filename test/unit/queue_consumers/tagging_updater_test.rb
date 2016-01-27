@@ -9,7 +9,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     artefact = create(:artefact,
       slug: 'a-tagged-item',
       sections: ["existing-tag"],
-    )
+                     )
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "an-app-from-the-migrated-apps-config",
       "base_path" => "/a-tagged-item",
@@ -31,7 +31,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     artefact = create(:artefact,
       slug: 'a-tagged-item',
       sections: ["existing-tag"],
-    )
+                     )
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "not-an-app-from-the-migrated-apps-config",
       "base_path" => "/a-tagged-item",

@@ -15,7 +15,7 @@ class OrganisationImporter
     logger.info "Import complete"
   end
 
-  private
+private
 
   def create_or_update_organisation(organisation)
     tag_id = organisation.details.slug
@@ -84,10 +84,10 @@ class OrganisationImporter
   end
 
   def json_log_formatter
-    proc {|severity, datetime, progname, message|
+    proc {|_severity, datetime, _progname, message|
       {
         "@message" => message,
-        "@tags" => ["cron", "rake"],
+        "@tags" => %w(cron rake),
         "@timestamp" => datetime.iso8601
       }.to_json + "\n"
     }
@@ -102,7 +102,7 @@ class OrganisationImporter
 
     Airbrake.notify_or_ignore(
       StandardError.new(message),
-      :parameters => { :organisation => organisation }
+      parameters: { organisation: organisation }
     )
   end
 end

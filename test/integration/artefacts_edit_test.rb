@@ -96,7 +96,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow editing of need IDs when a Maslow need ID is present" do
-      artefact = FactoryGirl.create(:artefact, :need_ids => ["100123"])
+      artefact = FactoryGirl.create(:artefact, need_ids: ["100123"])
 
       visit "/artefacts/#{artefact.id}/edit"
 
@@ -117,7 +117,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "Save and continue editing"
 
       artefact.reload
-      assert_equal ["99999", "100012"], artefact.need_ids
+      assert_equal %w(99999 100012), artefact.need_ids
     end
 
     should "allow editing of the Need ID" do
@@ -130,11 +130,11 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "Save and continue editing"
 
       artefact.reload
-      assert_equal ["B241", "100012"], artefact.need_ids
+      assert_equal %w(B241 100012), artefact.need_ids
     end
 
     should "allow editing of the Need IDs when need IDs is blank" do
-      artefact = FactoryGirl.create(:artefact, :need_ids => [])
+      artefact = FactoryGirl.create(:artefact, need_ids: [])
       visit "/artefacts/#{artefact.id}/edit"
 
       add_need_id "100012"
@@ -147,10 +147,10 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing legacy_sources" do
     setup do
-      @bl   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
-      @dg   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
-      @dvla = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
-      @a = FactoryGirl.create(:artefact, :name => "VAT")
+      @bl   = FactoryGirl.create(:live_tag, tag_type: 'legacy_source', tag_id: 'businesslink', title: 'Business Link')
+      @dg   = FactoryGirl.create(:live_tag, tag_type: 'legacy_source', tag_id: 'directgov', title: 'Directgov')
+      @dvla = FactoryGirl.create(:live_tag, tag_type: 'legacy_source', tag_id: 'dvla', title: 'DVLA')
+      @a = FactoryGirl.create(:artefact, name: "VAT")
       Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
     end
 
@@ -158,8 +158,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts"
       click_on "VAT"
 
-      select "Business Link", :from => "artefact[legacy_source_ids][]"
-      select "DVLA", :from => "artefact[legacy_source_ids][]"
+      select "Business Link", from: "artefact[legacy_source_ids][]"
+      select "DVLA", from: "artefact[legacy_source_ids][]"
       click_on "Save and continue editing"
 
       @a.reload
@@ -167,13 +167,13 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow removing legacy sources from artefacts" do
-      @a.legacy_source_ids = ['businesslink', 'directgov']
+      @a.legacy_source_ids = %w(businesslink directgov)
       @a.save!
 
       visit "/artefacts"
       click_on "VAT"
 
-      unselect "Directgov", :from => "artefact[legacy_source_ids][]"
+      unselect "Directgov", from: "artefact[legacy_source_ids][]"
       click_on "Save and continue editing"
 
       @a.reload
@@ -188,7 +188,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
-      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => "VAT")
+      @artefact = FactoryGirl.create(:artefact, :non_publisher, name: "VAT")
     end
 
     should "allow adding specialist sectors to artefacts" do
@@ -205,8 +205,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         end
       end
 
-      select "Oil and gas: Fields and wells", :from => "Specialist sectors"
-      select "Charities: Starting a charity", :from => "Specialist sectors"
+      select "Oil and gas: Fields and wells", from: "Specialist sectors"
+      select "Charities: Starting a charity", from: "Specialist sectors"
 
       click_on "Save and continue editing"
 
@@ -221,7 +221,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts"
       click_on "VAT"
 
-      unselect "Oil and gas: Fields and wells", :from => "Specialist sectors"
+      unselect "Oil and gas: Fields and wells", from: "Specialist sectors"
       click_on "Save and continue editing"
 
       @artefact.reload
@@ -266,8 +266,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
           end
         end
 
-        select "Schools and colleges", :from => "Specialist sectors"
-        select "Schools and colleges: Academies", :from => "Specialist sectors"
+        select "Schools and colleges", from: "Specialist sectors"
+        select "Schools and colleges: Academies", from: "Specialist sectors"
 
         click_on "Save and continue editing"
 
@@ -284,7 +284,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
         assert page.has_select?("Specialist sectors", selected: ["Schools and colleges", "Schools and colleges: Academies"])
 
-        unselect "Schools and colleges: Academies", :from => "Specialist sectors"
+        unselect "Schools and colleges: Academies", from: "Specialist sectors"
         click_on "Save and continue editing"
 
         @artefact.reload
@@ -301,7 +301,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration', title: 'Visas and immigration')
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration/student-visas', title: 'Student visas', parent_id: 'visas-immigration')
 
-      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => 'VAT')
+      @artefact = FactoryGirl.create(:artefact, :non_publisher, name: 'VAT')
     end
 
     should 'allow adding sections to artefacts' do
@@ -314,9 +314,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         within '.nested-item-group div:nth-of-type(1)' do
           assert page.has_select?('artefact[sections][]',
             options: ['Select a section', 'Student visas', 'Visas and immigration'],
-          )
+                                 )
 
-          select 'Student visas', :from => 'artefact[sections][]'
+          select 'Student visas', from: 'artefact[sections][]'
         end
 
         click_on 'Add another section'
@@ -324,9 +324,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         within '.nested-item-group div:nth-of-type(2)' do
           assert page.has_select?('artefact[sections][]',
             options: ['Select a section', 'Student visas', 'Visas and immigration'],
-          )
+                                 )
 
-          select 'Visas and immigration', :from => 'artefact[sections][]'
+          select 'Visas and immigration', from: 'artefact[sections][]'
         end
       end
 
@@ -352,14 +352,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
           assert page.has_select?('artefact[sections][]',
             options: ['Select a section', 'Student visas', 'Visas and immigration'],
             selected: 'Student visas',
-          )
+                                 )
         end
 
         within '.nested-item-group div:nth-of-type(2)' do
           assert page.has_select?('artefact[sections][]',
             options: ['Select a section', 'Student visas', 'Visas and immigration'],
             selected: 'Visas and immigration',
-          )
+                                 )
         end
 
         # delete the first section
@@ -387,9 +387,9 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         within '.section-tags' do
           assert page.has_select?('artefact[sections][]',
             options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
-          )
+                                 )
 
-          select 'Family visas', :from => 'artefact[sections][]'
+          select 'Family visas', from: 'artefact[sections][]'
         end
 
         click_on 'Save and continue editing'
@@ -412,14 +412,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
             assert page.has_select?('artefact[sections][]',
               options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
               selected: 'Student visas',
-            )
+                                   )
           end
 
           within '.nested-item-group div:nth-of-type(2)' do
             assert page.has_select?('artefact[sections][]',
               options: ['Select a section', 'Family visas', 'Student visas', 'Visas and immigration'],
               selected: 'Family visas',
-            )
+                                   )
           end
 
           # delete the second (draft) section
@@ -442,7 +442,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
       FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
 
-      @artefact = FactoryGirl.create(:artefact, :name => "VAT")
+      @artefact = FactoryGirl.create(:artefact, name: "VAT")
     end
 
     should "allow adding organisation tags to artefacts" do
@@ -457,8 +457,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
         assert page.has_selector?("option:nth-of-type(3)", text: "HM Revenue and Customs")
       end
 
-      select "HM Revenue and Customs", :from => "Organisations"
-      select "Cabinet Office", :from => "Organisations"
+      select "HM Revenue and Customs", from: "Organisations"
+      select "Cabinet Office", from: "Organisations"
 
       click_on "Save and continue editing"
 
@@ -474,7 +474,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       visit "/artefacts"
       click_on "VAT"
 
-      unselect "Cabinet Office", :from => "Organisations"
+      unselect "Cabinet Office", from: "Organisations"
       click_on "Save and continue editing"
 
       @artefact.reload
@@ -484,14 +484,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
   context "editing language" do
     setup do
-      @artefact = FactoryGirl.create(:artefact, :name => "Bank holidays", :language => nil)
+      @artefact = FactoryGirl.create(:artefact, name: "Bank holidays", language: nil)
     end
 
     should "allow changing language for an artefact" do
       visit "/artefacts"
       click_on "Bank holidays"
 
-      select "Welsh", :from => "artefact[language]"
+      select "Welsh", from: "artefact[language]"
       click_on "Save and continue editing"
 
       @artefact.reload
@@ -530,7 +530,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   context "related external links" do
     setup do
       Capybara.current_driver = Capybara.javascript_driver
-      @artefact = FactoryGirl.create(:artefact, :name => "Alpha", :slug => "alpha")
+      @artefact = FactoryGirl.create(:artefact, name: "Alpha", slug: "alpha")
     end
 
     should "be able to add related external links" do
@@ -538,8 +538,8 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       click_on "Alpha"
       click_on "Add related external link"
       within ".related-external-links" do
-        fill_in "Title", :with => "BBC", :match => :first
-        fill_in "URL", :with => "http://bbc.co.uk", :match => :first
+        fill_in "Title", with: "BBC", match: :first
+        fill_in "URL", with: "http://bbc.co.uk", match: :first
       end
 
       click_on "Save and continue editing"
@@ -547,6 +547,5 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       assert_equal 1, @artefact.external_links.length
       assert_equal "BBC", @artefact.external_links.first.title
     end
-
   end
 end
