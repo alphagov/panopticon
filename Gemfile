@@ -33,9 +33,9 @@ gem 'logstasher', '0.4.8'
 # TODO: Investigate whether there is a requirement to pin these
 # gems here, when they are dependencies of govuk_content_models
 gem "mongoid", "~> 2.5"
-gem "mongo", "1.7.1"
-gem "bson_ext", "1.7.1"
-gem "bson", "1.7.1"
+gem "mongo", "~> 1.12.3"
+gem "bson_ext", "~> 1.12.3"
+gem "bson", "~> 1.12.3"
 
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
@@ -62,7 +62,7 @@ gem 'config', '~>1.0'
 group :assets do
   gem "therubyracer", "0.12.0"
   gem 'sass-rails', '3.2.6'
-  gem 'uglifier'
+  gem 'uglifier', '>= 2.7.2'
 end
 
 group :development do
@@ -92,5 +92,5 @@ group :test do
 end
 
 group :import do
-  gem 'nokogiri'
+  gem 'nokogiri', '>= 1.6.7.2'
 end
