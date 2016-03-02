@@ -37,7 +37,7 @@ task :move_content_to_new_topic => :environment do
       topic.tag_id
     }
     artefact.specialist_sectors = new_topics
-    artefact.save!
+    artefact.save_as_task('move_content_to_new_topic')
 
     rummageable_artefact = RummageableArtefact.new(artefact)
     if rummageable_artefact.should_be_indexed?
