@@ -32,7 +32,7 @@ gem 'logstasher', '0.4.8'
 
 # TODO: Investigate whether there is a requirement to pin these
 # gems here, when they are dependencies of govuk_content_models
-gem "mongoid", "~> 2.5"
+gem "mongoid", "~> 2.6.0"
 gem "mongo", "~> 1.12.3"
 gem "bson_ext", "~> 1.12.3"
 gem "bson", "~> 1.12.3"
