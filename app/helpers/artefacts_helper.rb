@@ -24,4 +24,27 @@ module ArtefactsHelper
     # select2 needs a JSON object with id and text attributes
     related_artefacts.map {|a| { id: a.slug, text: a.name_with_owner_prefix } }.to_json
   end
+
+  def action_information_phrase(action)
+    return "Automatic snapshot" if !action.user && action.action_type == "snapshot"
+
+    phrase = case action.action_type
+    when 'create', 'update'
+      "has #{action.action_type}d this artefact"
+    else
+      "did a #{action.action_type} action"
+    end
+
+    action_performed_by(action) << phrase
+  end
+
+  def action_performed_by(action)
+    if action.task_performed_by
+      "Automatic task: '#{action.task_performed_by}' "
+    elsif action.user
+      "#{action.user} <#{action.user.email}> "
+    else
+      "An unknown user or task "
+    end
+  end
 end
