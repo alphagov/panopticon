@@ -40,13 +40,13 @@ gem "bson", "~> 1.12.3"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem "govuk_content_models", '31.4.0'
+  gem 'govuk_content_models', '~> 32.3'
 end
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
 else
-  gem 'gds-sso', '11.1.0'
+  gem 'gds-sso', '~> 11.2.1'
 end
 
 gem 'govuk_admin_template', '3.0.0'
