@@ -44,5 +44,15 @@ class ArtefactsHelperTest < ActiveSupport::TestCase
         assert_equal expected, action_information_phrase(@artefact.actions.last)
       end
     end
+
+    context "when action is a DiffEnabledAction" do
+      should "work as normal action" do
+        action = @artefact.actions.build(task_performed_by: 'TaggingUpdater', action_type: 'update')
+        diff_enabled_action = DiffEnabledAction.new(action, nil)
+
+        expected = "Automatic task: 'TaggingUpdater' has updated this artefact"
+        assert_equal expected, action_information_phrase(diff_enabled_action)
+      end
+    end
   end
 end
