@@ -43,4 +43,23 @@ class TaggingMigratorTest < ActiveSupport::TestCase
     assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/C",
       body: '{"links":{"mainstream_browse_pages":[],"topics":[],"organisations":[]}}'
   end
+
+  test "skips sending the parent tag for travel advice publisher" do
+    create(:live_tag, tag_id: "a-browse-page", tag_type: "section", content_id: "A-BROWSE-PAGE")
+
+    create(:artefact,
+      content_id: "A",
+      slug: "item-a",
+      owning_app: "travel-advice-publisher",
+      sections: ["a-browse-page"],
+    )
+
+    stub_request(:put, %r[#{Plek.find('publishing-api')}/v2/links/*]).
+      to_return(body: {}.to_json)
+
+    TaggingMigrator.new("travel-advice-publisher").migrate!
+
+    assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/A",
+      body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":[],"organisations":[]}}'
+  end
 end

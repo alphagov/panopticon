@@ -28,8 +28,10 @@ private
       organisations: [],
     }
 
-    if artefact.primary_section
-      link_payload[:parent] = [artefact.primary_section.content_id]
+    unless @app_name == 'travel-advice-publisher'
+      if artefact.primary_section
+        link_payload[:parent] = [artefact.primary_section.content_id]
+      end
     end
 
     artefact.tags.each do |tag|
