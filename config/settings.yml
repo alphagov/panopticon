@@ -6,3 +6,4 @@ apps_with_migrated_tagging:
  - smartanswers
  - policy-publisher
  - hmrc-manuals-api
+ - travel-advice-publisher
