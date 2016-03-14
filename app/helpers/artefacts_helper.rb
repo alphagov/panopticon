@@ -30,21 +30,30 @@ module ArtefactsHelper
 
     phrase = case action.action_type
     when 'create', 'update'
-      "has #{action.action_type}d this artefact"
+      "has #{action.action_type}d this artefact."
     else
-      "did a #{action.action_type} action"
+      "did a #{action.action_type} action."
     end
 
-    action_performed_by(action) << phrase
+    action_performed_by(action, phrase)
   end
 
-  def action_performed_by(action)
-    if action.task_performed_by
-      "Automatic task: '#{action.task_performed_by}' "
-    elsif action.user
+  def action_performed_by(action, phrase)
+    return performed_by_message(action.task_performed_by) if action.task_performed_by
+
+    if action.user
       "#{action.user} <#{action.user.email}> "
     else
       "An unknown user or task "
+    end << phrase
+  end
+
+  def performed_by_message(performed_by)
+    case performed_by
+    when 'TaggingUpdater'
+      "An external application has updated the tags for this artefact."
+    else
+      "A developer has manually updated this artefact."
     end
   end
 end

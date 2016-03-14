@@ -51,6 +51,6 @@ private
       artefact.set_primary_tag_of_type('section', parent.first.tag_id)
     end
 
-    artefact.save_as_task('TaggingUpdater')
+    artefact.save_as_task!('TaggingUpdater')
   end
 end

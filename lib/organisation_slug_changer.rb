@@ -50,7 +50,7 @@ private
 
   def update_artefact(artefact)
     artefact.organisation_ids = (artefact.organisation_ids - [old_slug] + [new_slug])
-    artefact.save_as_task('OrganisationSlugChanger')
+    artefact.save_as_task!('OrganisationSlugChanger')
     logger.info "   -> Updated tags for artefact '#{artefact.slug}'"
   end
 
