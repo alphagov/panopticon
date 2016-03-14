@@ -4,7 +4,7 @@ class DiffEnabledAction
 
   extend Forwardable
 
-  def_delegators :@action, :action_type, :snapshot, :created_at, :user
+  def_delegators :@action, :action_type, :snapshot, :created_at, :user, :task_performed_by
 
   def initialize(action, previous = nil)
     @action, @previous = action, previous

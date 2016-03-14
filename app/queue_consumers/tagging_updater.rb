@@ -53,6 +53,6 @@ private
       end
     end
 
-    artefact.save!
+    artefact.save_as_task!('TaggingUpdater')
   end
 end
