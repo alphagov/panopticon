@@ -2,6 +2,23 @@ require_relative '../../test_helper'
 
 class Artefact::ArtefactTest < ActiveSupport::TestCase
 
+  context "app_without_tagging?" do
+    context "when artefact is from a deprecated application" do
+
+      should "return true when owning app is in the apps_without_migrated_tagging" do
+        artefact = FactoryGirl.create(:artefact, slug: "low-hanging-fruit", owning_app: 'finder-api')
+
+        assert_equal true, artefact.app_without_tagging?
+      end
+
+      should "return false when owning app is not in the apps_without_migrated_tagging" do
+        artefact = FactoryGirl.create(:artefact, slug: "low-hanging-fruit", owning_app: 'whitehall')
+
+        assert_equal false, artefact.app_without_tagging?
+      end
+    end
+  end
+
   context "tagging_migrated?" do
 
     context 'standard set of untaggable apps (publisher, smartanswers and testapp)' do

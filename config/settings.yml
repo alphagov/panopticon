@@ -7,3 +7,6 @@ apps_with_migrated_tagging:
  - policy-publisher
  - hmrc-manuals-api
  - travel-advice-publisher
+
+apps_without_tagging:
+  - finder-api
