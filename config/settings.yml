@@ -10,3 +10,4 @@ apps_with_migrated_tagging:
 
 apps_without_tagging:
   - finder-api
+  - planner
