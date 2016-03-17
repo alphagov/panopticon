@@ -1,4 +1,7 @@
-<%- if f.object.tagging_migrated? %>
+<%- if f.object.app_without_tagging?
+    # show nothing
+%>
+<%- elsif f.object.tagging_migrated? %>
   <%= render 'migrated_app', artefact: f.object %>
 <% else %>
   <div class="well">

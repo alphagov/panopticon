@@ -42,4 +42,9 @@ class Artefact
     return true if self.new_record? && self.owning_app.nil? && Settings.apps_with_migrated_tagging.include?('publisher')
     Settings.apps_with_migrated_tagging.include?(self.owning_app)
   end
+
+  def app_without_tagging?
+    return false unless Settings.apps_without_tagging
+    Settings.apps_without_tagging.include?(self.owning_app)
+  end
 end
