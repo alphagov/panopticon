@@ -11,12 +11,11 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     setup do
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
-      FactoryGirl.create(:live_tag, tag_type: "legacy_source", tag_id: "businesslink", parent_id: nil, title: "Business Link")
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
                                      owning_app: "smart-answers", language: "en",
-                                     section_ids: ["business/employing-people"], legacy_source_ids: ["businesslink"])
+                                     section_ids: ["business/employing-people"])
     end
 
     should "display the artefact form" do
@@ -142,42 +141,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       artefact.reload
       assert_equal ["100012"], artefact.need_ids
-    end
-  end
-
-  context "editing legacy_sources" do
-    setup do
-      @bl   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
-      @dg   = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'directgov', :title => 'Directgov')
-      @dvla = FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'dvla', :title => 'DVLA')
-      @a = FactoryGirl.create(:artefact, :name => "VAT")
-      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
-    end
-
-    should "allow adding legacy sources to artefacts" do
-      visit "/artefacts"
-      click_on "VAT"
-
-      select "Business Link", :from => "artefact[legacy_source_ids][]"
-      select "DVLA", :from => "artefact[legacy_source_ids][]"
-      click_on "Save and continue editing"
-
-      @a.reload
-      assert_equal [@bl, @dvla], @a.legacy_sources
-    end
-
-    should "allow removing legacy sources from artefacts" do
-      @a.legacy_source_ids = ['businesslink', 'directgov']
-      @a.save!
-
-      visit "/artefacts"
-      click_on "VAT"
-
-      unselect "Directgov", :from => "artefact[legacy_source_ids][]"
-      click_on "Save and continue editing"
-
-      @a.reload
-      assert_equal [@bl], @a.legacy_sources
     end
   end
 

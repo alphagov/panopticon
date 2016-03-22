@@ -246,14 +246,13 @@ class ArtefactsControllerTest < ActionController::TestCase
           artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
           get :edit, id: artefact.id
           assert_template :whitehall_form
-        end      
+        end
       end
 
       should "assign list of sections" do
         FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
         FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
         FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
-        FactoryGirl.create(:live_tag, :tag_type => 'legacy_source', :tag_id => 'businesslink', :title => 'Business Link')
 
         artefact = FactoryGirl.create(:artefact)
 
@@ -268,14 +267,14 @@ class ArtefactsControllerTest < ActionController::TestCase
           artefact = FactoryGirl.create(:artefact, owning_app: 'smartanswers')
           get :edit, id: artefact.id, format: :html
           assert_select "button#add-section", true, "Expecting to find a button to add tags when tagging for the owning app has not been migrated"
-        end 
+        end
 
         should "not show the tags partial when owning app is in the list of apps with migrated tagging" do
           Settings.expects(:apps_with_migrated_tagging).returns(%w{ publisher smartanswers testapp }).at_least(1)
           artefact = FactoryGirl.create(:artefact, owning_app: 'smartanswers')
           get :edit, id: artefact.id, format: :html
           assert_select "button#add-section", false, "Not expecting to find a button to add tags when tagging for the owning app has been migrated"
-        end 
+        end
       end
     end
 
@@ -428,15 +427,13 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       should "Include tag_ids" do
         FactoryGirl.create(:live_tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
-        FactoryGirl.create(:live_tag, :tag_id => 'businesslink', :tag_type => 'legacy_source', :title => 'Business Link')
         artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001']
         artefact.sections = ['crime']
-        artefact.legacy_sources = ['businesslink']
         artefact.save!
         get :show, id: artefact.id, format: :json
         parsed = JSON.parse(response.body)
 
-        assert_equal %w(businesslink crime), parsed['tag_ids'].sort
+        assert_equal %w(crime), parsed['tag_ids'].sort
       end
 
       should "return 404 if the artefact's not found" do

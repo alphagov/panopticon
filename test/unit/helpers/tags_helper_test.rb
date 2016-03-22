@@ -9,8 +9,6 @@ class TagsHelperTest < ActiveSupport::TestCase
       create(:live_tag, tag_type: "section", tag_id: "driving", title: "Driving")
       create(:live_tag, tag_type: "section", tag_id: "driving/car-tax", title: "Car tax", parent_id: "driving")
       create(:live_tag, tag_type: "section", tag_id: "driving/mot", title: "MOT", parent_id: "driving")
-
-      create(:live_tag, tag_type: "legacy_source", tag_id: "directgov", title: "Directgov")
     end
 
     should "return a hierarchy of parent tags and their children" do
@@ -22,5 +20,4 @@ class TagsHelperTest < ActiveSupport::TestCase
       assert_equal expected, grouped_options_for_tags_of_type("section")
     end
   end
-
 end

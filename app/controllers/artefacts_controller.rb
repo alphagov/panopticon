@@ -223,7 +223,7 @@ class ArtefactsController < ApplicationController
       end
 
       # Strip out the empty submit option for sections
-      ['sections', 'legacy_source_ids', 'specialist_sector_ids', 'organisation_ids'].each do |param|
+      ['sections', 'specialist_sector_ids', 'organisation_ids'].each do |param|
         param_value = parameters_to_use[param]
         param_value.reject!(&:blank?) if param_value
       end
