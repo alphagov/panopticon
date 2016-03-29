@@ -19,6 +19,11 @@ WebMock.disable_net_connect!(:allow_localhost => true)
 require 'govuk_content_models/test_helpers/factories'
 require 'gds_api/test_helpers/publishing_api'
 
+require 'minitest/reporters'
+Minitest::Reporters.use!(
+  Minitest::Reporters::SpecReporter.new(color: true),
+)
+
 DatabaseCleaner.strategy = :truncation
 # initial clean
 DatabaseCleaner.clean
