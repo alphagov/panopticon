@@ -72,9 +72,7 @@ module RegistrationInfo
   end
 
   def setup_existing_artefact
-    Artefact.observers.disable :update_search_observer do
-      @artefact = Artefact.create!(example_smart_answer)
-    end
+    @artefact = Artefact.create!(example_smart_answer.merge(skip_update_search: true))
     publishing_api_has_path_reservation_for("/#{@artefact.slug}", @artefact.owning_app)
   end
 

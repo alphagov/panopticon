@@ -7,16 +7,12 @@ class RoutableArtefactTest < ActiveSupport::TestCase
   context "submitting a live artefact" do
     context "for a Whitehall artefact" do
       setup do
-        Artefact.observers.disable :all
+        stub_artefact_callbacks
         @artefact = FactoryGirl.create(:whitehall_live_artefact,
                                        owning_app: "whitehall",
                                        paths: ["/foo"])
         @routable = RoutableArtefact.new(@artefact)
         @routable.stubs(:ensure_backend_exists).returns true
-      end
-
-      teardown do
-        Artefact.observers.enable :all
       end
 
       should "register the route" do
@@ -58,16 +54,12 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     context "for a non-Whitehall artefact" do
       setup do
-        Artefact.observers.disable :all
+        stub_artefact_callbacks
         @artefact = FactoryGirl.create(:live_artefact,
                                        owning_app: "bee",
                                        paths: ["/foo"])
         @routable = RoutableArtefact.new(@artefact)
         @routable.stubs(:ensure_backend_exists).returns true
-      end
-
-      teardown do
-        Artefact.observers.enable :all
       end
 
       should "register the route" do

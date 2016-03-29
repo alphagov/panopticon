@@ -3,15 +3,11 @@ Given /^two artefacts exist$/ do
 end
 
 Given /^the first artefact is in draft$/ do
-  Artefact.observers.disable :update_search_observer do
-    Artefact.first.update_attributes!('state' => 'draft')
-  end
+  Artefact.first.update_attributes!('state' => 'draft', 'skip_update_search' => true)
 end
 
 Given /^the first artefact is live$/ do
-  Artefact.observers.disable :update_search_observer do
-    Artefact.first.update_attributes!('state' => 'live')
-  end
+  Artefact.first.update_attributes!('state' => 'live', 'skip_update_search' => true)
 end
 
 Given /^an artefact from a non migrated app exists$/ do

@@ -11,7 +11,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
   context "for a whitehall artefact" do
     setup do
-      without_artefact_observers do
+      without_artefact_callbacks do
         @artefact = FactoryGirl.create(:whitehall_live_artefact, paths: ["/foo"])
       end
     end
@@ -29,7 +29,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
   context "for an archived artefact" do
     setup do
-      without_artefact_observers :all do
+      without_artefact_callbacks do
         @artefact = FactoryGirl.create(:archived_artefact, paths: ["/foo"])
       end
     end
@@ -47,7 +47,7 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
   context "for a live artefact" do
     setup do
-      without_artefact_observers :all do
+      without_artefact_callbacks do
         @artefact = FactoryGirl.create(:live_artefact, paths: ["/foo"])
       end
     end
