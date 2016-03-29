@@ -1,11 +1,11 @@
 module TagsHelper
   def options_for_tags_of_type(tag_type)
-    Tag.where(:tag_type => tag_type).order_by(:title, :asc).map {|t| [t.title, t.tag_id]}
+    Tag.where(tag_type: tag_type).order(title: 1).map {|t| [t.title, t.tag_id]}
   end
 
   def grouped_options_for_tags_of_type(tag_type)
-    parents = Tag.where(:tag_type => tag_type, :parent_id => nil).order(:title).all
-    tags = Tag.where(:tag_type => tag_type).order([:parent_id, :asc], [:title, :asc])
+    parents = Tag.where(tag_type: tag_type, parent_id: nil).order(title: 1).all
+    tags = Tag.where(tag_type: tag_type).order(parent_id: 1, title: 1)
 
     tags.group_by {|tag|
       if tag.has_parent?
