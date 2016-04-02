@@ -320,6 +320,14 @@ class ArtefactsControllerTest < ActionController::TestCase
   end
 
   context "accept JSON" do
+    setup do
+      @request.env['CONTENT_TYPE'] = 'application/json'
+    end
+
+    teardown do
+      @request.env.delete('CONTENT_TYPE')
+    end
+
     context "POST /artefacts" do
 
       should "create a new artefact" do
@@ -472,7 +480,7 @@ class ArtefactsControllerTest < ActionController::TestCase
                                     :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001'])
         artefact.sections = [tag1.tag_id]
         artefact.save!
-        put :update, :id => artefact.id, :artefact => {:primary_section => tag2.tag_id}
+        put :update, :id => artefact.id, :primary_section => tag2.tag_id, format: 'json'
 
         artefact.reload
         assert_equal tag2.tag_id, artefact.primary_section.tag_id
@@ -488,7 +496,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         artefact.specialist_sectors = [tag1.tag_id]
         artefact.save!
 
-        put :update, :id => artefact.id, :artefact => {:specialist_sectors => [tag1.tag_id, tag2.tag_id]}
+        put :update, :id => artefact.id, :specialist_sectors => [tag1.tag_id, tag2.tag_id]
 
         artefact.reload
         assert_equal [tag1.tag_id, tag2.tag_id], artefact.specialist_sectors.map(&:tag_id)

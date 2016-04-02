@@ -4,6 +4,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
 
   setup do
     create_test_user
+    header "Content-Type", "application/json"
   end
 
   context "artefacts index" do
@@ -63,9 +64,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'content_id' => 'f392ddac-f600-4963-a3f4-9a82985582f7',
         }
 
-        # Rack::Test put method calls to_json on whatever body you pass.
-        # This is different to the post method.  Go figure.
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 201, last_response.status
 
@@ -92,7 +91,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'state' => 'draft',
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)
@@ -110,7 +109,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'state' => 'draft',
         }
 
-        put "/artefacts/foreign-travel-advice/aruba.json", artefact_data
+        put "/artefacts/foreign-travel-advice/aruba.json", artefact_data.to_json
 
         assert_equal 201, last_response.status
 
@@ -132,7 +131,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'need_extended_font' => false
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 409, last_response.status
         assert_equal "Path is already reserved by the a-different-backend application", last_response.body.strip
@@ -155,7 +154,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'need_extended_font' => false
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)
@@ -180,7 +179,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
             'rendering_app' => 'whitehall-frontend',
           }
 
-          put "/artefacts/#{slug}.json", artefact_data
+          put "/artefacts/#{slug}.json", artefact_data.to_json
           assert_equal 201, last_response.status
 
           artefact = Artefact.find_by_slug(slug)
@@ -205,7 +204,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'state' => 'draft',
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 200, last_response.status
 
@@ -222,7 +221,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
       should "add content_id to an artefact that does not have one" do
         artefact_data = { 'content_id' => '105e2299-dcfe-4301-b8e0-56959ce95ec0' }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 200, last_response.status
 
@@ -241,7 +240,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'state' => 'draft',
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)
@@ -265,7 +264,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'need_extended_font' => false
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 409, last_response.status
         assert_equal "Path is already reserved by the a-different-backend application", last_response.body.strip
@@ -289,7 +288,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'need_extended_font' => false
         }
 
-        put "/artefacts/wibble.json", artefact_data
+        put "/artefacts/wibble.json", artefact_data.to_json
 
         assert_equal 422, last_response.status
         error_details = JSON.parse(last_response.body)

@@ -13,10 +13,12 @@ class ActionDispatch::IntegrationTest
     Capybara.use_default_driver
   end
 
+  def post_json(path, attrs, headers = {})
+    post path, attrs.to_json, {"Content-Type" => "application/json", "Accept" => "application/json", "Authorization" => "Bearer foo"}.merge(headers)
+  end
+
   def put_json(path, attrs, headers = {})
-    # Rack::Test put method calls to_json on whatever body you pass.
-    # This is different to the post method.  Go figure.
-    put path, attrs, {"Content-Type" => "application/json"}.merge(headers)
+    put path, attrs.to_json, {"Content-Type" => "application/json", "Accept" => "application/json", "Authorization" => "Bearer foo"}.merge(headers)
   end
 
   def login_as(user)
