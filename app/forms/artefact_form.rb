@@ -23,6 +23,7 @@ class ArtefactForm < BasicObject
     self
   end
 
+  alias_method :public_send, :__send__
   alias_method :send, :__send__
 
 private
