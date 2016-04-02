@@ -2,6 +2,7 @@ class TagsController < ApplicationController
 
   TAG_TYPES = ['section', 'specialist_sector']
 
+  wrap_parameters :tag
   before_filter :require_tags_permission
   before_filter :find_tag, only: [:publish, :show, :destroy]
 
@@ -108,15 +109,7 @@ private
   end
 
   def tag_parameters
-    # Support tag parameters being provided at either the root or through the
-    # 'tag' hash.
-    #
-    # Ideally this should be supported through Rails' wrap_parameters
-    # functionality but it does not seem to work as per the documentation
-    # in this circumstance (could be a Mongoid 2.x incompatibility).
-    #
-    params[:tag] ||
-      params.slice(:tag_id, :tag_type, :title, :parent_id, :description)
+    params[:tag].permit(:tag_id, :tag_type, :title, :parent_id, :description)
   end
 
   def disallowed_update_param_keys
