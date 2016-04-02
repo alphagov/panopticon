@@ -163,23 +163,27 @@ class ArtefactsControllerTest < ActionController::TestCase
     end
 
     context "POST create" do
+      setup do
+        @valid_artefact_params = {
+            owning_app: 'smart-answers',
+            slug: 'whatever',
+            kind: 'smart-answer',
+            name: 'Whatever',
+            need_ids: '100001'
+          }
+      end
+
       context "invalid artefact" do
         should "rerender the form" do
           Artefact.any_instance.stubs(:need)
-          post :create, :artefact => { :slug => 'not/valid', :owning_app => 'smartanswers', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
+          post :create, artefact: @valid_artefact_params.merge(slug: 'not/valid')
         end
 
         should "not blow up if not given a slug" do
           # simulate the error that publishing-api would return if it was called
           publishing_api_returns_path_reservation_validation_error_for("/", "path" => ["can't be blank"])
 
-          post :create, :artefact => {
-            :owning_app => 'smartanswers',
-            :slug => '',
-            :kind => 'smart-answer',
-            :name => 'Whatever',
-            :need_ids => '100001'
-          }
+          post :create, artefact: @valid_artefact_params.merge(slug: '')
 
           assert_template('new')
           assert_equal ["can't be blank"], assigns[:artefact].errors[:slug]
@@ -187,46 +191,44 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "redirect to GET edit" do
-        post :create, :artefact => { :owning_app => 'smartanswers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
+        post :create, artefact: @valid_artefact_params
 
         artefact = Artefact.last
         assert_redirected_to "/artefacts/#{artefact.id}/edit"
       end
 
       context "publisher artefact" do
-        def valid_artefact_params
-          { :owning_app => 'publisher',
-            :slug => 'whatever',
-            :kind => 'guide',
-            :name => 'Whatever',
-            :need_ids => "100001" }
+        setup do
+          @valid_artefact_params[:owning_app] = 'publisher'
         end
 
         should "redirect to publisher" do
-          post :create, artefact: valid_artefact_params
+          post :create, artefact: @valid_artefact_params
 
           artefact = Artefact.last
           assert_redirected_to Plek.current.find('publisher') + "/admin/publications/#{artefact.id}"
         end
 
         should "redirect to edit page when requested" do
-          post :create, artefact: valid_artefact_params, commit: "Save and continue editing"
+          post :create, artefact: @valid_artefact_params, commit: "Save and continue editing"
 
           artefact = Artefact.last
           assert_redirected_to "/artefacts/#{artefact.id}/edit"
         end
       end
 
-      should "split need_ids if they come in as comma-separated values" do
-        post :create, artefact: valid_artefact_params.merge(need_ids: "331312,333123")
+      context "splitting comma-separated values" do
+        should "split need_ids if they come in as comma-separated values" do
+          post :create, artefact: @valid_artefact_params.merge(need_ids: "331312,333123")
 
-        assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
-      end
+          assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
+        end
 
-      should "split related_artefact_slugs as they come in as comma-separated values" do
-        post :create, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
+        should "split related_artefact_slugs as they come in as comma-separated values" do
+          post :create, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
 
-        assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
+          assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
+        end
       end
     end
 
@@ -235,7 +237,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         should "render the whitehall variant of the form" do
           artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
           get :edit, id: artefact.id
-          assert_template :whitehall_form
+          assert_template partial: "_whitehall_form"
         end
       end
 

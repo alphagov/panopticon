@@ -78,7 +78,7 @@ class TagsControllerTest < ActionController::TestCase
 
   context "POST create" do
     setup do
-      @stub_atts = {'foo' => 'bar'}
+      @stub_atts = {'title' => 'bar'}
     end
 
     should "build and save a new tag" do
