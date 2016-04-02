@@ -22,6 +22,8 @@ class Artefact
   attr_accessor :indexable_content
   attr_accessor :skip_update_search
 
+  alias_method :as_json_original, :as_json
+
   # Upon archiving an artefact we want this callback to run to remove
   # any related items that also point to that artefact.
   after_save :remove_related_artefacts
@@ -95,6 +97,12 @@ class Artefact
 
   def app_without_tagging_support?
     APPS_WITHOUT_TAGGING_SUPPORT.include?(self.owning_app)
+  end
+
+  def as_json(options={})
+    as_json_original.tap { |hash|
+      hash["id"] = hash["id"].to_s
+    }
   end
 
 private
