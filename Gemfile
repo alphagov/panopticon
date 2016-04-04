@@ -40,7 +40,7 @@ gem "bson", "~> 1.12.3"
 if ENV['CONTENT_MODELS_DEV']
   gem "govuk_content_models", path: '../govuk_content_models'
 else
-  gem 'govuk_content_models', '~> 33.0.0'
+  gem 'govuk_content_models', '~> 34.0.0'
 end
 
 gem 'rake', '10.5.0'
