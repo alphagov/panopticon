@@ -7,3 +7,4 @@ tmp/
 .DS_Store
 /script/*_dump/
 public/assets/**/*
+*.swp

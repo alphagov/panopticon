@@ -45,6 +45,7 @@ class ArtefactsController < ApplicationController
 
   def new
     @artefact = Artefact.new
+    puts @artefact.owning_app.nil?
     redirect_to_show_if_need_met
   end
 

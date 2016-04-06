@@ -153,23 +153,13 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_select "li[class~=active] a[href=/artefacts/new]"
       end
 
-      context 'if publisher is an app for which the taging has NOT been migrated' do
-
-        should 'render the tags partial if publisher is not an app with migrated tagging' do
-          Settings.stubs(:apps_with_migrated_tagging).returns(%w(smartanswers testapp))
+      context "when artefact has no content_id" do
+        should 'not render the _tags partial' do
           get :new
-          assert_select "button#add-section", true, "Expecting to find a button to add tags when publisher is not an untaggable app"
+          assert_select "button#add-section", false,
+            "Not expecting to find a button to add tags when artefact has no content_id"
         end
       end
-
-      context 'if publisher is an app for which the tagging has been migrated' do
-        should 'not render the tags partial if publisher is an app with migrated tagging' do
-          Settings.stubs(:apps_with_migrated_tagging).returns(%w(publisher smartanswers testapp))
-          get :new
-          assert_select "button#add-section", false, "Not expecting to find a button to add tags when publisher is an untaggable app"
-        end
-      end
-
     end
 
     context "POST create" do
@@ -262,18 +252,20 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       context 'showing and hiding the tags partial' do
-        should "show the tags partial when owning app is NOT in the list of apps with migrated tagging" do
-          Settings.expects(:apps_with_migrated_tagging).returns(%w{ publisher testapp }).at_least(1)
-          artefact = FactoryGirl.create(:artefact, owning_app: 'smartanswers')
+        should "show tagging interface when the owning app is blacklisted" do
+          artefact = FactoryGirl.create(:artefact, owning_app: 'non-migrated-app')
           get :edit, id: artefact.id, format: :html
-          assert_select "button#add-section", true, "Expecting to find a button to add tags when tagging for the owning app has not been migrated"
+
+          assert_select "button#add-section", true,
+            "Expecting to find a button to add tags when tagging for the owning app has not been migrated"
         end
 
-        should "not show the tags partial when owning app is in the list of apps with migrated tagging" do
-          Settings.expects(:apps_with_migrated_tagging).returns(%w{ publisher smartanswers testapp }).at_least(1)
+        should "hide the tagging interface for all apps not in the blacklist" do
           artefact = FactoryGirl.create(:artefact, owning_app: 'smartanswers')
           get :edit, id: artefact.id, format: :html
-          assert_select "button#add-section", false, "Not expecting to find a button to add tags when tagging for the owning app has been migrated"
+
+          assert_select "button#add-section", false,
+            "Not expecting to find a button to add tags when tagging for the owning app has been migrated"
         end
       end
     end

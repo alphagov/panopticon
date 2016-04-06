@@ -12,10 +12,16 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
 
-      @artefact = FactoryGirl.create(:artefact,
-                                     name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
-                                     owning_app: "smart-answers", language: "en",
-                                     section_ids: ["business/employing-people"])
+      @artefact = FactoryGirl.create(
+        :artefact,
+        name: "VAT Rates",
+        slug: "vat-rates",
+        kind: "answer",
+        state: "live",
+        owning_app: "smart-answers",
+        language: "en",
+        section_ids: ["business/employing-people"]
+      )
     end
 
     should "display the artefact form" do
@@ -34,7 +40,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       end
 
       within ".owning-app" do
-        assert page.has_content? "This content is managed in Smart-answers"
+        assert page.has_content?("This content is managed in Smart-answers.")
       end
 
       within ".section-tags" do

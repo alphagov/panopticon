@@ -15,7 +15,8 @@ Given /^the first artefact is live$/ do
 end
 
 Given /^a non-publisher artefact exists$/ do
-  @artefact = create_artefact("smart-answers")
+  @artefact = create_artefact(Artefact::NON_MIGRATED_APPS.last)
+  @artefact
 end
 
 Given /^two non-publisher artefacts exist$/ do

@@ -1,5 +1,5 @@
-<%- if f.object.app_without_tagging?
-    # show nothing
+<%- if f.object.content_id.nil?
+    # show nothing, tagging is impossible
 %>
 <%- elsif f.object.tagging_migrated? %>
   <%= render 'migrated_app', artefact: f.object %>
