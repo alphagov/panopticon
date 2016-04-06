@@ -41,11 +41,6 @@ Then /^I should be redirected back to the edit page$/ do
   assert_include page.current_url, edit_artefact_path(@artefact)
 end
 
-Then /^I should see an indication that the save failed$/ do
-  assert page.has_content?('Failed to save item')
-  assert page.has_content?('must be usable in a URL')
-end
-
 When /^I save, indicating that I want to continue editing afterwards$/ do
   click_button 'Save and continue editing'
 end
@@ -85,19 +80,6 @@ When /^I destroy their relationship$/ do
   submit_artefact_form
 end
 
-Given /^several non-publisher artefacts exist$/ do
-  @artefact, *@related_artefacts, @unrelated_artefact = create_six_artefacts("smart-answers")
-end
-
-Given /^some of the artefacts are related$/ do
-  add_related_artefacts @artefact, @related_artefacts[0...(@related_artefacts.length / 2)]
-end
-
-When /^I create more relationships between them$/ do
-  visit edit_artefact_path(@artefact)
-  select_related_artefacts @related_artefacts[(@related_artefacts.length / 2)..-1]
-end
-
 Given /^an artefact exists$/ do
   @artefact = create_artefact
 end
@@ -108,10 +90,6 @@ end
 
 Given /^two sections exist$/ do
   @sections = create_sections
-end
-
-Given /^the artefact has the section$/ do
-  add_section @artefact, @section
 end
 
 Given /^the artefact has both sections$/ do
@@ -147,13 +125,6 @@ end
 
 Then /^I should see the artefact form$/ do
   assert page.has_css?('form.artefact')
-end
-
-When /^I fill in the form for a business need$/ do
-  fill_in "Name", with: "A key business need"
-  fill_in "Slug", with: "key-business-need"
-  add_need_id "100001"
-  select "Answer", from: "Kind"
 end
 
 When /^I fill in the form without a need$/ do
