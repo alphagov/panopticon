@@ -34,7 +34,7 @@ When /^I save$/ do
 end
 
 Then /^I should be redirected back to the edit page$/ do
-  assert_include page.current_url, edit_artefact_path(@artefact)
+  assert_includes page.current_url, edit_artefact_path(@artefact)
 end
 
 When /^I save, indicating that I want to continue editing afterwards$/ do
