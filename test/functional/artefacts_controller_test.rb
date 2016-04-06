@@ -176,7 +176,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       context "invalid artefact" do
         should "rerender the form" do
           Artefact.any_instance.stubs(:need)
-          post :create, :artefact => { :slug => 'not/valid', :owning_app => 'smart-answers', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
+          post :create, :artefact => { :slug => 'not/valid', :owning_app => 'smartanswers', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
         end
 
         should "not blow up if not given a slug" do
@@ -184,7 +184,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           publishing_api_returns_path_reservation_validation_error_for("/", "path" => ["can't be blank"])
 
           post :create, :artefact => {
-            :owning_app => 'smart-answers',
+            :owning_app => 'smartanswers',
             :slug => '',
             :kind => 'smart-answer',
             :name => 'Whatever',
@@ -197,7 +197,7 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "redirect to GET edit" do
-        post :create, :artefact => { :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
+        post :create, :artefact => { :owning_app => 'smartanswers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
 
         artefact = Artefact.last
         assert_redirected_to "/artefacts/#{artefact.id}/edit"
@@ -310,8 +310,8 @@ class ArtefactsControllerTest < ActionController::TestCase
       end
 
       should "redirect to GET edit" do
-        artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers", kind: "smart-answer")
-        put :update, :id => artefact.id, :artefact => { :owning_app => 'smart-answers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
+        artefact = FactoryGirl.create(:artefact, owning_app: "smartanswers", kind: "smart-answer")
+        put :update, :id => artefact.id, :artefact => { :owning_app => 'smartanswers', :slug => 'whatever', :kind => 'smart-answer', :name => 'Whatever', :need_ids => '100001' }
 
         assert_redirected_to "/artefacts/#{artefact.id}/edit"
       end
@@ -520,7 +520,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         )
         publishing_api_has_path_reservation_for("/whatever", "publisher")
 
-        put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smart-answers'
+        put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smartanswers'
         assert_equal 409, response.status
         assert response.body.include? "publisher"
       end
