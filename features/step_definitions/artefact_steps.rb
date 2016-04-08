@@ -14,12 +14,12 @@ Given /^the first artefact is live$/ do
   end
 end
 
-Given /^a non-publisher artefact exists$/ do
-  @artefact = create_artefact("smart-answers")
+Given /^an artefact from a non migrated app exists$/ do
+  @artefact = create_artefact("specialist-publisher")
 end
 
-Given /^two non-publisher artefacts exist$/ do
-  @artefact, @related_artefact = create_two_artefacts("smart-answers")
+Given /^two artefacts from a non migrated app exist$/ do
+  @artefact, @related_artefact = create_two_artefacts("specialist-publisher")
 end
 
 When /^I change the need ID of the first artefact$/ do

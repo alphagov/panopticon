@@ -7,7 +7,7 @@ Feature: Related items
 
   @javascript
   Scenario: Assign a related item
-    Given two non-publisher artefacts exist
+    Given two artefacts from a non migrated app exist
      When I create a relationship between them
       And I save
      Then the API should say that the artefacts are related
