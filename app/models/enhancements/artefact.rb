@@ -4,6 +4,20 @@ require_relative "artefact/filter_scopes"
 class Artefact
   include Artefact::FilterScopes
 
+  NON_MIGRATED_APPS = %w(
+    publisher
+    service-manual-publisher
+    specialist-publisher
+    whitehall
+    non-migrated-app
+  ).freeze
+
+  APPS_WITHOUT_TAGGING_SUPPORT = %w(
+    finder-api
+    frontend
+    planner
+  ).freeze
+
   # Add a non-field attribute so we can pass indexable content over to Rummager
   # without persisting it
   attr_accessor :indexable_content
@@ -38,13 +52,18 @@ class Artefact
   end
 
   def tagging_migrated?
-    return false unless Settings.apps_with_migrated_tagging
-    return true if self.new_record? && self.owning_app.nil? && Settings.apps_with_migrated_tagging.include?('publisher')
-    Settings.apps_with_migrated_tagging.include?(self.owning_app)
+    return false if new_record_without_owning_app?
+
+    !NON_MIGRATED_APPS.include?(self.owning_app)
   end
 
-  def app_without_tagging?
-    return false unless Settings.apps_without_tagging
-    Settings.apps_without_tagging.include?(self.owning_app)
+  def app_without_tagging_support?
+    APPS_WITHOUT_TAGGING_SUPPORT.include?(self.owning_app)
+  end
+
+  private
+
+  def new_record_without_owning_app?
+    self.new_record? && self.owning_app.nil?
   end
 end

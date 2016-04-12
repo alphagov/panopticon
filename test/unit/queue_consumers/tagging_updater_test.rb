@@ -29,11 +29,13 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
   def test_only_migrated_applications
     create(:live_tag, tag_id: 'existing-tag', tag_type: 'section', content_id: 'A-CONTENT-ID')
     artefact = create(:artefact,
-      slug: 'a-tagged-item',
-      sections: ["existing-tag"],
-    )
+                      slug: 'a-tagged-item',
+                      sections: ["existing-tag"],
+                      owning_app: 'non-migrated-app',
+                     )
+
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "not-an-app-from-the-migrated-apps-config",
+      "publishing_app" => "non-migrated-app",
       "base_path" => "/a-tagged-item",
       "links" => { "mainstream_browse_pages" => ["MY-CONTENT-ID"] }
     })

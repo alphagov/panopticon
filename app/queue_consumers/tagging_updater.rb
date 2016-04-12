@@ -22,7 +22,7 @@ private
 
   def should_update_tags?(content_item)
     content_item['links'] &&
-      content_item['publishing_app'].in?(Settings.apps_with_migrated_tagging)
+      !content_item['publishing_app'].in?(Artefact::NON_MIGRATED_APPS)
   end
 
   def find_artefact_by_base_path(base_path)

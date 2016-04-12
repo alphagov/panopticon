@@ -67,11 +67,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     should "not show collections fields for Publisher content" do
       publisher_artefact = FactoryGirl.create(:artefact, :draft, owning_app: "publisher")
       visit "/artefacts/#{publisher_artefact.id}/edit"
+
       assert page.has_no_select?("artefact[sections][]")
       assert page.has_no_select?("artefact[specialist_sector_ids][]")
 
-      non_publisher_artefact = FactoryGirl.create(:artefact, :draft, :non_publisher)
+
+      non_publisher_artefact = FactoryGirl.create(:artefact, :draft, owning_app: "non-migrated-app")
       visit "/artefacts/#{non_publisher_artefact.id}/edit"
+
       assert page.has_select?("artefact[sections][]")
       assert page.has_select?("artefact[specialist_sector_ids][]")
     end
@@ -151,7 +154,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities', title: 'Charities')
       FactoryGirl.create(:live_tag, tag_type: 'specialist_sector', tag_id: 'charities/starting-a-charity', title: 'Starting a charity', parent_id: 'charities')
 
-      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => "VAT")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "non-migrated-app", :name => "VAT")
     end
 
     should "allow adding specialist sectors to artefacts" do
@@ -264,7 +267,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration', title: 'Visas and immigration')
       FactoryGirl.create(:live_tag, tag_type: 'section', tag_id: 'visas-immigration/student-visas', title: 'Student visas', parent_id: 'visas-immigration')
 
-      @artefact = FactoryGirl.create(:artefact, :non_publisher, :name => 'VAT')
+      @artefact = FactoryGirl.create(:artefact, owning_app: 'non-migrated-app', :name => 'VAT')
     end
 
     should 'allow adding sections to artefacts' do
@@ -405,11 +408,10 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'driver-vehicle-licensing-agency', title: 'Driver and Vehicle Licensing Agency')
       FactoryGirl.create(:live_tag, tag_type: 'organisation', tag_id: 'cabinet-office', title: 'Cabinet Office')
 
-      @artefact = FactoryGirl.create(:artefact, :name => "VAT")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "non-migrated-app", :name => "VAT")
     end
 
     should "allow adding organisation tags to artefacts" do
-      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
       visit "/artefacts"
       click_on "VAT"
 
@@ -430,7 +432,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     end
 
     should "allow removing organisation tags from artefacts" do
-      Settings.expects(:apps_with_migrated_tagging).returns(%w{ smartanswers testapp }).at_least(1)
       @artefact.organisation_ids = ["cabinet-office", "hm-revenue-customs"]
       @artefact.save!
 
