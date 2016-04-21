@@ -1,8 +1,7 @@
 require 'test_helper'
 
-class UpdateRouterObserverTest < ActiveSupport::TestCase
-  setup { Artefact.observers.disable :update_search_observer }
-  teardown { Artefact.observers.enable :update_search_observer }
+class UpdateRouterCallbackTest < ActiveSupport::TestCase
+  setup { Artefact.any_instance.stubs(:update_search) }
 
   should 'submit a live artefact' do
     mock_routable_artefact = mock("RoutableArtefact")

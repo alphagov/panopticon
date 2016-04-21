@@ -3,15 +3,11 @@ Given /^two artefacts exist$/ do
 end
 
 Given /^the first artefact is in draft$/ do
-  Artefact.observers.disable :update_search_observer do
-    Artefact.first.update_attributes!('state' => 'draft')
-  end
+  Artefact.first.update_attributes!('state' => 'draft', 'skip_update_search' => true)
 end
 
 Given /^the first artefact is live$/ do
-  Artefact.observers.disable :update_search_observer do
-    Artefact.first.update_attributes!('state' => 'live')
-  end
+  Artefact.first.update_attributes!('state' => 'live', 'skip_update_search' => true)
 end
 
 Given /^an artefact from a non migrated app exists$/ do
@@ -38,7 +34,7 @@ When /^I save$/ do
 end
 
 Then /^I should be redirected back to the edit page$/ do
-  assert_include page.current_url, edit_artefact_path(@artefact)
+  assert_includes page.current_url, edit_artefact_path(@artefact)
 end
 
 When /^I save, indicating that I want to continue editing afterwards$/ do

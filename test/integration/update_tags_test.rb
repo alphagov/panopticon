@@ -13,7 +13,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
       end
 
       should 'update an existing tag given valid parameters' do
-        put tag_path(@tag), { title: 'Coffee', format: 'json' }
+        put_json tag_path(@tag), { title: 'Coffee' }
 
         assert_equal 200, response.status
 
@@ -22,7 +22,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
       end
 
       should 'return validation errors given invalid parameters' do
-        put tag_path(@tag), { title: '', format: 'json' }
+        put_json tag_path(@tag), { title: '' }
         body = JSON.parse(response.body)
 
         assert_equal 422, response.status
@@ -35,7 +35,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
       context 'fields which cannot be changed' do
 
         should 'return error when a change is requested to the tag_id' do
-          put tag_path(@tag), { tag_id: 'foo', format: 'json' }
+          put_json tag_path(@tag), { tag_id: 'foo' }
           body = JSON.parse(response.body)
 
           assert_equal 422, response.status
@@ -43,7 +43,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
         end
 
         should 'return error when a change is requested to the parent_id' do
-          put tag_path(@tag), { parent_id: 'foo', format: 'json' }
+          put_json tag_path(@tag), { parent_id: 'foo' }
           body = JSON.parse(response.body)
 
           assert_equal 422, response.status
@@ -51,7 +51,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
         end
 
         should 'return error when a change is requested to the tag_type' do
-          put tag_path(@tag), { tag_type: 'foo', format: 'json' }
+          put_json tag_path(@tag), { tag_type: 'foo' }
           body = JSON.parse(response.body)
 
           assert_equal 422, response.status
@@ -64,7 +64,6 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
     context "when an existing tag doesn't already exist" do
       setup do
         @params = {
-          format: 'json',
           tag_id: 'driving',
           tag_type: 'section',
           title: 'Driving',
@@ -73,12 +72,12 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
       end
 
       should 'return a 201 status' do
-        put tag_path("section/driving"), @params
+        put_json tag_path("section/driving"), @params
         assert_equal 201, response.status
       end
 
       should 'create a new draft tag with the given parameters' do
-        put tag_path("section/driving"), @params
+        put_json tag_path("section/driving"), @params
 
         tag = Tag.by_tag_id('driving', type: 'section', draft: true)
         assert tag.present?, "Failed to find driving section tag"
@@ -97,7 +96,7 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
         end
 
         should "create a new draft child tag" do
-          put tag_path("section/driving/abroad"), @params
+          put_json tag_path("section/driving/abroad"), @params
           puts response.body
 
           tag = Tag.by_tag_id('driving/abroad', type: 'section', draft: true)
@@ -114,14 +113,14 @@ class UpdateTagsTest < ActionDispatch::IntegrationTest
 
     should 'publish a draft tag' do
       draft_tag = create(:draft_tag)
-      post publish_tag_path(draft_tag), format: 'json'
+      post_json publish_tag_path(draft_tag), {}
 
       assert_equal 200, response.status
     end
 
     should 'return an error for requests to publish a live tag' do
       live_tag = create(:live_tag)
-      post publish_tag_path(live_tag), format: 'json'
+      post_json publish_tag_path(live_tag), {}
 
       assert_equal 200, response.status
     end

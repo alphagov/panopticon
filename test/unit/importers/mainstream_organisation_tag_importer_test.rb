@@ -40,9 +40,8 @@ module Importers
     should 'not request a need for an archived artefact' do
       # disable observers whilst we create the artefact, so that we don't try to
       # register with the router or index in search
-      Artefact.observers.disable :all do
-        create(:archived_artefact, owning_app: 'publisher', need_ids: ['100001'])
-      end
+      stub_artefact_callbacks
+      create(:archived_artefact, owning_app: 'publisher', need_ids: ['100001'])
 
       @need_api.expects(:need).never
 

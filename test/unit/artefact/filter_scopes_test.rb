@@ -90,8 +90,7 @@ class Artefact::FilterScopesTest < ActiveSupport::TestCase
 
   context "in_state" do
     setup do
-      UpdateRouterObserver.any_instance.stubs(:after_save)
-      UpdateSearchObserver.any_instance.stubs(:after_save)
+      stub_artefact_callbacks
 
       @artefact_one = FactoryGirl.create(:artefact, slug: "child-benefit", state: "draft")
       @artefact_two = FactoryGirl.create(:artefact, slug: "become-magistrate", state: "draft")

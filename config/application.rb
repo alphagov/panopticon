@@ -57,20 +57,6 @@ module Panopticon
     # Disable Rack::Cache.
     config.action_dispatch.rack_cache = nil
 
-    # Upon archiving an artefact we want this observer to run to remove
-    # any related items that also point to that artefact.
-    config.mongoid.observers << :remove_related_artefacts_observer
-
-    # When saving a specialist sector tag we want to update the title of the
-    # associated artefact
-    config.mongoid.observers << :update_specialist_sector_tag_observer
-
-    # When saving an artefact we want to send it to the router.
-    config.mongoid.observers << :update_router_observer
-
-    # When saving an artefact we want to update search.
-    config.mongoid.observers << :update_search_observer
-
     def publishing_api
       @publishing_api ||= GdsApi::PublishingApi.new(
         Plek.current.find('publishing-api'),

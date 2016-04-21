@@ -3,7 +3,7 @@ require 'organisation_slug_changer'
 
 class OrganisationSlugChangerTest < ActiveSupport::TestCase
   setup do
-    disable_observers!
+    stub_artefact_callbacks
 
     @organisation = FactoryGirl.create(
       :live_tag,
@@ -59,11 +59,6 @@ class OrganisationSlugChangerTest < ActiveSupport::TestCase
       organisations: [organisation.tag_id]
     }.merge(extra_attributes)
     FactoryGirl.create(:live_artefact, attributes)
-  end
-
-  def disable_observers!
-    UpdateRouterObserver.any_instance.stubs(:after_save)
-    UpdateSearchObserver.any_instance.stubs(:after_save)
   end
 
   def stub_rummageable_artefact!

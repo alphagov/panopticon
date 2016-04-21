@@ -64,12 +64,11 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
   context 'format JSON' do
     should 'create a parent tag given valid parameters' do
       params = {
-        format: 'json',
         tag_id: 'driving',
         tag_type: 'section',
         title: 'Driving',
       }
-      post tags_path, params
+      post_json tags_path, params
 
       assert_equal 201, response.status
 
@@ -84,13 +83,12 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
       parent_tag = create(:draft_tag, tag_id: 'driving', tag_type: 'section')
 
       params = {
-        format: 'json',
         tag_id: 'driving/car-tax',
         tag_type: 'section',
         title: 'Car tax',
         parent_id: 'driving',
       }
-      post tags_path, params
+      post_json tags_path, params
 
       assert_equal 201, response.status
 
@@ -103,12 +101,11 @@ class CreatingTagsTest < ActionDispatch::IntegrationTest
 
     should 'return errors given invalid parameters' do
       params = {
-        format: 'json',
         tag_id: 'foo/bar/baz',
         tag_type: nil,
         title: 'Driving',
       }
-      post tags_path, params
+      post_json tags_path, params
       body = JSON.parse(response.body)
 
       assert_equal 422, response.status

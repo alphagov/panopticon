@@ -5,8 +5,8 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
 
   setup do
     # stub the observers for creating artefacts
-    UpdateRouterObserver.any_instance.stubs(:after_save)
-    UpdateSearchObserver.any_instance.stubs(:after_save)
+    Artefact.any_instance.stubs(:update_router)
+    Artefact.any_instance.stubs(:update_search)
 
     @artefacts = [
       FactoryGirl.create(:artefact, :slug => "first-original-slug"),
@@ -22,6 +22,8 @@ class ArtefactSlugMigratorTest < ActiveSupport::TestCase
         "second-original-slug" => "second-new-slug",
         "third-original-slug" => "third-new-slug"
       })
+    # Remove the update_search callback stub, as it should short-circuit.
+    Artefact.any_instance.unstub(:update_search)
   end
 
   should "remove artefact from search" do

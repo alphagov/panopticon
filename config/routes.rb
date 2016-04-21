@@ -21,7 +21,7 @@ Panopticon::Application.routes.draw do
     end
   end
 
-  resources :tags, :constraints => { :id => /[a-zA-Z0-9_\-\/]+/ } do
+  resources :tags, :constraints => { :id => /[a-zA-Z0-9_\-%\/]+/ } do
     member do
       post :publish
     end

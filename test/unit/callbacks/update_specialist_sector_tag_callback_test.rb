@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class UpdateSpecialistSectorTagObserverTest < ActiveSupport::TestCase
+class UpdateSpecialistSectorTagCallbackTest < ActiveSupport::TestCase
   setup do
     Panopticon.whitehall_admin_api.stubs(reindex_specialist_sector_editions: nil)
     Panopticon.publisher_api.stubs(reindex_topic_editions: nil)

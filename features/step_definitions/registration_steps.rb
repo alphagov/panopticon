@@ -88,7 +88,7 @@ Then /^rummager should be told to do a partial update$/ do
   amendments = {
     title: "Child Benefit rates",
     format: "answer",
-    "mainstream_browse_pages[]" => "crime",
+    "mainstream_browse_pages" => ["crime"],
   }
   assert_requested :post, artefact_search_url(@artefact), body: amendments
 end

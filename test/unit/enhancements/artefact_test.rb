@@ -17,7 +17,7 @@ class ArtefactTest < ActiveSupport::TestCase
 
     should "ignore slugs of artefacts that are not relatable" do
       archived_artefact_not_relatable = FactoryGirl.create(:artefact)
-      archived_artefact_not_relatable.set(:state, "archived")
+      archived_artefact_not_relatable.set(state: "archived")
       @artefact.related_artefact_slugs = @artefacts_to_relate.map(&:slug) + [archived_artefact_not_relatable.slug]
       @artefact.save!
 
@@ -49,7 +49,7 @@ class ArtefactTest < ActiveSupport::TestCase
       relatable_artefact_two = FactoryGirl.create(:artefact, name: "Child tax benefits")
 
       # archived artefact not relatable
-      FactoryGirl.create(:artefact, name: "Benefit for all").set(:state, "archived")
+      FactoryGirl.create(:artefact, name: "Benefit for all").set(state: "archived")
       # relatable artefact not matching
       FactoryGirl.create(:artefact, name: "Tax credits")
 

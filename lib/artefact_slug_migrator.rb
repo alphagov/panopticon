@@ -8,11 +8,11 @@ class ArtefactSlugMigrator
 
   def run
     logger.info "Migrating slugs for #{slugs.size} artefacts"
-    Artefact.observers.disable :update_search_observer
 
     slugs.each do |slug, new_slug|
       artefact = Artefact.where(slug: slug).first
       if artefact
+        artefact.skip_update_search = true
         artefact.update_attribute(:slug, new_slug)
 
         begin

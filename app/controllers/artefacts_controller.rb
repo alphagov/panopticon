@@ -6,6 +6,7 @@ class ArtefactsController < ApplicationController
   before_filter :register_url_with_publishing_api, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
+  wrap_parameters include: Artefact.attribute_names + [:specialist_sectors, :primary_section]
 
   respond_to :html, :json
 
@@ -203,10 +204,16 @@ class ArtefactsController < ApplicationController
     end
 
     def extract_parameters(params)
-      fields_to_update = Artefact.fields.keys + ['sections', 'primary_section', 'specialist_sectors']
+      fields_to_update = [
+        "primary_section",
+        "indexable_content",
+        "sections" => [],
+        "specialist_sectors" => [],
+        "related_artefact_slugs" => [],
+        "external_links_attributes" => [:title, :url, :_id, :_destroy],
+      ] + Artefact.fields.map {|k,v| v.type == Array ? { k => [] } : k }
 
-      # TODO: Remove this variance
-      parameters_to_use = params[:artefact] || params.slice(*fields_to_update)
+      parameters_to_use = params[:artefact]
 
       # Partly for legacy reasons, the API can receive live=true
       if live_param = parameters_to_use[:live]
@@ -220,14 +227,16 @@ class ArtefactsController < ApplicationController
         if parameters_to_use.has_key?(tag_type)
           parameters_to_use[tag_type] ||= []
         end
+        fields_to_update << { tag_type => [] }
       end
 
       # Strip out the empty submit option for sections
       ['sections', 'specialist_sector_ids', 'organisation_ids'].each do |param|
         param_value = parameters_to_use[param]
         param_value.reject!(&:blank?) if param_value
+        fields_to_update << { param => [] }
       end
-      parameters_to_use
+      parameters_to_use.permit(fields_to_update)
     end
 
     def build_actions
