@@ -40,14 +40,16 @@
           </div>
         <% end %>
 
-        <div class="organisation-tags fieldset-section">
-          <label for="artefact_organisation_ids" class="section-label">Organisations</label>
+        <% unless f.object.owning_app == "whitehall" %>
+          <div class="organisation-tags fieldset-section">
+            <label for="artefact_organisation_ids" class="section-label">Organisations</label>
 
-          <%= f.input :organisation_ids,
-                      :label => false,
-                      :collection => options_for_tags_of_type('organisation'),
-                      :input_html => { :multiple => true, :class => "chosen-select" } %>
-        </div>
+            <%= f.input :organisation_ids,
+                        :label => false,
+                        :collection => options_for_tags_of_type('organisation'),
+                        :input_html => { :multiple => true, :class => "chosen-select" } %>
+          </div>
+        <% end %>
       <% end %>
     </div>
   <%- end %>
