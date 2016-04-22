@@ -16,23 +16,23 @@ else
   gem 'gds-api-adapters', '25.1.0'
 end
 
-gem "govuk_message_queue_consumer", "~> 3.0.1"
+gem 'govuk_message_queue_consumer', '~> 3.0.1'
 
 gem 'rails', '4.2.5.2'
 gem 'unicorn', '4.3.1'
 
 gem 'colorize', '~> 0.5.8'
-gem 'rummageable', "1.0.1"
+gem 'rummageable', '1.0.1'
 
-gem "mongoid_rails_migrations", "1.0.0"
-gem "kaminari", "0.14.1"
+gem 'mongoid_rails_migrations', '1.0.0'
+gem 'kaminari', '0.14.1'
 gem 'bootstrap-kaminari-views', '0.0.3'
 gem 'logstasher', '0.4.8'
 
 if ENV['CONTENT_MODELS_DEV']
-  gem "govuk_content_models", path: '../govuk_content_models'
+  gem 'govuk_content_models', path: '../govuk_content_models'
 else
-  gem "govuk_content_models", :github => 'alphagov/govuk_content_models', :branch => 'rails-mongoid-upgrade'
+  gem 'govuk_content_models', :github => 'alphagov/govuk_content_models', :branch => 'rails-mongoid-upgrade'
 end
 
 gem 'rake', '10.5.0'
@@ -54,7 +54,7 @@ gem 'responders', '~> 2.0'
 gem 'whenever', '0.9.2', require: false
 
 group :assets do
-  gem "therubyracer", "0.12.0"
+  gem 'therubyracer', '0.12.0'
   gem 'sass-rails', '5.0.4'
   gem 'uglifier', '>= 2.7.2'
 end
@@ -71,8 +71,8 @@ group :test do
   gem 'database_cleaner'
   gem 'minitest'
   gem 'minitest-reporters'
-  gem "shoulda", "~> 3.5.0"
-  gem 'factory_girl', "3.3.0"
+  gem 'shoulda', '~> 3.5.0'
+  gem 'factory_girl', '3.3.0'
   gem 'factory_girl_rails'
   gem 'capybara', '~> 2.1.0'
   gem 'capybara-mechanize', '~> 1.1.0'
