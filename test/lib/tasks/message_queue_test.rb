@@ -36,12 +36,16 @@ class MessageQueueConsumerRakeTest < ActiveSupport::TestCase
       tagging_updater = mock('TaggingUpdater')
       TaggingUpdater.expects(:new).returns(tagging_updater)
 
+      statsd_client = Statsd.new
+      Statsd.expects(:new).returns(statsd_client)
+
       @consumer.expects(:run).returns(true)
 
       GovukMessageQueueConsumer::Consumer.expects(:new)
         .with(
           queue_name: "panopticon",
           processor: tagging_updater,
+          statsd_client: statsd_client,
         ).returns(@consumer)
 
       Rake::Task["message_queue:consumer"].invoke

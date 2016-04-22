@@ -9,6 +9,7 @@ gem 'gelf'
 gem 'null_logger'
 
 gem 'airbrake', '3.1.15'
+gem 'statsd-ruby', '~> 1.3.0'
 
 if ENV['API_DEV']
   gem 'gds-api-adapters', :path => '../gds-api-adapters'
