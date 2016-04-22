@@ -3,7 +3,6 @@ namespace :message_queue do
   task consumer: :environment do
     GovukMessageQueueConsumer::Consumer.new(
       queue_name: "panopticon",
-      exchange_name: "published_documents",
       processor: TaggingUpdater.new
     ).run
   end

@@ -189,7 +189,7 @@ GEM
       bootstrap-sass (~> 3.3.3)
       jquery-rails (~> 3.1.3)
       rails (>= 3.2.0)
-    govuk_message_queue_consumer (2.1.0)
+    govuk_message_queue_consumer (3.0.1)
       bunny (~> 2.2.0)
     hashdiff (0.3.0)
     hashie (3.4.3)
@@ -443,7 +443,7 @@ DEPENDENCIES
   gelf
   govuk_admin_template (= 3.0.0)
   govuk_content_models!
-  govuk_message_queue_consumer (~> 2.1.0)
+  govuk_message_queue_consumer (~> 3.0.1)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
   launchy

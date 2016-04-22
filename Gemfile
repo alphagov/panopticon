@@ -16,7 +16,7 @@ else
   gem 'gds-api-adapters', '25.1.0'
 end
 
-gem 'govuk_message_queue_consumer', '~> 2.1.0'
+gem "govuk_message_queue_consumer", "~> 3.0.1"
 
 gem 'rails', '4.2.5.2'
 gem 'unicorn', '4.3.1'
