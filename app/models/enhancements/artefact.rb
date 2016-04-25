@@ -100,7 +100,7 @@ class Artefact
   end
 
   def as_json(options={})
-    as_json_original.tap { |hash|
+    as_json_original(options).tap { |hash|
       hash["id"] = hash["id"].to_s
     }
   end
