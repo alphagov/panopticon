@@ -6,6 +6,6 @@ ENV["COVERAGE"] = "true"
 ENV["GOVUK_WEBSITE_ROOT"] = ENV.fetch("GOVUK_WEBSITE_ROOT", "http://www.dev.gov.uk")
 require File.expand_path('../config/application', __FILE__)
 
-Panopticon::Application.load_tasks
+Rails.application.load_tasks
 
 task :default => [:test, :check_for_bad_time_handling]
