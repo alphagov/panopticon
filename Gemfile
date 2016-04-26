@@ -33,7 +33,7 @@ gem 'logstasher', '0.4.8'
 if ENV['CONTENT_MODELS_DEV']
   gem 'govuk_content_models', path: '../govuk_content_models'
 else
-  gem 'govuk_content_models', :github => 'alphagov/govuk_content_models', :branch => 'rails-mongoid-upgrade'
+  gem 'govuk_content_models', '35.0.0'
 end
 
 gem 'rake', '10.5.0'
