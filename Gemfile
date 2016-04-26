@@ -37,6 +37,9 @@ else
 end
 
 gem 'rake', '10.5.0'
+gem 'therubyracer', '0.12.0'
+gem 'sass-rails', '5.0.4'
+gem 'uglifier', '>= 2.7.2'
 
 if ENV['BUNDLE_DEV']
   gem 'gds-sso', path: '../gds-sso'
@@ -54,11 +57,6 @@ gem 'responders', '~> 2.0'
 
 gem 'whenever', '0.9.2', require: false
 
-group :assets do
-  gem 'therubyracer', '0.12.0'
-  gem 'sass-rails', '5.0.4'
-  gem 'uglifier', '>= 2.7.2'
-end
 
 group :development do
   gem 'quiet_assets'
