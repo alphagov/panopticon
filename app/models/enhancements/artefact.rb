@@ -6,7 +6,6 @@ class Artefact
 
   NON_MIGRATED_APPS = %w(
     publisher
-    specialist-publisher
     whitehall
     non-migrated-app
   ).freeze

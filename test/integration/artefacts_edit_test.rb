@@ -14,7 +14,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
-                                     owning_app: "specialist-publisher", language: "en",
+                                     owning_app: "non-migrated-app", language: "en",
                                      section_ids: ["business/employing-people"])
     end
 
@@ -34,7 +34,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       end
 
       within ".owning-app" do
-        assert page.has_content? "This content is managed in Specialist-publisher"
+        assert page.has_content? "This content is managed in Non-migrated-app"
       end
 
       within ".section-tags" do
