@@ -11,11 +11,11 @@ Given /^the first artefact is live$/ do
 end
 
 Given /^an artefact from a non migrated app exists$/ do
-  @artefact = create_artefact("specialist-publisher")
+  @artefact = create_artefact("non-migrated-app")
 end
 
 Given /^two artefacts from a non migrated app exist$/ do
-  @artefact, @related_artefact = create_two_artefacts("specialist-publisher")
+  @artefact, @related_artefact = create_two_artefacts("non-migrated-app")
 end
 
 When /^I change the need ID of the first artefact$/ do
