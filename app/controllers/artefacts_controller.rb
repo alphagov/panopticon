@@ -210,7 +210,7 @@ class ArtefactsController < ApplicationController
         "sections" => [],
         "specialist_sectors" => [],
         "related_artefact_slugs" => [],
-        "external_links_attributes" => [:title, :url, :_id, :_destroy],
+        "external_links_attributes" => [:title, :url, :id, :_destroy],
       ] + Artefact.fields.map {|k,v| v.type == Array ? { k => [] } : k }
 
       parameters_to_use = params[:artefact]

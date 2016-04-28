@@ -230,6 +230,14 @@ class ArtefactsControllerTest < ActionController::TestCase
           assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
         end
       end
+
+      should "create an external link if attributes are supplied" do
+        post :create, artefact: @valid_artefact_params.merge(
+          external_links_attributes: { "0" => { title: "test", url: "http://www.youtube.com", _destroy: false }}
+        )
+        artefact = Artefact.last
+        assert_equal 1, artefact.external_links.count
+      end
     end
 
     context "GET edit" do
@@ -317,6 +325,42 @@ class ArtefactsControllerTest < ActionController::TestCase
 
           assert_redirected_to "/artefacts/#{artefact.id}"
         end
+      end
+
+      should "create an external link if attributes are supplied" do
+        artefact = FactoryGirl.create(:artefact)
+        post :update, id: artefact.id, artefact: {
+          external_links_attributes: { "0" => { title: "test", url: "http://www.youtube.com", _destroy: false }}
+        }
+        artefact = Artefact.find(artefact.id)
+        assert_equal 1, artefact.external_links.count
+      end
+
+      should "not create an external link if id is supplied in the attributes" do
+        artefact = FactoryGirl.create(:artefact)
+        artefact.external_links.create({title: "test_one", url: "http://www.google.com"})
+        post :update, id: artefact.id, artefact: {
+          external_links_attributes: { "0" => {id: 1, title: "test", url: "http://www.youtube.com", _destroy: false }}
+        }
+        artefact = Artefact.find(artefact.id)
+        assert_equal 1, artefact.external_links.count
+      end
+
+      should "remove an external link if _destroy: true" do
+        artefact = FactoryGirl.create(:artefact)
+        artefact.external_links.create({title: "test_one", url: "http://www.google.com"})
+        post :update, id: artefact.id, artefact: {
+          external_links_attributes: {
+            "0" => {
+              id: artefact.external_links.last.id,
+              title: "test",
+              url: "http://www.youtube.com",
+              _destroy: true
+            }
+          }
+        }
+        artefact = Artefact.find(artefact.id)
+        assert_equal 0, artefact.external_links.count
       end
     end
   end
