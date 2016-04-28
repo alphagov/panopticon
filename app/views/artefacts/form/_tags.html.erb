@@ -40,7 +40,7 @@
           </div>
         <% end %>
 
-        <% unless f.object.owning_app == "whitehall" %>
+        <% unless f.object.owning_app.in?(["whitehall", "specialist-publisher"])  %>
           <div class="organisation-tags fieldset-section">
             <label for="artefact_organisation_ids" class="section-label">Organisations</label>
 
