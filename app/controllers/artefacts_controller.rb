@@ -6,7 +6,7 @@ class ArtefactsController < ApplicationController
   before_filter :register_url_with_publishing_api, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
-  wrap_parameters include: Artefact.attribute_names + [:specialist_sectors, :primary_section]
+  wrap_parameters include: Artefact.attribute_names + [:specialist_sectors, :sections, :primary_section]
 
   respond_to :html, :json
 
