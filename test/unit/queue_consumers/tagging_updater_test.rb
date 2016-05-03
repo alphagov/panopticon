@@ -59,15 +59,23 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     assert message.acked?
   end
 
-  def test_when_links_are_missing
-    artefact = create(:artefact, slug: 'an-item')
+  def test_when_links_are_missing_in_the_message
+    create(:live_tag, tag_id: 'existing-tag', tag_type: 'section', content_id: 'EXISTING-TAG-CONTENT-ID')
+    artefact = create(:artefact,
+      slug: 'an-item-with-links',
+      sections: ["existing-tag"],
+    )
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "app-migrated-to-pub-api-v2-endpoints",
-      "base_path" => "/an-item",
+      "base_path" => "/an-item-with-links",
     })
+
+    assert_equal ["existing-tag"], artefact.tags.map(&:tag_id)
 
     TaggingUpdater.new.process(message)
 
+    artefact.reload
+    assert_equal ["existing-tag"], artefact.tags.map(&:tag_id)
     assert message.acked?
   end
 end
