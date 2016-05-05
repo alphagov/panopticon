@@ -24,9 +24,7 @@ class ArtefactsController < ApplicationController
   end
 
   def search_relatable_items
-    artefacts = Artefact.relatable_items_like(params[:title_substring]).page(params[:page]).per(15)
-    artefacts_map = { artefacts: artefacts.map {|a| { id: a.slug, text: a.name_with_owner_prefix } } }
-    respond_with artefacts_map.merge(total: artefacts.total_count).to_json
+    respond_with RelatableItems.new(params).relatable_items.to_json
   end
 
   def show
