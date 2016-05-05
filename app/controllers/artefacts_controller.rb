@@ -14,11 +14,12 @@ class ArtefactsController < ApplicationController
 
   def index
     @filters = params.slice(:section, :specialist_sector, :kind, :state, :search, :owned_by)
-    @scope = artefact_scope.without(:actions)
-    @scope = apply_filters(@scope, @filters)
 
-    @scope = @scope.order_by([[sort_column, sort_direction]])
-    @artefacts = @scope.page(params[:page]).per(ITEMS_PER_PAGE)
+    scope = artefact_scope.without(:actions)
+    scope = FilteredScope.new(scope, @filters).scope
+    scope = scope.order_by([[sort_column, sort_direction]])
+
+    @artefacts = scope.page(params[:page]).per(ITEMS_PER_PAGE)
     respond_with @artefacts
   end
 
@@ -136,36 +137,6 @@ class ArtefactsController < ApplicationController
       # This is here so that we can stub this out a bit more easily in the
       # functional tests.
       Artefact
-    end
-
-    def apply_filters(scope, filters)
-      [:section, :specialist_sector].each do |tag_type|
-        if filters[tag_type].present?
-          scope = scope.with_parent_tag(tag_type, filters[tag_type])
-        end
-      end
-
-      if filters[:state].present? && Artefact::STATES.include?(filters[:state])
-        scope = scope.in_state(filters[:state])
-      end
-
-      if filters[:kind].present? && Artefact::FORMATS.include?(filters[:kind])
-        scope = scope.of_kind(filters[:kind])
-      end
-
-      if filters[:search].present?
-        scope = scope.matching_query(filters[:search])
-      end
-
-      if filters[:owned_by].present?
-        scope = scope.owned_by(filters[:owned_by])
-      else
-        # Exclude all panopticon-owned artefacts from the index
-        # because they have their own specialised interfaces.
-        scope = scope.not_owned_by('panopticon')
-      end
-
-      scope
     end
 
     def tag_collection
