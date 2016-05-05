@@ -61,11 +61,13 @@ class ArtefactsController < ApplicationController
 
     @artefact.save_as current_user
     continue_editing = (params[:commit] == 'Save and continue editing')
+
     if continue_editing || @artefact.owning_app != "publisher"
       location = edit_artefact_path(@artefact.id)
     else
       location = admin_url_for_edition(@artefact, params.slice(:return_to))
     end
+
     respond_with @artefact, location: location
   end
 
@@ -85,9 +87,11 @@ class ArtefactsController < ApplicationController
     end
 
     @actions = build_actions
+
     respond_with @artefact, status: status_to_use do |format|
       format.html do
         continue_editing = (params[:commit] == 'Save and continue editing')
+
         if saved && (continue_editing || (@artefact.owning_app != "publisher"))
           redirect_to edit_artefact_path(@artefact)
         else
@@ -95,11 +99,12 @@ class ArtefactsController < ApplicationController
           respond_with @artefact, status: status_to_use
         end
       end
+
       format.json do
         if saved
           render json: @artefact.to_json, status: status_to_use
         else
-          render json: {"errors" => @artefact.errors.full_messages}, status: 422
+          render json: { "errors" => @artefact.errors.full_messages }, status: 422
         end
       end
     end
@@ -109,6 +114,7 @@ class ArtefactsController < ApplicationController
     @artefact = Artefact.from_param(params[:id])
     redirect_url = params[:artefact] && params[:artefact][:redirect_url]
     redirect_url.sub!(%r{^https?://(www\.)?gov\.uk/}, "/") if redirect_url
+
     if @artefact.update_attributes_as(
       current_user,
       state: "archived",
