@@ -74,7 +74,6 @@ group :test do
   gem 'capybara', '~> 2.1.0'
   gem 'capybara-mechanize', '~> 1.1.0'
   gem 'mechanize', '~> 2.7.2'
-  gem 'launchy'
   gem 'mocha', '1.1.0', :require => false
   gem 'webmock', require: false
   gem 'poltergeist', '~> 1.6.0'

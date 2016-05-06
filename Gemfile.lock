@@ -202,8 +202,6 @@ GEM
       activesupport (>= 3.0.0)
     kgio (2.10.0)
     kramdown (1.5.0)
-    launchy (2.4.3)
-      addressable (~> 2.3)
     libv8 (3.16.14.13)
     link_header (0.0.8)
     logstash-event (1.1.5)
@@ -439,7 +437,6 @@ DEPENDENCIES
   govuk_message_queue_consumer (~> 3.0.1)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
-  launchy
   logstasher (= 0.4.8)
   mechanize (~> 2.7.2)
   minitest
