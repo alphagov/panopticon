@@ -21,7 +21,6 @@ gem 'govuk_message_queue_consumer', '~> 3.0.1'
 gem 'rails', '4.2.5.2'
 gem 'unicorn', '4.3.1'
 
-gem 'colorize', '~> 0.5.8'
 gem 'rummageable', '1.0.1'
 
 gem 'mongoid_rails_migrations', '1.0.0'
