@@ -4,25 +4,9 @@ class TagsController < ApplicationController
 
   wrap_parameters :tag
   before_filter :require_tags_permission
-  before_filter :find_tag, only: [:publish, :show, :destroy]
+  before_filter :find_tag, only: [:publish, :destroy]
 
   rescue_from Tag::TagNotFound, with: :record_not_found
-
-  def index
-    @parents = tags_grouped_by_parents
-  end
-
-  def new
-    @tag = Tag.new
-
-    if params[:type].present?
-      @tag.tag_type = params[:type]
-
-      if params[:parent_id].present?
-        @tag.parent_id = params[:parent_id]
-      end
-    end
-  end
 
   def create
     @tag = Tag.new(tag_parameters)
@@ -31,23 +15,12 @@ class TagsController < ApplicationController
       @tag.tag_id = "#{@tag.parent_id}/#{@tag.tag_id}"
     end
 
-    respond_to do |format|
-      if @tag.save
-        format.html {
-          flash[:success] = "Tag has been created"
-          redirect_to tags_path
-        }
-        format.json { render json: @tag, status: :created }
-      else
-        format.html { render action: :new }
-        format.json {
-          render json: { errors: @tag.errors }, status: :unprocessable_entity
-        }
-      end
+    if @tag.save
+      resp = @tag.as_json
+      render json: resp, status: :created
+    else
+      render json: { errors: @tag.errors }, status: :unprocessable_entity
     end
-  end
-
-  def show
   end
 
   def update
@@ -68,38 +41,24 @@ class TagsController < ApplicationController
       success_status = :ok
     end
 
-    respond_to do |format|
-      if @tag.update_attributes(valid_tag_params)
-        format.html {
-          flash[:success] = "Tag has been updated"
-          redirect_to tags_path
-        }
-        format.json { head success_status }
-      else
-        format.json {
-          render json: { errors: @tag.errors }, status: :unprocessable_entity
-        }
-      end
+    if @tag.update_attributes(valid_tag_params)
+      head success_status
+    else
+      render json: { errors: @tag.errors }, status: :unprocessable_entity
     end
   end
 
   def publish
-    respond_to do |format|
-      @tag.publish! if @tag.draft?
-      format.json { head :ok }
-    end
+    @tag.publish! if @tag.draft?
+    head :ok
   end
 
   def destroy
-    respond_to do |format|
-      format.json do
-        if Artefact.with_tags([@tag.tag_id]).any?
-          render json: { error: 'Tag has documents tagged to it' }, status: 409
-        else
-          @tag.destroy
-          head :ok
-        end
-      end
+    if Artefact.with_tags([@tag.tag_id]).any?
+      render json: { error: 'Tag has documents tagged to it' }, status: 409
+    else
+      @tag.destroy
+      head :ok
     end
   end
 
@@ -136,28 +95,5 @@ private
     find_tag
   rescue Tag::TagNotFound
     @tag = Tag.new
-  end
-
-  def tags_grouped_by_parents
-    tags_in_groups = Tag.where(:tag_type.in => TAG_TYPES).order_by([:title, :asc]).group_by(&:parent_id).to_a
-
-    # if there are no tags returned, we shouldn't continue
-    return [] unless tags_in_groups.any?
-
-    # find the group for the 'nil' parent_id, as this contains all the root tags.
-    # discard the first value in the array, as we only want the array of tags.
-    _, root_tags = tags_in_groups.find {|parent_id,_| parent_id == nil }
-
-    # iterate over the root tags, finding the children of each root tag as we go.
-    # we then build a similar group array structure, where the parent tag is the
-    # first item and the children (if any) are the last item.
-    root_tags.map {|tag|
-      _, children = tags_in_groups.find {|parent_id, _| parent_id == tag.tag_id }
-
-      [
-        tag,
-        children || []
-      ]
-    }
   end
 end

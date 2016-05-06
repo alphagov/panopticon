@@ -16,9 +16,6 @@
 <% if user_signed_in? %>
   <% content_for :navbar_items do %>
     <%= nav_link 'Artefacts', artefacts_path %>
-    <% if current_user.has_permission?("manage_tags") %>
-      <%= nav_link 'Tags', tags_path %>
-    <% end %>
     <%= nav_link 'Add artefact', new_artefact_path %>
   <% end %>
 
