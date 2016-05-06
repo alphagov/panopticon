@@ -425,8 +425,7 @@ DEPENDENCIES
   ci_reporter_minitest (= 1.0.0)
   cucumber-rails
   database_cleaner
-  factory_girl (= 3.3.0)
-  factory_girl_rails
+  factory_girl_rails (= 3.3.0)
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
   gds-api-adapters (= 25.1.0)
