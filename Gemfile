@@ -4,9 +4,6 @@ gem 'plek', '~> 1.8'
 
 gem 'nested_form', '0.3.2'
 
-gem 'ansi'
-gem 'gelf'
-
 gem 'airbrake', '3.1.15'
 gem 'statsd-ruby', '~> 1.3.0'
 
