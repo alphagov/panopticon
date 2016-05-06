@@ -159,8 +159,6 @@ GEM
       rails (>= 3.0.0)
       warden (~> 1.2)
       warden-oauth2 (~> 0.0.1)
-    gelf (2.0.0)
-      json
     gherkin (3.2.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -420,7 +418,6 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake (= 3.1.15)
-  ansi
   bootstrap-kaminari-views (= 0.0.3)
   capybara (~> 2.1.0)
   capybara-mechanize (~> 1.1.0)
@@ -435,7 +432,6 @@ DEPENDENCIES
   formtastic-bootstrap (= 3.0.0)
   gds-api-adapters (= 25.1.0)
   gds-sso (~> 11.2.1)
-  gelf
   govuk_admin_template (= 3.0.0)
   govuk_content_models (= 35.0.0)
   govuk_message_queue_consumer (~> 3.0.1)
