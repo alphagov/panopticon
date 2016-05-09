@@ -1,12 +1,11 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :only => [:show, :edit, :history, :withdraw]
-  before_filter :convert_comma_separated_string_to_array_attribute, :only => [:create, :update], :if => -> { request.format.html? }
   before_filter :build_artefact, :only => [:create]
   before_filter :find_or_build_artefact, :only => [:update]
   before_filter :register_url_with_publishing_api, :only => [:create, :update]
   before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
-  wrap_parameters include: Artefact.attribute_names + [:specialist_sectors, :indexable_content, :sections, :primary_section]
+  wrap_parameters include: ParameterExtractor::ALLOWED_FIELD_NAMES
 
   respond_to :html, :json
 
@@ -199,15 +198,6 @@ class ArtefactsController < ApplicationController
 
     def sort_direction
       %w[asc desc].include?(params[:direction]) ? params[:direction] : :asc
-    end
-
-    def convert_comma_separated_string_to_array_attribute
-      return if (artefact_params = params[:artefact]).blank?
-
-      [:need_ids, :related_artefact_slugs].each do |attribute|
-        next if artefact_params[attribute].nil?
-        artefact_params[attribute] = artefact_params[attribute].split(",").map(&:strip).reject(&:blank?)
-      end
     end
 
     def register_url_with_publishing_api
