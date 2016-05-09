@@ -18,7 +18,6 @@ gem 'govuk_message_queue_consumer', '~> 3.0.1'
 gem 'rails', '4.2.5.2'
 gem 'unicorn', '4.3.1'
 
-gem 'colorize', '~> 0.5.8'
 gem 'rummageable', '1.0.1'
 
 gem 'mongoid_rails_migrations', '1.0.0'
@@ -67,12 +66,10 @@ group :test do
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'shoulda', '~> 3.5.0'
-  gem 'factory_girl', '3.3.0'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '3.3.0'
   gem 'capybara', '~> 2.1.0'
   gem 'capybara-mechanize', '~> 1.1.0'
   gem 'mechanize', '~> 2.7.2'
-  gem 'launchy'
   gem 'mocha', '1.1.0', :require => false
   gem 'webmock', require: false
   gem 'poltergeist', '~> 1.6.0'

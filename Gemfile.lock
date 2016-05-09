@@ -88,7 +88,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    colorize (0.5.8)
     compass (1.0.3)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.2)
@@ -201,8 +200,6 @@ GEM
       activesupport (>= 3.0.0)
     kgio (2.10.0)
     kramdown (1.5.0)
-    launchy (2.4.3)
-      addressable (~> 2.3)
     libv8 (3.16.14.13)
     link_header (0.0.8)
     logstash-event (1.1.5)
@@ -423,11 +420,9 @@ DEPENDENCIES
   capybara-mechanize (~> 1.1.0)
   chosen-rails (= 1.4.2)
   ci_reporter_minitest (= 1.0.0)
-  colorize (~> 0.5.8)
   cucumber-rails
   database_cleaner
-  factory_girl (= 3.3.0)
-  factory_girl_rails
+  factory_girl_rails (= 3.3.0)
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
   gds-api-adapters (= 25.1.0)
@@ -437,7 +432,6 @@ DEPENDENCIES
   govuk_message_queue_consumer (~> 3.0.1)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
-  launchy
   logstasher (= 0.4.8)
   mechanize (~> 2.7.2)
   minitest
