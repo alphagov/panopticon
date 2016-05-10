@@ -1,44 +1,88 @@
 class ParameterExtractor
+  # https://github.com/rails/strong_parameters#permitted-scalar-values
+  ALLOWED_FIELDS = [
+    :_id,
+    :active,
+    :content_id,
+    :created_at,
+    :description,
+    :indexable_content,
+    :kind,
+    :language,
+    :latest_change_note,
+    :name,
+    :need_extended_font,
+    :need_id,
+    :owning_app,
+    :primary_section,
+    :public_timestamp,
+    :publication_id,
+    :redirect_url,
+    :rendering_app,
+    :slug,
+    :state,
+    :updated_at,
+
+    keywords: [],
+    need_ids: [],
+    organisation_ids: [],
+    organisations: [],
+    paths: [],
+    prefixes: [],
+    propositions: [],
+    related_artefact_ids: [],
+    related_artefact_slugs: [],
+    sections: [],
+    specialist_sector_ids: [],
+    specialist_sectors: [],
+    tag_ids: [],
+    tags: [],
+    writing_teams: [],
+
+    external_links_attributes: [:title, :url, :id, :_destroy],
+  ].freeze
+
+  # The last element is actually a hash of all the elements with an array-type.
+  # Paste this into a console if you don't believe it. 
+  ALLOWED_FIELD_NAMES = ALLOWED_FIELDS[0..-1] + ALLOWED_FIELDS.last.keys
+
   def initialize(params)
     @params = params
   end
 
   def extract
-    params = @params
+    prepared_parameters.permit(ALLOWED_FIELDS)
+  end
 
-    fields_to_update = [
-      "primary_section",
-      "indexable_content",
-      "sections" => [],
-      "specialist_sectors" => [],
-      "related_artefact_slugs" => [],
-      "external_links_attributes" => [:title, :url, :id, :_destroy],
-    ] + Artefact.fields.map {|k,v| v.type == Array ? { k => [] } : k }
+private
 
-    parameters_to_use = params[:artefact]
+  def prepared_parameters
+    params = @params[:artefact]
 
-    # Partly for legacy reasons, the API can receive live=true
-    if live_param = parameters_to_use[:live]
-      if ["true", true, "1"].include?(live_param)
-        parameters_to_use[:state] = "live"
-      end
+    # Convert comma separated values into arrays
+    %w[need_ids related_artefact_slugs].each do |attribute|
+      next if params[attribute].nil? || params[attribute].is_a?(Array)
+      params[attribute] = params[attribute].split(",").map(&:strip).reject(&:blank?)
     end
 
-    # Convert nil tag fields to empty arrays if they're present
+    # For legacy reasons, the API can receive live=true
+    if params[:live].in?(["true", true, "1"])
+      params[:state] = "live"
+    end
+
+    # Default the tags to an empty hash
     Artefact.tag_types.each do |tag_type|
-      if parameters_to_use.has_key?(tag_type)
-        parameters_to_use[tag_type] ||= []
+      if params.has_key?(tag_type)
+        params[tag_type] ||= []
       end
-      fields_to_update << { tag_type => [] }
     end
 
     # Strip out the empty submit option for sections
-    ['sections', 'specialist_sector_ids', 'organisation_ids'].each do |param|
-      param_value = parameters_to_use[param]
+    %w[sections specialist_sector_ids organisation_ids].each do |param_name|
+      param_value = params[param_name]
       param_value.reject!(&:blank?) if param_value
-      fields_to_update << { param => [] }
     end
 
-    parameters_to_use.permit(fields_to_update)
+    params
   end
 end
