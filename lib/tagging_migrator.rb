@@ -8,13 +8,31 @@
 require 'gds_api/publishing_api_v2'
 
 class TaggingMigrator
-  def initialize(app_name)
+  attr_reader :app_name
+  attr_reader :link_types
+  attr_reader :scope
+
+  LINK_TYPES = [
+    :mainstream_browse_pages,
+    :topics,
+    :organisations,
+    :parent,
+  ]
+
+  def initialize(app_name, link_types: LINK_TYPES, scope: Artefact)
     @app_name = app_name
+    @link_types = link_types
+    @scope = scope
   end
 
   def migrate!
     artefacts_owned_by_app.each do |artefact|
-      next unless artefact.content_id
+      unless artefact.content_id
+        puts "Skipping #{artefact.slug}: no content id"
+        next
+      end
+
+      puts "Migrating #{artefact.slug}"
       migrate_tags_for_artefact(artefact)
     end
   end
@@ -22,7 +40,19 @@ class TaggingMigrator
 private
 
   def migrate_tags_for_artefact(artefact)
-    link_payload = {
+    puts link_payload(artefact)
+    publishing_api.put_links(
+      artefact.content_id,
+      links: link_payload(artefact)
+    )
+  end
+
+  def artefacts_owned_by_app
+    scope.where(owning_app: @app_name)
+  end
+
+  def link_payload(artefact)
+    payload = {
       mainstream_browse_pages: [],
       topics: [],
       organisations: [],
@@ -30,32 +60,25 @@ private
 
     unless @app_name == 'travel-advice-publisher'
       if artefact.primary_section
-        link_payload[:parent] = [artefact.primary_section.content_id]
+        payload[:parent] = [artefact.primary_section.content_id]
       end
     end
 
     artefact.tags.each do |tag|
       if tag.tag_type == 'section'
-        link_payload[:mainstream_browse_pages] << tag.content_id
+        payload[:mainstream_browse_pages] << tag.content_id
       end
 
       if tag.tag_type == 'specialist_sector'
-        link_payload[:topics] << tag.content_id
+        payload[:topics] << tag.content_id
       end
 
       if tag.tag_type == 'organisation'
-        link_payload[:organisations] << tag.content_id
+        payload[:organisations] << tag.content_id
       end
     end
 
-    publishing_api.put_links(
-      artefact.content_id,
-      links: link_payload
-    )
-  end
-
-  def artefacts_owned_by_app
-    Artefact.where(owning_app: @app_name)
+    payload.slice(*link_types)
   end
 
   def publishing_api
