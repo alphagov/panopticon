@@ -142,11 +142,11 @@ GEM
       actionpack (>= 3.0)
     formtastic-bootstrap (3.0.0)
       formtastic (>= 2.2)
-    gds-api-adapters (25.1.0)
+    gds-api-adapters (30.7.0)
       link_header
       lrucache (~> 0.1.1)
       null_logger
-      plek
+      plek (>= 1.9.0)
       rack-cache
       rest-client (~> 1.8.0)
     gds-sso (11.2.1)
@@ -222,7 +222,7 @@ GEM
       webrobots (>= 0.0.9, < 0.2)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (2.99.2)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     minitest-reporters (1.1.8)
@@ -425,7 +425,7 @@ DEPENDENCIES
   factory_girl_rails (= 3.3.0)
   formtastic (= 2.3.0.rc4)
   formtastic-bootstrap (= 3.0.0)
-  gds-api-adapters (= 25.1.0)
+  gds-api-adapters (~> 30.7)
   gds-sso (~> 11.2.1)
   govuk_admin_template (= 3.0.0)
   govuk_content_models (= 35.0.0)

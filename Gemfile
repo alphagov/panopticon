@@ -7,12 +7,7 @@ gem 'nested_form', '0.3.2'
 gem 'airbrake', '3.1.15'
 gem 'statsd-ruby', '~> 1.3.0'
 
-if ENV['API_DEV']
-  gem 'gds-api-adapters', :path => '../gds-api-adapters'
-else
-  gem 'gds-api-adapters', '25.1.0'
-end
-
+gem 'gds-api-adapters', '~> 30.7'
 gem 'govuk_message_queue_consumer', '~> 3.0.1'
 
 gem 'rails', '4.2.5.2'
