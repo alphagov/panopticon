@@ -31,16 +31,16 @@ class TaggingMigratorTest < ActiveSupport::TestCase
       owning_app: "whitehall",
     )
 
-    stub_request(:put, %r[#{Plek.find('publishing-api')}/v2/links/*]).
+    stub_request(:patch, %r[#{Plek.find('publishing-api')}/v2/links/*]).
       to_return(body: {}.to_json)
 
     TaggingMigrator.new("smartanswers").migrate!
 
-    assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/A",
+    assert_requested :patch, "http://publishing-api.dev.gov.uk/v2/links/A",
       body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":["A-TOPIC"],"organisations":[],"parent":["A-BROWSE-PAGE"]}}'
-    assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/B",
+    assert_requested :patch, "http://publishing-api.dev.gov.uk/v2/links/B",
       body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":[],"organisations":["AN-ORGANISATION"],"parent":["A-BROWSE-PAGE"]}}'
-    assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/C",
+    assert_requested :patch, "http://publishing-api.dev.gov.uk/v2/links/C",
       body: '{"links":{"mainstream_browse_pages":[],"topics":[],"organisations":[]}}'
   end
 
@@ -97,12 +97,12 @@ class TaggingMigratorTest < ActiveSupport::TestCase
       sections: ["a-browse-page"],
     )
 
-    stub_request(:put, %r[#{Plek.find('publishing-api')}/v2/links/*]).
+    stub_request(:patch, %r[#{Plek.find('publishing-api')}/v2/links/*]).
       to_return(body: {}.to_json)
 
     TaggingMigrator.new("travel-advice-publisher").migrate!
 
-    assert_requested :put, "http://publishing-api.dev.gov.uk/v2/links/A",
+    assert_requested :patch, "http://publishing-api.dev.gov.uk/v2/links/A",
       body: '{"links":{"mainstream_browse_pages":["A-BROWSE-PAGE"],"topics":[],"organisations":[]}}'
   end
 end

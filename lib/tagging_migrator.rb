@@ -41,7 +41,7 @@ private
 
   def migrate_tags_for_artefact(artefact)
     puts link_payload(artefact)
-    publishing_api.put_links(
+    publishing_api.patch_links(
       artefact.content_id,
       links: link_payload(artefact)
     )
