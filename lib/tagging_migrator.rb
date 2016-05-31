@@ -43,7 +43,8 @@ private
     puts link_payload(artefact)
     publishing_api.patch_links(
       artefact.content_id,
-      links: link_payload(artefact)
+      links: link_payload(artefact),
+      bulk_publishing: true
     )
   end
 

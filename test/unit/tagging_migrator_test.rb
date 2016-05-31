@@ -38,9 +38,9 @@ class TaggingMigratorTest < ActiveSupport::TestCase
 
     TaggingMigrator.new("smartanswers").migrate!
 
-    assert_publishing_api_patch_links('A', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: ['A-TOPIC'], organisations: [], parent: ['A-BROWSE-PAGE']})
-    assert_publishing_api_patch_links('B', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: [], organisations: ['AN-ORGANISATION'], parent: ['A-BROWSE-PAGE']})
-    assert_publishing_api_patch_links('C', links: { mainstream_browse_pages: [], topics: [], organisations: []})
+    assert_publishing_api_patch_links('A', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: ['A-TOPIC'], organisations: [], parent: ['A-BROWSE-PAGE']}, bulk_publishing: true)
+    assert_publishing_api_patch_links('B', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: [], organisations: ['AN-ORGANISATION'], parent: ['A-BROWSE-PAGE']}, bulk_publishing: true)
+    assert_publishing_api_patch_links('C', links: { mainstream_browse_pages: [], topics: [], organisations: []}, bulk_publishing: true)
   end
 
   test "only sends requested link types to the publishing-api if specified" do
@@ -77,9 +77,9 @@ class TaggingMigratorTest < ActiveSupport::TestCase
 
     TaggingMigrator.new("smartanswers", link_types: [:topics, :organisations]).migrate!
 
-    assert_publishing_api_patch_links('A', links: { topics: ['A-TOPIC'], organisations: []})
-    assert_publishing_api_patch_links('B', links: { topics: [], organisations: ['AN-ORGANISATION']})
-    assert_publishing_api_patch_links('C', links: { topics: [], organisations: []})
+    assert_publishing_api_patch_links('A', links: { topics: ['A-TOPIC'], organisations: []}, bulk_publishing: true)
+    assert_publishing_api_patch_links('B', links: { topics: [], organisations: ['AN-ORGANISATION']}, bulk_publishing: true)
+    assert_publishing_api_patch_links('C', links: { topics: [], organisations: []}, bulk_publishing: true)
   end
 
   test "skips sending the parent tag for travel advice publisher" do
@@ -96,6 +96,6 @@ class TaggingMigratorTest < ActiveSupport::TestCase
 
     TaggingMigrator.new("travel-advice-publisher").migrate!
 
-    assert_publishing_api_patch_links('A', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: [], organisations: []})
+    assert_publishing_api_patch_links('A', links: { mainstream_browse_pages: ['A-BROWSE-PAGE'], topics: [], organisations: []}, bulk_publishing: true)
   end
 end
