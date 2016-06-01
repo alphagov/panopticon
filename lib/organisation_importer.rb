@@ -33,7 +33,7 @@ class OrganisationImporter
         end
       else
         log_error_and_notify_airbrake(organisation,
-                                      "Could not update title: #{existing_tag.errors.full_messages}")
+                                      "Could not update title for #{tag_id}: #{existing_tag.errors.full_messages}")
       end
 
       if existing_tag.draft?
@@ -41,7 +41,7 @@ class OrganisationImporter
           logger.info "Published tag"
         else
           log_error_and_notify_airbrake(organisation,
-                                        "Could not publish tag: #{existing_tag.errors.full_messages}")
+                                        "Could not publish tag for #{tag_id}: #{existing_tag.errors.full_messages}")
         end
       end
     else
@@ -58,11 +58,11 @@ class OrganisationImporter
           logger.info "Published tag"
         else
           log_error_and_notify_airbrake(organisation,
-                                        "Could not publish tag: #{new_tag.errors.full_messages}")
+                                        "Could not publish tag for #{tag_id}: #{new_tag.errors.full_messages}")
         end
       else
         log_error_and_notify_airbrake(organisation,
-                                      "Could not create tag: #{new_tag.errors.full_messages}")
+                                      "Could not create tag for #{tag_id}: #{new_tag.errors.full_messages}")
       end
     end
   end
