@@ -1,6 +1,6 @@
 class RummageableArtefact
 
-  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction campaign) +
+  FORMATS_NOT_TO_INDEX = %W(business_support completed_transaction) +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["whitehall"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["specialist-publisher"] +
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"]
