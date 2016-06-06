@@ -6,22 +6,9 @@ class RummageableArtefact
     Artefact::FORMATS_BY_DEFAULT_OWNING_APP["finder-api"]
 
   EXCEPTIONAL_SLUGS = %W(
-    gosuperfast
-    growthaccelerator
-    technology-strategy-board
-    enterprise-finance-guarantee
-    manufacturing-advisory-service-mas
-    research-development-tax-credit-smes
-    enterprise-investment-scheme
-    seed-enterprise-investment-scheme
-    designing-demand
-    business-mentoring-support
     start-up-loans
     new-enterprise-allowance
-    helping-your-business-grow-internationally
-    unimoney
     horizon-2020
-    civil-service-apprenticeships
   )
 
   def initialize(artefact)
