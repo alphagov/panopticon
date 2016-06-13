@@ -13,16 +13,11 @@ class TaggingUpdater
 
 private
   def process_content_item(content_item)
-    return unless should_update_tags?(content_item)
+    return unless content_item['links']
     artefact = find_artefact_by_base_path(content_item.fetch('base_path'))
 
     return unless artefact
     update_artefact_with_content_item(content_item, artefact)
-  end
-
-  def should_update_tags?(content_item)
-    content_item['links'] &&
-      !content_item['publishing_app'].in?(Artefact::NON_MIGRATED_APPS)
   end
 
   def find_artefact_by_base_path(base_path)

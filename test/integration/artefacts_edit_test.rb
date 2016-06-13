@@ -7,14 +7,14 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     stub_all_rummager_requests
   end
 
-  context "when editing an artefact from a non migrated publisher app" do
+  context "when editing an artefact from a publishing app" do
     setup do
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
       FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
 
       @artefact = FactoryGirl.create(:artefact,
                                      name: "VAT Rates", slug: "vat-rates", kind: "answer", state: "live",
-                                     owning_app: "non-migrated-app", language: "en",
+                                     owning_app: "a-publishing-app", language: "en",
                                      section_ids: ["business/employing-people"])
     end
 
@@ -34,7 +34,7 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       end
 
       within ".owning-app" do
-        assert page.has_content? "This content is managed in Non-migrated-app"
+        assert page.has_content? "This content is managed in A-publishing-app"
       end
 
       within ".form-actions" do
