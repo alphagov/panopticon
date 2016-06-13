@@ -1,3 +1,11 @@
+Given /^an artefact created by Publisher exists$/ do
+  @artefact = create_artefact('publisher')
+end
+
+Given /^an artefact exists$/ do
+  @artefact = create_artefact
+end
+
 Given /^two artefacts exist$/ do
   @artefact, @related_artefact = create_two_artefacts
 end
@@ -8,14 +16,6 @@ end
 
 Given /^the first artefact is live$/ do
   Artefact.first.update_attributes!('state' => 'live', 'skip_update_search' => true)
-end
-
-Given /^an artefact from a non migrated app exists$/ do
-  @artefact = create_artefact("non-migrated-app")
-end
-
-Given /^two artefacts from a non migrated app exist$/ do
-  @artefact, @related_artefact = create_two_artefacts("non-migrated-app")
 end
 
 When /^I change the need ID of the first artefact$/ do
@@ -74,10 +74,6 @@ When /^I destroy their relationship$/ do
   visit edit_artefact_path(@artefact)
   unselect_related_artefact @related_artefact
   submit_artefact_form
-end
-
-Given /^an artefact exists$/ do
-  @artefact = create_artefact
 end
 
 When /^I visit the homepage$/ do

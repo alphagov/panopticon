@@ -1,5 +1,5 @@
 Feature: Related items
-  In order to help visitors find their way on GovUK
+  In order to help visitors find their way on GOV.UK
   I want to assign related items to artefacts
 
   Background:
@@ -7,7 +7,7 @@ Feature: Related items
 
   @javascript
   Scenario: Assign a related item
-    Given two artefacts from a non migrated app exist
+    Given two artefacts exist
      When I create a relationship between them
       And I save
      Then the API should say that the artefacts are related

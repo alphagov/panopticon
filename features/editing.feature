@@ -23,7 +23,7 @@ Feature: Editing artefacts
       And I should see an indication that the save worked
 
   Scenario: Trying to create an artefact for a need that is already met
-    Given an artefact exists
+    Given an artefact created by Publisher exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher
 
