@@ -11,24 +11,13 @@ def create_two_artefacts(owning_app="a-publishing-app")
   ].map { |name| FactoryGirl.create :artefact, :name => name, :need_ids => ['100001'], owning_app: owning_app }
 end
 
-def create_six_artefacts(owning_app="publisher")
-  [
-    'Driving disqualifications',
-    'Book the practical driving test',
-    'Driving before your licence is returned',
-    'National Driver Offender Retraining Scheme',
-    'Apply for a new driving licence',
-    'Get a divorce'
-  ].map { |name| FactoryGirl.create :artefact, :name => name, :need_ids => ['100001'], owning_app: owning_app }
-end
-
 def add_related_artefact(artefact, related_artefact)
   artefact.related_artefacts << related_artefact
 end
 
 def add_related_artefacts(artefact, related_artefacts)
   related_artefacts.each do |related_artefact|
-    add_related_artefact artefact, related_artefact
+    add_related_artefact(artefact, related_artefact)
   end
 end
 
