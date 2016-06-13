@@ -22,7 +22,9 @@
         <% end %>
 
         <%= render partial: "artefacts/form/related_content", locals: { f: f } %>
-        <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
+        <%- unless f.object.app_without_tagging_support? %>
+          <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
+        <% end %>
       </div>
 
       <div class="col-md-4">

@@ -24,7 +24,7 @@
       <%= f.input :slug, :input_html => { :class => "input-md-6" }, :hint => "Inside government slugs are: <code>government/the-slug</code>. Detailed guides are simply: <code>the-slug</code>".html_safe %>
     </div>
 
-    <%= render partial: "artefacts/form/tags", locals: { f: f, tag_collection: tag_collection } %>
+    <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
     <%= f.input :owning_app, :as => :hidden %>
     <%= f.input :state, :as => :hidden, :input_html => { :value => "live" } %>
 

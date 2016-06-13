@@ -80,38 +80,27 @@ Given /^an artefact exists$/ do
   @artefact = create_artefact
 end
 
-Given /^a section exists$/ do
-  @section = create_section
-end
-
-Given /^two sections exist$/ do
-  @sections = create_sections
-end
-
-Given /^the artefact has both sections$/ do
-  @sections.each do |section|
-    add_section @artefact, section
-  end
-end
-
-When /^I add the section to the artefact$/ do
-  visit edit_artefact_path(@artefact)
-  select_section @section
-  submit_artefact_form
-end
-
-When /^I remove the second section from the artefact$/ do
-  visit edit_artefact_path(@artefact)
-  unselect_section @sections[1]
-  submit_artefact_form
-end
-
 When /^I visit the homepage$/ do
   visit root_path
 end
 
 Then /^I should see a link to create an item$/ do
   xpath = "//a[@href='#{new_artefact_path}']"
+  assert page.has_xpath?(xpath)
+end
+
+When /^I visit the edit page$/ do
+  visit edit_artefact_path(@artefact)
+end
+
+Then /^I should see a callout$/ do
+  callout = "Tagging for this item has moved"
+  assert page.has_content?(callout)
+end
+
+Then /^I should see a link for tagging the item on content-tagger$/ do
+  link = Plek.find('content-tagger') + "/content/#{@artefact.content_id}"
+  xpath = "//a[@href='#{link}']"
   assert page.has_xpath?(xpath)
 end
 

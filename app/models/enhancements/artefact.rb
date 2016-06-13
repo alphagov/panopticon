@@ -70,14 +70,6 @@ class Artefact
     (owning_app == "whitehall" ? "[Whitehall] " : "[Mainstream] ") + name
   end
 
-  def allow_specialist_sector_tag_changes?
-    owning_app != 'publisher' && owning_app != 'whitehall'
-  end
-
-  def allow_section_tag_changes?
-    owning_app != 'publisher'
-  end
-
   def tagging_migrated?
     return false if new_record_without_owning_app?
 
