@@ -73,5 +73,5 @@ group :test do
 end
 
 group :import do
-  gem 'nokogiri', '>= 1.6.7.2'
+  gem 'nokogiri', '>= 1.6.8'
 end
