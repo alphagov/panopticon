@@ -152,14 +152,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         get :new
         assert_select "li[class~=active] a[href=/artefacts/new]"
       end
-
-      context "when publisher app has not been migrated" do
-        should "render the tags partial" do
-          get :new
-
-          assert_select 'button#add-section', true, "Expecting to find a button to add tags."
-        end
-      end
     end
 
     context "POST create" do
@@ -237,46 +229,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         )
         artefact = Artefact.last
         assert_equal 1, artefact.external_links.count
-      end
-    end
-
-    context "GET edit" do
-      context "whitehall is the owning_app" do
-        should "render the whitehall variant of the form" do
-          artefact = FactoryGirl.create(:artefact, owning_app: "whitehall")
-          get :edit, id: artefact.id
-          assert_template partial: "_whitehall_form"
-        end
-      end
-
-      should "assign list of sections" do
-        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'kablooey', :title => 'Kablooey')
-        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'fooey', :title => 'Fooey')
-        FactoryGirl.create(:live_tag, :tag_type => 'section', :tag_id => 'gooey', :title => 'Gooey')
-
-        artefact = FactoryGirl.create(:artefact)
-
-        get :edit, id: artefact.id, format: :html
-
-        assert_equal ['fooey', 'gooey', 'kablooey'], assigns["tag_collection"].map(&:tag_id)
-      end
-
-      context 'showing and hiding the tags partial' do
-        should "show the tags partial when owning app is not migrated" do
-          artefact = FactoryGirl.create(:artefact, owning_app: 'non-migrated-app')
-          get :edit, id: artefact.id, format: :html
-
-          assert_select "button#add-section", true,
-            "Expecting to find a button to add tags when tagging for the owning app has not been migrated"
-        end
-
-        should "not show the tags partial when owning app has been migrated" do
-          artefact = FactoryGirl.create(:artefact, owning_app: 'migrated-app')
-          get :edit, id: artefact.id, format: :html
-
-          assert_select "button#add-section", false,
-            "Not expecting to find a button to add tags when tagging for the owning app has been migrated"
-        end
       end
     end
 

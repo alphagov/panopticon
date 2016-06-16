@@ -1,5 +1,5 @@
 Feature: Creating artefacts
-  In order to build GovUK
+  In order to build GOV.UK
   I want to create artefacts in panopticon
 
   Background:
@@ -20,6 +20,6 @@ Feature: Creating artefacts
      And an artefact should have be created with content_id
 
   Scenario: Trying to create an artefact for a need that is already met
-    Given an artefact exists
+    Given an artefact created by Publisher exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher

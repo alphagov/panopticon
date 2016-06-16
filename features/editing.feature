@@ -1,5 +1,5 @@
 Feature: Editing artefacts
-  In order to maintain GovUK metadata
+  In order to maintain GOV.UK metadata
   I want to edit artefacts
 
   Background:
@@ -23,23 +23,9 @@ Feature: Editing artefacts
       And I should see an indication that the save worked
 
   Scenario: Trying to create an artefact for a need that is already met
-    Given an artefact exists
+    Given an artefact created by Publisher exists
     When I try to create a new artefact with the same need
     Then I should be redirected to Publisher
-
-  Scenario: Add a section
-    Given an artefact from a non migrated app exists
-      And a section exists
-    When I add the section to the artefact
-    Then the API should say that the artefact has the section
-
-  Scenario: Remove a section
-    Given an artefact from a non migrated app exists
-      And two sections exist
-      And the artefact has both sections
-    When I remove the second section from the artefact
-    Then the API should say that the artefact has the first section
-    And the API should say that the artefact does not have the second section
 
   @javascript
   Scenario: Editing an item that's draft
@@ -49,9 +35,8 @@ Feature: Editing artefacts
       And I save
     Then rummager should not be notified
 
-  Scenario: Editing a live item
-    Given an artefact from a non migrated app exists
-      And the first artefact is live
-      And a section exists
-    When I add the section to the artefact
-    Then rummager should be told to do a partial update
+  Scenario: Editing the links of an Artefact
+    Given an artefact exists
+    When I visit the edit page
+    Then I should see a callout
+      And I should see a link for tagging the item on content-tagger

@@ -11,7 +11,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       sections: ["existing-tag"],
     )
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "app-migrated-to-pub-api-v2-endpoints",
+      "publishing_app" => "a-publishing-app",
       "base_path" => "/an-item-with-links",
       "links" => {
         "mainstream_browse_pages" => ["NEW-TAG-CONTENT-ID"],
@@ -26,30 +26,9 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     assert message.acked?
   end
 
-  def test_only_migrated_applications
-    create(:live_tag, tag_id: 'existing-tag', tag_type: 'section', content_id: 'EXISTING-TAG-CONTENT-ID')
-    artefact = create(:artefact,
-                      slug: 'an-item-with-links',
-                      sections: ["existing-tag"],
-                      owning_app: 'non-migrated-app',
-                     )
-
-    message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "non-migrated-app",
-      "base_path" => "/an-item-with-links",
-      "links" => { "mainstream_browse_pages" => ["NEW-TAG-CONTENT-ID"] }
-    })
-
-    TaggingUpdater.new.process(message)
-
-    artefact.reload
-    assert_equal ["existing-tag"], artefact.tags.map(&:tag_id)
-    assert message.acked?
-  end
-
   def test_when_no_artefact_found
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "app-migrated-to-pub-api-v2-endpoints",
+      "publishing_app" => "a-publishing-app",
       "base_path" => "/some-item-that-does-not-exist",
       "links" => { "mainstream_browse_pages" => ["NEW-TAG-CONTENT-ID"] }
     })
@@ -66,7 +45,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       sections: ["existing-tag"],
     )
     message = GovukMessageQueueConsumer::MockMessage.new({
-      "publishing_app" => "app-migrated-to-pub-api-v2-endpoints",
+      "publishing_app" => "a-publishing-app",
       "base_path" => "/an-item-with-links",
     })
 
