@@ -35,8 +35,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "a-publishing-app",
       "base_path" => "/an-item-with-links",
-      "links" => {
-      }
+      "links" => {}
     })
 
     TaggingUpdater.new.process(message)

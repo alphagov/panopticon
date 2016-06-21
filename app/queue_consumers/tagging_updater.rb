@@ -45,8 +45,11 @@ private
 
     unless content_item.fetch('publishing_app') == 'travel-advice-publisher'
       if content_item['links']['parent']
-        parent = Tag.where(:content_id.in => content_item['links']['parent'])
-        artefact.set_primary_tag_of_type('section', parent.first.tag_id)
+        parent = Tag.where(:content_id.in => content_item['links']['parent']).first
+
+        if parent.tag_type == 'section'
+          artefact.set_primary_tag_of_type('section', parent.tag_id)
+        end
       end
     end
 
