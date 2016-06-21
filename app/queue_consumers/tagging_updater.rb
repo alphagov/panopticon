@@ -34,17 +34,22 @@ private
 
   def update_artefact_with_content_item(content_item, artefact)
     TAG_MAPPING.each do |publishing_api_tag_name, panopticon_tag_name|
-      next unless content_item['links'][publishing_api_tag_name]
-
-      new_tags = Tag.where(:content_id.in => content_item['links'][publishing_api_tag_name])
+      if content_item['links'][publishing_api_tag_name]
+        new_tags = Tag.where(:content_id.in => content_item['links'][publishing_api_tag_name])
+      else
+        new_tags = []
+      end
 
       artefact.set_tags_of_type(panopticon_tag_name, new_tags.map(&:tag_id))
     end
 
     unless content_item.fetch('publishing_app') == 'travel-advice-publisher'
       if content_item['links']['parent']
-        parent = Tag.where(:content_id.in => content_item['links']['parent'])
-        artefact.set_primary_tag_of_type('section', parent.first.tag_id)
+        parent = Tag.where(:content_id.in => content_item['links']['parent']).first
+
+        if parent.tag_type == 'section'
+          artefact.set_primary_tag_of_type('section', parent.tag_id)
+        end
       end
     end
 
