@@ -26,6 +26,26 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     assert message.acked?
   end
 
+  def test_links_are_cleared
+    create(:live_tag, tag_id: 'existing-tag', tag_type: 'section', content_id: 'EXISTING-TAG-CONTENT-ID')
+    artefact = create(:artefact,
+      slug: 'an-item-with-links',
+      sections: ["existing-tag"],
+    )
+    message = GovukMessageQueueConsumer::MockMessage.new({
+      "publishing_app" => "a-publishing-app",
+      "base_path" => "/an-item-with-links",
+      "links" => {
+      }
+    })
+
+    TaggingUpdater.new.process(message)
+
+    artefact.reload
+    assert_equal [], artefact.tags.map(&:tag_id)
+    assert message.acked?
+  end
+
   def test_when_no_artefact_found
     message = GovukMessageQueueConsumer::MockMessage.new({
       "publishing_app" => "a-publishing-app",
