@@ -14,7 +14,13 @@ class TaggingUpdater
 private
   def process_content_item(content_item)
     return unless content_item['links']
-    artefact = find_artefact_by_base_path(content_item.fetch('base_path'))
+
+    # Panopticon pre-dates content items without base paths.
+    # We can ignore this content.
+    base_path = content_item['base_path']
+    return unless base_path
+
+    artefact = find_artefact_by_base_path(base_path)
 
     return unless artefact
     update_artefact_with_content_item(content_item, artefact)

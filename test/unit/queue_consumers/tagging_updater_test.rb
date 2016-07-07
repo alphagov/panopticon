@@ -76,4 +76,13 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
     assert_equal ["existing-tag"], artefact.tags.map(&:tag_id)
     assert message.acked?
   end
+
+  def test_missing_base_path_messages_are_acked_and_skipped
+    message = GovukMessageQueueConsumer::MockMessage.new({
+      "publishing_app" => "a-publishing-app",
+      "base_path" => nil,
+    })
+
+    assert TaggingUpdater.new.process(message)
+  end
 end
