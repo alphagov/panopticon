@@ -13,9 +13,6 @@ require "gds_api/publishing_api"
 Bundler.require(*Rails.groups)
 
 module Panopticon
-  mattr_accessor :whitehall_admin_api
-  mattr_accessor :publisher_api
-
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
