@@ -10,7 +10,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
         "language" => "en",
         "live" => "1",
         "name" => "This is a test",
-        "need_extended_font" => "0",
         "need_ids" => "123123,321321",
         "organisation_ids" => ["", "accelerated-access-review"],
         "owning_app" => "publisher",
@@ -27,7 +26,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "kind" => "answer",
       "language" => "en",
       "name" => "This is a test",
-      "need_extended_font" => "0",
       "need_ids" => ["123123", "321321"],
       "organisation_ids" => ["accelerated-access-review"],
       "owning_app" => "publisher",
@@ -50,7 +48,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
         "organisation_ids" => ["", "accelerated-access-review"],
         "need_ids" => "121231,123123",
         "language" => "en",
-        "need_extended_font" => "0"
       },
       "commit" => "Save and continue editing",
       "id" => "572c9c95759b746c23203cef"
@@ -63,7 +60,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "slug" => "my-super-test",
       "need_ids" => ["121231", "123123"],
       "language" => "en",
-      "need_extended_font" => "0",
       "organisation_ids"=>["accelerated-access-review"]
     }
     assert_equal expected, result

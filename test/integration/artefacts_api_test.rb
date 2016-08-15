@@ -60,7 +60,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false,
           'content_id' => 'f392ddac-f600-4963-a3f4-9a82985582f7',
         }
 
@@ -77,7 +76,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal 'publisher', artefact.owning_app
         assert_equal 'frontend', artefact.rendering_app
         assert_equal 'draft', artefact.state
-        assert_equal false, artefact.need_extended_font
         assert_equal 'f392ddac-f600-4963-a3f4-9a82985582f7', artefact.content_id
       end
 
@@ -128,7 +126,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false
         }
 
         put "/artefacts/wibble.json", artefact_data.to_json
@@ -151,7 +148,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => '',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false
         }
 
         put "/artefacts/wibble.json", artefact_data.to_json
@@ -285,7 +281,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => 'publisher',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false
         }
 
         put "/artefacts/wibble.json", artefact_data.to_json
@@ -309,7 +304,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
           'owning_app' => '',
           'rendering_app' => 'frontend',
           'state' => 'draft',
-          'need_extended_font' => false
         }
 
         put "/artefacts/wibble.json", artefact_data.to_json
