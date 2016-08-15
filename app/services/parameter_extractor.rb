@@ -11,7 +11,6 @@ class ParameterExtractor
     :language,
     :latest_change_note,
     :name,
-    :need_extended_font,
     :need_id,
     :owning_app,
     :primary_section,
@@ -43,7 +42,7 @@ class ParameterExtractor
   ].freeze
 
   # The last element is actually a hash of all the elements with an array-type.
-  # Paste this into a console if you don't believe it. 
+  # Paste this into a console if you don't believe it.
   ALLOWED_FIELD_NAMES = ALLOWED_FIELDS[0..-1] + ALLOWED_FIELDS.last.keys
 
   def initialize(params)
