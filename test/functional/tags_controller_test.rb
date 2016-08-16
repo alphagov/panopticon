@@ -97,7 +97,9 @@ class TagsControllerTest < ActionController::TestCase
 
     should 'not remove tags with documents tagged to it' do
       tag = create(:draft_tag)
-      artefact = create(:artefact, tag_ids: [tag.tag_id])
+      without_artefact_callbacks do
+        artefact = create(:artefact, tag_ids: [tag.tag_id], state: "live")
+      end
 
       delete :destroy, id: tag.id, format: :json
 

@@ -54,7 +54,7 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    if Artefact.with_tags([@tag.tag_id]).any?
+    if Artefact.in_state("live").with_tags([@tag.tag_id]).any?
       render json: { error: 'Tag has documents tagged to it' }, status: 409
     else
       @tag.destroy
