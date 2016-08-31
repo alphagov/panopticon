@@ -1,45 +1,10 @@
-<% if flash[:notice].present? %>
-  <div class="alert alert-success"><%= flash[:notice] %></div>
-<% end %>
 
-<% if artefact.errors.count > 0 %>
-  <div class="alert alert-danger">
-    <ul>
-      <% artefact.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-      <% end %>
-    </ul>
+<div class="row">
+  <div class="col-md-8">
+    <%= render partial: "artefacts/use_content_tagger", locals: { artefact: artefact } %>
   </div>
-<% end %>
 
-<% if artefact.archived? %>
-  <div class="alert alert-danger">
-    <h2>Stop! You can’t edit this artefact because it has been withdrawn.</h2>
+  <div class="col-md-4">
+    <%= render partial: "artefacts/form/owning_app", locals: { artefact: artefact } %>
   </div>
-<% else %>
-  <%= semantic_bootstrap_nested_form_for(artefact, :html => { :class => 'artefact', :id => 'edit_artefact'}) do |f| %>
-    <div class="well">
-      <%= f.input :name, :input_html => { :class => "input-md-6" } %>
-      <%= f.input :description, :input_html => { :class => "input-md-6", :rows => 6 }, :as => :text %>
-      <%= f.input :slug, :input_html => { :class => "input-md-6" }, :hint => "Inside government slugs are: <code>government/the-slug</code>. Detailed guides are simply: <code>the-slug</code>".html_safe %>
-    </div>
-
-    <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
-    <%= f.input :owning_app, :as => :hidden %>
-    <%= f.input :state, :as => :hidden, :input_html => { :value => "live" } %>
-
-    <div class="form-actions">
-      <%= f.submit :value => "Save and continue editing", :class => "btn btn-primary" %>
-    </div>
-  <% end %>
-<% end %>
-
-<%= content_for :extra_javascript do %>
-  <script>
-    $(".chosen-select").chosen();
-
-    if ($('.artefact-section').size() == 1) {
-      $('.remove-section').hide();
-    }
-  </script>
-<% end %>
+</div>

@@ -28,8 +28,8 @@
       </div>
 
       <div class="col-md-4">
-        <% if f.object.persisted? && f.object.owning_app.present? %>
-          <%= render partial: "artefacts/form/owning_app", locals: { f: f } %>
+        <% if artefact.persisted? && artefact.owning_app.present? %>
+          <%= render partial: "artefacts/form/owning_app", locals: { artefact: artefact } %>
         <% end %>
 
         <%= render partial: "artefacts/form/need", locals: { f: f } %>
