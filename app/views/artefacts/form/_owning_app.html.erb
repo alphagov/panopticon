@@ -1,6 +1,7 @@
 <div class="well owning-app">
-  <p>This content is managed in <strong><%= f.object.owning_app.humanize %></strong>.</p>
-  <% if f.object.owning_app == "publisher" %>
-    <%= link_to "Edit in Publisher", admin_url_for_edition(f.object), :class => "btn btn-default" %>
+  <p>This content is managed in <strong><%= artefact.owning_app.humanize %></strong>.</p>
+
+  <% if artefact.owning_app == "publisher" %>
+    <%= link_to "Edit in Publisher", admin_url_for_edition(artefact), :class => "btn btn-default" %>
   <% end %>
 </div>
