@@ -1,6 +1,9 @@
 <div class="well">
   <%= f.inputs "Related content" do %>
     <%= render "artefacts/form/related_artefacts", f: f, artefact: artefact %>
-    <%= render "artefacts/form/related_external_links", f: f, artefact: artefact %>
+
+    <% if artefact.owning_app.in?(%w[publisher smartanswers]) %>
+      <%= render "artefacts/form/related_external_links", f: f, artefact: artefact %>
+    <% end %>
   <% end %>
 </div>
