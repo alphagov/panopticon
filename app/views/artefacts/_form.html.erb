@@ -21,7 +21,7 @@
           <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
 
-        <%= render partial: "artefacts/form/related_content", locals: { f: f } %>
+        <%= render partial: "artefacts/form/related_content", locals: { f: f, artefact: artefact } %>
         <%- unless f.object.app_without_tagging_support? %>
           <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
         <% end %>

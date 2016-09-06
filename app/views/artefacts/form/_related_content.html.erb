@@ -1,33 +1,9 @@
 <div class="well">
   <%= f.inputs "Related content" do %>
-    <div class="related-artefacts fieldset-section">
-      <%= f.label :related_artefact_slugs, class: "section-label" %>
-      <%= f.text_area :related_artefact_slugs, size: "75x3",
-            placeholder: "Fill-in slugs of arefacts to relate, " +
-              "separated by a comma. for example: benefits-calculators, child-tax-credit",
-            value: f.object.related_artefact_slugs.present? ? f.object.related_artefact_slugs.join(", ") : "",
-            data: { related_artefacts: related_artefacts_json(f.object.ordered_related_artefacts) } %>
-    </div>
+    <%= render "artefacts/form/related_artefacts", f: f, artefact: artefact %>
 
-    <div class="related-external-links fieldset-section">
-      <label class="section-label">Related external links</label><br />
-
-      <%= f.fields_for :external_links do |link| %>
-        <div class="nested-item">
-          <div class="row relative">
-            <div class="col-md-4">
-              <%= link.label :title, "Title" %>
-              <%= link.text_field :title, class: 'form-control' %>
-            </div>
-            <div class="col-md-5">
-              <%= link.label :url, "URL" %>
-              <%= link.text_field :url, class: 'form-control' %>
-            </div>
-            <%= link.link_to_remove "Remove this URL", :class => "remove-row remove-row-related" %>
-          </div>
-        </div>
-      <% end %>
-      <%= f.link_to_add "Add related external link", :external_links, :class => "btn btn-success" %>
-    </div>
+    <% if artefact.owning_app.in?(%w[publisher smartanswers]) %>
+      <%= render "artefacts/form/related_external_links", f: f, artefact: artefact %>
+    <% end %>
   <% end %>
 </div>
