@@ -1,12 +1,6 @@
 require "artefact"
 
 class Artefact
-  APPS_WITHOUT_TAGGING_SUPPORT = %w(
-    finder-api
-    frontend
-    planner
-  ).freeze
-
   # Add a non-field attribute so we can pass indexable content over to Rummager
   # without persisting it
   attr_accessor :indexable_content
@@ -90,10 +84,6 @@ class Artefact
         a.save
       end
     end
-  end
-
-  def app_without_tagging_support?
-    APPS_WITHOUT_TAGGING_SUPPORT.include?(self.owning_app)
   end
 
   def as_json(options={})
