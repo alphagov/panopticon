@@ -333,10 +333,6 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     ruby-progressbar (1.7.5)
-    rummageable (1.0.1)
-      multi_json
-      null_logger
-      rest-client
     safe_yaml (1.0.4)
     sanitize (2.1.0)
       nokogiri (>= 1.4.4)
@@ -450,7 +446,6 @@ DEPENDENCIES
   rails (= 4.2.7.1)
   rake (= 10.5.0)
   responders (~> 2.0)
-  rummageable (= 1.0.1)
   sass-rails (= 5.0.4)
   select2-rails (= 3.5.9.1)
   shoulda (~> 3.5.0)

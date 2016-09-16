@@ -84,7 +84,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
     params = ActionController::Parameters.new({
      "artefact" => {
        "description" =>  "Foo bar.",
-       "indexable_content" => "Foo",
        "kind" => "guide",
        "latest_change_note" => nil,
        "name" => "Get a copy of military service records",
@@ -104,7 +103,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
 
     expected = {
       "description" => "Foo bar.",
-      "indexable_content" => "Foo",
       "kind" => "guide",
       "latest_change_note" => nil,
       "name" => "Get a copy of military service records",

@@ -18,7 +18,6 @@ Panopticon is an application originally built to act as a central repository for
 | Creating tags (via API) | Creating tags is done in [collections-publisher](https://github.com/alphagov/collections-publisher). Once nothing is using tags from the content-api this feature can be removed | Partially done |
 | Creating artefacts for [mainstream publisher](https://github.com/alphagov/publisher) | To be decided | Not started |
 | Specifying related items | To be decided | Not started |
-| Sending data to Rummager | The [publishing-api](https://github.com/alphagov/publishing-api) will send the content item to the message queue, which will be picked up by [rummager](https://github.com/alphagov/rummager) | Not started |
 | Syncing links from publishing-api ([see](#running-the-message-queue)) | Frontend apps will start using the content-store for the taggings | Not started |
 | See a history of document changes | To be decided | Not started |
 
@@ -40,7 +39,6 @@ Panopticon shares a database with [Mainstream Publisher](https://github.com/alph
 
 - [publishing-api](https://github.com/alphagov/publishing-api) for registering URLs.
 - [router-api](https://github.com/alphagov/router-api) also for registering URLs.
-- [rummager](https://github.com/alphagov/rummager) for sending data to search.
 
 ### Running the application
 

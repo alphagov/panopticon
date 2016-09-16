@@ -17,7 +17,6 @@ class OrganisationSlugChanger
   def change_organisation_slug
     update_organisation_slug
     update_associated_artefacts
-    reindex_updated_artefacts
   end
 
 private
@@ -52,15 +51,5 @@ private
     artefact.organisation_ids = (artefact.organisation_ids - [old_slug] + [new_slug])
     artefact.save_as_task!('OrganisationSlugChanger')
     logger.info "   -> Updated tags for artefact '#{artefact.slug}'"
-  end
-
-  def reindex_artefact(artefact)
-    RummageableArtefact.new(artefact).submit
-    logger.info "   -> Reindexed artefact '#{artefact.slug}'"
-  end
-
-  def reindex_updated_artefacts
-    logger.info "Reindexing #{reindexable_artefacts.count} updated artefacts in search"
-    reindexable_artefacts.each { |a| reindex_artefact(a) }
   end
 end

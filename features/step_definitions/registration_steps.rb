@@ -80,27 +80,6 @@ Then /^the relevant artefact should not be updated$/ do
   assert 'Something simpler' != artefact_data_from_api(@artefact)[:name]
 end
 
-Then /^rummager should be notified$/ do
-  assert_requested @fake_search, times: 1  # The default, but let's be explicit
-end
-
-Then /^rummager should be told to do a partial update$/ do
-  amendments = {
-    title: "Child Benefit rates",
-    format: "answer",
-    "mainstream_browse_pages" => ["crime"],
-  }
-  assert_requested :post, artefact_search_url(@artefact), body: amendments
-end
-
-Then /^rummager should not be notified$/ do
-  assert_not_requested @fake_search
-end
-
 Then /^the artefact state should be archived$/ do
   assert_equal 'archived', Artefact.last.state
-end
-
-Then /^rummager should be notified of the delete$/ do
-  assert_requested @fake_search_delete, times: 1  # The default, but let's be explicit
 end

@@ -13,8 +13,6 @@ gem 'govuk_message_queue_consumer', '~> 3.0.1'
 gem 'rails', '4.2.7.1'
 gem 'unicorn', '4.3.1'
 
-gem 'rummageable', '1.0.1'
-
 gem 'mongoid_rails_migrations', '1.0.0'
 gem 'kaminari', '0.14.1'
 gem 'bootstrap-kaminari-views', '0.0.3'

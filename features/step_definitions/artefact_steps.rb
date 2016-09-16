@@ -11,11 +11,11 @@ Given /^two artefacts exist$/ do
 end
 
 Given /^the first artefact is in draft$/ do
-  Artefact.first.update_attributes!('state' => 'draft', 'skip_update_search' => true)
+  Artefact.first.update_attributes!('state' => 'draft')
 end
 
 Given /^the first artefact is live$/ do
-  Artefact.first.update_attributes!('state' => 'live', 'skip_update_search' => true)
+  Artefact.first.update_attributes!('state' => 'live')
 end
 
 When /^I change the need ID of the first artefact$/ do
