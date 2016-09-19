@@ -3,7 +3,7 @@
     <%= render "artefacts/form/related_artefacts", f: f, artefact: artefact %>
 
     <% if artefact.owning_app.in?(%w[publisher smartanswers]) %>
-      <%= render "artefacts/form/related_external_links", f: f, artefact: artefact %>
+        <label class="section-label">Related external links</label><br /> This functionality has been moved to <strong>Publisher</strong>.
     <% end %>
   <% end %>
 </div>
