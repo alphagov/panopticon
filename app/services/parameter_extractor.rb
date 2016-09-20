@@ -37,8 +37,6 @@ class ParameterExtractor
     tag_ids: [],
     tags: [],
     writing_teams: [],
-
-    external_links_attributes: [:title, :url, :id, :_destroy],
   ].freeze
 
   # The last element is actually a hash of all the elements with an array-type.
