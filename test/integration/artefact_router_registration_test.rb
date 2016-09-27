@@ -15,7 +15,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
   setup do
     stub_user
-    stub_all_rummager_requests
 
     @router_api_base = Plek.current.find('router-api')
     @route_commit_request = WebMock.stub_request(:post, "#{@router_api_base}/routes/commit").to_return(:status => 200)

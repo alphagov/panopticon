@@ -68,10 +68,6 @@ class ActiveSupport::TestCase
     WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(:status => 200)
   end
 
-  def stub_all_rummager_requests
-    WebMock.stub_request(:any, %r{\A#{SearchIndex.rummager_host}})
-  end
-
   def stub_artefact_callbacks
     Artefact.any_instance.stubs(:update_router)
     Artefact.any_instance.stubs(:update_search)

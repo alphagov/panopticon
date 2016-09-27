@@ -6,7 +6,6 @@ class ParameterExtractor
     :content_id,
     :created_at,
     :description,
-    :indexable_content,
     :kind,
     :language,
     :latest_change_note,

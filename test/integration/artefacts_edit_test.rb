@@ -4,7 +4,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
   setup do
     create_test_user
     stub_all_router_api_requests
-    stub_all_rummager_requests
   end
 
   context "when editing an artefact from a publishing app" do

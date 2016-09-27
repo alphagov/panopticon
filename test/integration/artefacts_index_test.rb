@@ -36,7 +36,6 @@ class ArtefactsIndexTest < ActionDispatch::IntegrationTest
       # this stops the tests blowing up when we create an Artefact with
       # a state of 'live' or 'archived'
       stub_all_router_api_requests
-      stub_all_rummager_requests
     end
 
     context "with no filters" do

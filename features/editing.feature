@@ -33,7 +33,6 @@ Feature: Editing artefacts
       And the first artefact is in draft
     When I change the need ID of the first artefact
       And I save
-    Then rummager should not be notified
 
   Scenario: Editing the links of an Artefact
     Given an artefact exists

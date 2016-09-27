@@ -6,7 +6,6 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
 
   setup do
     create_test_user
-    stub_all_rummager_requests
   end
 
   context "for a whitehall artefact" do
