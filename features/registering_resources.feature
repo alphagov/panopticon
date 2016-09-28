@@ -33,3 +33,4 @@ Feature: Registering resources
   Scenario: Deleting an item
     When I delete an artefact
     Then the artefact state should be archived
+      And it should be removed from search

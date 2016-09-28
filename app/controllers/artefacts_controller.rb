@@ -115,8 +115,9 @@ class ArtefactsController < ApplicationController
     if @artefact.update_attributes_as(
       current_user,
       state: "archived",
-      redirect_url: redirect_url)
-
+      redirect_url: redirect_url
+    )
+      RemoveFromSearch.call(@artefact.slug)
       respond_with(@artefact) do |format|
         format.json { head 200 }
         format.html { redirect_to artefacts_path }

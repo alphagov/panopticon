@@ -548,6 +548,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         context "for a relative path" do
           should "mark an artefact as archived" do
             stub_all_router_registration
+            RemoveFromSearch.expects(:call).with(@artefact.slug)
 
             delete :destroy, id: @artefact.id, format: :json,
                              artefact: { redirect_url: "/whenever" }
@@ -558,6 +559,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           end
 
           should "add a redirect route" do
+            RemoveFromSearch.expects(:call).with(@artefact.slug)
             redirect, commit = stub_redirect_registration "/whatever",
                                                           "exact",
                                                           "/whenever",
@@ -574,6 +576,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         context "for a GOV.UK absolute URL path" do
           should "mark an artefact as archived" do
             stub_all_router_registration
+            RemoveFromSearch.expects(:call).with(@artefact.slug)
 
             delete :destroy, id: @artefact.id, format: :json,
                              artefact: { redirect_url: "https://gov.uk/whenever" }
@@ -584,6 +587,7 @@ class ArtefactsControllerTest < ActionController::TestCase
           end
 
           should "add a redirect route" do
+            RemoveFromSearch.expects(:call).with(@artefact.slug)
             redirect, commit = stub_redirect_registration "/whatever",
                                                           "exact",
                                                           "/whenever",
@@ -610,6 +614,7 @@ class ArtefactsControllerTest < ActionController::TestCase
 
       context "when a redirect is not requested" do
         should "mark an artefact as archived" do
+          RemoveFromSearch.expects(:call).with(@artefact.slug)
           stub_all_router_registration
 
           delete :destroy, id: @artefact.id, format: :json
@@ -620,6 +625,7 @@ class ArtefactsControllerTest < ActionController::TestCase
         end
 
         should "add a Gone route" do
+          RemoveFromSearch.expects(:call).with(@artefact.slug)
           gone, commit = stub_gone_route_registration "/whatever", "exact"
 
           delete :destroy, id: @artefact.id, format: :json

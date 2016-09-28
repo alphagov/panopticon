@@ -83,3 +83,8 @@ end
 Then /^the artefact state should be archived$/ do
   assert_equal 'archived', Artefact.last.state
 end
+
+Then(/^it should be removed from search$/) do
+  assert_requested @fake_search_delete
+end
+

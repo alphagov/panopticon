@@ -49,6 +49,10 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
       without_artefact_callbacks do
         @artefact = FactoryGirl.create(:live_artefact, paths: ["/foo"])
       end
+      WebMock.stub_request(
+        :delete,
+        "http://rummager.dev.gov.uk/content?link=/#{@artefact.slug}"
+      )
     end
 
     should "show the withdraw tab" do
