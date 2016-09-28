@@ -7,6 +7,7 @@ require "sprockets/railtie"
 require 'kaminari' # has to be loaded before the models, otherwise the methods aren't added
 require "govuk_content_models"
 require "gds_api/publishing_api"
+require "gds_api/rummager"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -45,6 +46,10 @@ module Panopticon
         Plek.current.find('publishing-api'),
         bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
       )
+    end
+
+    def rummager
+      @rummager ||= GdsApi::Rummager.new(Plek.current.find('rummager'))
     end
   end
 end
