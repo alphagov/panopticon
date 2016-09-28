@@ -2,10 +2,6 @@ Given /^I have stubbed the router$/ do
   stub_router
 end
 
-Given /^I have stubbed search$/ do
-  stub_search
-end
-
 Given /^I have stubbed publishing-api$/ do
   stub_publishing_api
 end

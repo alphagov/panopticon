@@ -3,8 +3,6 @@ require 'gds_api/test_helpers/publishing_api'
 module RegistrationInfo
   include GdsApi::TestHelpers::PublishingApi
 
-  SEARCH_ROOT = "http://search.dev.gov.uk/mainstream"
-
   def example_smart_answer
     {
       "need_ids"          => ["102012"],
@@ -35,7 +33,6 @@ module RegistrationInfo
 
   def prepare_registration_environment(artefact = example_smart_answer)
     setup_user
-    stub_search
   end
 
   def setup_user
@@ -46,22 +43,11 @@ module RegistrationInfo
     WebMock.stub_request(:any, %r{\A#{Plek.current.find('router-api')}/}).to_return(:status => 200)
   end
 
-  def stub_search
-    @fake_search = WebMock.stub_request(:post, "#{SEARCH_ROOT}/documents").to_return(status: 200)
-    @fake_search_amend = WebMock.stub_request(:post, %r{^#{Regexp.escape SEARCH_ROOT}/documents/.*$}).to_return(status: 200)
-  end
-
   def stub_search_delete
     @fake_search_delete = WebMock.stub_request(
       :delete,
       "http://rummager.dev.gov.uk/content?link=/#{@artefact.slug}"
     ).to_return(status: 200)
-  end
-
-  def artefact_search_url(artefact)
-    # The search URL to which amendment requests should be POSTed
-    link = "/#{artefact.slug}"
-    "#{SEARCH_ROOT}/documents/#{CGI.escape link}"
   end
 
   def setup_existing_artefact
