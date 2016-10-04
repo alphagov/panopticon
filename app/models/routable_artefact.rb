@@ -25,14 +25,10 @@ class RoutableArtefact
   end
 
   def submit(options = {})
+    return if artefact.owning_app == "whitehall"
+
     if artefact.live?
       register
-    elsif artefact.owning_app == "whitehall"
-      if artefact.kind == "detailed_guide" && artefact.archived?
-        register
-      else
-        return
-      end
     elsif artefact.archived? && artefact.redirect_url.present?
       redirect(artefact.redirect_url)
     elsif artefact.archived?
