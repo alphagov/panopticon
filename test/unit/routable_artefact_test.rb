@@ -15,38 +15,9 @@ class RoutableArtefactTest < ActiveSupport::TestCase
         @routable.stubs(:ensure_backend_exists).returns true
       end
 
-      should "register the route" do
-        @routable.expects(:register)
-        @routable.expects(:commit)
-
-        @routable.submit
-      end
-
-      should "register the route for an archived detailed guide" do
-        @routable.expects(:register)
-        @routable.expects(:commit)
-
-        @artefact.kind = "detailed_guide"
-        @artefact.state = "archived"
-
-        @routable.submit
-      end
-
-      should "not set an archived route as Gone" do
-        @routable.expects(:delete).never
-        @routable.expects(:commit).never
-
-        @artefact.state = "archived"
-
-        @routable.submit
-      end
-
-      should "not add a redirect" do
-        @routable.expects(:redirect).never
-        @routable.expects(:commit).never
-
-        @artefact.state = "archived"
-        @artefact.redirect_url = "/bar"
+      should "not register the route" do
+        @routable.expects(:register).times(0)
+        @routable.expects(:commit).times(0)
 
         @routable.submit
       end
