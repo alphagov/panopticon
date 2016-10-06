@@ -15,7 +15,7 @@
   <li class="<%= "active" if controller.action_name == "history" %>">
     <%= link_to "History", history_artefact_path(@artefact) %>
   </li>
-  <% unless @artefact.archived? || @artefact.owning_app == 'whitehall' %>
+  <% unless @artefact.archived? || @artefact.owning_app != 'publisher' %>
     <li class="<%= "active" if controller.action_name == "withdraw" %>">
       <%= link_to "Withdraw", withdraw_artefact_path(@artefact) %>
       </li>

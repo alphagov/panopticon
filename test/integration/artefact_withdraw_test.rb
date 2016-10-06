@@ -8,10 +8,10 @@ class ArtefactWithdrawTest < ActionDispatch::IntegrationTest
     create_test_user
   end
 
-  context "for a whitehall artefact" do
+  context "for an artefact not owned by publisher" do
     setup do
       without_artefact_callbacks do
-        @artefact = FactoryGirl.create(:whitehall_live_artefact, paths: ["/foo"])
+        @artefact = FactoryGirl.create(:artefact, owning_app: SecureRandom.hex, paths: ["/foo"])
       end
     end
 

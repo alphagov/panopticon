@@ -37,7 +37,7 @@ class ArtefactsController < ApplicationController
   end
 
   def withdraw
-    if @artefact.archived? || @artefact.owning_app == 'whitehall'
+    if @artefact.archived? || @artefact.owning_app != 'publisher'
       redirect_to root_path
     end
   end
