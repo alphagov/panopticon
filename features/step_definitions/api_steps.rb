@@ -1,5 +1,6 @@
 Then /^the API should say that the artefacts are related$/ do
   check_artefact_has_related_artefact_in_api @artefact, @related_artefact
+  assert_requested @request_to_patch_links
 end
 
 Then /^the API should say that the artefacts are not related$/ do

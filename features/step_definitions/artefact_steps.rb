@@ -30,6 +30,8 @@ When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
 end
 
 When /^I save$/ do
+  stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
+
   click_button 'Save and continue editing'
 end
 
@@ -38,6 +40,7 @@ Then /^I should be redirected back to the edit page$/ do
 end
 
 When /^I save, indicating that I want to continue editing afterwards$/ do
+  stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
   click_button 'Save and continue editing'
 end
 
@@ -54,6 +57,9 @@ Then /^I should see an indication that the save worked$/ do
 end
 
 When /^I create a relationship between them$/ do
+  @request_to_patch_links = stub_request(:patch, "http://publishing-api.dev.gov.uk/v2/links/#{@artefact.content_id}").
+    to_return(body: {}.to_json)
+
   visit edit_artefact_path(@artefact)
   select_related_artefact @related_artefact
 end

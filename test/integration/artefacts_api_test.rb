@@ -5,6 +5,7 @@ class ArtefactsAPITest < ActiveSupport::TestCase
   setup do
     create_test_user
     header "Content-Type", "application/json"
+    stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
   end
 
   context "artefacts index" do

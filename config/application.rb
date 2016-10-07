@@ -8,6 +8,7 @@ require 'kaminari' # has to be loaded before the models, otherwise the methods a
 require "govuk_content_models"
 require "gds_api/publishing_api"
 require "gds_api/rummager"
+require "gds_api/publishing_api_v2"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -43,6 +44,13 @@ module Panopticon
 
     def publishing_api
       @publishing_api ||= GdsApi::PublishingApi.new(
+        Plek.current.find('publishing-api'),
+        bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
+      )
+    end
+
+    def publishing_api_v2
+      @publishing_api_v2 ||= GdsApi::PublishingApiV2.new(
         Plek.current.find('publishing-api'),
         bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
       )

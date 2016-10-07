@@ -5,6 +5,7 @@ require 'gds_api/test_helpers/router'
 class ArtefactsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
+    stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
   end
 
   context "GET search_relatable_items" do
