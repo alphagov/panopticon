@@ -9,6 +9,10 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include ArtefactNeedIdsFormFiller
 
+  setup do
+    stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
+  end
+
   teardown do
     Capybara.use_default_driver
   end
