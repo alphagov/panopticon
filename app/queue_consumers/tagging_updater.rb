@@ -34,7 +34,6 @@ private
   # Panopticon still uses deprecated names for the tags.
   TAG_MAPPING = {
     "mainstream_browse_pages" => "section",
-    "organisations" => "organisation",
     "topics" => "specialist_sector",
   }
 
