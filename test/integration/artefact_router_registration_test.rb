@@ -4,7 +4,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
   def artefact_details_hash(attrs = {})
     {
       :slug => "foo",
-      :owning_app => "a-backend",
+      :owning_app => "publisher",
       :kind => "answer",
       :state => "draft",
       :name => "Foo",
@@ -18,7 +18,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
     @router_api_base = Plek.current.find('router-api')
     @route_commit_request = WebMock.stub_request(:post, "#{@router_api_base}/routes/commit").to_return(:status => 200)
-    @backend_request = WebMock.stub_request(:put, "#{@router_api_base}/backends/a-backend").to_return(:status => 200)
+    @backend_request = WebMock.stub_request(:put, "#{@router_api_base}/backends/publisher").to_return(:status => 200)
     @route_add_request = WebMock.stub_request(:put, "#{@router_api_base}/routes").
       with(:body => {"route" => hash_including("incoming_path" => "/foo", "route_type" => "prefix")}).
       to_return(:status => 201)
@@ -46,7 +46,7 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
   context "updating an artefact" do
     setup do
-      FactoryGirl.create(:artefact, :slug => "foo", :owning_app => 'a-backend')
+      FactoryGirl.create(:artefact, :slug => "foo", :owning_app => 'publisher')
     end
 
     should "not register with the router when the updated artefact is in draft" do

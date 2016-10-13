@@ -26,7 +26,7 @@ namespace :data_hygiene do
     csv_out << %w(content_id tag_type count)
     buffer = []
 
-    artefacts = Artefact.where(owning_app: "whitehall", state: "live", :tags.ne => [], :content_id.ne => nil)
+    artefacts = Artefact.where(owning_app: OwningApp::WHITEHALL, state: "live", :tags.ne => [], :content_id.ne => nil)
 
     artefacts.each do |artefact|
       tag_type_counts = artefact.tags

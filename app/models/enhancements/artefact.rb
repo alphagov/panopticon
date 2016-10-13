@@ -48,7 +48,7 @@ class Artefact
   end
 
   def name_with_owner_prefix
-    (owning_app == "whitehall" ? "[Whitehall] " : "[Mainstream] ") + name
+    (owning_app == OwningApp::WHITEHALL ? "[Whitehall] " : "[Mainstream] ") + name
   end
 
   def update_router
