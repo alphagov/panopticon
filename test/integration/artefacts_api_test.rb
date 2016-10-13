@@ -215,30 +215,6 @@ class ArtefactsAPITest < ActiveSupport::TestCase
         assert_equal 'draft', @artefact.state
       end
 
-      should "update the artefact with mainstream browse pages" do
-
-        FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business", parent_id: nil, title: "Business")
-        FactoryGirl.create(:live_tag, tag_type: "section", tag_id: "business/employing-people", parent_id: "business", title: "Employing people")
-
-        artefact_data = {
-            'slug' => 'wibble',
-            'name' => 'Wibble 2 - the return',
-            'kind' => 'answer',
-            'description' => 'Wibble description',
-            'owning_app' => 'publisher',
-            'rendering_app' => 'frontend',
-            'state' => 'draft',
-            'sections' => ['business/employing-people'],
-        }
-
-        put "/artefacts/wibble.json", artefact_data.to_json
-
-        assert_equal 200, last_response.status
-
-        @artefact.reload
-        assert_equal ['business/employing-people'], @artefact.tags.map(&:tag_id)
-      end
-
       should "add content_id to an artefact that does not have one" do
         artefact_data = { 'content_id' => '105e2299-dcfe-4301-b8e0-56959ce95ec0' }
 

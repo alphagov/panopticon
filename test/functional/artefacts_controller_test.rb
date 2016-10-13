@@ -442,29 +442,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal [tag2.tag_id, tag1.tag_id], artefact.sections.map(&:tag_id)
       end
 
-      should "Update the specialist sectors and ensure it persists into tags" do
-        tag1 = FactoryGirl.create(:live_tag, tag_id: "fizzy-drinks", title: "Fizzy drinks", tag_type: "specialist_sector")
-        tag2 = FactoryGirl.create(:live_tag, tag_id: "confectionery", title: "Confectionery", tag_type: "specialist_sector")
-
-        artefact = Artefact.new(:slug => 'a-history-of-chocolate', :kind => 'guide',
-                                    :owning_app => 'publisher', :name => 'A history of chocolate', :need_ids => ['100001'])
-        artefact.specialist_sectors = [tag1.tag_id]
-        artefact.save!
-
-        put :update, :id => artefact.id, :specialist_sectors => [tag1.tag_id, tag2.tag_id]
-
-        artefact.reload
-        assert_equal [tag1.tag_id, tag2.tag_id], artefact.specialist_sectors.map(&:tag_id)
-        assert_equal [tag1.tag_id, tag2.tag_id], artefact.tags.map(&:tag_id)
-
-        # try the case when a request is made without the 'artefact' param
-        put :update, :id => artefact.id, :specialist_sectors => [tag1.tag_id]
-
-        artefact.reload
-        assert_equal [tag1.tag_id], artefact.specialist_sectors.map(&:tag_id)
-        assert_equal [tag1.tag_id], artefact.tags.map(&:tag_id)
-      end
-
       should "Reject JSON requests to update an artefact's owning app" do
         artefact = Artefact.create!(
           slug: "whatever",
@@ -478,34 +455,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         put :update, id: artefact.id, "CONTENT_TYPE" => "application/json", owning_app: 'smartanswers'
         assert_equal 409, response.status
         assert response.body.include? "publisher"
-      end
-
-      should "convert nil values for tag attributes to an empty array" do
-        artefact = FactoryGirl.create(:artefact)
-
-        stub_current_user = stub("User", has_permission?: true)
-        @controller.stubs(:current_user).returns(stub_current_user)
-
-        Artefact.any_instance.expects(:update_attributes_as)
-                              .with(stub_current_user, has_entry("specialist_sectors", []))
-                              .returns(true)
-
-        put :update, id: artefact.id, format: :json, specialist_sectors: nil
-        assert response.ok?
-      end
-
-      should "not populate empty arrays for tag types which haven't been provided" do
-        artefact = FactoryGirl.create(:artefact)
-
-        stub_current_user = stub("User", has_permission?: true)
-        @controller.stubs(:current_user).returns(stub_current_user)
-
-        Artefact.any_instance.expects(:update_attributes_as)
-                              .with(stub_current_user, Not(has_key("specialist_sectors")))
-                              .returns(true)
-
-        put :update, id: artefact.id, format: :json # not providing 'specialist_sectors' here
-        assert response.ok?
       end
 
       should "split need_ids if they come in as comma-separated values" do
