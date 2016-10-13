@@ -11,7 +11,7 @@ namespace :detailed_guide do
 
         begin
           path = Rails.application.publishing_api.put_path("/#{new_slug}",
-            "publishing_app" => "whitehall")
+            "publishing_app" => OwningApp::WHITEHALL)
           detailed_guide.set(:slug, new_slug)
           puts "Renamed #{old_slug} to #{new_slug} (#{i+1}/#{count})"
         rescue GdsApi::HTTPClientError => e

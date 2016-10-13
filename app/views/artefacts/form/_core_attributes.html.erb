@@ -7,6 +7,6 @@
 
   <% if f.object.new_record? %>
     <%= f.input :kind, :collection => manageable_formats.map { |s| [s.humanize, s]}, :as => :select, :prompt => "Select a kind", :input_html => { :class => "input-md-4" } %>
-    <%= f.input :owning_app, :as => :hidden, :input_html => {:value => "publisher"} %>
+    <%= f.input :owning_app, :as => :hidden, :input_html => {:value => OwningApp::PUBLISHER } %>
   <% end %>
 </div>

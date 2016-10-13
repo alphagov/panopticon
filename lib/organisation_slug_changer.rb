@@ -39,7 +39,7 @@ private
   end
 
   def reindexable_artefacts
-    Artefact.where(:state => 'live', :tag_ids => new_slug, :owning_app.ne => 'whitehall')
+    Artefact.where(:state => 'live', :tag_ids => new_slug, :owning_app.ne => OwningApp::WHITEHALL)
   end
 
   def update_organisation_slug

@@ -37,7 +37,7 @@ class ArtefactsController < ApplicationController
   end
 
   def withdraw
-    if @artefact.archived? || @artefact.owning_app != 'publisher'
+    if @artefact.archived? || @artefact.owning_app != OwningApp::PUBLISHER
       redirect_to root_path
     end
   end
@@ -52,14 +52,14 @@ class ArtefactsController < ApplicationController
   end
 
   def create
-    if @artefact.owning_app == "publisher"
+    if @artefact.owning_app == OwningApp::PUBLISHER
       @artefact.content_id = SecureRandom.uuid
     end
 
     @artefact.save_as current_user
     continue_editing = (params[:commit] == 'Save and continue editing')
 
-    if continue_editing || @artefact.owning_app != "publisher"
+    if continue_editing || @artefact.owning_app != OwningApp::PUBLISHER
       location = edit_artefact_path(@artefact.id)
     else
       location = admin_url_for_edition(@artefact, params.slice(:return_to))
@@ -98,7 +98,7 @@ class ArtefactsController < ApplicationController
       format.html do
         continue_editing = (params[:commit] == 'Save and continue editing')
 
-        if saved && (continue_editing || (@artefact.owning_app != "publisher"))
+        if saved && (continue_editing || (@artefact.owning_app != OwningApp::PUBLISHER))
           redirect_to edit_artefact_path(@artefact)
         else
           @artefact_form = ArtefactForm.new(@artefact)

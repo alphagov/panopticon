@@ -100,14 +100,14 @@ class RoutableArtefact
 
 
   def allowed_to_register_routes_here_even_though_it_should_use_the_publishing_api?
-    %w[
-      business-support-finder
-      calculators
-      calendars
-      license-finder
-      publisher
-      smart-answers
-    ].include?(artefact.owning_app)
+    artefact.owning_app.in?([
+      OwningApp::BUSINESS_SUPPORT_FINDER,
+      OwningApp::CALCULATORS,
+      OwningApp::CALENDARS,
+      OwningApp::LICENCE_FINDER,
+      OwningApp::PUBLISHER,
+      OwningApp::SMART_ANSWERS,
+    ])
   end
 
   def rendering_app

@@ -49,7 +49,7 @@ private
       artefact.set_tags_of_type(panopticon_tag_name, new_tags.map(&:tag_id))
     end
 
-    unless content_item.fetch('publishing_app') == 'travel-advice-publisher'
+    unless content_item.fetch('publishing_app') == OwningApp::TRAVEL_ADVICE_PUBLISHER
       if content_item['links']['parent']
         parent = Tag.where(:content_id.in => content_item['links']['parent']).first
 

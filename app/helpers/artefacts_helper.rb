@@ -12,7 +12,7 @@ module ArtefactsHelper
   end
 
   def manageable_formats
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP['publisher']
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP[OwningApp::PUBLISHER]
   end
 
   def related_artefacts_json(related_artefacts)
