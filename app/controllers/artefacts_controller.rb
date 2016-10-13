@@ -48,7 +48,6 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
-    @artefact_form = ArtefactForm.new(@artefact)
   end
 
   def create
@@ -101,7 +100,6 @@ class ArtefactsController < ApplicationController
         if saved && (continue_editing || (@artefact.owning_app != OwningApp::PUBLISHER))
           redirect_to edit_artefact_path(@artefact)
         else
-          @artefact_form = ArtefactForm.new(@artefact)
           respond_with @artefact, status: status_to_use
         end
       end
