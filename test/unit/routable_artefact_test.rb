@@ -12,7 +12,6 @@ class RoutableArtefactTest < ActiveSupport::TestCase
                                        owning_app: ["whitehall", SecureRandom.hex].sample,
                                        paths: ["/foo"])
         @routable = RoutableArtefact.new(@artefact)
-        @routable.stubs(:ensure_backend_exists).returns true
       end
 
       should "not register the route" do
@@ -30,7 +29,6 @@ class RoutableArtefactTest < ActiveSupport::TestCase
                                        owning_app: "publisher",
                                        paths: ["/foo"])
         @routable = RoutableArtefact.new(@artefact)
-        @routable.stubs(:ensure_backend_exists).returns true
       end
 
       should "register the route" do
@@ -63,33 +61,9 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "registering routes for an artefact" do
     setup do
-      stub_router_backend_registration("publisher", "http://publisher.dev.gov.uk/")
       @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
       @routable = RoutableArtefact.new(@artefact)
       stub_all_router_registration
-    end
-
-    context "ensuring the backend exists in the router" do
-      should "use the rendering_app if set" do
-        @artefact.rendering_app = "fooey"
-        request = stub_router_backend_registration("fooey", "http://fooey.dev.gov.uk/")
-        @routable.register
-        assert_requested request
-      end
-
-      should "use the owning_app if rendering_app not set" do
-        @artefact.rendering_app = nil
-        request = stub_router_backend_registration("publisher", "http://publisher.dev.gov.uk/")
-        @routable.register
-        assert_requested request
-      end
-
-      should "use the owning_app if rendering_app is blank" do
-        @artefact.rendering_app = ""
-        request = stub_router_backend_registration("publisher", "http://publisher.dev.gov.uk/")
-        @routable.register
-        assert_requested request
-      end
     end
 
     should "add all defined prefix routes" do
@@ -132,7 +106,6 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "deleting routes for an artefact" do
     setup do
-      stub_router_backend_registration("publisher", "http://publisher.dev.gov.uk/")
       @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
       @routable = RoutableArtefact.new(@artefact)
     end
@@ -205,7 +178,6 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "redirecting routes for an artefact" do
     setup do
-      stub_router_backend_registration("publisher", "http://publisher.dev.gov.uk/")
       @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
       @routable = RoutableArtefact.new(@artefact)
     end

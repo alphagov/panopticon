@@ -17,13 +17,6 @@ class RoutableArtefact
     @router_api ||= GdsApi::Router.new(Plek.current.find('router-api'))
   end
 
-  # Ensure the backend app exists in the router so that the routes below
-  # can reference it.
-  def ensure_backend_exists
-    backend_url = Plek.current.find(rendering_app, :force_http => true) + "/"
-    router_api.add_backend(rendering_app, backend_url)
-  end
-
   def submit(options = {})
     unless allowed_to_register_routes_here_even_though_it_should_use_the_publishing_api?
       return
@@ -47,7 +40,6 @@ class RoutableArtefact
   end
 
   def register
-    ensure_backend_exists
     prefixes.each do |path|
       logger.debug("Registering route #{path} (prefix) => #{rendering_app}")
       router_api.add_route(path, "prefix", rendering_app)

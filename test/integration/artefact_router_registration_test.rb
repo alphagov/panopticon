@@ -18,7 +18,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
 
     @router_api_base = Plek.current.find('router-api')
     @route_commit_request = WebMock.stub_request(:post, "#{@router_api_base}/routes/commit").to_return(:status => 200)
-    @backend_request = WebMock.stub_request(:put, "#{@router_api_base}/backends/publisher").to_return(:status => 200)
     @route_add_request = WebMock.stub_request(:put, "#{@router_api_base}/routes").
       with(:body => {"route" => hash_including("incoming_path" => "/foo", "route_type" => "prefix")}).
       to_return(:status => 201)
@@ -29,7 +28,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "draft")
       assert_equal 201, response.code.to_i
 
-      assert_not_requested @backend_request
       assert_not_requested @route_add_request
       assert_not_requested @route_commit_request
     end
@@ -38,7 +36,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "live")
       assert_equal 201, response.code.to_i
 
-      assert_requested @backend_request
       assert_requested @route_add_request
       assert_requested @route_commit_request
     end
@@ -53,7 +50,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "draft")
       assert_equal 200, response.code.to_i
 
-      assert_not_requested @backend_request
       assert_not_requested @route_add_request
       assert_not_requested @route_commit_request
     end
@@ -62,7 +58,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "live")
       assert_equal 200, response.code.to_i
 
-      assert_requested @backend_request
       assert_requested @route_add_request
       assert_requested @route_commit_request
     end
@@ -78,7 +73,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "live", :paths => ["/foo.json"], :prefixes => ["/foo", "/bar"])
       assert_equal 200, response.code.to_i
 
-      assert_requested @backend_request
       assert_requested @route_add_request
       assert_requested r2
       assert_requested r3
@@ -96,7 +90,6 @@ class ArtefactRouterRegistrationTest < ActionDispatch::IntegrationTest
       put_json "/artefacts/foo.json", artefact_details_hash(:state => "archived")
       assert_equal 200, response.code.to_i
 
-      assert_not_requested @backend_request
       assert_requested delete_request
       assert_requested @route_commit_request
     end
