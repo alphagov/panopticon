@@ -11,12 +11,9 @@ class ParameterExtractorTest < ActiveSupport::TestCase
         "live" => "1",
         "name" => "This is a test",
         "need_ids" => "123123,321321",
-        "organisation_ids" => ["", "accelerated-access-review"],
         "owning_app" => "publisher",
         "related_artefact_slugs" => "",
-        "sections" => ["visas-immigration/arriving-in-the-uk", "working/armed-forces"],
         "slug" => "my-super-test",
-        "specialist_sector_ids" => ["", "animal-welfare/pets"],
       },
       "commit" => "Save and continue editing" )
 
@@ -27,12 +24,9 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "language" => "en",
       "name" => "This is a test",
       "need_ids" => ["123123", "321321"],
-      "organisation_ids" => ["accelerated-access-review"],
       "owning_app" => "publisher",
       "related_artefact_slugs" => [],
-      "sections" => ["visas-immigration/arriving-in-the-uk", "working/armed-forces"],
       "slug" => "my-super-test",
-      "specialist_sector_ids" => ["animal-welfare/pets"],
       "state" => "live",
     }
     assert_equal expected, result
@@ -45,7 +39,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "artefact" => {
         "slug" => "my-super-test",
         "related_artefact_slugs" => "",
-        "organisation_ids" => ["", "accelerated-access-review"],
         "need_ids" => "121231,123123",
         "language" => "en",
       },
@@ -60,7 +53,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "slug" => "my-super-test",
       "need_ids" => ["121231", "123123"],
       "language" => "en",
-      "organisation_ids"=>["accelerated-access-review"]
     }
     assert_equal expected, result
   end
@@ -92,9 +84,7 @@ class ParameterExtractorTest < ActiveSupport::TestCase
        "prefixes" => ["/get-copy-military-service-records"],
        "public_timestamp" => "2015-09-24T11:14:16.000+01:00",
        "rendering_app" => "frontend",
-       "sections" => ["births-deaths-marriages/register-offices", "working/armed-forces"],
        "slug" => "get-copy-military-service-records",
-       "specialist_sectors" => nil,
        "state" => "live",
       }
     })
@@ -111,9 +101,7 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "prefixes" => ["/get-copy-military-service-records"],
       "public_timestamp" => "2015-09-24T11:14:16.000+01:00",
       "rendering_app" => "frontend",
-      "sections" => ["births-deaths-marriages/register-offices", "working/armed-forces"],
       "slug" => "get-copy-military-service-records",
-      "specialist_sectors" => [],
       "state" => "live",
     }
     assert_equal expected, result

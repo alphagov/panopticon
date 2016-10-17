@@ -23,18 +23,11 @@ class ParameterExtractor
 
     keywords: [],
     need_ids: [],
-    organisation_ids: [],
-    organisations: [],
     paths: [],
     prefixes: [],
     propositions: [],
     related_artefact_ids: [],
     related_artefact_slugs: [],
-    sections: [],
-    specialist_sector_ids: [],
-    specialist_sectors: [],
-    tag_ids: [],
-    tags: [],
     writing_teams: [],
   ].freeze
 
@@ -64,19 +57,6 @@ private
     # For legacy reasons, the API can receive live=true
     if params[:live].in?(["true", true, "1"])
       params[:state] = "live"
-    end
-
-    # Default the tags to an empty hash
-    Artefact.tag_types.each do |tag_type|
-      if params.has_key?(tag_type)
-        params[tag_type] ||= []
-      end
-    end
-
-    # Strip out the empty submit option for sections
-    %w[sections specialist_sector_ids organisation_ids].each do |param_name|
-      param_value = params[param_name]
-      param_value.reject!(&:blank?) if param_value
     end
 
     params

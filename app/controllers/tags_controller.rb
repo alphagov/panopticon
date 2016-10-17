@@ -1,7 +1,4 @@
 class TagsController < ApplicationController
-
-  TAG_TYPES = ['section', 'specialist_sector']
-
   wrap_parameters :tag
   before_filter :require_tags_permission
   before_filter :find_tag, only: [:publish, :destroy]

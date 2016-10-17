@@ -2,7 +2,7 @@
 <%= render partial: "artefact_header" %>
 
 <% if OwningApp::WHITEHALL == @artefact.owning_app %>
-  <%= render 'whitehall_form', artefact: @artefact, tag_collection: @tag_collection %>
+  <%= render 'whitehall_form', artefact: @artefact %>
 <% else %>
-  <%= render 'form', artefact: @artefact_form, tag_collection: @tag_collection %>
+  <%= render 'form', artefact: @artefact %>
 <% end %>

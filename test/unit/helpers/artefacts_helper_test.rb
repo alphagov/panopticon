@@ -39,7 +39,7 @@ class ArtefactsHelperTest < ActiveSupport::TestCase
         end
       end
 
-      %w(OrganisationSlugChanger move_content_to_new_topic).each do |task_name|
+      %w(move_content_to_new_topic).each do |task_name|
         context "when performed by #{task_name}" do
           should "show updated by a developer phrase" do
             @artefact.actions.build(task_performed_by: task_name, action_type: 'update')

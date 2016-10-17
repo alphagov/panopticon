@@ -43,9 +43,6 @@ gem 'chosen-rails', '1.4.2'
 gem 'select2-rails', '3.5.9.1'
 gem 'responders', '~> 2.0'
 
-gem 'whenever', '0.9.2', require: false
-
-
 group :development do
   gem 'quiet_assets'
 end

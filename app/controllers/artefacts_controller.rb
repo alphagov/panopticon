@@ -3,7 +3,6 @@ class ArtefactsController < ApplicationController
   before_filter :build_artefact, :only => [:create]
   before_filter :find_or_build_artefact, :only => [:update]
   before_filter :register_url_with_publishing_api, :only => [:create, :update]
-  before_filter :tag_collection, :except => [:show]
   helper_method :sort_column, :sort_direction
   wrap_parameters include: ParameterExtractor::ALLOWED_FIELD_NAMES
 
@@ -48,7 +47,6 @@ class ArtefactsController < ApplicationController
   end
 
   def edit
-    @artefact_form = ArtefactForm.new(@artefact)
   end
 
   def create
@@ -101,7 +99,6 @@ class ArtefactsController < ApplicationController
         if saved && (continue_editing || (@artefact.owning_app != OwningApp::PUBLISHER))
           redirect_to edit_artefact_path(@artefact)
         else
-          @artefact_form = ArtefactForm.new(@artefact)
           respond_with @artefact, status: status_to_use
         end
       end
@@ -150,20 +147,6 @@ class ArtefactsController < ApplicationController
       # This is here so that we can stub this out a bit more easily in the
       # functional tests.
       Artefact
-    end
-
-    def tag_collection
-      @tag_collection = Tag.where(:tag_type => 'section')
-                                     .asc(:title).to_a
-
-      title_counts = Hash.new(0)
-      @tag_collection.each do |tag|
-        title_counts[tag.title] += 1
-      end
-
-      @tag_collection.each do |tag|
-        tag.uniquely_named = title_counts[tag.title] < 2
-      end
     end
 
     def redirect_to_show_if_need_met
