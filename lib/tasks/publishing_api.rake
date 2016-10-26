@@ -15,7 +15,7 @@ namespace :publishing_api do
       Rails.application.publishing_api_v2.patch_links(
         artefact.content_id,
         links: {
-          ordered_related_items: artefact.related_artefacts.map(&:content_id).compact
+          ordered_related_items: artefact.ordered_related_artefacts.map(&:content_id).compact
         }
       )
     end
