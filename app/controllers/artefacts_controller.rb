@@ -84,12 +84,7 @@ class ArtefactsController < ApplicationController
     @actions = build_actions
 
     if saved && @artefact.content_id
-      Rails.application.publishing_api_v2.patch_links(
-        @artefact.content_id,
-        links: {
-          ordered_related_items: @artefact.related_artefacts.map(&:content_id).compact
-        }
-      )
+      RelatedLinksPublisher.new(@artefact).publish!
     end
 
     respond_with @artefact, status: status_to_use do |format|
