@@ -26,7 +26,6 @@ Panopticon provides three interfaces:
 
 - An admin UI where items can be created and their metadata edited
 - A writeable API where applications can register the content they provide
-- A read API for retrieving metadata about a given item
 
 Panopticon shares a database with [Mainstream Publisher](https://github.com/alphagov/publisher), [Content API](https://github.com/alphagov/govuk_content_api) and [Travel Advice Publisher](https://github.com/alphagov/travel-advice-publisher). They share application code via the [govuk_content_models](https://github.com/alphagov/govuk_content_models) gem.
 
