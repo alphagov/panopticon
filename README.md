@@ -10,16 +10,11 @@ Panopticon is an application originally built to act as a central repository for
 
 ## Features & deprecation
 
-| Feature | Replacement | Status |
-|---|---|---|
-| Specifying legacy source | Feature removed | Done |
-| Tagging documents | Any document on GOV.UK will be taggable in [content-tagger](https://github.com/alphagov/content-tagger) | Partially done |
-| Registering routes |  The [content-store](https://github.com/alphagov/content-store) registers routes for any content-item that doesn't have the "placeholder" format | Partially done |
-| Creating tags (via API) | Creating tags is done in [collections-publisher](https://github.com/alphagov/collections-publisher). Once nothing is using tags from the content-api this feature can be removed | Partially done |
-| Creating artefacts for [mainstream publisher](https://github.com/alphagov/publisher) | To be decided | Not started |
-| Specifying related items | To be decided | Not started |
-| Syncing links from publishing-api ([see](#running-the-message-queue)) | Frontend apps will start using the content-store for the taggings | Not started |
-| See a history of document changes | To be decided | Not started |
+This application is slowly being dismantled in favour of the new GOV.UK publishing
+platform ([publishing-api](https://github.com/alphagov/publishing-api) and
+[content-store](https://github.com/alphagov/content-store)).
+
+You can find [the status of the deprecation on the GOV.UK Wiki](https://gov-uk.atlassian.net/wiki/x/FYCoBQ).
 
 ## Nomenclature
 
