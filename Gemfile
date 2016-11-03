@@ -8,7 +8,6 @@ gem 'airbrake', '3.1.15'
 gem 'statsd-ruby', '~> 1.3.0'
 
 gem 'gds-api-adapters', '~> 30.7'
-gem 'govuk_message_queue_consumer', '~> 3.0.1'
 
 gem 'rails', '4.2.7.1'
 gem 'unicorn', '4.3.1'
