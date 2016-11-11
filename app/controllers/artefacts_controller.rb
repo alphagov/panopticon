@@ -11,7 +11,7 @@ class ArtefactsController < ApplicationController
   ITEMS_PER_PAGE = 100
 
   def index
-    @filters = params.slice(:section, :specialist_sector, :kind, :state, :search, :owned_by)
+    @filters = params.slice(:kind, :state, :search, :owned_by)
 
     scope = artefact_scope.without(:actions)
     scope = FilteredScope.new(scope, @filters).scope

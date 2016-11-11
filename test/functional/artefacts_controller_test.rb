@@ -54,18 +54,6 @@ class ArtefactsControllerTest < ActionController::TestCase
           @controller.stubs(:render)
         end
 
-        should "apply the tag scope for section filters" do
-          @scope.expects(:with_parent_tag).with(:section, "driving").returns(@scope)
-
-          get :index, section: "driving"
-        end
-
-        should "apply the tag scope for specialist sector filters" do
-          @scope.expects(:with_parent_tag).with(:specialist_sector, "oil-and-gas").returns(@scope)
-
-          get :index, specialist_sector: "oil-and-gas"
-        end
-
         should "apply the kind scope" do
           @scope.expects(:of_kind).with("answer").returns(@scope)
 
@@ -121,13 +109,11 @@ class ArtefactsControllerTest < ActionController::TestCase
         end
 
         should "combine multiple scopes together" do
-          @scope.expects(:with_parent_tag).with(:section, "driving").returns(@scope)
-          @scope.expects(:with_parent_tag).with(:specialist_sector, "oil-and-gas").returns(@scope)
           @scope.expects(:of_kind).with("answer").returns(@scope)
           @scope.expects(:in_state).with("live").returns(@scope)
           @scope.expects(:matching_query).with("foo").returns(@scope)
 
-          get :index, section: "driving", specialist_sector: "oil-and-gas", kind: "answer", state: "live", search: "foo"
+          get :index, kind: "answer", state: "live", search: "foo"
         end
       end
 
@@ -369,28 +355,6 @@ class ArtefactsControllerTest < ActionController::TestCase
         assert_equal artefact.slug, parsed['slug']
       end
 
-      should "Include section ID" do
-        FactoryGirl.create(:live_tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001']
-        artefact.sections = ['crime']
-        artefact.save!
-        get :show, id: artefact.id, format: :json
-        parsed = JSON.parse(response.body)
-
-        assert_equal artefact.section, parsed['section']
-      end
-
-      should "Include tag_ids" do
-        FactoryGirl.create(:live_tag, :tag_id => 'crime', :tag_type => 'section', :title => 'Crime')
-        artefact = Artefact.create! :slug => 'whatever', :kind => 'guide', :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001']
-        artefact.sections = ['crime']
-        artefact.save!
-        get :show, id: artefact.id, format: :json
-        parsed = JSON.parse(response.body)
-
-        assert_equal %w(crime), parsed['tag_ids'].sort
-      end
-
       should "return 404 if the artefact's not found" do
         get :show, id: 'bad-slug', format: :json
         assert_equal 404, response.code.to_i
@@ -425,21 +389,6 @@ class ArtefactsControllerTest < ActionController::TestCase
 
         artefact.reload
         assert_equal stub_user, artefact.actions.last.user
-      end
-
-      should "Update our primary section and ensure it persists into sections" do
-        tag1 = FactoryGirl.create(:live_tag, tag_id: "crime", title: "Crime", tag_type: "section")
-        tag2 = FactoryGirl.create(:live_tag, tag_id: "education", title: "Education", tag_type: "section")
-
-        artefact = Artefact.create!(:slug => 'whatever', :kind => 'guide',
-                                    :owning_app => 'publisher', :name => 'Whatever', :need_ids => ['100001'])
-        artefact.sections = [tag1.tag_id]
-        artefact.save!
-        put :update, :id => artefact.id, :primary_section => tag2.tag_id, format: 'json'
-
-        artefact.reload
-        assert_equal tag2.tag_id, artefact.primary_section.tag_id
-        assert_equal [tag2.tag_id, tag1.tag_id], artefact.sections.map(&:tag_id)
       end
 
       should "Reject JSON requests to update an artefact's owning app" do

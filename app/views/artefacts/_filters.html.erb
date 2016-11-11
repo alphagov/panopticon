@@ -3,16 +3,6 @@
 
   <%= form_tag "", method: :get do |f| %>
     <div class="form-group">
-      <label for="section">Section</label>
-      <%= select_tag :section, options_from_tags_for_select("section", @filters[:section]), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="specialist_sector">Specialist sector</label>
-      <%= select_tag :specialist_sector, options_from_tags_for_select("specialist_sector", @filters[:specialist_sector]), class: 'form-control' %>
-    </div>
-
-    <div class="form-group">
       <label for="kind">Format</label>
       <%= select_tag :kind, options_from_formats_for_select(@filters[:kind]), class: "form-control" %>
     </div>

@@ -12,7 +12,6 @@ class ParameterExtractor
     :name,
     :need_id,
     :owning_app,
-    :primary_section,
     :public_timestamp,
     :publication_id,
     :redirect_url,

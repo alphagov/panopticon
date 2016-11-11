@@ -7,12 +7,6 @@ class FilteredScope
   def scope
     scope = initial_scope
 
-    [:section, :specialist_sector].each do |tag_type|
-      if filters[tag_type].present?
-        scope = scope.with_parent_tag(tag_type, filters[tag_type])
-      end
-    end
-
     if filters[:state].present? && Artefact::STATES.include?(filters[:state])
       scope = scope.in_state(filters[:state])
     end

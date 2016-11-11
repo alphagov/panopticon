@@ -8,10 +8,6 @@ class ArtefactsHelperTest < ActiveSupport::TestCase
       assert manageable_formats.exclude?('publication')
       assert manageable_formats.exclude?('speech')
     end
-
-    should "exclude formats owned by Panopticon" do
-      assert manageable_formats.exclude?('specialist_sector')
-    end
   end
 
   context "#action_information_phrase" do

@@ -1,13 +1,4 @@
 module FilterHelper
-  def options_from_tags_for_select(tag_type, selected_value=nil)
-    tags = Tag.where(tag_type: tag_type, parent_id: nil)
-
-    tags_with_labels = tags.map {|tag| [tag.title, tag.tag_id] }
-    options = [["All", ""]] + tags_with_labels
-
-    options_for_select(options, selected_value || "")
-  end
-
   def options_from_formats_for_select(selected_value=nil)
     non_panopticon_formats = Artefact::FORMATS_BY_DEFAULT_OWNING_APP.except('panopticon').values.flatten
     formats_with_labels = non_panopticon_formats.sort.map {|format|
