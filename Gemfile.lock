@@ -41,7 +41,6 @@ GEM
     airbrake (3.1.15)
       builder
       multi_json
-    amq-protocol (2.0.1)
     ansi (1.5.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.4)
@@ -55,8 +54,6 @@ GEM
     bson (4.1.1)
     bson_ext (1.5.1)
     builder (3.2.2)
-    bunny (2.2.2)
-      amq-protocol (>= 2.0.1)
     byebug (8.2.2)
     capybara (2.1.0)
       mime-types (>= 1.16)
@@ -179,8 +176,6 @@ GEM
       plek
       state_machines (~> 0.4)
       state_machines-mongoid (~> 0.1)
-    govuk_message_queue_consumer (3.0.1)
-      bunny (~> 2.2.0)
     hashdiff (0.3.0)
     hashie (3.4.4)
     htmlentities (4.3.4)
@@ -423,7 +418,6 @@ DEPENDENCIES
   gds-sso (~> 11.2.1)
   govuk_admin_template (= 3.0.0)
   govuk_content_models (= 40.0.0)
-  govuk_message_queue_consumer (~> 3.0.1)
   jquery-ui-rails (= 5.0.0)
   kaminari (= 0.14.1)
   logstasher (= 0.4.8)

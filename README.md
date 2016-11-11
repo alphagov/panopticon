@@ -44,16 +44,6 @@ cd /var/govuk/development && bowl panopticon
 
 The app with appear at http://panopticon.dev.gov.uk/.
 
-### Running the message queue
-
-Frontend apps rely on the tagging data in  [content_api](https://github.com/alphagov/govuk_content_api) to show breadcrumbs. Panopticon listens to any changes in publishing-api via the message queue and saves this data.
-
-To run the message queue:
-
-```
-govuk_setenv panopticon bundle exec rake message_queue:consumer
-```
-
 ### Running the test suite
 
 `bundle exec rake`
