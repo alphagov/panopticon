@@ -9,22 +9,22 @@ class Artefact
   # When saving an artefact we want to send it to the router.
   after_save :update_router
 
+  has_and_belongs_to_many :related_artefacts, class_name: "Artefact"
+
+  def ordered_related_artefacts(scope_or_array = self.related_artefacts)
+    scope_or_array.sort_by { |artefact| related_artefact_ids.index(artefact.id) }
+  end
+
+  scope :relatable_items, proc {
+    where(:kind.ne => "completed_transaction", :state.ne => "archived")
+    .order_by(name: :asc)
+  }
+
   STATES = [ "live", "draft", "archived" ]
 
   scope :relatable_items_like, proc { |title_substring|
     relatable_items
       .any_of(:name => /\A#{Regexp.escape(title_substring)}/i)
-  }
-
-  scope :with_tags, proc {|tag_ids|
-    # the all_of method is used here so that, if this scope is called multiple
-    # times, the query will perform an intersection where artefacts match at least
-    # one tag in each list of IDs.
-    all_of(:tag_ids.in => tag_ids)
-  }
-  scope :with_parent_tag, proc {|tag_type, parent_tag_id|
-    tags = Tag.where(tag_type: tag_type, parent_id: parent_tag_id)
-    with_tags( [ parent_tag_id ] + tags.collect(&:tag_id) )
   }
 
   scope :of_kind, proc {|kind| where(kind: kind) }

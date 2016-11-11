@@ -14,10 +14,6 @@ Given /^the first artefact is in draft$/ do
   Artefact.first.update_attributes!('state' => 'draft')
 end
 
-Given /^the first artefact is live$/ do
-  Artefact.first.update_attributes!('state' => 'live')
-end
-
 When /^I change the need ID of the first artefact$/ do
   visit edit_artefact_path(@artefact)
   @new_need_id = "100001"
