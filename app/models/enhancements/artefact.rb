@@ -9,6 +9,17 @@ class Artefact
   # When saving an artefact we want to send it to the router.
   after_save :update_router
 
+  has_and_belongs_to_many :related_artefacts, class_name: "Artefact"
+
+  def ordered_related_artefacts(scope_or_array = self.related_artefacts)
+    scope_or_array.sort_by { |artefact| related_artefact_ids.index(artefact.id) }
+  end
+
+  scope :relatable_items, proc {
+    where(:kind.ne => "completed_transaction", :state.ne => "archived")
+    .order_by(name: :asc)
+  }
+
   STATES = [ "live", "draft", "archived" ]
 
   scope :relatable_items_like, proc { |title_substring|
