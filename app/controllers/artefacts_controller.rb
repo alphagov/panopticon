@@ -196,6 +196,9 @@ class ArtefactsController < ApplicationController
       return if @artefact.slug.blank? || parameters_to_use['owning_app'].blank?
 
       Rails.application.publishing_api.put_path("/#{@artefact.slug}", "publishing_app" => parameters_to_use['owning_app'])
+    rescue URI::InvalidURIError => e
+      message = e.message
+      render text: message, status: 400
     rescue GdsApi::HTTPClientError => e
       message = ""
       if e.error_details["errors"]

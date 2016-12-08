@@ -58,6 +58,8 @@ private
       params[:state] = "live"
     end
 
+    params[:slug] = params[:slug].strip if params[:slug]
+
     params
   end
 end

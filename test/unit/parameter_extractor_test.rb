@@ -13,7 +13,7 @@ class ParameterExtractorTest < ActiveSupport::TestCase
         "need_ids" => "123123,321321",
         "owning_app" => "publisher",
         "related_artefact_slugs" => "",
-        "slug" => "my-super-test",
+        "slug" => "my-super-test ",
       },
       "commit" => "Save and continue editing" )
 
