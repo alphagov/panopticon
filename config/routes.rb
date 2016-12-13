@@ -2,12 +2,16 @@ Panopticon::Application.routes.draw do
   # This is necessary to support some whitehall artefacts with a locale extension on the end
   # of the slug.  If we just blanket allow . in the slug, this interferes with the formatted
   # routes, so this instead special cases the 3 variants of locale extensions (.fr, .zh-hk, .es-419)
+  # The following regex matches these requirements:
+  # - 1 or more non-dot characters
+  # - optionally dot followed by a basic locale (eg 'fr')
+  # - optionally followed by a locale extension
   artefact_id_regex = %r{
-    [^\.]+                # 1 or more non-dot characters
-    (\.[a-z]{2}           # optionally dot followed by a basic locale (eg 'fr')
-      (                     # optionally followed by a locale extension
-        -[a-z]{2} |           # eg zh-hk
-        -\d{3}                # eg es-419
+    [^\.]+
+    (\.[a-z]{2}
+      (
+        -[a-z]{2} |
+        -\d{3}
       )?
     )?
   }x
@@ -29,5 +33,7 @@ Panopticon::Application.routes.draw do
 
   root :to => redirect("/artefacts")
 
-  mount GovukAdminTemplate::Engine, at: "/style-guide"
+  if Rails.env.development?
+    mount GovukAdminTemplate::Engine, at: "/style-guide"
+  end
 end
