@@ -26,7 +26,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
       setup do
         stub_artefact_callbacks
         @artefact = FactoryGirl.create(:live_artefact,
-                                       owning_app: "publisher",
+                                       owning_app: "smart-answers",
                                        paths: ["/foo"])
         @routable = RoutableArtefact.new(@artefact)
       end
@@ -61,16 +61,16 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "registering routes for an artefact" do
     setup do
-      @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers")
       @routable = RoutableArtefact.new(@artefact)
       stub_all_router_registration
     end
 
     should "add all defined prefix routes" do
       requests = [
-        stub_route_registration("/foo", "prefix", "publisher"),
-        stub_route_registration("/bar", "prefix", "publisher"),
-        stub_route_registration("/baz", "prefix", "publisher")
+        stub_route_registration("/foo", "prefix", "smart-answers"),
+        stub_route_registration("/bar", "prefix", "smart-answers"),
+        stub_route_registration("/baz", "prefix", "smart-answers")
       ]
 
       @artefact.prefixes = ["/foo", "/bar", "/baz"]
@@ -83,8 +83,8 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
     should "add all defined exact routes" do
       requests = [
-        stub_route_registration("/foo.json", "exact", "publisher"),
-        stub_route_registration("/bar", "exact", "publisher")
+        stub_route_registration("/foo.json", "exact", "smart-answers"),
+        stub_route_registration("/bar", "exact", "smart-answers")
       ]
 
       @artefact.paths = ["/foo.json", "/bar"]
@@ -106,7 +106,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "deleting routes for an artefact" do
     setup do
-      @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers")
       @routable = RoutableArtefact.new(@artefact)
     end
 
@@ -178,7 +178,7 @@ class RoutableArtefactTest < ActiveSupport::TestCase
 
   context "redirecting routes for an artefact" do
     setup do
-      @artefact = FactoryGirl.create(:artefact, owning_app: "publisher")
+      @artefact = FactoryGirl.create(:artefact, owning_app: "smart-answers")
       @routable = RoutableArtefact.new(@artefact)
     end
 
