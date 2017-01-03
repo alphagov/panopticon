@@ -3,10 +3,6 @@ def artefact_data_from_api(artefact)
   JSON.parse(last_response.body).with_indifferent_access
 end
 
-def related_artefact_ids_from_api(artefact)
-  artefact_data_from_api(artefact)[:related_items].map { |related_item| related_item[:artefact][:id] }
-end
-
 def check_artefact_exists_in_api(artefact_or_slug)
   if artefact_or_slug.is_a?(Hash)
     slug = artefact_or_slug[:slug]

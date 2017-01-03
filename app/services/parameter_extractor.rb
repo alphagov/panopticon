@@ -25,8 +25,6 @@ class ParameterExtractor
     paths: [],
     prefixes: [],
     propositions: [],
-    related_artefact_ids: [],
-    related_artefact_slugs: [],
     writing_teams: [],
   ].freeze
 
@@ -48,7 +46,7 @@ private
     params = @params[:artefact]
 
     # Convert comma separated values into arrays
-    %w[need_ids related_artefact_slugs].each do |attribute|
+    %w[need_ids].each do |attribute|
       next if params[attribute].nil? || params[attribute].is_a?(Array)
       params[attribute] = params[attribute].split(",").map(&:strip).reject(&:blank?)
     end

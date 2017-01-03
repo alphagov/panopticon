@@ -26,8 +26,6 @@ When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
 end
 
 When /^I save$/ do
-  stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
-
   click_button 'Save and continue editing'
 end
 
@@ -36,7 +34,6 @@ Then /^I should be redirected back to the edit page$/ do
 end
 
 When /^I save, indicating that I want to continue editing afterwards$/ do
-  stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
   click_button 'Save and continue editing'
 end
 
@@ -52,30 +49,12 @@ Then /^I should see an indication that the save worked$/ do
   assert_match /Panopticon item updated/, page.body
 end
 
-When /^I create a relationship between them$/ do
-  @request_to_patch_links = stub_request(:patch, "http://publishing-api.dev.gov.uk/v2/links/#{@artefact.content_id}").
-    to_return(body: {}.to_json)
-
-  visit edit_artefact_path(@artefact)
-  select_related_artefact @related_artefact
-end
-
 Then /^I should be redirected to (.*)$/ do |app|
   check_redirect app, (@artefact || Artefact.last)
 end
 
 Then /^an artefact should have be created with content_id$/ do
   assert Artefact.last.content_id
-end
-
-Given /^the artefacts are related$/ do
-  add_related_artefact @artefact, @related_artefact
-end
-
-When /^I destroy their relationship$/ do
-  visit edit_artefact_path(@artefact)
-  unselect_related_artefact @related_artefact
-  submit_artefact_form
 end
 
 When /^I visit the homepage$/ do

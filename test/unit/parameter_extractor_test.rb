@@ -12,7 +12,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
         "name" => "This is a test",
         "need_ids" => "123123,321321",
         "owning_app" => "publisher",
-        "related_artefact_slugs" => "",
         "slug" => "my-super-test ",
       },
       "commit" => "Save and continue editing" )
@@ -25,7 +24,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "name" => "This is a test",
       "need_ids" => ["123123", "321321"],
       "owning_app" => "publisher",
-      "related_artefact_slugs" => [],
       "slug" => "my-super-test",
       "state" => "live",
     }
@@ -38,7 +36,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
       "authenticity_token" => "some-token",
       "artefact" => {
         "slug" => "my-super-test",
-        "related_artefact_slugs" => "",
         "need_ids" => "121231,123123",
         "language" => "en",
       },
@@ -49,7 +46,6 @@ class ParameterExtractorTest < ActiveSupport::TestCase
     result = ParameterExtractor.new(params).extract
 
     expected = {
-      "related_artefact_slugs" => [],
       "slug" => "my-super-test",
       "need_ids" => ["121231", "123123"],
       "language" => "en",

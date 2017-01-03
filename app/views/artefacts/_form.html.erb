@@ -21,8 +21,6 @@
           <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
         <% end %>
 
-        <%= render partial: "artefacts/form/related_content", locals: { f: f, artefact: artefact } %>
-
         <% if f.object.content_id %>
           <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
         <% end %>
@@ -49,8 +47,6 @@
 <%= content_for :extra_javascript do %>
   <script type="text/javascript">
     $(".chosen-select").chosen();
-
-    $('.related-artefact-group').sortable();
 
     if ($('.artefact-section').size() == 1) {
       $('.remove-section').hide();

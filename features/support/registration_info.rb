@@ -33,7 +33,6 @@ module RegistrationInfo
 
   def prepare_registration_environment(artefact = example_smart_answer)
     setup_user
-    stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
   end
 
   def setup_user
