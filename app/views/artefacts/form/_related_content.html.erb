@@ -1,7 +1,5 @@
 <div class="well">
   <%= f.inputs "Related content" do %>
-    <%= render "artefacts/form/related_artefacts", f: f, artefact: artefact %>
-
     <% if artefact.owning_app.in?([OwningApp::PUBLISHER, OwningApp::SMART_ANSWERS]) %>
         <label class="section-label">Related external links</label><br /> This functionality has been moved to <strong>Publisher</strong>.
     <% end %>

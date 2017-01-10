@@ -151,25 +151,4 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
       assert_equal "en", @artefact.language
     end
   end
-
-  context "relating artefacts" do
-    context "without javascript" do
-      setup do
-        @artefact = FactoryGirl.create(:artefact, content_id: SecureRandom.uuid)
-        @artefacts_to_relate = *FactoryGirl.create_list(:artefact, 2)
-        @request_to_patch_links = stub_request(:patch, "http://publishing-api.dev.gov.uk/v2/links/#{@artefact.content_id}").
-          to_return(body: {}.to_json)
-      end
-
-      should "be done by entering slugs of artefacts to relate" do
-        visit edit_artefact_path(@artefact)
-
-        fill_in "Related artefact slugs", with: @artefacts_to_relate.map(&:slug).join(", ")
-        click_on "Save and continue editing"
-
-        assert_equal @artefacts_to_relate.map(&:slug).join(", "), find_field("Related artefact slugs").value
-        assert_requested @request_to_patch_links
-      end
-    end
-  end
 end

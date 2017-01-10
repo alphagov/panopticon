@@ -5,22 +5,6 @@ require 'gds_api/test_helpers/router'
 class ArtefactsControllerTest < ActionController::TestCase
   setup do
     login_as_stub_user
-    stub_request(:patch, %r[http://publishing-api.dev.gov.uk/v2/links/*]).to_return(body: {}.to_json)
-  end
-
-  context "GET search_relatable_items" do
-    should "return relatable item names prefixed with mainstream or whitehall in json format" do
-      relatable_artefacts = [FactoryGirl.create(:artefact, name: "Benefits calculator", slug: "benefits-calc", owning_app: "whitehall"),
-                              FactoryGirl.create(:artefact, name: "Child tax benefits", slug: "child-tax", owning_app: "publisher")]
-
-      get :search_relatable_items, title_substring: "bene", format: :json
-
-      expected_response = { artefacts: [
-                            { id: "benefits-calc",
-                              text: "[Whitehall] Benefits calculator" }],
-                            total: 1 }
-      assert_equal expected_response.to_json, response.body
-    end
   end
 
   context "accept HTML" do
@@ -201,12 +185,6 @@ class ArtefactsControllerTest < ActionController::TestCase
           post :create, artefact: @valid_artefact_params.merge(need_ids: "331312,333123")
 
           assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
-        end
-
-        should "split related_artefact_slugs as they come in as comma-separated values" do
-          post :create, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
-
-          assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
         end
       end
     end
@@ -413,15 +391,6 @@ class ArtefactsControllerTest < ActionController::TestCase
 
         assert_equal ["331312", "333123"], @controller.params[:artefact][:need_ids]
       end
-
-      should "split related_artefact_slugs as they come in as comma-separated values" do
-        artefact = FactoryGirl.create(:artefact)
-
-        put :update, id: artefact.id, artefact: { related_artefact_slugs: "benefits-calculators, \nchild-tax-credit" }
-
-        assert_equal ["benefits-calculators", "child-tax-credit"], @controller.params[:artefact][:related_artefact_slugs]
-      end
-
     end
 
     context "DELETE /artefacts/:id" do

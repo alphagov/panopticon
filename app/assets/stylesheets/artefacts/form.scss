@@ -133,12 +133,6 @@ label.section-label {
     right: 8px;
     top: 8px;
   }
-
-  .remove-row-related {
-    top: auto;
-    bottom: 0;
-    right: 15px
-  }
 }
 
 .owning-app p {
@@ -166,25 +160,5 @@ label.section-label {
 
   ul {
     margin: 0 0 0 25px;
-  }
-}
-
-.related-artefacts {
-  #artefact_related_artefact_slugs {
-    width: auto;
-  }
-
-  /* reformat select2 rendered li elements to
-     show just one per line, otherwise short
-     names get inlined.
-  */
-  .select2-container-multi .select2-choices .select2-search-choice {
-    float: none;
-    line-height: 16px;
-    margin-right: 3px;
-
-    &:hover {
-      cursor: move;
-    }
   }
 }

@@ -17,29 +17,6 @@ def create_two_artefacts(owning_app="a-publishing-app")
   ].map { |name| FactoryGirl.create :artefact, :name => name, :need_ids => ['100001'], owning_app: owning_app }
 end
 
-def add_related_artefact(artefact, related_artefact)
-  artefact.related_artefacts << related_artefact
-end
-
-def add_related_artefacts(artefact, related_artefacts)
-  related_artefacts.each do |related_artefact|
-    add_related_artefact(artefact, related_artefact)
-  end
-end
-
-def select_related_artefact(artefact)
-  fill_in "s2id_autogen1", with: artefact.name
-  find(".select2-result-label", match: :first).click
-end
-
-def unselect_related_artefact(artefact)
-  page.execute_script(%Q<$("li:contains('#{artefact.name}') .select2-search-choice-close").click();>)
-end
-
-def select_related_artefacts(artefacts)
-  artefacts.each(&method(:select_related_artefact))
-end
-
 def submit_artefact_form
   click_button 'Save and go to item'
 end

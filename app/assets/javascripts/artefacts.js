@@ -13,20 +13,4 @@ $(function() {
   $("#artefact_name").bind('keyup', generateSlug)
 
   $('a[rel=external]').attr('target','_blank');
-
-
-  $('#add-related').click(function () {
-    var new_select = $('.related-artefact-template').clone(true);
-    new_select.attr('id', '');
-    new_select.removeClass('hidden');
-    new_select.removeClass('related-artefact-template');
-    new_select.addClass('related-artefact');
-    new_select.appendTo('.related-artefact-group');
-    return false;
-  })
-
-  $('.remove-related').click(function () {
-    $(this).parent().remove();
-    return false;
-  })
 });

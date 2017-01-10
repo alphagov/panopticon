@@ -21,10 +21,6 @@ class ArtefactsController < ApplicationController
     respond_with @artefacts
   end
 
-  def search_relatable_items
-    respond_with RelatableItems.new(params).relatable_items.to_json
-  end
-
   def show
     respond_with @artefact do |format|
       format.html { redirect_to admin_url_for_edition(@artefact) }
@@ -82,10 +78,6 @@ class ArtefactsController < ApplicationController
     end
 
     @actions = build_actions
-
-    if saved && @artefact.content_id
-      RelatedLinksPublisher.new(@artefact).publish!
-    end
 
     respond_with @artefact, status: status_to_use do |format|
       format.html do
