@@ -32,6 +32,8 @@ class ArtefactsController < ApplicationController
   end
 
   def withdraw
+    @publisher_edition_url = publisher_edition_url(@artefact)
+
     if @artefact.archived? || @artefact.owning_app != OwningApp::PUBLISHER
       redirect_to root_path
     end
@@ -100,28 +102,17 @@ class ArtefactsController < ApplicationController
     end
   end
 
-  def destroy
-    @artefact = Artefact.from_param(params[:id])
-    redirect_url = params[:artefact] && params[:artefact][:redirect_url]
-    redirect_url.sub!(%r{^https?://(www\.)?gov\.uk/}, "/") if redirect_url
-
-    if @artefact.update_attributes_as(
-      current_user,
-      state: "archived",
-      redirect_url: redirect_url
-    )
-      RemoveFromSearch.call(@artefact.slug)
-      respond_with(@artefact) do |format|
-        format.json { head 200 }
-        format.html { redirect_to artefacts_path }
-      end
-    else
-      flash[:danger] = @artefact.errors.full_messages.to_sentence
-      redirect_to withdraw_artefact_path(@artefact)
-    end
-  end
-
   private
+
+    def publisher_edition_url(artefact)
+      edition = Edition.where(panopticon_id: artefact.id).order_by(version_number: :desc).first
+
+      if edition
+        Plek.find('publisher') + "/editions/#{edition.id}/unpublish"
+      else
+        admin_url_for_edition(artefact)
+      end
+    end
 
     def admin_url_for_edition(artefact, options = {})
       [

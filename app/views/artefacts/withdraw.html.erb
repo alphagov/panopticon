@@ -1,32 +1,12 @@
 <%= content_for :page_title, "Withdraw - #{@artefact.name}" %>
 <%= render partial: "artefact_header" %>
 
-<div class="callout callout-warning add-bottom-margin">
+<div class="callout callout-success">
   <div class="callout-title">
-    Warning
+    Withdraw
   </div>
   <div class="callout-body">
-    Withdraw a page from GOV.UK. This can’t be undone.
+    Withdrawing content
+    <%= link_to "has moved", @publisher_edition_url %>.
   </div>
-</div>
-
-<div class="well">
-  <%= semantic_bootstrap_nested_form_for(@artefact,
-                                         html: {
-                                           class: 'artefact',
-                                           id: 'withdraw_artefact',
-                                           method: "delete"
-                                         }) do |f| %>
-    <h3 class="remove-top-margin add-bottom-margin">Withdraw</h3>
-      <div class="form-group">
-        <%= f.input :redirect_url, class: "form-control input-md-6",
-          label: ('Redirect to <span class="normal">(optional)<br />' +
-                  'For example: <code>/government/organisations/hm-revenue-customs</code></span>').html_safe%>
-        <%= button_tag 'Withdraw',
-                       "data-module" => 'confirm',
-                       "data-message" => "This will remove ‘#{@artefact.name}’ from the website.\n\n Are you sure?",
-                       :class => "btn btn-danger" %>
-      </div>
-    </div>
-  <% end %>
 </div>
