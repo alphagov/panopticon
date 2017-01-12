@@ -29,8 +29,3 @@ Feature: Registering resources
     When I put a new item into panopticon whose slug is already taken
     Then I should receive an HTTP 409 response
       And the relevant artefact should not be updated
-
-  Scenario: Deleting an item
-    When I delete an artefact
-    Then the artefact state should be archived
-      And it should be removed from search

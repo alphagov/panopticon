@@ -47,14 +47,6 @@ When /^I put a new item into panopticon whose slug is already taken$/ do
     artefact: artefact_basics
 end
 
-When /^I delete an artefact$/ do
-  prepare_registration_environment
-  setup_existing_artefact
-  stub_search_delete
-
-  delete "/artefacts/#{@artefact.slug}.json"
-end
-
 Then /^a new artefact should be created$/ do
   assert_equal 201, last_response.status, "Expected 201, got #{last_response.status}"
 end
@@ -75,12 +67,3 @@ end
 Then /^the relevant artefact should not be updated$/ do
   assert 'Something simpler' != artefact_data_from_api(@artefact)[:name]
 end
-
-Then /^the artefact state should be archived$/ do
-  assert_equal 'archived', Artefact.last.state
-end
-
-Then(/^it should be removed from search$/) do
-  assert_requested @fake_search_delete
-end
-
