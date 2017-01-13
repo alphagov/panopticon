@@ -71,7 +71,7 @@ When /^I visit the edit page$/ do
 end
 
 Then /^I should see a callout$/ do
-  callout = "Tagging for this item has moved"
+  callout = "Tagging and related links for this item has moved"
   assert page.has_content?(callout)
 end
 
