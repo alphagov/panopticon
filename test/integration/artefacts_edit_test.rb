@@ -6,70 +6,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
     stub_all_router_api_requests
   end
 
-  context "when editing an artefact from the Publisher application" do
-    setup do
-      @artefact = FactoryGirl.create(
-        :artefact,
-        name: "VAT Rates",
-        slug: "vat-rates",
-        kind: "answer",
-        state: "live",
-        owning_app: "publisher",
-        language: "en",
-      )
-    end
-
-    should "display the artefact form" do
-      visit "/artefacts/#{@artefact.id}/edit"
-
-      within "header.artefact-header" do
-        assert page.has_selector? "h1", text: "VAT Rates"
-        assert page.has_link? "/vat-rates", href: "http://www.dev.gov.uk/vat-rates"
-        assert page.has_selector? ".state", text: "live"
-      end
-
-      within ".artefact-actions" do
-        assert page.has_selector? "li.active", text: "Edit"
-        assert page.has_selector? "li:not(.active)", text: "History"
-        assert page.has_selector? "li:not(.active)", text: "Withdraw"
-      end
-
-      within ".owning-app" do
-        assert page.has_content? "This content is managed in Publisher"
-      end
-
-      within ".form-actions" do
-        assert page.has_button? "Save and continue editing"
-        assert page.has_button? "Save and go to item"
-      end
-    end
-
-    should "not show name or kind fields for an existing artefact" do
-      visit "/artefacts/#{@artefact.id}/edit"
-
-      assert page.has_no_field? "Name"
-      assert page.has_no_field? "Kind"
-    end
-
-    should "not show slug field for a live artefact" do
-      visit "/artefacts/#{@artefact.id}/edit"
-
-      assert page.has_no_field? "Slug"
-    end
-
-    should "permit changes to the slug for a draft artefact" do
-      draft_artefact = FactoryGirl.create(:artefact, state: "draft", slug: "a-pretty-slug")
-      visit "/artefacts/#{draft_artefact.id}/edit"
-
-      assert page.has_field? "Slug", with: "a-pretty-slug"
-      fill_in "Slug", with: "another-slug"
-      click_on "Save and continue editing"
-
-      assert page.has_content? "Panopticon item updated"
-      assert page.has_field? "Slug", with: "another-slug"
-    end
-  end
-
   context "need_ids" do
     setup do
       Capybara.current_driver = Capybara.javascript_driver
@@ -122,33 +58,6 @@ class ArtefactsEditTest < ActionDispatch::IntegrationTest
 
       artefact.reload
       assert_equal ["100012"], artefact.need_ids
-    end
-  end
-
-  context "editing language" do
-    setup do
-      @artefact = FactoryGirl.create(:artefact, :name => "Bank holidays", :language => nil)
-    end
-
-    should "allow changing language for an artefact" do
-      visit "/artefacts"
-      click_on "Bank holidays"
-
-      select "Welsh", :from => "artefact[language]"
-      click_on "Save and continue editing"
-
-      @artefact.reload
-      assert_equal "cy", @artefact.language
-    end
-
-    should "select english language by default" do
-      visit "/artefacts"
-      click_on "Bank holidays"
-
-      click_on "Save and continue editing"
-
-      @artefact.reload
-      assert_equal "en", @artefact.language
     end
   end
 end

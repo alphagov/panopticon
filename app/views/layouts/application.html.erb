@@ -16,7 +16,6 @@
 <% if user_signed_in? %>
   <% content_for :navbar_items do %>
     <%= nav_link 'Artefacts', artefacts_path %>
-    <%= nav_link 'Add artefact', new_artefact_path %>
   <% end %>
 
   <% content_for :navbar_right do %>

@@ -17,23 +17,17 @@
 
     <div class="row">
       <div class="col-md-8">
-        <% if f.object.new_record? || f.object.state == "draft" %>
-          <%= render partial: "artefacts/form/core_attributes", locals: { f: f } %>
-        <% end %>
-
         <% if f.object.content_id %>
           <%= render partial: "artefacts/use_content_tagger", locals: { f: f, artefact: artefact } %>
         <% end %>
+        <%= render partial: "artefacts/form/need", locals: { f: f } %>
+
       </div>
 
       <div class="col-md-4">
         <% if artefact.persisted? && artefact.owning_app.present? %>
           <%= render partial: "artefacts/form/owning_app", locals: { artefact: artefact } %>
         <% end %>
-
-        <%= render partial: "artefacts/form/need", locals: { f: f } %>
-
-        <%= render partial: "artefacts/form/additional_information", locals: { f: f } %>
       </div>
     </div>
 
