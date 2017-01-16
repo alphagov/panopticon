@@ -24,10 +24,6 @@ class RoutableArtefact
 
     if artefact.live?
       register
-    elsif artefact.archived? && artefact.redirect_url.present?
-      redirect(artefact.redirect_url)
-    elsif artefact.archived?
-      delete
     else
       return
     end
@@ -47,40 +43,6 @@ class RoutableArtefact
     paths.each do |path|
       logger.debug("Registering route #{path} (exact) => #{rendering_app}")
       router_api.add_route(path, "exact", rendering_app)
-    end
-  end
-
-  def delete
-    prefixes.each do |path|
-      begin
-        logger.debug "Removing route #{path}"
-        router_api.add_gone_route(path, "prefix")
-      rescue GdsApi::HTTPNotFound
-      end
-    end
-    paths.each do |path|
-      begin
-        logger.debug "Removing route #{path}"
-        router_api.add_gone_route(path, "exact")
-      rescue GdsApi::HTTPNotFound
-      end
-    end
-  end
-
-  def redirect(destination)
-    prefixes.each do |path|
-      begin
-        logger.debug "Redirecting route #{path}"
-        router_api.add_redirect_route(path, "prefix", destination, "permanent", segments_mode: "ignore")
-      rescue GdsApi::HTTPNotFound
-      end
-    end
-    paths.each do |path|
-      begin
-        logger.debug "Redirecting route #{path}"
-        router_api.add_redirect_route(path, "exact", destination)
-      rescue GdsApi::HTTPNotFound
-      end
     end
   end
 
