@@ -15,7 +15,7 @@ Panopticon::Application.routes.draw do
       )?
     )?
   }x
-  resources :artefacts, except: [:destroy], constraints: { :id => artefact_id_regex } do
+  resources :artefacts, only: [:show, :index, :edit, :update], constraints: { :id => artefact_id_regex } do
     member do
       get :history
       get :withdraw

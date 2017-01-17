@@ -6,13 +6,6 @@ Feature: Editing artefacts
     Given I am an admin
       And I have stubbed the router
 
-  Scenario: Editing an artefact and changing the slug
-    Given two artefacts exist
-    When I change the slug of the first artefact to "a-new-slug"
-    And I save
-    Then I should see the edit form again
-      And I should see an indication that the save worked
-
   @javascript
   Scenario: Editing an artefact and returning to edit some more
     Given two artefacts exist
@@ -20,11 +13,6 @@ Feature: Editing artefacts
       And I save, indicating that I want to continue editing afterwards
     Then I should be redirected back to the edit page
       And I should see an indication that the save worked
-
-  Scenario: Trying to create an artefact for a need that is already met
-    Given an artefact created by Publisher exists
-    When I try to create a new artefact with the same need
-    Then I should be redirected to Publisher
 
   @javascript
   Scenario: Editing an item that's draft

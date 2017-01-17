@@ -47,22 +47,6 @@ class ArtefactsController < ApplicationController
   def edit
   end
 
-  def create
-    if @artefact.owning_app == OwningApp::PUBLISHER
-      @artefact.content_id = SecureRandom.uuid
-    end
-
-    @artefact.save_as current_user
-    continue_editing = (params[:commit] == 'Save and continue editing')
-
-    if continue_editing || @artefact.owning_app != OwningApp::PUBLISHER
-      location = edit_artefact_path(@artefact.id)
-    else
-      location = admin_url_for_edition(@artefact, params.slice(:return_to))
-    end
-
-    respond_with @artefact, location: location
-  end
 
   # NB: We are departing from usual rails conventions here. PUTing a resource
   # will create it if it doesn't exist, rather than the usual 404.
