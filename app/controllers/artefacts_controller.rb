@@ -1,7 +1,6 @@
 class ArtefactsController < ApplicationController
   before_filter :find_artefact, :except => %i(index new)
   helper_method :sort_column, :sort_direction
-  wrap_parameters include: ParameterExtractor::ALLOWED_FIELD_NAMES
 
   respond_to :html
 
@@ -44,8 +43,9 @@ class ArtefactsController < ApplicationController
   def edit
   end
 
+  # it is only possible to change the Maslow Need IDs for a given artefact
   def update
-    saved = @artefact.update_attributes_as current_user, extract_parameters(params)
+    saved = @artefact.update_attributes_as(current_user, need_ids)
 
     if saved
       flash[:success] = 'Panopticon item updated'
@@ -53,17 +53,22 @@ class ArtefactsController < ApplicationController
       flash[:danger] = 'Failed to save item'
     end
 
-    continue_editing = (params[:commit] == 'Save and continue editing')
-
-    if saved && (continue_editing || (@artefact.owning_app != OwningApp::PUBLISHER))
+    if saved && continue_editing?
       redirect_to edit_artefact_path(@artefact)
+    elsif saved
+      redirect_to artefact_path(@artefact)
     else
       @actions = build_actions
-      respond_with @artefact, status: 200
+      render :edit
     end
   end
 
 private
+
+  def continue_editing?
+    params[:commit] == 'Save and continue editing' ||
+      @artefact.owning_app != OwningApp::PUBLISHER
+  end
 
   def publisher_edition_url(artefact)
     edition = Edition.where(panopticon_id: artefact.id).order_by(version_number: :desc).first
@@ -99,8 +104,14 @@ private
     @artefact = Artefact.from_param(params[:id])
   end
 
-  def extract_parameters(params)
-    ParameterExtractor.new(params).extract
+  def need_ids
+    need_ids = params.require(:artefact)
+      .fetch(:need_ids, "")
+      .split(",")
+      .map(&:strip)
+      .reject(&:blank?)
+
+    { need_ids: need_ids }
   end
 
   def build_actions

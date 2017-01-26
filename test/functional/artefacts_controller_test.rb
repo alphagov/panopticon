@@ -140,10 +140,10 @@ class ArtefactsControllerTest < ActionController::TestCase
 
     context "PUT update" do
       context "invalid artefact" do
-        should "be invalid with an empty title" do
+        should "be invalid with a malformed need_id" do
           artefact1 = FactoryGirl.create(:artefact)
           artefact1.name = ""
-          put :update, id: artefact1.id, artefact: { name: "" }
+          put :update, id: artefact1.id, artefact: { need_ids: "XXX" }
           assert_template :edit
         end
       end
