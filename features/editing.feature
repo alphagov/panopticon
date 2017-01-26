@@ -4,7 +4,6 @@ Feature: Editing artefacts
 
   Background:
     Given I am an admin
-      And I have stubbed the router
 
   @javascript
   Scenario: Editing an artefact and returning to edit some more
