@@ -3,8 +3,6 @@ require "artefact"
 class Artefact
   alias_method :as_json_original, :as_json
 
-  after_save :update_router
-
   STATES = [ "live", "draft", "archived" ]
 
   scope :of_kind, proc {|kind| where(kind: kind) }
@@ -19,10 +17,6 @@ class Artefact
 
   def name_with_owner_prefix
     (owning_app == OwningApp::WHITEHALL ? "[Whitehall] " : "[Mainstream] ") + name
-  end
-
-  def update_router
-    RoutableArtefact.new(self).submit
   end
 
   def as_json(options={})
