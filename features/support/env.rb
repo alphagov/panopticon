@@ -62,5 +62,3 @@ Before('@javascript') do
   Capybara.current_driver = Capybara.javascript_driver
 end
 
-require Rails.root + 'test/helpers/artefact_need_ids_form_filler'
-World(ArtefactNeedIdsFormFiller)
