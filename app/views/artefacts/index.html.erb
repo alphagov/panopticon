@@ -14,7 +14,6 @@
       <table class="table table-striped table-bordered table-condensed" id="artefact-list" summary="List of everything">
         <thead>
           <tr class="table-header">
-            <th scope="col"><%= sortable "need_id", "Needs" %></th>
             <th scope="col"><%= sortable "name", "Title" %></th>
             <th scope="col"><%= sortable "kind", "Format" %></th>
             <th scope="col"><%= sortable "owning_app", "App" %></th>
@@ -24,13 +23,6 @@
         <tbody>
         <% @artefacts.each do |artefact| %>
           <tr class="<%= artefact.state %>">
-            <td>
-              <% if artefact.need_ids %>
-                <% artefact.need_ids.each do |need_id| %>
-                  <%= content_tag "span", need_id, :class => "label label-default need-id" %>
-                <% end %>
-              <% end %>
-            </td>
             <td><%= link_to artefact.name, edit_artefact_path(artefact.id) %></td>
             <td>
               <small><%= artefact.kind.humanize %></small>
