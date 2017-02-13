@@ -14,12 +14,6 @@ Given /^the first artefact is in draft$/ do
   Artefact.first.update_attributes!('state' => 'draft')
 end
 
-When /^I change the need ID of the first artefact$/ do
-  visit edit_artefact_path(@artefact)
-  @new_need_id = "100001"
-  add_need_id @new_need_id
-end
-
 When /^I change the slug of the first artefact to "([^"]*)"$/ do |slug|
   visit edit_artefact_path(@artefact)
   fill_in "Slug", :with => slug
@@ -71,7 +65,7 @@ When /^I visit the edit page$/ do
 end
 
 Then /^I should see a callout$/ do
-  callout = "Tagging and related links for this item has moved"
+  callout = "Tagging, user needs and related links for this item have moved to Content Tagger"
   assert page.has_content?(callout)
 end
 
