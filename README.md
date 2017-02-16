@@ -1,20 +1,14 @@
 # Panopticon
 
-Panopticon is an application originally built to act as a central repository for content on GOV.UK. It is being deprecated.
+**This application has been [retired](https://docs.publishing.service.gov.uk/apps/panopticon.html).**
+
+Panopticon is an application originally built to act as a central repository for content on GOV.UK.
 
 ![Screenshot of Panopticon, April 2016](docs/screenshot.png)
 
 ## Live examples
 
 - [panopticon.publishing.service.gov.uk](https://panopticon.publishing.service.gov.uk)
-
-## Features & deprecation
-
-This application is slowly being dismantled in favour of the new GOV.UK publishing
-platform ([publishing-api](https://github.com/alphagov/publishing-api) and
-[content-store](https://github.com/alphagov/content-store)).
-
-You can find [the status of the deprecation on the GOV.UK Wiki](https://gov-uk.atlassian.net/wiki/x/FYCoBQ).
 
 ## Nomenclature
 
